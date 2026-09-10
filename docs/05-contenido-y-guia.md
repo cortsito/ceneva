@@ -1,4 +1,3 @@
-# contenido y guía
 
 ## fuente de verdad
 

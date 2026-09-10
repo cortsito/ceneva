@@ -1,4 +1,3 @@
-# arquitectura de producto
 
 ## estructura principal
 
@@ -21,35 +20,27 @@ inicio
 ## módulos
 
 ### inicio
-
 resume la sesión: avance de ruta, próxima lección, repasos pendientes y acceso al simulacro recomendado.
 
 ### diagnóstico
-
 evalúa una muestra corta de las áreas. no busca una calificación oficial; produce un punto de partida para ordenar la ruta.
 
 ### mi ruta
-
 es el núcleo del producto. agrupa la guía en áreas, unidades y temas. muestra estado, progreso y siguiente acción.
 
 ### lección
-
 entrega contenido breve y verificable. termina con una comprobación de dominio.
 
 ### práctica
-
 permite responder preguntas por tema o resolver automáticamente errores y repasos pendientes.
 
 ### simulacros
-
 reutiliza la lógica del simulador actual. después del resultado, cada error debe enlazar con su tema y lección correspondiente.
 
 ### recursos
-
 contiene materiales de consulta rápida. no debe competir con la ruta ni duplicar lecciones.
 
 ### progreso
-
 explica progreso por área, temas dominados, precisión, actividad reciente y pendientes.
 
 ## regla de navegación

@@ -1,4 +1,3 @@
-# datos y progreso
 
 ## entidades mínimas
 

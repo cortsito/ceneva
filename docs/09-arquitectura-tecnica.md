@@ -1,4 +1,3 @@
-# arquitectura técnica
 
 ## objetivo
 
@@ -21,15 +20,13 @@ contenido editorial
 └── markdown o json versionado en el repositorio
 ```
 
-## stack recomendado
+## stack
 
 - next.js y typescript para la aplicación web.
 - tailwind css para sistema visual rápido y consistente.
 - supabase para autenticación y postgresql.
-- vercel para despliegue.
+- vercel o github-pages para despliegue.
 - markdown con frontmatter para lecciones durante la primera etapa.
-
-el stack puede cambiar si ya existe una base técnica útil del simulador. no conviene reescribir por preferencia tecnológica.
 
 ## decisiones de datos
 
@@ -38,11 +35,9 @@ el stack puede cambiar si ya existe una base técnica útil del simulador. no co
 - cada lección y pregunta usa ids estables para conservar progreso aunque cambie el texto.
 - los cálculos de progreso pueden hacerse en cliente al inicio y migrarse a funciones de base de datos solo si hace falta.
 
-## integración con el simulador
+## simulador
 
-idealmente se comparte el banco de preguntas mediante un paquete o fuente de datos común. si no es viable al inicio, se exporta una versión compatible y se conserva el mismo identificador de pregunta cuando exista.
-
-la integración mínima es un enlace desde el análisis de resultados hacia `área > tema` dentro de ceneva. no requiere unificar aplicaciones ni cuentas en la primera entrega.
+el simulador se hará desde 0, basándose en el examen simulacro oficial de la página oficial del CENEVAL.
 
 ## componentes principales
 

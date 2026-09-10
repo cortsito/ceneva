@@ -1,27 +1,26 @@
-# decisiones abiertas
 
 ## pendientes de resolver
 
-### guía fuente
+### guía fuente (TOMADA)
 
-confirmar la versión oficial de la guía que ceneva cubrirá y guardar la fecha de revisión. el contenido debe poder actualizarse sin cambiar la estructura del producto.
+guía oficial sacada directamente del sitio oficial del ceneval, es la fuente única.
 
-### relación con cenevalprep
+### relación con cenevalprep (TOMADA)
 
-decidir si ceneva será una aplicación independiente, una nueva sección dentro de cenevalprep o ambas con una cuenta compartida. recomendación inicial: producto independiente, con enlaces profundos hacia simulacros.
+ceneva nace como una aplicación independiente, cenevalprep se queda como tal, de hecho, el contenido de cenevalprep no se tomará de este lado.
 
-### acceso y cuentas
+### acceso y cuentas (TOMADA)
 
-para el mvp, decidir entre progreso local sin cuenta, cuenta desde el inicio o migración progresiva. recomendación inicial: permitir explorar sin cuenta y pedir cuenta al guardar progreso entre dispositivos.
+para el mvp permitir explorar sin cuenta y pedir cuenta al guardar progreso entre dispositivos, mantener guardado todo de forma local tho
 
-### contenido inicial
+### contenido inicial (TOMADA)
 
-elegir el primer vertical que se construirá completo. recomendación: pensamiento matemático, porque combina alta demanda, contenido progresivo y práctica fácil de medir.
+pensamiento matemático
 
-### monetización
+### monetización (TOMADA)
 
-no debe definir la arquitectura inicial. una opción futura es acceso gratuito a diagnóstico y primeras lecciones, con ruta completa, repasos y simulacros detallados como plan premium.
+la aplicación no tendrá ningún tipo de monetización; ofrecer un PDF super completo de batalla, el cual se pueda cobrar por una cantidad decente.
 
-### ia
+### ia (TOMADA)
 
-la ia puede explicar dudas o adaptar ejemplos, pero no debe ser requisito para aprender ni fuente única de contenido. se evalúa después de que la experiencia base funcione.
+no es opción, si a caso un bot que responda preguntas frecuentes, pero sin ia at all. 

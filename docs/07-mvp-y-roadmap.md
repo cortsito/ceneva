@@ -1,4 +1,3 @@
-# mvp y roadmap
 
 ## objetivo del mvp
 

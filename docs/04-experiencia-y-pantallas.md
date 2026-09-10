@@ -1,4 +1,3 @@
-# experiencia y pantallas
 
 ## flujo inicial
 
@@ -11,7 +10,6 @@
 ## inicio
 
 debe responder en segundos:
-
 - qué estudiar ahora.
 - cuánto falta de la sesión actual.
 - qué debo repasar.

@@ -1,4 +1,3 @@
-# usuario y problema
 
 ## usuario principal
 
@@ -14,14 +13,10 @@ persona que busca acreditar el bachillerato por acuerdo 286. suele estudiar mien
 
 ## problemas actuales
 
-- la guía oficial es necesaria, pero no organiza un plan diario de estudio.
-- los simulacros detectan errores, pero no siempre enseñan cómo corregirlos.
+- la guía oficial es necesaria, pero en la actualidad, limitada para el tipo de persona q hará el examen.
+- los simulacros como tal no funcionan; no hay mucha información por lo general, las preguntas no se repiten y casi nunca hay exámenes filtrados de donde guiarse (siendo esto muy común en otro tipo de exámenes tipo admisión).
 - estudiar por áreas amplias puede ser abrumador.
 - una puntuación global no indica qué acción tomar después.
-
-## jobs to be done
-
-cuando me estoy preparando para el acuerdo 286, quiero tener una ruta de estudio basada en la guía oficial para avanzar con seguridad y llegar al examen sabiendo qué debo reforzar.
 
 ## señales de éxito para el usuario
 

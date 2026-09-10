@@ -1,4 +1,3 @@
-# visión
 
 ## propósito
 
@@ -12,19 +11,7 @@ ceneva toma el temario oficial y lo transforma en una experiencia guiada:
 - divide el estudio en pasos pequeños.
 - conecta explicación, práctica y repaso.
 - muestra qué avanzar después según el desempeño.
-- usa simulacros para validar el aprendizaje, no como única forma de estudiar.
-
-## posicionamiento
-
-no es una copia digital de un pdf ni un banco de preguntas aislado. es un curso adaptable construido alrededor de la guía oficial.
-
-## principios
-
-- guía antes que menú: el usuario debe saber qué hacer sin explorar demasiado.
-- práctica con propósito: toda pregunta debe reforzar, diagnosticar o evaluar un tema.
-- progreso honesto: no se marca un tema como dominado solo por abrirlo.
-- contenido concreto: una lección resuelve un objetivo de aprendizaje, no un capítulo completo.
-- simplicidad primero: se prioriza una experiencia útil sobre features llamativas.
+- se usan simulacros para validar el aprendizaje.
 
 ## resultado esperado
 
