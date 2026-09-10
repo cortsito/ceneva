@@ -4,17 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "1e88e4c90277ac4c",
+        "id": "740a3d608e19b8cf",
         "type": "tabs",
         "children": [
           {
-            "id": "a379763b0ef8bd10",
+            "id": "501911d3c0237d71",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "15-calidad-y-definicion-de-hecho.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "Nueva pestaña"
+              "title": "15-calidad-y-definicion-de-hecho"
             }
           }
         ]
@@ -95,6 +99,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "15-calidad-y-definicion-de-hecho.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -113,6 +118,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "15-calidad-y-definicion-de-hecho.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -155,6 +161,7 @@
             "state": {
               "type": "outline",
               "state": {
+                "file": "15-calidad-y-definicion-de-hecho.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -181,13 +188,19 @@
       "bases:Crear nueva base": false
     }
   },
-  "active": "a379763b0ef8bd10",
+  "active": "501911d3c0237d71",
   "lastOpenFiles": [
-    "guiaoficial.pdf",
+    "14-plan-de-aprendizaje.md",
+    "13-desarrollo-asistido-por-ia.md",
+    "12-plan-de-entrega.md",
+    "10-arquitectura-de-aplicacion.md",
+    "11-modelo-de-contenido-y-datos.md",
     "09-arquitectura-tecnica.md",
     "08-decisiones-abiertas.md",
-    "Sin confirmar 684514.crdownload",
     "07-mvp-y-roadmap.md",
+    "15-calidad-y-definicion-de-hecho.md",
+    "guiaoficial.pdf",
+    "Sin confirmar 684514.crdownload",
     "06-datos-y-progreso.md",
     "05-contenido-y-guia.md",
     "04-experiencia-y-pantallas.md",

@@ -13,3 +13,9 @@ ceneva es una guía de estudio interactiva para acreditar el bachillerato median
 - [[07-mvp-y-roadmap]]: alcance inicial y etapas posteriores.
 - [[08-decisiones-abiertas]]: decisiones pendientes y supuestos.
 - [[09-arquitectura-tecnica]]: stack y límites técnicos del mvp.
+- [[10-arquitectura-de-aplicacion]]: estructura del código y límites entre módulos.
+- [[11-modelo-de-contenido-y-datos]]: contratos para lecciones, preguntas y progreso.
+- [[12-plan-de-entrega]]: etapas de implementación y criterios de aceptación.
+- [[13-desarrollo-asistido-por-ia]]: forma de colaborar con ia sin perder aprendizaje.
+- [[14-plan-de-aprendizaje]]: ruta técnica ligada al desarrollo de ceneva.
+- [[15-calidad-y-definicion-de-hecho]]: pruebas y estándar mínimo para entregar features.
