@@ -25,7 +25,7 @@ contenido editorial
 - next.js y typescript para la aplicación web.
 - tailwind css para sistema visual rápido y consistente.
 - supabase para autenticación y postgresql.
-- vercel o github-pages para despliegue.
+- vercel para despliegue, priorizando el plan gratuito.
 - markdown con frontmatter para lecciones durante la primera etapa.
 
 ## decisiones de datos
@@ -37,7 +37,7 @@ contenido editorial
 
 ## simulador
 
-el simulador se hará desde 0, basándose en el examen simulacro oficial de la página oficial del CENEVAL.
+el simulador se hará desde 0, basándose en el examen simulacro oficial de la página oficial del CENEVAL. no se reutiliza lógica ni contenido de simuladores previos, incluyendo cenevalprep.
 
 ## componentes principales
 

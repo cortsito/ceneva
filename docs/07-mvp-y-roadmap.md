@@ -28,8 +28,8 @@ validar que una ruta guiada mejora la continuidad de estudio y la comprensión f
 2. diseñar y validar la plantilla de una lección.
 3. crear una vertical completa: un área, varias lecciones y práctica conectada.
 4. implementar progreso y repaso.
-5. integrar simulacros existentes.
-6. expandir las demás áreas con el mismo sistema editorial.
+5. construir el simulador desde cero, basado en el material oficial permitido.
+6. expandir las demás áreas con el mismo sistema editorial, dentro del alcance del mvp.
 
 ## métricas de validación
 

@@ -15,7 +15,7 @@ para el mvp permitir explorar sin cuenta y pedir cuenta al guardar progreso entr
 
 ### contenido inicial (TOMADA)
 
-pensamiento matemático
+pensamiento matemático es la primera área en la que se construye contenido completo (plantilla de referencia). el mvp incluye las siete áreas, cada una con al menos una unidad de contenido (ver [[07-mvp-y-roadmap]]).
 
 ### monetización (TOMADA)
 

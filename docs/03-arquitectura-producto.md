@@ -35,7 +35,7 @@ entrega contenido breve y verificable. termina con una comprobación de dominio.
 permite responder preguntas por tema o resolver automáticamente errores y repasos pendientes.
 
 ### simulacros
-reutiliza la lógica del simulador actual. después del resultado, cada error debe enlazar con su tema y lección correspondiente.
+se construye desde cero, basado en el material oficial del acuerdo 286 y en la guía oficial de ceneval; no reutiliza lógica ni contenido de simuladores previos. después del resultado, cada error debe enlazar con su tema y lección correspondiente.
 
 ### recursos
 contiene materiales de consulta rápida. no debe competir con la ruta ni duplicar lecciones.

@@ -51,4 +51,4 @@ cada pregunta debe tener al menos:
 - error común asociado, si aplica.
 - uso permitido: diagnóstico, práctica, repaso o simulacro.
 
-esto permite reutilizar el banco de preguntas existente sin perder la relación pedagógica.
+no existe un banco de preguntas previo reutilizable: el banco se escribe desde cero a partir de la guía oficial, con apoyo de ia bajo supervisión, manteniendo esta relación pedagógica desde el inicio.

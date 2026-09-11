@@ -22,18 +22,24 @@ area
 ## frontmatter de lección
 
 ```yaml
-id: pm-ecuaciones-lineales-01
+id: pm-ecuaciones-lineales-una-incognita-01
 area-id: pensamiento-matematico
-unit-id: algebra
-topic-id: ecuaciones-lineales
-title: ecuaciones lineales de una variable
+unit-id: pm-1-3-pensamiento-algebraico
+topic-id: pm-1-3-4-ecuaciones-lineales-una-incognita
+title: ecuaciones lineales con una incógnita
 objective: resolver ecuaciones lineales de una variable
 estimated-minutes: 12
 prerequisites: []
 question-ids:
   - pm-ec-001
   - pm-ec-002
+source:
+  guide: docs/guiaoficial.pdf
+  page: 11
+  code: 1.3.4
 ```
+
+`unit-id` y `topic-id` usan el id estable definido en `content/source-maps/<area>.md` (con el código de la guía embebido, por ejemplo `pm-1-3-pensamiento-algebraico`), no un slug genérico. `source` registra la página y el código de la guía oficial de los que proviene la lección, para trazabilidad y para poder revisar el contenido si cambia una versión futura de la guía.
 
 el cuerpo markdown usa bloques sencillos: explicación, ejemplo, error frecuente, práctica guiada y cierre. no se crea un lenguaje de contenido propio en el mvp.
 
@@ -47,12 +53,18 @@ type question = {
   options: string[]
   correct_option_index: number
   explanation: string
+  common_error?: string
+  source_reference?: string
   difficulty: 'basic' | 'intermediate' | 'advanced'
   use_cases: ('diagnostic' | 'practice' | 'review' | 'simulator')[]
 }
 ```
 
-los distractores representan errores plausibles. una pregunta sin explicación no se publica.
+`options` tiene siempre exactamente tres elementos: una respuesta correcta y dos distractores. este es el formato oficial del examen (`docs/guiaoficial.pdf`, apartado 5, «formato de reactivos»); no se usan cuatro opciones. los reactivos oficiales tienen cuatro variantes de forma —cuestionamiento directo, jerarquización, completamiento y relación de elementos— pero todas se resuelven eligiendo una de tres opciones; en jerarquización o relación de elementos, cada opción describe una secuencia o asociación completa (por ejemplo, `1a, 2b, 3c`), no un solo valor.
+
+los distractores representan errores plausibles. una pregunta sin explicación no se publica. `common_error` describe, cuando aplica, el error de razonamiento típico que produce uno de los distractores (ver docs/05). `source_reference` guarda la página y el código de la guía oficial de los que proviene la orientación evaluada.
+
+el número de "reactivos oficiales" que la guía asigna a un tema es la ponderación del examen real, no el tamaño del banco de práctica de ceneva: la regla de dominio ([[06-datos-y-progreso]]) exige un mínimo de cinco preguntas por tema, así que la mayoría de los temas necesitan preguntas adicionales escritas por ceneva más allá del o los reactivos oficiales documentados.
 
 ## progreso local
 

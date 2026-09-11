@@ -20,6 +20,8 @@ se construye por verticales: una experiencia completa y pequeña antes de amplia
 
 ## etapa 1: vertical de pensamiento matemático
 
+pensamiento matemático es el área piloto: aquí se valida la plantilla de contenido y arquitectura antes de replicarla en las seis áreas restantes (ver etapa 5), ya que el mvp cubre las siete áreas.
+
 ### alcance
 
 - modelar una unidad de pensamiento matemático desde la guía oficial.
@@ -76,10 +78,10 @@ se construye por verticales: una experiencia completa y pequeña antes de amplia
 - iniciar sesión no borra progreso local.
 - el mismo usuario conserva avance en dos dispositivos.
 
-## etapa 5: expansión curricular
+## etapa 5: expansión a las áreas restantes
 
-replicar el sistema de contenido validado en las demás áreas. no modificar arquitectura salvo que una necesidad real lo justifique.
+parte del mvp, no una fase posterior: replicar el sistema de contenido validado (plantilla de lección, práctica y progreso) en las seis áreas restantes, con al menos una unidad de contenido cada una, conforme a [[07-mvp-y-roadmap]]. no modificar arquitectura salvo que una necesidad real lo justifique.
 
 ## orden inmediato
 
-el siguiente trabajo es etapa 0. antes de escribir features, se definen el mapa de pensamiento matemático y los primeros datos de ejemplo para evitar construir una interfaz sin contenido real.
+el siguiente trabajo es etapa 0. el mapa curricular de las siete áreas (área, unidad, tema) ya existe en `content/source-maps/`, extraído de la guía oficial. antes de escribir features todavía falta definir las lecciones y el banco de preguntas de la unidad piloto de pensamiento matemático para tener datos de ejemplo reales.
