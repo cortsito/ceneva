@@ -1,6 +1,6 @@
 # CONTEXT.md
 
-snapshot for resuming work on ceneva — updated 2026-09-10 after the first three lesson-authoring units. read this first in a new session (or with a different ai) before touching anything; `CLAUDE.md` has the operating rules, this file has the "why" and "where things stand."
+snapshot for resuming work on ceneva — updated 2026-09-11 after completing and validating the pensamiento matemático question bank. read this first in a new session (or with a different ai) before touching anything; `CLAUDE.md` has the operating rules, this file has the "why" and "where things stand."
 
 ## What ceneva is
 
@@ -34,10 +34,16 @@ No application code exists yet. What exists:
 - **`content/source-maps/<area-id>.md`** (7 files, one per area, all done): the area → unit → topic curriculum tree extracted from `docs/guiaoficial.pdf` pages 11–20, plus a full lesson-breakdown plan per area. Verified line-by-line against the actual PDF on 2026-09-10 — accurate, including edge cases (split-reactivo topics, a genuinely missing `6.2.1` code in lengua y comunicación).
 - **`content/lessons/pensamiento-matematico/pm-1-1-pensamiento-estadistico/`** (4 files): the first fully-written unit — tipos de variables, tipos de muestra, medidas de tendencia central, medidas de dispersión. this is the pilot/reference unit for the whole project's lesson-authoring pattern.
 - **`content/lessons/pensamiento-matematico/pm-1-2-pensamiento-probabilistico/`** (3 files): the second pensamiento matemático unit — combinaciones y permutaciones, probabilidad simple, probabilidad condicional y teorema de bayes.
+- **`content/lessons/pensamiento-matematico/pm-1-3-pensamiento-algebraico/`** (10 files): expressions, factoring, quadratic optimization, linear and quadratic equations, systems, and simple and compound interest.
+- **`content/lessons/pensamiento-matematico/pm-1-4-pensamiento-aritmetico/`** (5 files): mcm, mcd, sequences, proportionality, and monetary percentages.
+- **`content/lessons/pensamiento-matematico/pm-1-5-pensamiento-geometrico/`** (4 files): areas, triangle similarity, the pythagorean theorem, and coordinate-plane areas.
+- **`content/lessons/pensamiento-matematico/pm-1-6-pensamiento-variacional/`** (8 files): inequalities, graphs, limits, derivatives, and optimization. all six pensamiento matemático units are now written: 34 lessons with five stable reserved question ids each.
 - **`content/lessons/cultura-digital/cd-2-1-ciudadania-digital/`** (5 files): the first unit outside the math pilot — identidad digital, licenciamiento de software, servicios digitales, amenazas y medidas de seguridad digital.
-- **`docs/tasks/2026-09-10-report_curriculum-mapping-guide.md`**: step-by-step instructions for turning the guide into curriculum data (steps 1–5: tree extraction → lesson breakdown → lesson content → question bank → validation). steps 1–2 are done for all 7 areas; step 3 is in progress (three units done); step 4 (question bank) has not started for any area yet.
+- **`content/questions/pensamiento-matematico.ts`** (170 typed records): the complete question bank for all 34 pensamiento matemático lessons. every lesson has its five reserved stable ids represented; each record has exactly three options, an explanation, a plausible common error, a source reference, a difficulty and use cases. it includes direct, completion, relation and ordering shapes, and was mechanically validated against the lesson frontmatter on 2026-09-11.
+- **`docs/tasks/2026-09-10-report_curriculum-mapping-guide.md`**: step-by-step instructions for turning the guide into curriculum data (steps 1–5: tree extraction → lesson breakdown → lesson content → question bank → validation). steps 1–2 are done for all 7 areas; step 3 is complete for pensamiento matemático and in progress for the other areas; steps 4–5 are complete for all pensamiento matemático units and have not started for other areas.
 - **`docs/tasks/2026-09-10-report_lesson-blueprint.md`**: the copyable base structure for lesson files, with area-by-area content guidance (math/science = calculation-heavy worked examples; history/social/humanities = concept-contrast examples; lengua y comunicación's English subarea = actual English example sentences, Spanish scaffolding around them) and the "intenta primero / respuesta" convention for guided practice.
 - **`docs/tasks/2026-09-10-report_project-understanding.md`**: the full history — initial analysis, every resolved contradiction, the curriculum-mapping review findings, and the pilot-lesson fix. Read this if you need the reasoning behind any decision above, not just the conclusion.
+- **`docs/tasks/2026-09-11-report_question-bank-style-notes.md`**: running file of cross-cutting question-bank style observations from reviews (reactivo shape variety, difficulty tagging conventions). Single file, appended to after each future review — not a new dated file per session. Read before authoring or reviewing a new area/unit's question bank.
 - **`docs/guiaoficial.pdf`**: the source of truth for curriculum scope. Pages 11–20 are the full area/subárea/tema table with official reactivo counts. **Pages 26–30 have the exam's actual reactivo format rules and a few real sample questions (one per area shown so far)** — these are the calibration reference for question format and for checking a lesson actually teaches what gets tested, not just what the compressed orientación text says. Worth reading further (pages 30+) as more areas' Step 3/4 work starts, since each area seems to get its own small sample-question block before its bibliografía.
 
 ## A concrete lesson already learned
@@ -46,9 +52,8 @@ No application code exists yet. What exists:
 
 ## Immediate next steps (in order)
 
-1. continue step 3 for the remaining pensamiento matemático units in `content/source-maps/pensamiento-matematico.md` (`1.3` through `1.6`), using the blueprint.
-2. start step 4 for at least the first math pilot unit (`1.1`) after its question bank is ready to author; this is needed to validate the mastery rule end to end.
-3. then etapa 0 (`docs/12-plan-de-entrega.md`): next.js + typescript + tailwind scaffold, pnpm, playwright, lint/format/ci, base layout and routes — this has not started yet.
-4. repeat the content pattern for the other areas per the blueprint; cultura digital now provides the first non-math reference unit.
+1. begin etapa 0 (`docs/12-plan-de-entrega.md`): next.js + typescript + tailwind scaffold, pnpm, playwright, lint/format/ci, base layout and routes. the complete pensamiento matemático area can now serve as real development data.
+2. continue step 3 for the remaining six areas per the blueprint; cultura digital now provides the first non-math reference unit.
+3. author and validate step-4 banks for the remaining areas only after their lesson units are written and reviewed.
 
 No open contradictions or unresolved decisions are blocking this — everything from the initial review is settled (see the understanding report, sections 7–11).
