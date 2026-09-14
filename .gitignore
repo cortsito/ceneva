@@ -5,3 +5,18 @@ docs/tasks/
 
 .obsidian/
 CLAUDE.md
+
+# dependencies and build output
+/node_modules
+/.next
+/out
+/coverage
+/playwright-report
+/test-results
+
+# local environment files
+.env*
+
+# package manager diagnostics
+*.tsbuildinfo
+*.pnpm-debug.log*

@@ -1,6 +1,6 @@
 # CONTEXT.md
 
-snapshot for resuming work on ceneva — updated 2026-09-11 after completing and validating the pensamiento matemático question bank. read this first in a new session (or with a different ai) before touching anything; `CLAUDE.md` has the operating rules, this file has the "why" and "where things stand."
+snapshot for resuming work on ceneva — updated 2026-09-14 after completing etapa 0. read this first in a new session (or with a different ai) before touching anything; `CLAUDE.md` has the operating rules, this file has the "why" and "where things stand."
 
 ## What ceneva is
 
@@ -28,10 +28,13 @@ Out of scope for MVP: AI chat/bot, gamification, community, paid plans, predicti
 
 ## Where things actually stand (repo state)
 
-No application code exists yet. What exists:
+the stage-0 application base and content assets exist. what exists:
 
 - **`docs/00` through `docs/15`** (Spanish): the full product/architecture spec. Several were edited on 2026-09-10 to resolve contradictions discovered during review — see `docs/tasks/2026-09-10-report_project-understanding.md` sections 7–11 for the full list of what changed and why.
+- **stage 0 application base**: a Next.js 16.3.5, TypeScript 5.9.3 and Tailwind CSS 4.3.3 application now lives in `src/`. it provides the root layout, responsive global navigation, footer and all initial routes from `docs/10`, plus the secondary `/recursos` route. routes intentionally use presentational placeholders only; no feature or editorial logic was placed in `app/`.
+- **quality and ci base**: `pnpm` 11.19.0 is the package manager; `pnpm check` runs prettier, eslint, typecheck, vitest and the production build. Playwright covers the base navigation and routes in `e2e/`. `.github/workflows/ci.yml` runs that quality chain and chromium e2e on pull requests and pushes to `main`. `pnpm-workspace.yaml` explicitly allows the required `unrs-resolver` build script, so installs are non-interactive and reproducible.
 - **`content/source-maps/<area-id>.md`** (7 files, one per area, all done): the area → unit → topic curriculum tree extracted from `docs/guiaoficial.pdf` pages 11–20, plus a full lesson-breakdown plan per area. Verified line-by-line against the actual PDF on 2026-09-10 — accurate, including edge cases (split-reactivo topics, a genuinely missing `6.2.1` code in lengua y comunicación).
+- **`content/curriculum/<area-id>.ts`** (7 files plus `types.ts`): the typed runtime representation of every source-map tree. it contains 34 units, 177 topics and 184 stable lesson references, with official guide code and page metadata at area, unit and topic level. it was compared mechanically with every source map on 2026-09-14, including the page split within `ch-3-2`.
 - **`content/lessons/pensamiento-matematico/pm-1-1-pensamiento-estadistico/`** (4 files): the first fully-written unit — tipos de variables, tipos de muestra, medidas de tendencia central, medidas de dispersión. this is the pilot/reference unit for the whole project's lesson-authoring pattern.
 - **`content/lessons/pensamiento-matematico/pm-1-2-pensamiento-probabilistico/`** (3 files): the second pensamiento matemático unit — combinaciones y permutaciones, probabilidad simple, probabilidad condicional y teorema de bayes.
 - **`content/lessons/pensamiento-matematico/pm-1-3-pensamiento-algebraico/`** (10 files): expressions, factoring, quadratic optimization, linear and quadratic equations, systems, and simple and compound interest.
@@ -52,8 +55,8 @@ No application code exists yet. What exists:
 
 ## Immediate next steps (in order)
 
-1. begin etapa 0 (`docs/12-plan-de-entrega.md`): next.js + typescript + tailwind scaffold, pnpm, playwright, lint/format/ci, base layout and routes. the complete pensamiento matemático area can now serve as real development data.
-2. continue step 3 for the remaining six areas per the blueprint; cultura digital now provides the first non-math reference unit.
-3. author and validate step-4 banks for the remaining areas only after their lesson units are written and reviewed.
+1. begin etapa 1 (`docs/12-plan-de-entrega.md`) with one pensamiento matemático unit: model the curriculum data for the interface, render its lessons, implement lesson completion and comprobación, and persist progress in localstorage through a storage boundary.
+2. continue the editorial vertical for cultura digital and the other areas: each written and reviewed unit needs its step-4 question bank and step-5 validation before it is treated as complete.
+3. keep the stage-0 quality chain passing for every change; add focused unit tests for domain rules and only the essential integration/e2e coverage for new user flows.
 
 No open contradictions or unresolved decisions are blocking this — everything from the initial review is settled (see the understanding report, sections 7–11).

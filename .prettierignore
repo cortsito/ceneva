@@ -1,0 +1,9 @@
+node_modules
+.next
+coverage
+playwright-report
+test-results
+docs
+content
+CONTEXT.md
+pnpm-lock.yaml
