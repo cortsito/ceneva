@@ -1,4 +1,7 @@
-import { PagePlaceholder } from "@/components/ui/page-placeholder";
+import { notFound } from "next/navigation";
+
+import { PilotUnit } from "@/features/curriculum/pilot-unit";
+import { pilot_area_id } from "@/features/curriculum/pilot-curriculum";
 
 type area_page_props = {
   params: Promise<{ area: string }>;
@@ -6,13 +9,10 @@ type area_page_props = {
 
 export default async function AreaPage({ params }: area_page_props) {
   const { area } = await params;
-  const area_name = area.replaceAll("-", " ");
 
-  return (
-    <PagePlaceholder
-      description={`la ruta de ${area_name} se conectará con sus unidades, temas, lecciones y progreso local.`}
-      eyebrow="mi ruta"
-      title="área de estudio"
-    />
-  );
+  if (area !== pilot_area_id) {
+    notFound();
+  }
+
+  return <PilotUnit />;
 }

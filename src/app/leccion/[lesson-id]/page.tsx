@@ -1,17 +1,19 @@
-import { PagePlaceholder } from "@/components/ui/page-placeholder";
+import { notFound } from "next/navigation";
+
+import { PilotLesson } from "@/features/lesson/pilot-lesson";
+import { get_pilot_lesson } from "@/features/lesson/pilot-lessons";
 
 type lesson_page_props = {
   params: Promise<{ "lesson-id": string }>;
 };
 
 export default async function LessonPage({ params }: lesson_page_props) {
-  await params;
+  const { "lesson-id": lesson_id } = await params;
+  const lesson = await get_pilot_lesson(lesson_id);
 
-  return (
-    <PagePlaceholder
-      description="esta ruta renderizará una lección breve con explicación, ejemplo, práctica guiada y comprobación."
-      eyebrow="lección"
-      title="aprende y comprueba."
-    />
-  );
+  if (!lesson) {
+    notFound();
+  }
+
+  return <PilotLesson lesson={lesson} />;
 }

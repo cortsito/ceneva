@@ -61,7 +61,7 @@ no revises solo el producto de los números. en `x² + 7x + 12`, los números `2
 
 ## comprobación
 
-esta lección tiene cinco reactivos reservados en `question-ids`. sus enunciados, opciones, respuestas y explicaciones se incorporarán al banco tipado en el paso 4.
+esta lección tiene cinco reactivos en `question-ids`. sus enunciados, opciones, respuestas y explicaciones están disponibles en `content/questions/pensamiento-matematico.ts`.
 
 ## cierre
 

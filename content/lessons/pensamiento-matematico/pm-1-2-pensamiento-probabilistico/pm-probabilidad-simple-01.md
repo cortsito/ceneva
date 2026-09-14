@@ -59,7 +59,7 @@ no uses solo las fichas que no son del color pedido como denominador. el denomin
 
 ## comprobación
 
-esta lección tiene cinco reactivos reservados en `question-ids`. al menos una pregunta debe calcular casos favorables entre casos posibles y expresar el resultado en porcentaje, como el ejemplo oficial de pelotas de colores para este tema (`docs/guiaoficial.pdf`, página 27). sus enunciados, opciones, respuestas y explicaciones se incorporarán al banco tipado en el paso 4.
+esta lección tiene cinco reactivos en `question-ids`. el banco de preguntas incluye una que calcula casos favorables entre casos posibles y expresa el resultado en porcentaje, como el ejemplo oficial de pelotas de colores para este tema (`docs/guiaoficial.pdf`, página 27). sus enunciados, opciones, respuestas y explicaciones están disponibles en `content/questions/pensamiento-matematico.ts`.
 
 ## cierre
 

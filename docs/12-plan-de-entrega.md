@@ -84,4 +84,8 @@ parte del mvp, no una fase posterior: replicar el sistema de contenido validado 
 
 ## orden inmediato
 
-el siguiente trabajo es etapa 0. el mapa curricular de las siete áreas (área, unidad, tema) ya existe en `content/source-maps/`, extraído de la guía oficial. antes de escribir features todavía falta definir las lecciones y el banco de preguntas de la unidad piloto de pensamiento matemático para tener datos de ejemplo reales.
+la implementación local de etapa 0 está completa: el scaffold, las rutas base y la cadena de calidad ya existen. falta verificar el preview de vercel cuando el repositorio se conecte al servicio; esa acción externa no bloqueó el trabajo de código.
+
+etapa 1 está completa para la unidad piloto `pm-1-1-pensamiento-estadistico`: entrega de currículum y lecciones, comprobación con feedback y progreso local versionado. sus contratos concretos permanecen en `docs/tasks/2026-09-14-task_etapa-1-*.md` como historial de la vertical terminada.
+
+el siguiente trabajo de implementación es etapa 2, después de verificar el preview de vercel si el repositorio ya está conectado. antes de escribir código, se deben dividir sus alcances en tareas enfocadas como se hizo en etapa 1.

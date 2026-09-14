@@ -16,9 +16,11 @@
     "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build"
   },
   "dependencies": {
+    "gray-matter": "^4.0.3",
     "next": "16.3.5",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "react-markdown": "^10.1.0"
   },
   "devDependencies": {
     "@playwright/test": "1.63.0",

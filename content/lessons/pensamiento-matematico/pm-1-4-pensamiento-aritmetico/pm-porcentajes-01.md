@@ -58,7 +58,7 @@ no restes `15` directamente al precio cuando el descuento es `15 %`. el `15` rep
 
 ## comprobación
 
-esta lección tiene cinco reactivos reservados en `question-ids`. sus enunciados, opciones, respuestas y explicaciones se incorporarán al banco tipado en el paso 4.
+esta lección tiene cinco reactivos en `question-ids`. sus enunciados, opciones, respuestas y explicaciones están disponibles en `content/questions/pensamiento-matematico.ts`.
 
 ## cierre
 

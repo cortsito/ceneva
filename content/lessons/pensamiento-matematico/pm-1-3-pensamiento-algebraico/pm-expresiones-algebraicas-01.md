@@ -59,7 +59,7 @@ no multipliques el costo fijo por la variable. la tarifa base se paga una vez; s
 
 ## comprobación
 
-esta lección tiene cinco reactivos reservados en `question-ids`. al menos una pregunta debe identificar costo fijo, costo por unidad y total en una ecuación, como el ejemplo oficial de renta de automóvil para este tema (`docs/guiaoficial.pdf`, página 28). sus enunciados, opciones, respuestas y explicaciones se incorporarán al banco tipado en el paso 4.
+esta lección tiene cinco reactivos en `question-ids`. el banco de preguntas incluye una que identifica costo fijo, costo por unidad y total en una ecuación, como el ejemplo oficial de renta de automóvil para este tema (`docs/guiaoficial.pdf`, página 28). sus enunciados, opciones, respuestas y explicaciones están disponibles en `content/questions/pensamiento-matematico.ts`.
 
 ## cierre
 

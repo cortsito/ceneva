@@ -56,7 +56,7 @@ no uses una regla directa cuando una cantidad debe disminuir. en el ejemplo, mul
 
 ## comprobación
 
-esta lección tiene cinco reactivos reservados en `question-ids`. sus enunciados, opciones, respuestas y explicaciones se incorporarán al banco tipado en el paso 4.
+esta lección tiene cinco reactivos en `question-ids`. sus enunciados, opciones, respuestas y explicaciones están disponibles en `content/questions/pensamiento-matematico.ts`.
 
 ## cierre
 

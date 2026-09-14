@@ -58,7 +58,7 @@ no clasifiques una variable solo por la forma de su dato. que un valor use cifra
 
 ## comprobación
 
-esta lección tiene cinco reactivos reservados en `question-ids`. al menos una pregunta debe evaluar específicamente la distinción entre cuantitativa discreta y cuantitativa continua, ya que la guía oficial la usa como ejemplo de reactivo para este tema (`docs/guiaoficial.pdf`, página 27). sus enunciados, opciones, respuestas y explicaciones se incorporarán al banco tipado en el paso 4.
+esta lección tiene cinco reactivos en `question-ids`. el banco de preguntas incluye una que evalúa específicamente la distinción entre cuantitativa discreta y cuantitativa continua, ya que la guía oficial la usa como ejemplo de reactivo para este tema (`docs/guiaoficial.pdf`, página 27). sus enunciados, opciones, respuestas y explicaciones están disponibles en `content/questions/pensamiento-matematico.ts`.
 
 ## cierre
 
