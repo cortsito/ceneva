@@ -1,14 +1,10 @@
-import { PagePlaceholder } from "@/components/ui/page-placeholder";
+import { get_pilot_review_candidates } from "@/features/practice/pilot-review-candidates";
+import { PilotReviewQueue } from "@/features/progress/pilot-review-queue";
 
 export const metadata = { title: "práctica" };
 
-export default function PracticePage() {
-  return (
-    <PagePlaceholder
-      action={{ href: "/simulacro", label: "ver simulacros" }}
-      description="aquí podrás responder preguntas por tema y retomar errores pendientes de repaso."
-      eyebrow="práctica"
-      title="convierte errores en una siguiente acción."
-    />
-  );
+export default async function PracticePage() {
+  const candidates = await get_pilot_review_candidates();
+
+  return <PilotReviewQueue candidates={candidates} />;
 }

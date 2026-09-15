@@ -1,13 +1,16 @@
 import { get_pilot_curriculum } from "@/features/curriculum/pilot-curriculum";
 import { get_pilot_lessons } from "@/features/lesson/pilot-lessons";
+import { get_pilot_review_candidates } from "@/features/practice/pilot-review-candidates";
 
 import { create_pilot_topic_progress_definitions } from "./pilot-progress";
+import { PilotProgressSummary } from "./pilot-progress-summary";
 import { PilotTopicProgressList } from "./pilot-topic-progress-list";
 
 export async function PilotProgressOverview() {
   const { area, unit } = get_pilot_curriculum();
   const lessons = await get_pilot_lessons();
   const topics = create_pilot_topic_progress_definitions(unit, lessons);
+  const review_candidates = await get_pilot_review_candidates();
 
   return (
     <section className="mx-auto flex w-full max-w-4xl flex-col gap-10 px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
@@ -21,6 +24,10 @@ export async function PilotProgressOverview() {
           estadístico.
         </p>
       </header>
+      <PilotProgressSummary
+        review_candidates={review_candidates}
+        topic_definitions={topics}
+      />
       <PilotTopicProgressList topics={topics} />
     </section>
   );

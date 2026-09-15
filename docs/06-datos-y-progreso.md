@@ -35,10 +35,18 @@ repaso
 
 ## reglas iniciales de dominio
 
-un tema se considera dominado cuando la persona completa su lección y logra al menos 80% de precisión en una muestra mínima de cinco preguntas. si luego baja de 60% en práctica o simulacro, vuelve a estado «en progreso» y se recomienda repaso.
+un tema se considera dominado cuando la persona completa todas sus lecciones y logra al menos 80% de precisión en una muestra mínima de cinco preguntas. si luego baja de 60% en práctica o simulacro, vuelve a estado «en progreso» y se recomienda repaso.
 
 estas reglas son simples y deben ajustarse con datos reales; no hace falta un modelo complejo para la primera versión.
 
+### aplicación por etapa
+
+la etapa 1 usó un umbral simétrico provisional: un tema piloto solo era `dominado` mientras mantenía al menos 80% de precisión. ese contrato cerró la vertical inicial y no se modifica de forma retroactiva.
+
+la etapa 2 aplica la regla de producto completa. se alcanza `dominado` con todas las lecciones completadas, al menos cinco intentos y 80% o más de precisión. después, se conserva entre 60% y menos de 80%; solo vuelve a `en progreso` por debajo de 60%.
+
+el estado no se persiste como otro dato. se deriva del historial ordenado de intentos: si el tema alcanzó el umbral de entrada en algún punto y su precisión actual no cayó por debajo del umbral de salida, permanece `dominado`.
+
 ## repaso
 
-cada respuesta incorrecta crea una prioridad de repaso. el inicio muestra una cantidad manejable, por ejemplo cinco a diez preguntas, en vez de presentar una lista infinita.
+cada respuesta incorrecta crea o conserva una prioridad de repaso. una respuesta correcta posterior para la misma pregunta la retira. el inicio muestra una cantidad manejable, por ejemplo cinco a diez preguntas, en vez de presentar una lista infinita.

@@ -44,6 +44,23 @@ function add_attempts(
   );
 }
 
+function add_sequential_attempts(
+  progress: learner_progress,
+  outcomes: boolean[],
+): learner_progress {
+  return outcomes.reduce(
+    (current_progress, is_correct, index) =>
+      record_attempt(current_progress, {
+        question_id: `pregunta-${(index % 5) + 1}`,
+        selected_option_index: is_correct ? 1 : 0,
+        is_correct,
+        created_at: `2026-09-14T00:00:${String(index).padStart(2, "0")}.000Z`,
+        mode: "practice",
+      }),
+    progress,
+  );
+}
+
 describe("calculate_topic_progress", () => {
   it("marca un tema intacto y accesible como disponible", () => {
     const progress = create_empty_learner_progress();
@@ -100,5 +117,27 @@ describe("calculate_topic_progress", () => {
     expect(calculate_topic_progress(topic, incomplete_lesson_progress).status).toBe(
       "en progreso",
     );
+  });
+
+  it("una vez dominado, se mantiene dominado si la precisión baja pero no cruza sesenta por ciento", () => {
+    const progress = add_sequential_attempts(
+      complete_lesson(create_empty_learner_progress(), "leccion-piloto"),
+      [true, true, true, true, false, false],
+    );
+    const topic_progress = calculate_topic_progress(topic, progress);
+
+    expect(topic_progress.status).toBe("dominado");
+    expect(topic_progress.accuracy).toBeCloseTo(4 / 6);
+  });
+
+  it("un tema dominado vuelve a en progreso cuando la precisión baja de sesenta por ciento", () => {
+    const progress = add_sequential_attempts(
+      complete_lesson(create_empty_learner_progress(), "leccion-piloto"),
+      [true, true, true, true, false, false, false],
+    );
+    const topic_progress = calculate_topic_progress(topic, progress);
+
+    expect(topic_progress.status).toBe("en progreso");
+    expect(topic_progress.accuracy).toBeCloseTo(4 / 7);
   });
 });

@@ -59,6 +59,20 @@ export function usePilotProgress() {
     );
   }
 
+  function record_review_answer(answer: practice_answer) {
+    if (!is_hydrated) {
+      return;
+    }
+
+    persist_progress(
+      record_attempt(progress_ref.current, {
+        ...answer,
+        created_at: new Date().toISOString(),
+        mode: "review",
+      }),
+    );
+  }
+
   function mark_lesson_completed(lesson_id: string) {
     if (!is_hydrated) {
       return;
@@ -71,6 +85,7 @@ export function usePilotProgress() {
     progress,
     is_hydrated,
     record_practice_answer,
+    record_review_answer,
     mark_lesson_completed,
   };
 }

@@ -1,12 +1,23 @@
 import Link from "next/link";
 
+import { get_pilot_curriculum } from "@/features/curriculum/pilot-curriculum";
+import { get_pilot_lessons } from "@/features/lesson/pilot-lessons";
+import { get_pilot_review_candidates } from "@/features/practice/pilot-review-candidates";
+import { PilotHomeGuidance } from "@/features/progress/pilot-home-guidance";
+import { create_pilot_topic_progress_definitions } from "@/features/progress/pilot-progress";
+
 const study_promises = [
   "una ruta clara a partir de la guía oficial.",
   "lecciones breves con práctica y explicación.",
   "progreso que indica qué estudiar después.",
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const { unit } = get_pilot_curriculum();
+  const lessons = await get_pilot_lessons();
+  const topic_definitions = create_pilot_topic_progress_definitions(unit, lessons);
+  const review_candidates = await get_pilot_review_candidates();
+
   return (
     <section className="mx-auto grid w-full max-w-6xl gap-12 px-4 py-16 sm:px-6 sm:py-24 lg:grid-cols-[1.25fr_0.75fr] lg:px-8">
       <div className="flex flex-col items-start gap-7">
@@ -33,6 +44,15 @@ export default function HomePage() {
           >
             explorar la ruta
           </Link>
+        </div>
+        <div className="w-full border-t border-slate-200 pt-6">
+          <p className="text-sm font-semibold text-slate-950">
+            tu próxima acción en pensamiento matemático
+          </p>
+          <PilotHomeGuidance
+            review_candidates={review_candidates}
+            topic_definitions={topic_definitions}
+          />
         </div>
       </div>
       <aside className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">

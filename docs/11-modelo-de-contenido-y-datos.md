@@ -60,7 +60,7 @@ type question = {
 }
 ```
 
-`options` tiene siempre exactamente tres elementos: una respuesta correcta y dos distractores. este es el formato oficial del examen (`docs/guiaoficial.pdf`, apartado 5, «formato de reactivos»); no se usan cuatro opciones. los reactivos oficiales tienen cuatro variantes de forma —cuestionamiento directo, jerarquización, completamiento y relación de elementos— pero todas se resuelven eligiendo una de tres opciones; en jerarquización o relación de elementos, cada opción describe una secuencia o asociación completa (por ejemplo, `1a, 2b, 3c`), no un solo valor.
+`options` tiene siempre exactamente tres elementos distintos: una respuesta correcta y dos distractores. este es el formato oficial del examen (`docs/guiaoficial.pdf`, apartado 5, «formato de reactivos»); no se usan cuatro opciones ni etiquetas duplicadas. los reactivos oficiales tienen cuatro variantes de forma —cuestionamiento directo, jerarquización, completamiento y relación de elementos— pero todas se resuelven eligiendo una de tres opciones; en jerarquización o relación de elementos, cada opción describe una secuencia o asociación completa (por ejemplo, `1a, 2b, 3c`), no un solo valor.
 
 los distractores representan errores plausibles. una pregunta sin explicación no se publica. `common_error` describe, cuando aplica, el error de razonamiento típico que produce uno de los distractores (ver docs/05). `source_reference` guarda la página y el código de la guía oficial de los que proviene la orientación evaluada.
 

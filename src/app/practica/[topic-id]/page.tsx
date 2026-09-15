@@ -1,17 +1,19 @@
-import { PagePlaceholder } from "@/components/ui/page-placeholder";
+import { notFound } from "next/navigation";
+
+import { PilotTopicPractice } from "@/features/practice/pilot-topic-practice-view";
+import { get_pilot_topic_practice } from "@/features/practice/pilot-topic-practice";
 
 type topic_page_props = {
   params: Promise<{ "topic-id": string }>;
 };
 
 export default async function TopicPracticePage({ params }: topic_page_props) {
-  await params;
+  const { "topic-id": topic_id } = await params;
+  const practice = await get_pilot_topic_practice(topic_id);
 
-  return (
-    <PagePlaceholder
-      description="esta práctica usará únicamente las preguntas vinculadas al tema seleccionado."
-      eyebrow="práctica por tema"
-      title="refuerza un tema específico."
-    />
-  );
+  if (!practice) {
+    notFound();
+  }
+
+  return <PilotTopicPractice practice={practice} />;
 }

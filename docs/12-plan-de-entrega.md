@@ -34,7 +34,7 @@ pensamiento matemático es el área piloto: aquí se valida la plantilla de cont
 
 - una persona puede abrir una unidad, completar lecciones, responder preguntas y volver sin perder avance.
 - todo resultado tiene explicación.
-- los estados de tema se actualizan con reglas de [[06-datos-y-progreso]].
+- los estados de tema se actualizan con el contrato simétrico provisional documentado para etapa 1 en [[06-datos-y-progreso]].
 
 ## etapa 2: práctica y repaso
 
@@ -44,6 +44,7 @@ pensamiento matemático es el área piloto: aquí se valida la plantilla de cont
 - lista breve de preguntas pendientes de repaso.
 - pantalla de resultados conectada a la lección correspondiente.
 - dashboard de progreso de pensamiento matemático.
+- aplicar la regla de dominio con umbral de entrada de 80% y salida de 60%, definida en [[06-datos-y-progreso]].
 
 ### terminado cuando
 
@@ -88,4 +89,6 @@ la implementación local de etapa 0 está completa: el scaffold, las rutas base 
 
 etapa 1 está completa para la unidad piloto `pm-1-1-pensamiento-estadistico`: entrega de currículum y lecciones, comprobación con feedback y progreso local versionado. sus contratos concretos permanecen en `docs/tasks/2026-09-14-task_etapa-1-*.md` como historial de la vertical terminada.
 
-el siguiente trabajo de implementación es etapa 2, después de verificar el preview de vercel si el repositorio ya está conectado. antes de escribir código, se deben dividir sus alcances en tareas enfocadas como se hizo en etapa 1.
+etapa 2 está completa para la misma unidad piloto, en sus tres tareas secuenciales: práctica por tema y regla de dominio, cola de repaso y acciones, y siguiente acción con dashboard. sus contratos concretos permanecen en `docs/tasks/2026-09-14-task_etapa-2-*.md` como historial de la vertical terminada.
+
+el siguiente trabajo de implementación es etapa 3 (diagnóstico y simulacro inicial), después de verificar el preview de vercel si el repositorio ya está conectado. antes de escribir código, se deben dividir sus alcances en tareas enfocadas como se hizo en etapa 1 y etapa 2; aún no existen archivos de tarea para etapa 3 en `docs/tasks/`.

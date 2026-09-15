@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 
 const base_routes = [
   "/",
@@ -143,4 +143,192 @@ test("las rutas base se muestran sin error", async ({ page }) => {
     await expect(page.locator("main")).toBeVisible();
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   }
+});
+
+const tipos_de_muestra_correct_options = [
+  "sistemático",
+  "estratificado",
+  "por conglomerados",
+  "una muestra de cada turno",
+  "1c, 2b, 3a",
+];
+
+async function answer_topic_question(
+  page: Page,
+  option_label: string,
+  final_action_label: "siguiente pregunta" | "ver resultados",
+) {
+  await page.getByRole("radio", { name: option_label, exact: true }).check();
+  await page.getByRole("button", { name: "confirmar respuesta" }).click();
+  await page.getByRole("button", { name: final_action_label }).click();
+}
+
+async function complete_tipos_de_muestra_practice(page: Page) {
+  await page.goto("/practica/pm-1-1-2-tipos-de-muestra");
+
+  for (const [index, option_label] of tipos_de_muestra_correct_options.entries()) {
+    const is_last_question = index === tipos_de_muestra_correct_options.length - 1;
+
+    await answer_topic_question(
+      page,
+      option_label,
+      is_last_question ? "ver resultados" : "siguiente pregunta",
+    );
+  }
+}
+
+test("completar una práctica por tema muestra resultados explicados y enlaza a la lección", async ({
+  page,
+}) => {
+  await page.goto("/practica/pm-1-1-2-tipos-de-muestra");
+
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("tipos de muestra");
+  await expect(page.getByText("pregunta 1 de 5")).toBeVisible();
+
+  for (const [index, option_label] of tipos_de_muestra_correct_options.entries()) {
+    const is_last_question = index === tipos_de_muestra_correct_options.length - 1;
+
+    await answer_topic_question(
+      page,
+      option_label,
+      is_last_question ? "ver resultados" : "siguiente pregunta",
+    );
+  }
+
+  await expect(
+    page.getByRole("heading", { level: 2, name: "5 de 5 respuestas correctas" }),
+  ).toBeVisible();
+
+  await page.getByRole("link", { name: "volver a tipos de muestreo" }).click();
+
+  await expect(page).toHaveURL("/leccion/pm-tipos-de-muestra-01");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("tipos de muestreo");
+});
+
+test("una práctica por tema con id inválido responde con not found", async ({
+  page,
+}) => {
+  await page.goto("/practica/tema-inexistente");
+
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "no encontramos esta página.",
+  );
+});
+
+test("los intentos de la práctica por tema persisten después de recargar", async ({
+  page,
+}) => {
+  await complete_tipos_de_muestra_practice(page);
+
+  await page.goto("/ruta/pensamiento-matematico");
+
+  const topic_card = page
+    .getByRole("heading", { name: "tipos de muestra" })
+    .locator("xpath=ancestor::article");
+
+  await expect(topic_card.getByText("5 intentos", { exact: false })).toBeVisible();
+  await expect(topic_card.getByText("precisión 100%", { exact: false })).toBeVisible();
+
+  await page.reload();
+
+  await expect(topic_card.getByText("5 intentos", { exact: false })).toBeVisible();
+  await expect(topic_card.getByText("precisión 100%", { exact: false })).toBeVisible();
+});
+
+test("un error de práctica por tema entra a la cola de repaso y sale al corregirse", async ({
+  page,
+}) => {
+  await page.goto("/practica/pm-1-1-2-tipos-de-muestra");
+
+  await page.getByRole("radio", { name: "estratificado", exact: true }).check();
+  await page.getByRole("button", { name: "confirmar respuesta" }).click();
+
+  await page.goto("/practica");
+
+  await expect(page.getByText("tipos de muestra", { exact: false })).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "repasar tipos de muestreo" }),
+  ).toBeVisible();
+
+  await page.getByRole("radio", { name: "sistemático", exact: true }).check();
+
+  await expect(page.getByRole("status").first()).toContainText("correcto.");
+  await expect(page.getByRole("status").first()).toContainText(
+    "la selección comienza en una posición aleatoria",
+  );
+
+  await page.reload();
+
+  await expect(
+    page.getByText("no tienes preguntas pendientes de repaso", { exact: false }),
+  ).toBeVisible();
+});
+
+test("storage malformado no impide renderizar la cola de repaso", async ({ page }) => {
+  await page.addInitScript(() => {
+    window.localStorage.setItem("ceneva.learner-progress", "{");
+  });
+
+  await page.goto("/practica");
+
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "repasa tus errores pendientes.",
+  );
+  await expect(
+    page.getByText("no tienes preguntas pendientes de repaso", { exact: false }),
+  ).toBeVisible();
+});
+
+test("el inicio recomienda continuar la primera lección con progreso vacío", async ({
+  page,
+}) => {
+  await page.goto("/");
+
+  const next_action_link = page.getByRole("link", {
+    name: "continuar variables estadísticas",
+  });
+
+  await expect(next_action_link).toBeVisible();
+  await next_action_link.focus();
+  await page.keyboard.press("Enter");
+
+  await expect(page).toHaveURL("/leccion/pm-tipos-de-variables-01");
+});
+
+test("inicio y progreso recomiendan practicar tras completar la lección de un tema, y persiste tras recargar", async ({
+  page,
+}) => {
+  await page.goto("/leccion/pm-tipos-de-variables-01");
+  await page.getByRole("button", { name: "marcar lección como completada" }).click();
+
+  await page.goto("/");
+
+  await expect(
+    page.getByRole("link", { name: "practicar tipos de variables" }),
+  ).toBeVisible();
+
+  await page.goto("/progreso");
+
+  const lessons_stat = page
+    .getByText("lecciones completadas", { exact: true })
+    .locator("xpath=following-sibling::*[1]");
+
+  await expect(lessons_stat).toHaveText("1/4");
+  await expect(
+    page.getByRole("link", { name: "practicar tipos de variables" }),
+  ).toBeVisible();
+
+  await page.reload();
+
+  await expect(lessons_stat).toHaveText("1/4");
+  await expect(
+    page.getByRole("link", { name: "practicar tipos de variables" }),
+  ).toBeVisible();
+
+  await page.setViewportSize({ width: 375, height: 667 });
+  await page.goto("/");
+
+  await expect(
+    page.getByRole("link", { name: "practicar tipos de variables" }),
+  ).toBeVisible();
 });

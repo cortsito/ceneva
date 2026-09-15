@@ -97,6 +97,41 @@ function get_topic_attempts(
   return attempts.filter((attempt) => question_ids.has(attempt.question_id));
 }
 
+const mastery_threshold = 0.8;
+const demotion_threshold = 0.6;
+const minimum_mastery_attempts = 5;
+
+function has_reached_mastery(
+  attempts: learner_attempt[],
+  all_lessons_completed: boolean,
+): boolean {
+  let is_dominant = false;
+  let correct_count = 0;
+
+  attempts.forEach((attempt, index) => {
+    if (attempt.is_correct) {
+      correct_count += 1;
+    }
+
+    const attempts_so_far = index + 1;
+    const accuracy_so_far = correct_count / attempts_so_far;
+
+    if (is_dominant) {
+      if (accuracy_so_far < demotion_threshold) {
+        is_dominant = false;
+      }
+    } else if (
+      all_lessons_completed &&
+      attempts_so_far >= minimum_mastery_attempts &&
+      accuracy_so_far >= mastery_threshold
+    ) {
+      is_dominant = true;
+    }
+  });
+
+  return is_dominant;
+}
+
 export function calculate_topic_progress(
   definition: pilot_topic_progress_definition,
   progress: learner_progress,
@@ -117,12 +152,7 @@ export function calculate_topic_progress(
 
   if (!prerequisite_lessons_completed) {
     status = "bloqueado";
-  } else if (
-    all_lessons_completed &&
-    attempts.length >= 5 &&
-    accuracy !== undefined &&
-    accuracy >= 0.8
-  ) {
+  } else if (has_reached_mastery(attempts, all_lessons_completed)) {
     status = "dominado";
   } else if (completed_lesson_count > 0 || attempts.length > 0) {
     status = "en progreso";
