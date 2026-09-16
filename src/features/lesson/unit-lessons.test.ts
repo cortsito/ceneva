@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import { get_unit_lesson, get_unit_lesson_ids, get_unit_lessons } from "./unit-lessons";
+import {
+  get_available_lesson,
+  get_unit_lesson,
+  get_unit_lesson_ids,
+  get_unit_lessons,
+} from "./unit-lessons";
 
 describe("get_unit_lessons", () => {
   it("carga las cuatro lecciones de la unidad piloto de pensamiento matemático", async () => {
@@ -78,5 +83,30 @@ describe("get_unit_lessons", () => {
     await expect(
       get_unit_lessons("cultura-digital", "cd-2-2-comunicacion-y-colaboracion-digital"),
     ).resolves.toEqual([]);
+  });
+});
+
+describe("get_available_lesson", () => {
+  it("resuelve una lección real sin importar a qué unidad lista pertenece", async () => {
+    const pilot_lesson = await get_available_lesson("pm-tipos-de-variables-01");
+    const cultura_digital_lesson = await get_available_lesson(
+      "cd-identidad-digital-01",
+    );
+
+    expect(pilot_lesson).toMatchObject({
+      id: "pm-tipos-de-variables-01",
+      area_id: "pensamiento-matematico",
+      unit_id: "pm-1-1-pensamiento-estadistico",
+    });
+    expect(cultura_digital_lesson).toMatchObject({
+      id: "cd-identidad-digital-01",
+      area_id: "cultura-digital",
+      unit_id: "cd-2-1-ciudadania-digital",
+    });
+  });
+
+  it("no resuelve una lección inexistente ni una de una unidad no registrada", async () => {
+    await expect(get_available_lesson("leccion-inexistente")).resolves.toBeUndefined();
+    await expect(get_available_lesson("cd-ciberespacio-01")).resolves.toBeUndefined();
   });
 });

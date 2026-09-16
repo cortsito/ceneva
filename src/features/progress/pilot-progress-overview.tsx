@@ -28,7 +28,7 @@ export async function PilotProgressOverview() {
         review_candidates={review_candidates}
         topic_definitions={topics}
       />
-      <PilotTopicProgressList topics={topics} />
+      <PilotTopicProgressList aria_label={`temas de ${unit.title}`} topics={topics} />
     </section>
   );
 }

@@ -33,6 +33,18 @@ export function get_available_unit(
   return { area: entry.area, unit };
 }
 
+export function get_available_unit_for_area(
+  area_id: string,
+): resolved_unit | undefined {
+  const entry = available_units.find((candidate) => candidate.area_id === area_id);
+
+  if (!entry) {
+    return undefined;
+  }
+
+  return get_available_unit(entry.area_id, entry.unit_id);
+}
+
 export function get_unit_questions(
   area_id: string,
   unit_id: string,

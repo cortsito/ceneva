@@ -10,6 +10,7 @@ import {
 import { usePilotProgress } from "./use-pilot-progress";
 
 type pilot_topic_progress_list_props = {
+  aria_label: string;
   topics: pilot_topic_progress_definition[];
 };
 
@@ -24,11 +25,14 @@ function format_accuracy(accuracy: number | undefined): string {
   return accuracy === undefined ? "sin intentos" : `${Math.round(accuracy * 100)}%`;
 }
 
-export function PilotTopicProgressList({ topics }: pilot_topic_progress_list_props) {
+export function PilotTopicProgressList({
+  aria_label,
+  topics,
+}: pilot_topic_progress_list_props) {
   const { progress, is_hydrated } = usePilotProgress();
 
   return (
-    <ol className="space-y-4" aria-label="temas de pensamiento estadístico">
+    <ol className="space-y-4" aria-label={aria_label}>
       {topics.map((definition, index) => {
         const topic_progress = calculate_topic_progress(definition, progress);
 

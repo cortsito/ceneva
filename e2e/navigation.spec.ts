@@ -6,9 +6,12 @@ const base_routes = [
   "/diagnostico",
   "/ruta",
   "/ruta/pensamiento-matematico",
+  "/ruta/cultura-digital",
   "/leccion/pm-tipos-de-variables-01",
+  "/leccion/cd-identidad-digital-01",
   "/practica",
   "/practica/pm-1-1-1-tipos-de-variables",
+  "/practica/cd-2-1-1-elementos-de-la-identidad-digital",
   "/simulacro",
   "/progreso",
   "/recursos",
@@ -135,6 +138,137 @@ test("storage malformado no impide renderizar la ruta piloto", async ({ page }) 
     "pensamiento estadístico",
   );
   await expect(page.getByText("disponible", { exact: true }).first()).toBeVisible();
+});
+
+const cultura_digital_identidad_correct_options = [
+  "su historial de comentarios, reacciones y publicaciones en distintos servicios en línea",
+  "sí forma",
+  "sí, porque pueden asociarse con su actividad en línea aunque no use su nombre real",
+  "actividad y metadatos asociados a la persona",
+  "1b, 2c, 3a",
+];
+
+test("la comprobación de cultura digital responde desde el teclado con feedback explicado", async ({
+  page,
+}) => {
+  await page.goto("/leccion/cd-identidad-digital-01");
+
+  const first_option = page.getByRole("radio", {
+    name: "la contraseña que usa para iniciar sesión en sus cuentas",
+  });
+
+  await expect(first_option).toBeEnabled();
+  await first_option.focus();
+  await page.keyboard.press("ArrowDown");
+
+  await expect(
+    page.getByRole("radio", {
+      name: "su historial de comentarios, reacciones y publicaciones en distintos servicios en línea",
+    }),
+  ).toBeChecked();
+  await expect(page.getByRole("status").first()).toContainText("correcto.");
+  await expect(page.getByRole("status").first()).toContainText(
+    "la identidad digital reúne datos de perfil, contenido publicado e interacciones",
+  );
+});
+
+test("el flujo completo de cultura digital persiste tras recargar y no afecta el progreso de pensamiento matemático", async ({
+  page,
+}) => {
+  await page.goto("/ruta");
+
+  await expect(
+    page.getByRole("link", { name: "explorar pensamiento matemático" }),
+  ).toBeVisible();
+  await page.getByRole("link", { name: "explorar cultura digital" }).click();
+
+  await expect(page).toHaveURL("/ruta/cultura-digital");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "ciudadanía digital",
+  );
+
+  const blocked_topic = page
+    .getByRole("heading", { name: "medidas de seguridad digital" })
+    .locator("xpath=ancestor::article");
+
+  await expect(blocked_topic.getByText("bloqueado", { exact: true })).toBeVisible();
+
+  await page.getByRole("link", { name: "estudiar identidad digital" }).click();
+
+  await expect(page).toHaveURL("/leccion/cd-identidad-digital-01");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("identidad digital");
+
+  await page.getByRole("button", { name: "marcar lección como completada" }).click();
+  await expect(page.getByRole("button", { name: "lección completada" })).toBeDisabled();
+
+  await page.goto("/practica/cd-2-1-1-elementos-de-la-identidad-digital");
+
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "elementos de la identidad digital",
+  );
+
+  for (const [
+    index,
+    option_label,
+  ] of cultura_digital_identidad_correct_options.entries()) {
+    const is_last_question =
+      index === cultura_digital_identidad_correct_options.length - 1;
+
+    await answer_topic_question(
+      page,
+      option_label,
+      is_last_question ? "ver resultados" : "siguiente pregunta",
+    );
+  }
+
+  await expect(
+    page.getByRole("heading", { level: 2, name: "5 de 5 respuestas correctas" }),
+  ).toBeVisible();
+
+  await page.getByRole("link", { name: "volver a identidad digital" }).click();
+
+  await expect(page).toHaveURL("/leccion/cd-identidad-digital-01");
+
+  await page.goto("/ruta/cultura-digital");
+
+  const identidad_topic = page
+    .getByRole("heading", { name: "elementos de la identidad digital" })
+    .locator("xpath=ancestor::article");
+
+  await expect(identidad_topic.getByText("dominado", { exact: true })).toBeVisible();
+
+  await page.reload();
+
+  await expect(identidad_topic.getByText("dominado", { exact: true })).toBeVisible();
+
+  await page.goto("/ruta/pensamiento-matematico");
+
+  const pilot_topic = page
+    .getByRole("heading", { name: "tipos de variables" })
+    .locator("xpath=ancestor::article");
+
+  await expect(pilot_topic.getByText("disponible", { exact: true })).toBeVisible();
+  await expect(pilot_topic.getByText("sin intentos", { exact: false })).toBeVisible();
+});
+
+test("la práctica de cultura digital se puede responder en pantalla móvil", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 375, height: 667 });
+  await page.goto("/practica/cd-2-1-1-elementos-de-la-identidad-digital");
+
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "elementos de la identidad digital",
+  );
+  await expect(page.getByText("pregunta 1 de 5")).toBeVisible();
+
+  await answer_topic_question(
+    page,
+    "su historial de comentarios, reacciones y publicaciones en distintos servicios en línea",
+    "siguiente pregunta",
+  );
+
+  await expect(page.getByText("pregunta 2 de 5")).toBeVisible();
 });
 
 test("las rutas base se muestran sin error", async ({ page }) => {

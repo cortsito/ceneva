@@ -2,13 +2,13 @@ import Link from "next/link";
 
 import { TopicPracticeSession } from "@/features/progress/topic-practice-session";
 
-import type { pilot_topic_practice } from "./pilot-topic-practice";
+import type { unit_topic_practice } from "./unit-topic-content";
 
-type pilot_topic_practice_view_props = {
-  practice: pilot_topic_practice;
+type topic_practice_view_props = {
+  practice: unit_topic_practice;
 };
 
-export function PilotTopicPractice({ practice }: pilot_topic_practice_view_props) {
+export function TopicPracticeView({ practice }: topic_practice_view_props) {
   return (
     <section className="mx-auto flex w-full max-w-3xl flex-col gap-8 px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
       <header>

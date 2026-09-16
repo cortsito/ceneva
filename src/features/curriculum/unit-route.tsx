@@ -1,12 +1,23 @@
-import { get_pilot_lessons } from "@/features/lesson/pilot-lessons";
+import { get_unit_lessons } from "@/features/lesson/unit-lessons";
 import { create_pilot_topic_progress_definitions } from "@/features/progress/pilot-progress";
 import { PilotTopicProgressList } from "@/features/progress/pilot-topic-progress-list";
 
-import { get_pilot_curriculum } from "./pilot-curriculum";
+import { get_available_unit } from "./available-curriculum";
 
-export async function PilotUnit() {
-  const { area, unit } = get_pilot_curriculum();
-  const lessons = await get_pilot_lessons();
+type unit_route_props = {
+  area_id: string;
+  unit_id: string;
+};
+
+export async function UnitRoute({ area_id, unit_id }: unit_route_props) {
+  const resolved = get_available_unit(area_id, unit_id);
+
+  if (!resolved) {
+    return null;
+  }
+
+  const { area, unit } = resolved;
+  const lessons = await get_unit_lessons(area_id, unit_id);
   const topics = create_pilot_topic_progress_definitions(unit, lessons);
 
   return (
@@ -19,12 +30,11 @@ export async function PilotUnit() {
           {unit.title}
         </h1>
         <p className="max-w-2xl text-lg leading-8 text-slate-600">
-          cuatro temas para interpretar datos, seleccionar muestras y resumir su
-          comportamiento.
+          {topics.length} temas de la guía oficial para estudiar {unit.title}.
         </p>
       </header>
 
-      <PilotTopicProgressList topics={topics} />
+      <PilotTopicProgressList aria_label={`temas de ${unit.title}`} topics={topics} />
     </section>
   );
 }

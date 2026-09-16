@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { get_available_unit, get_unit_questions } from "./available-curriculum";
+import {
+  get_available_unit,
+  get_available_unit_for_area,
+  get_unit_questions,
+} from "./available-curriculum";
 
 describe("get_available_unit", () => {
   it("resuelve la unidad piloto de pensamiento matemático", () => {
@@ -48,6 +52,21 @@ describe("get_available_unit", () => {
     expect(
       get_available_unit("cultura-digital", "pm-1-1-pensamiento-estadistico"),
     ).toBeUndefined();
+  });
+});
+
+describe("get_available_unit_for_area", () => {
+  it("resuelve la única unidad lista de un área disponible", () => {
+    expect(get_available_unit_for_area("pensamiento-matematico")?.unit.id).toBe(
+      "pm-1-1-pensamiento-estadistico",
+    );
+    expect(get_available_unit_for_area("cultura-digital")?.unit.id).toBe(
+      "cd-2-1-ciudadania-digital",
+    );
+  });
+
+  it("no resuelve un área sin unidades de contenido listas", () => {
+    expect(get_available_unit_for_area("humanidades")).toBeUndefined();
   });
 });
 

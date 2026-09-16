@@ -5,6 +5,7 @@ import matter from "gray-matter";
 
 import type { curriculum_unit } from "@content/curriculum/types";
 
+import { available_units } from "@/features/curriculum/available-units";
 import { get_available_unit } from "@/features/curriculum/available-curriculum";
 
 type lesson_source = {
@@ -190,4 +191,22 @@ export async function get_unit_lessons(
   );
 
   return lessons.filter((candidate): candidate is lesson => candidate !== undefined);
+}
+
+export async function get_available_lesson(
+  lesson_id: string,
+): Promise<lesson | undefined> {
+  for (const entry of available_units) {
+    const resolved_lesson = await get_unit_lesson(
+      entry.area_id,
+      entry.unit_id,
+      lesson_id,
+    );
+
+    if (resolved_lesson) {
+      return resolved_lesson;
+    }
+  }
+
+  return undefined;
 }

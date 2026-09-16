@@ -1,13 +1,14 @@
 import Link from "next/link";
 import ReactMarkdown, { type Components } from "react-markdown";
 
-import { get_pilot_lesson_questions } from "@/features/practice/pilot-lesson-questions";
+import { get_available_unit } from "@/features/curriculum/available-curriculum";
+import { get_lesson_questions_for_unit } from "@/features/practice/unit-topic-content";
 import { LessonSession } from "@/features/progress/lesson-session";
 
-import type { pilot_lesson } from "./pilot-lessons";
+import type { lesson } from "./unit-lessons";
 
-type pilot_lesson_props = {
-  lesson: pilot_lesson;
+type lesson_view_props = {
+  lesson: lesson;
 };
 
 const markdown_components: Components = {
@@ -74,18 +75,21 @@ function get_markdown_sections(body: string): markdown_sections {
   };
 }
 
-export function PilotLesson({ lesson }: pilot_lesson_props) {
-  const questions = get_pilot_lesson_questions(lesson);
+export function LessonView({ lesson }: lesson_view_props) {
+  const questions = get_lesson_questions_for_unit(lesson);
   const sections = get_markdown_sections(lesson.body);
+  const resolved_unit = get_available_unit(lesson.area_id, lesson.unit_id);
 
   return (
     <article className="mx-auto w-full max-w-3xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
-      <Link
-        className="text-sm font-semibold text-teal-800 underline decoration-teal-300 underline-offset-4 transition-colors hover:text-teal-950 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-700"
-        href="/ruta/pensamiento-matematico"
-      >
-        volver a pensamiento estadístico
-      </Link>
+      {resolved_unit ? (
+        <Link
+          className="text-sm font-semibold text-teal-800 underline decoration-teal-300 underline-offset-4 transition-colors hover:text-teal-950 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-700"
+          href={`/ruta/${lesson.area_id}`}
+        >
+          volver a {resolved_unit.unit.title}
+        </Link>
+      ) : null}
       <header className="mt-8 border-b border-slate-200 pb-8">
         <p className="text-sm font-semibold tracking-wide text-teal-800">
           lección · tema {lesson.source.code}

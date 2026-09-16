@@ -4,7 +4,11 @@ import type { question } from "@content/questions/types";
 
 import type { lesson } from "@/features/lesson/unit-lessons";
 
-import { get_topic_content, resolve_topic_questions } from "./unit-topic-content";
+import {
+  get_available_topic_practice,
+  get_topic_content,
+  resolve_topic_questions,
+} from "./unit-topic-content";
 
 function make_question(id: string, topic_id: string): question {
   return {
@@ -153,6 +157,45 @@ describe("get_topic_content", () => {
         "cd-2-2-comunicacion-y-colaboracion-digital",
         "cd-2-2-1-definicion-del-ciberespacio",
       ),
+    ).resolves.toBeUndefined();
+  });
+});
+
+describe("get_available_topic_practice", () => {
+  it("resuelve la práctica de un tema piloto sin declarar su área ni unidad", async () => {
+    const practice = await get_available_topic_practice("pm-1-1-1-tipos-de-variables");
+
+    expect(practice?.topic.id).toBe("pm-1-1-1-tipos-de-variables");
+    expect(practice?.lesson.id).toBe("pm-tipos-de-variables-01");
+    expect(practice?.questions).toHaveLength(5);
+  });
+
+  it("resuelve la práctica de un tema de cultura digital sin declarar su área ni unidad", async () => {
+    const practice = await get_available_topic_practice(
+      "cd-2-1-4-tipos-de-amenazas-de-seguridad-digital",
+    );
+
+    expect(practice?.topic).toMatchObject({
+      id: "cd-2-1-4-tipos-de-amenazas-de-seguridad-digital",
+      title: "tipos de amenazas de seguridad digital",
+      code: "2.1.4",
+    });
+    expect(practice?.lesson.id).toBe("cd-amenazas-de-seguridad-digital-01");
+    expect(practice?.questions.map((question) => question.id)).toEqual([
+      "cd-asd-001",
+      "cd-asd-002",
+      "cd-asd-003",
+      "cd-asd-004",
+      "cd-asd-005",
+    ]);
+  });
+
+  it("no resuelve un tema inexistente ni uno de una unidad no registrada", async () => {
+    await expect(
+      get_available_topic_practice("tema-inexistente"),
+    ).resolves.toBeUndefined();
+    await expect(
+      get_available_topic_practice("cd-2-2-1-definicion-del-ciberespacio"),
     ).resolves.toBeUndefined();
   });
 });
