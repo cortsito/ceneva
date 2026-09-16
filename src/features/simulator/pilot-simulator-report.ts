@@ -1,4 +1,4 @@
-import type { question } from "@content/questions/pensamiento-matematico";
+import type { question } from "@content/questions/types";
 
 import type { pilot_simulator_item } from "./pilot-simulator";
 

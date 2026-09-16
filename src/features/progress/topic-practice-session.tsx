@@ -1,6 +1,6 @@
 "use client";
 
-import type { question } from "@content/questions/pensamiento-matematico";
+import type { question } from "@content/questions/types";
 
 import { TopicPracticeCheck } from "@/features/practice/topic-practice-check";
 

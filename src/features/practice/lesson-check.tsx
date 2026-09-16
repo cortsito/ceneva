@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import type { question } from "@content/questions/pensamiento-matematico";
+import type { question } from "@content/questions/types";
 
 type lesson_check_props = {
   questions: question[];

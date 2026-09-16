@@ -1,15 +1,4 @@
-export type question = {
-  id: string
-  topic_id: string
-  prompt: string
-  options: string[]
-  correct_option_index: number
-  explanation: string
-  common_error?: string
-  source_reference?: string
-  difficulty: 'basic' | 'intermediate' | 'advanced'
-  use_cases: ('diagnostic' | 'practice' | 'review' | 'simulator')[]
-}
+import type { question } from './types'
 
 export const pensamiento_matematico_questions: question[] = [
   {

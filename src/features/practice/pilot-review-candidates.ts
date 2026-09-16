@@ -1,4 +1,4 @@
-import type { question } from "@content/questions/pensamiento-matematico";
+import type { question } from "@content/questions/types";
 
 import { get_pilot_curriculum } from "@/features/curriculum/pilot-curriculum";
 

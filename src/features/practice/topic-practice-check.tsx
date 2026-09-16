@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 
-import type { question } from "@content/questions/pensamiento-matematico";
+import type { question } from "@content/questions/types";
 
 type submitted_answer = {
   selected_option_index: number;
