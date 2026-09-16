@@ -332,3 +332,298 @@ test("inicio y progreso recomiendan practicar tras completar la lección de un t
     page.getByRole("link", { name: "practicar tipos de variables" }),
   ).toBeVisible();
 });
+
+const diagnostic_correct_options = [
+  "el número de llamadas recibidas en un día",
+  "sistemático",
+  "`8.5`",
+  "el conjunto b, porque sus datos se alejan más de la media",
+];
+
+async function answer_diagnostic_question(
+  page: Page,
+  option_label: string,
+  final_action_label: "siguiente pregunta" | "ver resultado",
+) {
+  await page.getByRole("radio", { name: option_label, exact: true }).check();
+  await page.getByRole("button", { name: final_action_label }).click();
+}
+
+async function complete_pilot_diagnostic(page: Page) {
+  await page.goto("/diagnostico");
+
+  for (const [index, option_label] of diagnostic_correct_options.entries()) {
+    const is_last_question = index === diagnostic_correct_options.length - 1;
+
+    await answer_diagnostic_question(
+      page,
+      option_label,
+      is_last_question ? "ver resultado" : "siguiente pregunta",
+    );
+  }
+}
+
+test("el diagnóstico responde desde el teclado y no revela resultados hasta terminar", async ({
+  page,
+}) => {
+  await page.goto("/diagnostico");
+
+  await expect(page.getByText("pregunta 1 de 4")).toBeVisible();
+
+  const first_option = page.getByRole("radio", {
+    name: "el peso de una mochila en kilogramos",
+  });
+
+  await expect(first_option).toBeEnabled();
+  await first_option.focus();
+  await page.keyboard.press("ArrowDown");
+
+  await expect(
+    page.getByRole("radio", {
+      name: "el número de llamadas recibidas en un día",
+    }),
+  ).toBeChecked();
+  await page.getByRole("button", { name: "siguiente pregunta" }).click();
+
+  await expect(page.getByText("pregunta 2 de 4")).toBeVisible();
+  await expect(page.getByText("correcto", { exact: false })).toHaveCount(0);
+});
+
+test("completar el diagnóstico muestra resultados explicados por tema y recomienda una lección", async ({
+  page,
+}) => {
+  await complete_pilot_diagnostic(page);
+
+  await expect(
+    page.getByRole("heading", { level: 2, name: "4 de 4 respuestas correctas" }),
+  ).toBeVisible();
+  await expect(page.getByText("tema 1 de 4 · tipos de variables")).toBeVisible();
+  await expect(page.getByText("tema 4 de 4 · medidas de dispersión")).toBeVisible();
+  await expect(
+    page.getByText("empieza por tipos de variables.", { exact: false }),
+  ).toBeVisible();
+
+  await page.getByRole("link", { name: "ir a variables estadísticas" }).click();
+
+  await expect(page).toHaveURL("/leccion/pm-tipos-de-variables-01");
+});
+
+test("una respuesta incorrecta del diagnóstico recomienda el tema correspondiente", async ({
+  page,
+}) => {
+  await page.goto("/diagnostico");
+
+  await answer_diagnostic_question(
+    page,
+    "el peso de una mochila en kilogramos",
+    "siguiente pregunta",
+  );
+
+  for (const [index, option_label] of diagnostic_correct_options.slice(1).entries()) {
+    const is_last_question = index === diagnostic_correct_options.length - 2;
+
+    await answer_diagnostic_question(
+      page,
+      option_label,
+      is_last_question ? "ver resultado" : "siguiente pregunta",
+    );
+  }
+
+  await expect(
+    page.getByRole("heading", { level: 2, name: "3 de 4 respuestas correctas" }),
+  ).toBeVisible();
+  await expect(
+    page.getByText("empieza por tipos de variables.", { exact: false }),
+  ).toBeVisible();
+});
+
+test("los intentos del diagnóstico persisten como historial y recargar reinicia la sesión visual", async ({
+  page,
+}) => {
+  await complete_pilot_diagnostic(page);
+
+  await page.goto("/ruta/pensamiento-matematico");
+
+  const topic_card = page
+    .getByRole("heading", { name: "tipos de variables" })
+    .locator("xpath=ancestor::article");
+
+  await expect(topic_card.getByText("1 intentos", { exact: false })).toBeVisible();
+  await expect(topic_card.getByText("precisión 100%", { exact: false })).toBeVisible();
+
+  await page.goto("/diagnostico");
+
+  await expect(page.getByText("pregunta 1 de 4")).toBeVisible();
+
+  await page.reload();
+
+  await expect(page.getByText("pregunta 1 de 4")).toBeVisible();
+
+  await page.goto("/ruta/pensamiento-matematico");
+
+  await expect(topic_card.getByText("1 intentos", { exact: false })).toBeVisible();
+});
+
+const pilot_simulator_correct_options = [
+  "el número de llamadas recibidas en un día",
+  "categórica",
+  "cualitativa",
+  "se obtiene por medición y puede incluir fracciones",
+  "1b, 2a, 3c",
+  "sistemático",
+  "estratificado",
+  "por conglomerados",
+  "una muestra de cada turno",
+  "1c, 2b, 3a",
+  "`8.5`",
+  "`7`",
+  "azul",
+  "la mediana",
+  "1b, 2c, 3a",
+  "`8 / 3`",
+  "`1`",
+  "el conjunto b, porque sus datos se alejan más de la media",
+  "elevar al cuadrado las diferencias, sumarlas y dividir entre el número de datos",
+  "1c, 2b, 3a",
+];
+
+async function answer_simulator_question(
+  page: Page,
+  option_label: string,
+  final_action_label: "siguiente pregunta" | "ver reporte",
+) {
+  await page.getByRole("radio", { name: option_label, exact: true }).check();
+  await page.getByRole("button", { name: final_action_label }).click();
+}
+
+async function complete_pilot_simulator(
+  page: Page,
+  option_overrides: Record<number, string> = {},
+) {
+  await page.goto("/simulacro");
+
+  for (const [index, default_option] of pilot_simulator_correct_options.entries()) {
+    const is_last_question = index === pilot_simulator_correct_options.length - 1;
+
+    await answer_simulator_question(
+      page,
+      option_overrides[index] ?? default_option,
+      is_last_question ? "ver reporte" : "siguiente pregunta",
+    );
+  }
+}
+
+test("el simulacro responde desde el teclado y no revela resultados hasta el reporte final", async ({
+  page,
+}) => {
+  await page.goto("/simulacro");
+
+  await expect(page.getByText("pregunta 1 de 20")).toBeVisible();
+
+  const first_option = page.getByRole("radio", {
+    name: "el peso de una mochila en kilogramos",
+  });
+
+  await expect(first_option).toBeEnabled();
+  await first_option.focus();
+  await page.keyboard.press("ArrowDown");
+
+  await expect(
+    page.getByRole("radio", {
+      name: "el número de llamadas recibidas en un día",
+    }),
+  ).toBeChecked();
+
+  await page.getByRole("button", { name: "siguiente pregunta" }).click();
+
+  await expect(page.getByText("pregunta 2 de 20")).toBeVisible();
+  await expect(page.getByText("correcto", { exact: false })).toHaveCount(0);
+});
+
+test("completar el simulacro con un error muestra el reporte agrupado por tema y enlaza el error a su lección", async ({
+  page,
+}) => {
+  await complete_pilot_simulator(page, { 6: "por conglomerados" });
+
+  await expect(
+    page.getByRole("heading", { level: 2, name: "19 de 20 respuestas correctas" }),
+  ).toBeVisible();
+
+  const mismatched_topic = page
+    .getByText("tipos de muestra", { exact: true })
+    .locator("xpath=ancestor::article");
+
+  await expect(
+    mismatched_topic.getByText("4 de 5 correctas", { exact: false }),
+  ).toBeVisible();
+  await expect(
+    mismatched_topic.getByText("una universidad separa a su alumnado", {
+      exact: false,
+    }),
+  ).toBeVisible();
+  await expect(
+    mismatched_topic.getByText("tu respuesta:", { exact: false }),
+  ).toContainText("por conglomerados");
+  await expect(
+    mismatched_topic.getByText("respuesta correcta:", { exact: false }),
+  ).toContainText("estratificado");
+
+  const flawless_topic = page
+    .getByText("tipos de variables", { exact: true })
+    .locator("xpath=ancestor::article");
+
+  await expect(
+    flawless_topic.getByText("respondiste correctamente todas las preguntas"),
+  ).toBeVisible();
+
+  await mismatched_topic
+    .getByRole("link", { name: "repasar tipos de muestreo" })
+    .click();
+
+  await expect(page).toHaveURL("/leccion/pm-tipos-de-muestra-01");
+});
+
+test("los intentos del simulacro persisten como historial y recargar reinicia la sesión visual", async ({
+  page,
+}) => {
+  await complete_pilot_simulator(page);
+
+  await page.goto("/ruta/pensamiento-matematico");
+
+  const topic_card = page
+    .getByRole("heading", { name: "tipos de variables" })
+    .locator("xpath=ancestor::article");
+
+  await expect(topic_card.getByText("5 intentos", { exact: false })).toBeVisible();
+  await expect(topic_card.getByText("precisión 100%", { exact: false })).toBeVisible();
+
+  await page.goto("/simulacro");
+
+  await expect(page.getByText("pregunta 1 de 20")).toBeVisible();
+
+  await page.reload();
+
+  await expect(page.getByText("pregunta 1 de 20")).toBeVisible();
+
+  await page.goto("/ruta/pensamiento-matematico");
+
+  await expect(topic_card.getByText("5 intentos", { exact: false })).toBeVisible();
+});
+
+test("el simulacro se puede responder en pantalla móvil", async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 667 });
+  await page.goto("/simulacro");
+
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "valida tu preparación.",
+  );
+  await expect(page.getByText("pregunta 1 de 20")).toBeVisible();
+
+  await answer_simulator_question(
+    page,
+    "el número de llamadas recibidas en un día",
+    "siguiente pregunta",
+  );
+
+  await expect(page.getByText("pregunta 2 de 20")).toBeVisible();
+});

@@ -1,13 +1,14 @@
-import { PagePlaceholder } from "@/components/ui/page-placeholder";
+import {
+  flatten_pilot_simulator_groups,
+  get_pilot_simulator,
+} from "@/features/simulator/pilot-simulator";
+import { PilotSimulatorView } from "@/features/simulator/pilot-simulator-view";
 
 export const metadata = { title: "simulacros" };
 
-export default function SimulatorPage() {
-  return (
-    <PagePlaceholder
-      description="los simulacros se construirán desde cero y sus errores llevarán al tema y la lección correspondientes."
-      eyebrow="simulacros"
-      title="valida tu preparación."
-    />
-  );
+export default async function SimulatorPage() {
+  const groups = await get_pilot_simulator();
+  const items = flatten_pilot_simulator_groups(groups);
+
+  return <PilotSimulatorView items={items} />;
 }

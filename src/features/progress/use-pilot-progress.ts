@@ -73,6 +73,34 @@ export function usePilotProgress() {
     );
   }
 
+  function record_diagnostic_answer(answer: practice_answer) {
+    if (!is_hydrated) {
+      return;
+    }
+
+    persist_progress(
+      record_attempt(progress_ref.current, {
+        ...answer,
+        created_at: new Date().toISOString(),
+        mode: "diagnostic",
+      }),
+    );
+  }
+
+  function record_simulator_answer(answer: practice_answer) {
+    if (!is_hydrated) {
+      return;
+    }
+
+    persist_progress(
+      record_attempt(progress_ref.current, {
+        ...answer,
+        created_at: new Date().toISOString(),
+        mode: "simulator",
+      }),
+    );
+  }
+
   function mark_lesson_completed(lesson_id: string) {
     if (!is_hydrated) {
       return;
@@ -86,6 +114,8 @@ export function usePilotProgress() {
     is_hydrated,
     record_practice_answer,
     record_review_answer,
+    record_diagnostic_answer,
+    record_simulator_answer,
     mark_lesson_completed,
   };
 }
