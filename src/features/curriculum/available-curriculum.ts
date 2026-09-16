@@ -37,5 +37,14 @@ export function get_unit_questions(
   area_id: string,
   unit_id: string,
 ): question[] | undefined {
-  return find_available_unit(area_id, unit_id)?.questions;
+  const entry = find_available_unit(area_id, unit_id);
+  const resolved = get_available_unit(area_id, unit_id);
+
+  if (!entry || !resolved) {
+    return undefined;
+  }
+
+  const topic_ids = new Set(resolved.unit.topics.map((topic) => topic.id));
+
+  return entry.questions.filter((question) => topic_ids.has(question.topic_id));
 }

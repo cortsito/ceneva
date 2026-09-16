@@ -52,6 +52,24 @@ describe("get_available_unit", () => {
 });
 
 describe("get_unit_questions", () => {
+  it("limita las preguntas de pensamiento matemático a los temas de su unidad lista", () => {
+    const resolved = get_available_unit(
+      "pensamiento-matematico",
+      "pm-1-1-pensamiento-estadistico",
+    );
+    const questions = get_unit_questions(
+      "pensamiento-matematico",
+      "pm-1-1-pensamiento-estadistico",
+    );
+
+    expect(questions).toHaveLength(20);
+    expect(
+      questions?.every((question) =>
+        resolved?.unit.topics.some((topic) => topic.id === question.topic_id),
+      ),
+    ).toBe(true);
+  });
+
   it("devuelve el banco tipado de una unidad registrada", () => {
     expect(
       get_unit_questions("cultura-digital", "cd-2-1-ciudadania-digital"),
