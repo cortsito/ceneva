@@ -3,8 +3,8 @@ import { describe, expect, it } from "vitest";
 import { available_units } from "./available-units";
 
 describe("available_units", () => {
-  it("lista exactamente las tres unidades de contenido listas, en orden estable", () => {
-    expect(available_units).toHaveLength(3);
+  it("lista exactamente las cuatro unidades de contenido listas, en orden estable", () => {
+    expect(available_units).toHaveLength(4);
     expect(
       available_units.map((entry) => ({
         area_id: entry.area_id,
@@ -17,11 +17,15 @@ describe("available_units", () => {
         area_id: "conciencia-historica",
         unit_id: "ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales",
       },
+      {
+        area_id: "humanidades",
+        unit_id: "hu-4-1-fundamentos-del-pensamiento-filosofico",
+      },
     ]);
   });
 
   it("asocia cada entrada con su árbol de currículo y su banco de preguntas reales", () => {
-    const [pensamiento_matematico, cultura_digital, conciencia_historica] =
+    const [pensamiento_matematico, cultura_digital, conciencia_historica, humanidades] =
       available_units;
 
     expect(pensamiento_matematico?.area.id).toBe("pensamiento-matematico");
@@ -44,6 +48,12 @@ describe("available_units", () => {
       conciencia_historica?.questions.every((question) =>
         question.id.startsWith("ch-"),
       ),
+    ).toBe(true);
+
+    expect(humanidades?.area.id).toBe("humanidades");
+    expect(humanidades?.questions).toHaveLength(20);
+    expect(
+      humanidades?.questions.every((question) => question.id.startsWith("hu-")),
     ).toBe(true);
   });
 });

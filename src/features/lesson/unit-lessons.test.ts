@@ -125,6 +125,51 @@ describe("get_unit_lessons", () => {
     ]);
   });
 
+  it("carga las cuatro lecciones de la unidad de humanidades, con su prerrequisito real", async () => {
+    const lessons = await get_unit_lessons(
+      "humanidades",
+      "hu-4-1-fundamentos-del-pensamiento-filosofico",
+    );
+
+    expect(lessons).toHaveLength(4);
+    expect(lessons.map((lesson) => lesson.id).sort()).toEqual(
+      [
+        "hu-filosofia-mito-y-ciencia-01",
+        "hu-pensamiento-critico-01",
+        "hu-pensamiento-existencialista-01",
+        "hu-doxa-y-episteme-01",
+      ].sort(),
+    );
+
+    const foundation = lessons.find(
+      (lesson) => lesson.id === "hu-filosofia-mito-y-ciencia-01",
+    );
+    const dependent_ids = [
+      "hu-pensamiento-critico-01",
+      "hu-pensamiento-existencialista-01",
+      "hu-doxa-y-episteme-01",
+    ];
+
+    expect(foundation).toMatchObject({
+      area_id: "humanidades",
+      unit_id: "hu-4-1-fundamentos-del-pensamiento-filosofico",
+      topic_id: "hu-4-1-1-filosofia-mito-y-ciencia",
+      prerequisites: [],
+      question_ids: [
+        "hu-fmc-001",
+        "hu-fmc-002",
+        "hu-fmc-003",
+        "hu-fmc-004",
+        "hu-fmc-005",
+      ],
+    });
+
+    for (const dependent_id of dependent_ids) {
+      const dependent = lessons.find((lesson) => lesson.id === dependent_id);
+      expect(dependent?.prerequisites).toEqual(["hu-filosofia-mito-y-ciencia-01"]);
+    }
+  });
+
   it("no expone lecciones ajenas a una unidad registrada", async () => {
     await expect(
       get_unit_lesson(
@@ -183,10 +228,23 @@ describe("get_available_lesson", () => {
       unit_id: "ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales",
       topic_id: "ch-3-1-2-movimientos-de-resistencia-de-pueblos-originarios",
     });
+
+    const humanidades_lesson = await get_available_lesson("hu-pensamiento-critico-01");
+
+    expect(humanidades_lesson).toMatchObject({
+      id: "hu-pensamiento-critico-01",
+      area_id: "humanidades",
+      unit_id: "hu-4-1-fundamentos-del-pensamiento-filosofico",
+      topic_id: "hu-4-1-2-pensamiento-critico",
+      prerequisites: ["hu-filosofia-mito-y-ciencia-01"],
+    });
   });
 
   it("no resuelve una lección inexistente ni una de una unidad no registrada", async () => {
     await expect(get_available_lesson("leccion-inexistente")).resolves.toBeUndefined();
     await expect(get_available_lesson("cd-ciberespacio-01")).resolves.toBeUndefined();
+    await expect(
+      get_available_lesson("hu-funciones-de-la-lengua-01"),
+    ).resolves.toBeUndefined();
   });
 });

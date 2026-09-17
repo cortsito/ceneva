@@ -8,13 +8,16 @@ const base_routes = [
   "/ruta/pensamiento-matematico",
   "/ruta/cultura-digital",
   "/ruta/conciencia-historica",
+  "/ruta/humanidades",
   "/leccion/pm-tipos-de-variables-01",
   "/leccion/cd-identidad-digital-01",
   "/leccion/ch-conquista-de-pueblos-originarios-01",
+  "/leccion/hu-filosofia-mito-y-ciencia-01",
   "/practica",
   "/practica/pm-1-1-1-tipos-de-variables",
   "/practica/cd-2-1-1-elementos-de-la-identidad-digital",
   "/practica/ch-3-1-1-conquista-de-pueblos-mesoamericanos-o-aridoamericanos",
+  "/practica/hu-4-1-1-filosofia-mito-y-ciencia",
   "/simulacro",
   "/progreso",
   "/recursos",
@@ -1021,6 +1024,186 @@ test("la práctica de un tema de una sola lección de conciencia histórica se p
   await expect(page.getByText("pregunta 1 de 5")).toBeVisible();
 
   await answer_topic_question(page, "a los purépechas", "siguiente pregunta");
+
+  await expect(page.getByText("pregunta 2 de 5")).toBeVisible();
+});
+
+const hu_fmc_correct_options = [
+  "pensamiento mítico",
+  "filosófico",
+  "pensamiento científico",
+  "porque se valida por la coherencia del argumento, no por evidencia empírica contrastable",
+  "1b, 2c, 3a",
+];
+
+test("la ruta de humanidades muestra sus cuatro temas, con los tres dependientes bloqueados hasta completar la lección base", async ({
+  page,
+}) => {
+  await page.goto("/ruta");
+
+  await page.getByRole("link", { name: "explorar humanidades" }).click();
+
+  await expect(page).toHaveURL("/ruta/humanidades");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "fundamentos del pensamiento filosófico",
+  );
+
+  const base_topic = page
+    .getByRole("heading", { name: "filosofía, mito y ciencia" })
+    .locator("xpath=ancestor::article");
+
+  await expect(base_topic.getByText("disponible", { exact: true })).toBeVisible();
+
+  for (const topic_title of [
+    "pensamiento crítico",
+    "pensamiento existencialista",
+    "doxa y episteme",
+  ]) {
+    const dependent_topic = page
+      .getByRole("heading", { name: topic_title })
+      .locator("xpath=ancestor::article");
+
+    await expect(dependent_topic.getByText("bloqueado", { exact: true })).toBeVisible();
+  }
+});
+
+test("completar la lección base de humanidades desbloquea una lección dependiente, y la práctica del tema base persiste como dominado tras recargar sin afectar otras áreas", async ({
+  page,
+}) => {
+  await page.goto("/leccion/hu-filosofia-mito-y-ciencia-01");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "filosofía, mito y ciencia",
+  );
+  await expect(page.getByText("antes de continuar")).toHaveCount(0);
+  await page.getByRole("button", { name: "marcar lección como completada" }).click();
+  await expect(page.getByRole("button", { name: "lección completada" })).toBeDisabled();
+
+  await page.goto("/leccion/hu-pensamiento-critico-01");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "pensamiento crítico",
+  );
+  await expect(
+    page.getByRole("link", { name: "repasa hu-filosofia-mito-y-ciencia-01" }),
+  ).toBeVisible();
+
+  await page.goto("/ruta/humanidades");
+
+  const dependent_topic = page
+    .getByRole("heading", { name: "pensamiento crítico" })
+    .locator("xpath=ancestor::article");
+
+  await expect(dependent_topic.getByText("disponible", { exact: true })).toBeVisible();
+
+  await page.goto("/practica/hu-4-1-1-filosofia-mito-y-ciencia");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "filosofía, mito y ciencia",
+  );
+  await expect(page.getByText("pregunta 1 de 5")).toBeVisible();
+  await expect(page.getByText("correcto", { exact: false })).toHaveCount(0);
+
+  const second_option = page.getByRole("radio", {
+    name: "pensamiento filosófico",
+    exact: true,
+  });
+
+  await expect(second_option).toBeEnabled();
+  await second_option.focus();
+  await page.keyboard.press("ArrowUp");
+
+  await expect(
+    page.getByRole("radio", { name: hu_fmc_correct_options[0], exact: true }),
+  ).toBeChecked();
+
+  await page.getByRole("button", { name: "confirmar respuesta" }).click();
+  await expect(page.getByRole("status").first()).toContainText("correcto.");
+  await page.getByRole("button", { name: "siguiente pregunta" }).click();
+
+  for (const [index, option_label] of hu_fmc_correct_options.entries()) {
+    if (index === 0) {
+      continue;
+    }
+
+    const is_last_question = index === hu_fmc_correct_options.length - 1;
+
+    await answer_topic_question(
+      page,
+      option_label,
+      is_last_question ? "ver resultados" : "siguiente pregunta",
+    );
+  }
+
+  await expect(
+    page.getByRole("heading", { level: 2, name: "5 de 5 respuestas correctas" }),
+  ).toBeVisible();
+
+  await page.getByRole("link", { name: "volver a filosofía, mito y ciencia" }).click();
+
+  await expect(page).toHaveURL("/leccion/hu-filosofia-mito-y-ciencia-01");
+
+  await page.goto("/ruta/humanidades");
+
+  const dominated_topic = page
+    .getByRole("heading", { name: "filosofía, mito y ciencia" })
+    .locator("xpath=ancestor::article");
+
+  await expect(dominated_topic.getByText("dominado", { exact: true })).toBeVisible();
+
+  await page.reload();
+
+  await expect(dominated_topic.getByText("dominado", { exact: true })).toBeVisible();
+
+  await page.goto("/ruta/pensamiento-matematico");
+
+  const pilot_topic = page
+    .getByRole("heading", { name: "tipos de variables" })
+    .locator("xpath=ancestor::article");
+
+  await expect(pilot_topic.getByText("disponible", { exact: true })).toBeVisible();
+  await expect(pilot_topic.getByText("sin intentos", { exact: false })).toBeVisible();
+
+  await page.goto("/ruta/cultura-digital");
+
+  const cultura_digital_topic = page
+    .getByRole("heading", { name: "elementos de la identidad digital" })
+    .locator("xpath=ancestor::article");
+
+  await expect(
+    cultura_digital_topic.getByText("disponible", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    cultura_digital_topic.getByText("sin intentos", { exact: false }),
+  ).toBeVisible();
+
+  await page.goto("/ruta/conciencia-historica");
+
+  const conciencia_historica_topic = page
+    .getByRole("heading", {
+      name: "conquista de los pueblos mesoamericanos o aridoamericanos durante los siglos xvi a xix",
+    })
+    .locator("xpath=ancestor::article");
+
+  await expect(
+    conciencia_historica_topic.getByText("disponible", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    conciencia_historica_topic.getByText("sin intentos", { exact: false }),
+  ).toBeVisible();
+});
+
+test("la práctica de un tema de humanidades se puede responder en pantalla móvil", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 375, height: 667 });
+  await page.goto("/practica/hu-4-1-4-doxa-y-episteme");
+
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("doxa y episteme");
+  await expect(page.getByText("pregunta 1 de 5")).toBeVisible();
+
+  await answer_topic_question(
+    page,
+    "a doxa, porque se sostiene por costumbre y no por un fundamento verificable",
+    "siguiente pregunta",
+  );
 
   await expect(page.getByText("pregunta 2 de 5")).toBeVisible();
 });

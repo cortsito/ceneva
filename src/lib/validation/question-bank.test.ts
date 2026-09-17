@@ -6,6 +6,7 @@ import { describe, expect, it } from "vitest";
 
 import { conciencia_historica_questions } from "@content/questions/conciencia-historica";
 import { cultura_digital_questions } from "@content/questions/cultura-digital";
+import { humanidades_questions } from "@content/questions/humanidades";
 import { pensamiento_matematico_questions } from "@content/questions/pensamiento-matematico";
 
 import {
@@ -290,5 +291,126 @@ describe("conciencia histórica question bank — ch-3-1-mexico-antiguo-y-virrei
 
     expect(has_ordering).toBe(true);
     expect(has_relation).toBe(true);
+  });
+});
+
+const hu_4_1_reserved_ids: Record<string, string[]> = {
+  "hu-filosofia-mito-y-ciencia-01": [
+    "hu-fmc-001",
+    "hu-fmc-002",
+    "hu-fmc-003",
+    "hu-fmc-004",
+    "hu-fmc-005",
+  ],
+  "hu-pensamiento-critico-01": [
+    "hu-pc-001",
+    "hu-pc-002",
+    "hu-pc-003",
+    "hu-pc-004",
+    "hu-pc-005",
+  ],
+  "hu-pensamiento-existencialista-01": [
+    "hu-pe-001",
+    "hu-pe-002",
+    "hu-pe-003",
+    "hu-pe-004",
+    "hu-pe-005",
+  ],
+  "hu-doxa-y-episteme-01": [
+    "hu-de-001",
+    "hu-de-002",
+    "hu-de-003",
+    "hu-de-004",
+    "hu-de-005",
+  ],
+};
+
+const hu_4_1_lesson_directory = path.join(
+  process.cwd(),
+  "content",
+  "lessons",
+  "humanidades",
+  "hu-4-1-fundamentos-del-pensamiento-filosofico",
+);
+
+async function read_hu_lesson_frontmatter(
+  lesson_id: string,
+): Promise<{ topic_id: string; question_ids: string[] }> {
+  const file_path = path.join(hu_4_1_lesson_directory, `${lesson_id}.md`);
+  const raw = await readFile(file_path, "utf-8");
+  const { data } = matter(raw);
+
+  return {
+    topic_id: data["topic-id"],
+    question_ids: data["question-ids"],
+  };
+}
+
+describe("humanidades question bank — hu-4-1-fundamentos-del-pensamiento-filosofico", () => {
+  it("has exactly twenty records", () => {
+    expect(humanidades_questions).toHaveLength(20);
+  });
+
+  it("has exactly the reserved ids for each lesson, five per lesson, no extra records", async () => {
+    const by_id = new Map(
+      humanidades_questions.map((question) => [question.id, question]),
+    );
+    const all_expected_ids = Object.values(hu_4_1_reserved_ids).flat();
+
+    expect(new Set(humanidades_questions.map((question) => question.id))).toEqual(
+      new Set(all_expected_ids),
+    );
+
+    for (const [lesson_id, expected_ids] of Object.entries(hu_4_1_reserved_ids)) {
+      const lesson = await read_hu_lesson_frontmatter(lesson_id);
+
+      expect(new Set(lesson.question_ids)).toEqual(new Set(expected_ids));
+
+      const lesson_questions = expected_ids.map((id) => by_id.get(id));
+      expect(lesson_questions.every((question) => question !== undefined)).toBe(true);
+
+      for (const question of lesson_questions) {
+        expect(question?.topic_id).toBe(lesson.topic_id);
+      }
+    }
+  });
+
+  it("has no structurally invalid question — options, answer, explanation, common error, source", () => {
+    const errors = humanidades_questions.flatMap(find_invalid_options);
+    expect(errors).toEqual([]);
+  });
+
+  it("shares no id with the pensamiento matemático, cultura digital or conciencia histórica banks", () => {
+    expect(
+      find_duplicate_ids(
+        humanidades_questions,
+        conciencia_historica_questions,
+        cultura_digital_questions,
+        pensamiento_matematico_questions,
+      ),
+    ).toEqual([]);
+  });
+
+  it("every question traces to its topic's guide code on page 14", () => {
+    for (const question of humanidades_questions) {
+      const code = question.topic_id
+        .match(/^hu-(\d-\d-\d)-/)?.[1]
+        ?.replaceAll("-", ".");
+      expect(question.source_reference).toContain("página 14");
+      expect(question.source_reference).toContain(`código ${code}`);
+    }
+  });
+
+  it("includes at least one relation question per lesson", () => {
+    const grouped = group_questions_by_topic(humanidades_questions);
+
+    for (const [, questions] of grouped) {
+      const has_relation = questions.some(
+        (question) =>
+          question.options.every((option) => /^\d[a-z,\s\d]*$/.test(option)) &&
+          question.options.some((option) => /[a-z]/.test(option)),
+      );
+      expect(has_relation).toBe(true);
+    }
   });
 });

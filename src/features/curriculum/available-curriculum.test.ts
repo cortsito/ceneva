@@ -69,8 +69,35 @@ describe("get_available_unit", () => {
     ).toBeUndefined();
   });
 
+  it("resuelve la unidad de humanidades", () => {
+    const resolved = get_available_unit(
+      "humanidades",
+      "hu-4-1-fundamentos-del-pensamiento-filosofico",
+    );
+
+    expect(resolved?.area.id).toBe("humanidades");
+    expect(resolved?.unit.id).toBe("hu-4-1-fundamentos-del-pensamiento-filosofico");
+    expect(resolved?.unit.topics.map((topic) => topic.id)).toEqual([
+      "hu-4-1-1-filosofia-mito-y-ciencia",
+      "hu-4-1-2-pensamiento-critico",
+      "hu-4-1-3-pensamiento-existencialista",
+      "hu-4-1-4-doxa-y-episteme",
+    ]);
+  });
+
+  it("no resuelve una unidad de humanidades todavía sin contenido listo", () => {
+    expect(
+      get_available_unit(
+        "humanidades",
+        "hu-4-2-elementos-para-el-pensamiento-y-la-argumentacion",
+      ),
+    ).toBeUndefined();
+  });
+
   it("no resuelve un área desconocida", () => {
-    expect(get_available_unit("humanidades", "cualquier-unidad")).toBeUndefined();
+    expect(
+      get_available_unit("ciencias-naturales", "cualquier-unidad"),
+    ).toBeUndefined();
   });
 
   it("no resuelve una unidad no registrada aunque el área exista", () => {
@@ -103,10 +130,13 @@ describe("get_available_unit_for_area", () => {
     expect(get_available_unit_for_area("conciencia-historica")?.unit.id).toBe(
       "ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales",
     );
+    expect(get_available_unit_for_area("humanidades")?.unit.id).toBe(
+      "hu-4-1-fundamentos-del-pensamiento-filosofico",
+    );
   });
 
   it("no resuelve un área sin unidades de contenido listas", () => {
-    expect(get_available_unit_for_area("humanidades")).toBeUndefined();
+    expect(get_available_unit_for_area("ciencias-naturales")).toBeUndefined();
   });
 });
 
@@ -144,7 +174,18 @@ describe("get_unit_questions", () => {
     ).toHaveLength(30);
   });
 
+  it("devuelve las veinte preguntas de la unidad de humanidades", () => {
+    expect(
+      get_unit_questions(
+        "humanidades",
+        "hu-4-1-fundamentos-del-pensamiento-filosofico",
+      ),
+    ).toHaveLength(20);
+  });
+
   it("devuelve undefined para una unidad no registrada", () => {
-    expect(get_unit_questions("humanidades", "cualquier-unidad")).toBeUndefined();
+    expect(
+      get_unit_questions("ciencias-naturales", "cualquier-unidad"),
+    ).toBeUndefined();
   });
 });

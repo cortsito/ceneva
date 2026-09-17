@@ -136,6 +136,30 @@ describe("get_topic_content", () => {
     ]);
   });
 
+  it("resuelve un tema real de la unidad de humanidades", async () => {
+    const content = await get_topic_content(
+      "humanidades",
+      "hu-4-1-fundamentos-del-pensamiento-filosofico",
+      "hu-4-1-2-pensamiento-critico",
+    );
+
+    expect(content?.topic).toMatchObject({
+      id: "hu-4-1-2-pensamiento-critico",
+      title: "pensamiento crítico",
+      code: "4.1.2",
+    });
+    expect(content?.lessons).toEqual([
+      { id: "hu-pensamiento-critico-01", title: "pensamiento crítico" },
+    ]);
+    expect(content?.questions.map((item) => item.question.id)).toEqual([
+      "hu-pc-001",
+      "hu-pc-002",
+      "hu-pc-003",
+      "hu-pc-004",
+      "hu-pc-005",
+    ]);
+  });
+
   it("no resuelve un tema inexistente, de otra unidad o de una unidad no registrada", async () => {
     await expect(
       get_topic_content(
@@ -254,6 +278,22 @@ describe("get_available_topic_content", () => {
     ).toBe(true);
   });
 
+  it("resuelve el contenido de un tema de humanidades sin declarar su área ni unidad", async () => {
+    const content = await get_available_topic_content(
+      "hu-4-1-1-filosofia-mito-y-ciencia",
+    );
+
+    expect(content?.topic).toMatchObject({
+      id: "hu-4-1-1-filosofia-mito-y-ciencia",
+      title: "filosofía, mito y ciencia",
+      code: "4.1.1",
+    });
+    expect(content?.lessons).toEqual([
+      { id: "hu-filosofia-mito-y-ciencia-01", title: "filosofía, mito y ciencia" },
+    ]);
+    expect(content?.questions).toHaveLength(5);
+  });
+
   it("no resuelve un tema inexistente ni uno de una unidad no registrada", async () => {
     await expect(
       get_available_topic_content("tema-inexistente"),
@@ -265,6 +305,9 @@ describe("get_available_topic_content", () => {
       get_available_topic_content(
         "ch-3-2-1-causas-internas-y-externas-de-la-independencia",
       ),
+    ).resolves.toBeUndefined();
+    await expect(
+      get_available_topic_content("hu-4-2-1-funciones-de-la-lengua"),
     ).resolves.toBeUndefined();
   });
 });
