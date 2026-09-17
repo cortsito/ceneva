@@ -4,6 +4,7 @@ import path from "node:path";
 import matter from "gray-matter";
 import { describe, expect, it } from "vitest";
 
+import { ciencias_naturales_experimentales_y_tecnologia_questions } from "@content/questions/ciencias-naturales-experimentales-y-tecnologia";
 import { conciencia_historica_questions } from "@content/questions/conciencia-historica";
 import { cultura_digital_questions } from "@content/questions/cultura-digital";
 import { humanidades_questions } from "@content/questions/humanidades";
@@ -411,6 +412,168 @@ describe("humanidades question bank — hu-4-1-fundamentos-del-pensamiento-filos
           question.options.some((option) => /[a-z]/.test(option)),
       );
       expect(has_relation).toBe(true);
+    }
+  });
+});
+
+const cn_5_1_reserved_ids: Record<string, string[]> = {
+  "cn-tipos-de-enlaces-01": [
+    "cn-enl-001",
+    "cn-enl-002",
+    "cn-enl-003",
+    "cn-enl-004",
+    "cn-enl-005",
+  ],
+  "cn-estados-de-agregacion-01": [
+    "cn-eam-001",
+    "cn-eam-002",
+    "cn-eam-003",
+    "cn-eam-004",
+    "cn-eam-005",
+  ],
+  "cn-conservacion-de-la-materia-01": [
+    "cn-cm-001",
+    "cn-cm-002",
+    "cn-cm-003",
+    "cn-cm-004",
+    "cn-cm-005",
+  ],
+  "cn-conversion-de-temperatura-01": [
+    "cn-ct-001",
+    "cn-ct-002",
+    "cn-ct-003",
+    "cn-ct-004",
+    "cn-ct-005",
+  ],
+  "cn-ley-de-coulomb-01": [
+    "cn-lco-001",
+    "cn-lco-002",
+    "cn-lco-003",
+    "cn-lco-004",
+    "cn-lco-005",
+  ],
+};
+
+const cn_5_1_lesson_directory = path.join(
+  process.cwd(),
+  "content",
+  "lessons",
+  "ciencias-naturales-experimentales-y-tecnologia",
+  "cn-5-1-materia-y-sus-interacciones",
+);
+
+async function read_cn_lesson_frontmatter(
+  lesson_id: string,
+): Promise<{ topic_id: string; question_ids: string[] }> {
+  const file_path = path.join(cn_5_1_lesson_directory, `${lesson_id}.md`);
+  const raw = await readFile(file_path, "utf-8");
+  const { data } = matter(raw);
+
+  return {
+    topic_id: data["topic-id"],
+    question_ids: data["question-ids"],
+  };
+}
+
+describe("ciencias naturales question bank — cn-5-1-materia-y-sus-interacciones", () => {
+  it("has exactly twenty-five records", () => {
+    expect(ciencias_naturales_experimentales_y_tecnologia_questions).toHaveLength(25);
+  });
+
+  it("has exactly the reserved ids for each lesson, five per lesson, no extra records", async () => {
+    const by_id = new Map(
+      ciencias_naturales_experimentales_y_tecnologia_questions.map((question) => [
+        question.id,
+        question,
+      ]),
+    );
+    const all_expected_ids = Object.values(cn_5_1_reserved_ids).flat();
+
+    expect(
+      new Set(
+        ciencias_naturales_experimentales_y_tecnologia_questions.map(
+          (question) => question.id,
+        ),
+      ),
+    ).toEqual(new Set(all_expected_ids));
+
+    for (const [lesson_id, expected_ids] of Object.entries(cn_5_1_reserved_ids)) {
+      const lesson = await read_cn_lesson_frontmatter(lesson_id);
+
+      expect(new Set(lesson.question_ids)).toEqual(new Set(expected_ids));
+
+      const lesson_questions = expected_ids.map((id) => by_id.get(id));
+      expect(lesson_questions.every((question) => question !== undefined)).toBe(true);
+
+      for (const question of lesson_questions) {
+        expect(question?.topic_id).toBe(lesson.topic_id);
+      }
+    }
+  });
+
+  it("has no structurally invalid question — options, answer, explanation, common error, source", () => {
+    const errors =
+      ciencias_naturales_experimentales_y_tecnologia_questions.flatMap(
+        find_invalid_options,
+      );
+    expect(errors).toEqual([]);
+  });
+
+  it("shares no id with the pensamiento matemático, cultura digital, conciencia histórica or humanidades banks", () => {
+    expect(
+      find_duplicate_ids(
+        ciencias_naturales_experimentales_y_tecnologia_questions,
+        humanidades_questions,
+        conciencia_historica_questions,
+        cultura_digital_questions,
+        pensamiento_matematico_questions,
+      ),
+    ).toEqual([]);
+  });
+
+  it("every question traces to its topic's guide code on page 15", () => {
+    for (const question of ciencias_naturales_experimentales_y_tecnologia_questions) {
+      const code = question.topic_id
+        .match(/^cn-(\d-\d-\d)-/)?.[1]
+        ?.replaceAll("-", ".");
+      expect(question.source_reference).toContain("página 15");
+      expect(question.source_reference).toContain(`código ${code}`);
+    }
+  });
+
+  it("includes at least one relation and one ordering question", () => {
+    const relation_or_ordering =
+      ciencias_naturales_experimentales_y_tecnologia_questions.filter((question) =>
+        question.options.every((option) => /^\d[a-z,\s\d]*$/.test(option)),
+      );
+    const has_ordering = relation_or_ordering.some((question) =>
+      question.options.every((option) => /^[\d,\s]+$/.test(option)),
+    );
+    const has_relation = relation_or_ordering.some((question) =>
+      question.options.some((option) => /[a-z]/.test(option)),
+    );
+
+    expect(has_ordering).toBe(true);
+    expect(has_relation).toBe(true);
+  });
+
+  it("gives every calculation question a determinate, unit-labeled correct answer", () => {
+    const calculation_ids = new Set([
+      "cn-ct-001",
+      "cn-ct-002",
+      "cn-ct-003",
+      "cn-ct-004",
+      "cn-lco-001",
+      "cn-lco-002",
+      "cn-lco-003",
+      "cn-lco-005",
+    ]);
+
+    for (const question of ciencias_naturales_experimentales_y_tecnologia_questions) {
+      if (!calculation_ids.has(question.id)) continue;
+
+      expect(new Set(question.options).size).toBe(question.options.length);
+      expect(question.explanation).toMatch(/[0-9]/);
     }
   });
 });
