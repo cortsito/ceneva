@@ -7,11 +7,14 @@ const base_routes = [
   "/ruta",
   "/ruta/pensamiento-matematico",
   "/ruta/cultura-digital",
+  "/ruta/conciencia-historica",
   "/leccion/pm-tipos-de-variables-01",
   "/leccion/cd-identidad-digital-01",
+  "/leccion/ch-conquista-de-pueblos-originarios-01",
   "/practica",
   "/practica/pm-1-1-1-tipos-de-variables",
   "/practica/cd-2-1-1-elementos-de-la-identidad-digital",
+  "/practica/ch-3-1-1-conquista-de-pueblos-mesoamericanos-o-aridoamericanos",
   "/simulacro",
   "/progreso",
   "/recursos",
@@ -760,4 +763,264 @@ test("el simulacro se puede responder en pantalla móvil", async ({ page }) => {
   );
 
   await expect(page.getByText("pregunta 2 de 20")).toBeVisible();
+});
+
+const ch_movimientos_correct_options = [
+  "a la guerra de castas",
+  "yaqui",
+  "el despojo de tierras",
+  "1b, 2c, 3a",
+  "2, 3, 1, 4",
+  "felipe carrillo puerto",
+  "la danza del venado",
+  "la cuaresma y semana santa yaqui",
+  "la organización comunal en defensa de su territorio y sus recursos",
+  "1b, 2c, 3a",
+];
+
+test("la ruta de conciencia histórica muestra sus cinco temas y el tema partido en dos lecciones", async ({
+  page,
+}) => {
+  await page.goto("/ruta");
+
+  await page.getByRole("link", { name: "explorar conciencia histórica" }).click();
+
+  await expect(page).toHaveURL("/ruta/conciencia-historica");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "perspectivas del méxico antiguo y virreinal en los contextos globales",
+  );
+
+  const movimientos_topic = page
+    .getByRole("heading", {
+      name: "movimientos de resistencia de los pueblos originarios y su impacto actual",
+    })
+    .locator("xpath=ancestor::article");
+
+  await expect(movimientos_topic.getByText("bloqueado", { exact: true })).toBeVisible();
+  await expect(
+    movimientos_topic.getByRole("link", {
+      name: "estudiar resistencias de pueblos originarios",
+    }),
+  ).toBeVisible();
+  await expect(
+    movimientos_topic.getByRole("link", {
+      name: "estudiar impacto cultural de resistencias originarias",
+    }),
+  ).toBeVisible();
+
+  const conquista_topic = page
+    .getByRole("heading", {
+      name: "conquista de los pueblos mesoamericanos o aridoamericanos durante los siglos xvi a xix",
+    })
+    .locator("xpath=ancestor::article");
+
+  await expect(conquista_topic.getByText("disponible", { exact: true })).toBeVisible();
+});
+
+test("completar ambas lecciones del tema partido conciencia histórica habilita su práctica de diez preguntas con enlaces exactos por lección, persiste tras recargar y no afecta otras áreas", async ({
+  page,
+}) => {
+  await page.goto("/leccion/ch-conquista-de-pueblos-originarios-01");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "conquista de pueblos originarios",
+  );
+  await page.getByRole("button", { name: "marcar lección como completada" }).click();
+  await expect(page.getByRole("button", { name: "lección completada" })).toBeDisabled();
+
+  await page.goto("/leccion/ch-resistencias-de-pueblos-originarios-01");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "resistencias de pueblos originarios",
+  );
+  await expect(
+    page.getByRole("link", { name: "repasa ch-conquista-de-pueblos-originarios-01" }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "marcar lección como completada" }).click();
+  await expect(page.getByRole("button", { name: "lección completada" })).toBeDisabled();
+
+  await page.goto("/ruta/conciencia-historica");
+
+  const movimientos_topic = page
+    .getByRole("heading", {
+      name: "movimientos de resistencia de los pueblos originarios y su impacto actual",
+    })
+    .locator("xpath=ancestor::article");
+
+  await expect(
+    movimientos_topic.getByText("en progreso", { exact: true }),
+  ).toBeVisible();
+
+  await page.goto("/leccion/ch-impacto-cultural-de-resistencias-originarias-02");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "impacto cultural de resistencias originarias",
+  );
+  await expect(
+    page.getByRole("link", {
+      name: "repasa ch-resistencias-de-pueblos-originarios-01",
+    }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "marcar lección como completada" }).click();
+  await expect(page.getByRole("button", { name: "lección completada" })).toBeDisabled();
+
+  await page.goto(
+    "/practica/ch-3-1-2-movimientos-de-resistencia-de-pueblos-originarios",
+  );
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "movimientos de resistencia de los pueblos originarios y su impacto actual",
+  );
+  await expect(
+    page.getByText("responde las 10 preguntas de este tema", { exact: false }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "repasar resistencias de pueblos originarios" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", {
+      name: "repasar impacto cultural de resistencias originarias",
+    }),
+  ).toBeVisible();
+  await expect(page.getByText("pregunta 1 de 10")).toBeVisible();
+
+  for (const [index, option_label] of ch_movimientos_correct_options.entries()) {
+    const is_last_question = index === ch_movimientos_correct_options.length - 1;
+
+    await answer_topic_question(
+      page,
+      option_label,
+      is_last_question ? "ver resultados" : "siguiente pregunta",
+    );
+  }
+
+  await expect(
+    page.getByRole("heading", { level: 2, name: "10 de 10 respuestas correctas" }),
+  ).toBeVisible();
+
+  const results = page
+    .getByRole("list", { name: "resultado por pregunta" })
+    .getByRole("listitem");
+
+  await expect(results).toHaveCount(10);
+  await expect(
+    results
+      .nth(0)
+      .getByRole("link", { name: "repasar resistencias de pueblos originarios" }),
+  ).toBeVisible();
+  await expect(
+    results
+      .nth(4)
+      .getByRole("link", { name: "repasar resistencias de pueblos originarios" }),
+  ).toBeVisible();
+  await expect(
+    results.nth(5).getByRole("link", {
+      name: "repasar impacto cultural de resistencias originarias",
+    }),
+  ).toBeVisible();
+  await expect(
+    results.nth(9).getByRole("link", {
+      name: "repasar impacto cultural de resistencias originarias",
+    }),
+  ).toBeVisible();
+
+  await expect(
+    page.getByRole("link", { name: "volver a resistencias de pueblos originarios" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", {
+      name: "volver a impacto cultural de resistencias originarias",
+    }),
+  ).toBeVisible();
+
+  await page
+    .getByRole("link", {
+      name: "volver a impacto cultural de resistencias originarias",
+    })
+    .click();
+
+  await expect(page).toHaveURL(
+    "/leccion/ch-impacto-cultural-de-resistencias-originarias-02",
+  );
+
+  await page.goto("/ruta/conciencia-historica");
+
+  const dominated_topic = page
+    .getByRole("heading", {
+      name: "movimientos de resistencia de los pueblos originarios y su impacto actual",
+    })
+    .locator("xpath=ancestor::article");
+
+  await expect(dominated_topic.getByText("dominado", { exact: true })).toBeVisible();
+
+  await page.reload();
+
+  await expect(dominated_topic.getByText("dominado", { exact: true })).toBeVisible();
+
+  await page.goto("/ruta/pensamiento-matematico");
+
+  const pilot_topic = page
+    .getByRole("heading", { name: "tipos de variables" })
+    .locator("xpath=ancestor::article");
+
+  await expect(pilot_topic.getByText("disponible", { exact: true })).toBeVisible();
+  await expect(pilot_topic.getByText("sin intentos", { exact: false })).toBeVisible();
+
+  await page.goto("/ruta/cultura-digital");
+
+  const cultura_digital_topic = page
+    .getByRole("heading", { name: "elementos de la identidad digital" })
+    .locator("xpath=ancestor::article");
+
+  await expect(
+    cultura_digital_topic.getByText("disponible", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    cultura_digital_topic.getByText("sin intentos", { exact: false }),
+  ).toBeVisible();
+});
+
+test("la práctica del tema partido conciencia histórica responde desde el teclado sin revelar aciertos antes de tiempo", async ({
+  page,
+}) => {
+  await page.goto(
+    "/practica/ch-3-1-2-movimientos-de-resistencia-de-pueblos-originarios",
+  );
+
+  await expect(page.getByText("pregunta 1 de 10")).toBeVisible();
+
+  await answer_topic_question(page, "a la guerra de castas", "siguiente pregunta");
+
+  await expect(page.getByText("pregunta 2 de 10")).toBeVisible();
+  await expect(page.getByText("correcto", { exact: false })).toHaveCount(0);
+
+  const second_question_option = page.getByRole("radio", { name: "usumacinta" });
+
+  await expect(second_question_option).toBeEnabled();
+  await second_question_option.focus();
+  await page.keyboard.press("ArrowDown");
+
+  await expect(page.getByRole("radio", { name: "yaqui" })).toBeChecked();
+
+  await page.getByRole("button", { name: "confirmar respuesta" }).click();
+
+  await expect(page.getByRole("status").first()).toContainText("correcto.");
+
+  await page.getByRole("button", { name: "siguiente pregunta" }).click();
+
+  await expect(page.getByText("pregunta 3 de 10")).toBeVisible();
+});
+
+test("la práctica de un tema de una sola lección de conciencia histórica se puede responder en pantalla móvil", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 375, height: 667 });
+  await page.goto(
+    "/practica/ch-3-1-1-conquista-de-pueblos-mesoamericanos-o-aridoamericanos",
+  );
+
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "conquista de los pueblos mesoamericanos o aridoamericanos durante los siglos xvi a xix",
+  );
+  await expect(page.getByText("pregunta 1 de 5")).toBeVisible();
+
+  await answer_topic_question(page, "a los purépechas", "siguiente pregunta");
+
+  await expect(page.getByText("pregunta 2 de 5")).toBeVisible();
 });

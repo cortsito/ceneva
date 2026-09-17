@@ -151,18 +151,14 @@ export async function get_unit_topic_practice(
   };
 }
 
-export async function get_available_topic_practice(
+export async function get_available_topic_content(
   topic_id: string,
-): Promise<unit_topic_practice | undefined> {
+): Promise<topic_content | undefined> {
   for (const entry of available_units) {
-    const practice = await get_unit_topic_practice(
-      entry.area_id,
-      entry.unit_id,
-      topic_id,
-    );
+    const content = await get_topic_content(entry.area_id, entry.unit_id, topic_id);
 
-    if (practice) {
-      return practice;
+    if (content) {
+      return content;
     }
   }
 

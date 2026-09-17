@@ -56,6 +56,75 @@ describe("get_unit_lessons", () => {
     expect(identidad?.body).toContain("# identidad digital");
   });
 
+  it("carga las seis lecciones de la unidad de conciencia histórica, incluyendo el tema partido en dos", async () => {
+    const lessons = await get_unit_lessons(
+      "conciencia-historica",
+      "ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales",
+    );
+
+    expect(lessons).toHaveLength(6);
+    expect(lessons.map((lesson) => lesson.id).sort()).toEqual(
+      [
+        "ch-conquista-de-pueblos-originarios-01",
+        "ch-resistencias-de-pueblos-originarios-01",
+        "ch-impacto-cultural-de-resistencias-originarias-02",
+        "ch-grupos-sociales-de-la-nueva-espana-01",
+        "ch-origen-del-patrimonio-historico-01",
+        "ch-preservacion-del-patrimonio-historico-01",
+      ].sort(),
+    );
+
+    const resistencias = lessons.find(
+      (lesson) => lesson.id === "ch-resistencias-de-pueblos-originarios-01",
+    );
+    const impacto_cultural = lessons.find(
+      (lesson) => lesson.id === "ch-impacto-cultural-de-resistencias-originarias-02",
+    );
+
+    expect(resistencias).toMatchObject({
+      area_id: "conciencia-historica",
+      unit_id: "ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales",
+      topic_id: "ch-3-1-2-movimientos-de-resistencia-de-pueblos-originarios",
+      title: "resistencias de pueblos originarios",
+      prerequisites: ["ch-conquista-de-pueblos-originarios-01"],
+      question_ids: [
+        "ch-rpo-001",
+        "ch-rpo-002",
+        "ch-rpo-003",
+        "ch-rpo-004",
+        "ch-rpo-005",
+      ],
+      source: { guide: "docs/guiaoficial.pdf", page: 13, code: "3.1.2" },
+    });
+    expect(impacto_cultural).toMatchObject({
+      area_id: "conciencia-historica",
+      unit_id: "ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales",
+      topic_id: "ch-3-1-2-movimientos-de-resistencia-de-pueblos-originarios",
+      title: "impacto cultural de resistencias originarias",
+      prerequisites: ["ch-resistencias-de-pueblos-originarios-01"],
+      question_ids: [
+        "ch-icr-001",
+        "ch-icr-002",
+        "ch-icr-003",
+        "ch-icr-004",
+        "ch-icr-005",
+      ],
+    });
+    expect(resistencias?.topic_id).toBe(impacto_cultural?.topic_id);
+
+    const origen = lessons.find(
+      (lesson) => lesson.id === "ch-origen-del-patrimonio-historico-01",
+    );
+    const preservacion = lessons.find(
+      (lesson) => lesson.id === "ch-preservacion-del-patrimonio-historico-01",
+    );
+
+    expect(origen?.prerequisites).toEqual([]);
+    expect(preservacion?.prerequisites).toEqual([
+      "ch-origen-del-patrimonio-historico-01",
+    ]);
+  });
+
   it("no expone lecciones ajenas a una unidad registrada", async () => {
     await expect(
       get_unit_lesson(
@@ -102,6 +171,17 @@ describe("get_available_lesson", () => {
       id: "cd-identidad-digital-01",
       area_id: "cultura-digital",
       unit_id: "cd-2-1-ciudadania-digital",
+    });
+
+    const conciencia_historica_lesson = await get_available_lesson(
+      "ch-impacto-cultural-de-resistencias-originarias-02",
+    );
+
+    expect(conciencia_historica_lesson).toMatchObject({
+      id: "ch-impacto-cultural-de-resistencias-originarias-02",
+      area_id: "conciencia-historica",
+      unit_id: "ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales",
+      topic_id: "ch-3-1-2-movimientos-de-resistencia-de-pueblos-originarios",
     });
   });
 

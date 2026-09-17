@@ -32,6 +32,43 @@ describe("get_available_unit", () => {
     ]);
   });
 
+  it("resuelve la unidad de conciencia histórica, incluyendo su tema con dos lecciones", () => {
+    const resolved = get_available_unit(
+      "conciencia-historica",
+      "ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales",
+    );
+
+    expect(resolved?.area.id).toBe("conciencia-historica");
+    expect(resolved?.unit.id).toBe(
+      "ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales",
+    );
+    expect(resolved?.unit.topics.map((topic) => topic.id)).toEqual([
+      "ch-3-1-1-conquista-de-pueblos-mesoamericanos-o-aridoamericanos",
+      "ch-3-1-2-movimientos-de-resistencia-de-pueblos-originarios",
+      "ch-3-1-3-grupos-sociales-de-la-nueva-espana",
+      "ch-3-1-4-origen-del-patrimonio-prehispanico-y-virreinal",
+      "ch-3-1-5-preservacion-del-patrimonio-prehispanico-y-virreinal",
+    ]);
+    expect(
+      resolved?.unit.topics.find(
+        (topic) =>
+          topic.id === "ch-3-1-2-movimientos-de-resistencia-de-pueblos-originarios",
+      )?.lesson_ids,
+    ).toEqual([
+      "ch-resistencias-de-pueblos-originarios-01",
+      "ch-impacto-cultural-de-resistencias-originarias-02",
+    ]);
+  });
+
+  it("no resuelve una unidad de conciencia histórica todavía sin contenido listo", () => {
+    expect(
+      get_available_unit(
+        "conciencia-historica",
+        "ch-3-2-mexico-durante-el-expansionismo-capitalista",
+      ),
+    ).toBeUndefined();
+  });
+
   it("no resuelve un área desconocida", () => {
     expect(get_available_unit("humanidades", "cualquier-unidad")).toBeUndefined();
   });
@@ -63,6 +100,9 @@ describe("get_available_unit_for_area", () => {
     expect(get_available_unit_for_area("cultura-digital")?.unit.id).toBe(
       "cd-2-1-ciudadania-digital",
     );
+    expect(get_available_unit_for_area("conciencia-historica")?.unit.id).toBe(
+      "ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales",
+    );
   });
 
   it("no resuelve un área sin unidades de contenido listas", () => {
@@ -93,6 +133,15 @@ describe("get_unit_questions", () => {
     expect(
       get_unit_questions("cultura-digital", "cd-2-1-ciudadania-digital"),
     ).toHaveLength(25);
+  });
+
+  it("devuelve las treinta preguntas de la unidad de conciencia histórica", () => {
+    expect(
+      get_unit_questions(
+        "conciencia-historica",
+        "ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales",
+      ),
+    ).toHaveLength(30);
   });
 
   it("devuelve undefined para una unidad no registrada", () => {

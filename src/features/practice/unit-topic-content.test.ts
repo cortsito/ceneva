@@ -5,7 +5,7 @@ import type { question } from "@content/questions/types";
 import type { lesson } from "@/features/lesson/unit-lessons";
 
 import {
-  get_available_topic_practice,
+  get_available_topic_content,
   get_topic_content,
   resolve_topic_questions,
 } from "./unit-topic-content";
@@ -159,29 +159,81 @@ describe("get_topic_content", () => {
       ),
     ).resolves.toBeUndefined();
   });
+
+  it("atribuye cada una de las diez preguntas del tema real ch-3-1-2 a su lección declarante exacta", async () => {
+    const content = await get_topic_content(
+      "conciencia-historica",
+      "ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales",
+      "ch-3-1-2-movimientos-de-resistencia-de-pueblos-originarios",
+    );
+
+    expect(content?.lessons).toEqual([
+      {
+        id: "ch-resistencias-de-pueblos-originarios-01",
+        title: "resistencias de pueblos originarios",
+      },
+      {
+        id: "ch-impacto-cultural-de-resistencias-originarias-02",
+        title: "impacto cultural de resistencias originarias",
+      },
+    ]);
+    expect(content?.questions).toHaveLength(10);
+
+    const by_lesson = new Map(
+      content?.questions.map((item) => [item.question.id, item.lesson.id]),
+    );
+
+    for (const id of [
+      "ch-rpo-001",
+      "ch-rpo-002",
+      "ch-rpo-003",
+      "ch-rpo-004",
+      "ch-rpo-005",
+    ]) {
+      expect(by_lesson.get(id)).toBe("ch-resistencias-de-pueblos-originarios-01");
+    }
+    for (const id of [
+      "ch-icr-001",
+      "ch-icr-002",
+      "ch-icr-003",
+      "ch-icr-004",
+      "ch-icr-005",
+    ]) {
+      expect(by_lesson.get(id)).toBe(
+        "ch-impacto-cultural-de-resistencias-originarias-02",
+      );
+    }
+  });
 });
 
-describe("get_available_topic_practice", () => {
-  it("resuelve la práctica de un tema piloto sin declarar su área ni unidad", async () => {
-    const practice = await get_available_topic_practice("pm-1-1-1-tipos-de-variables");
+describe("get_available_topic_content", () => {
+  it("resuelve el contenido de un tema piloto de una sola lección sin declarar su área ni unidad", async () => {
+    const content = await get_available_topic_content("pm-1-1-1-tipos-de-variables");
 
-    expect(practice?.topic.id).toBe("pm-1-1-1-tipos-de-variables");
-    expect(practice?.lesson.id).toBe("pm-tipos-de-variables-01");
-    expect(practice?.questions).toHaveLength(5);
+    expect(content?.topic.id).toBe("pm-1-1-1-tipos-de-variables");
+    expect(content?.lessons).toEqual([
+      { id: "pm-tipos-de-variables-01", title: "variables estadísticas" },
+    ]);
+    expect(content?.questions).toHaveLength(5);
   });
 
-  it("resuelve la práctica de un tema de cultura digital sin declarar su área ni unidad", async () => {
-    const practice = await get_available_topic_practice(
+  it("resuelve el contenido de un tema de cultura digital sin declarar su área ni unidad", async () => {
+    const content = await get_available_topic_content(
       "cd-2-1-4-tipos-de-amenazas-de-seguridad-digital",
     );
 
-    expect(practice?.topic).toMatchObject({
+    expect(content?.topic).toMatchObject({
       id: "cd-2-1-4-tipos-de-amenazas-de-seguridad-digital",
       title: "tipos de amenazas de seguridad digital",
       code: "2.1.4",
     });
-    expect(practice?.lesson.id).toBe("cd-amenazas-de-seguridad-digital-01");
-    expect(practice?.questions.map((question) => question.id)).toEqual([
+    expect(content?.lessons).toEqual([
+      {
+        id: "cd-amenazas-de-seguridad-digital-01",
+        title: "amenazas de seguridad digital",
+      },
+    ]);
+    expect(content?.questions.map((item) => item.question.id)).toEqual([
       "cd-asd-001",
       "cd-asd-002",
       "cd-asd-003",
@@ -190,12 +242,29 @@ describe("get_available_topic_practice", () => {
     ]);
   });
 
+  it("resuelve el contenido dinámico de diez preguntas del tema real ch-3-1-2 con sus dos lecciones", async () => {
+    const content = await get_available_topic_content(
+      "ch-3-1-2-movimientos-de-resistencia-de-pueblos-originarios",
+    );
+
+    expect(content?.lessons).toHaveLength(2);
+    expect(content?.questions).toHaveLength(10);
+    expect(
+      content?.questions.every((item) => item.question.topic_id === content.topic.id),
+    ).toBe(true);
+  });
+
   it("no resuelve un tema inexistente ni uno de una unidad no registrada", async () => {
     await expect(
-      get_available_topic_practice("tema-inexistente"),
+      get_available_topic_content("tema-inexistente"),
     ).resolves.toBeUndefined();
     await expect(
-      get_available_topic_practice("cd-2-2-1-definicion-del-ciberespacio"),
+      get_available_topic_content("cd-2-2-1-definicion-del-ciberespacio"),
+    ).resolves.toBeUndefined();
+    await expect(
+      get_available_topic_content(
+        "ch-3-2-1-causas-internas-y-externas-de-la-independencia",
+      ),
     ).resolves.toBeUndefined();
   });
 });

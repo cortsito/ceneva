@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 
-import type { question } from "@content/questions/types";
+import type { topic_question } from "./unit-topic-content";
 
 type submitted_answer = {
   selected_option_index: number;
@@ -11,8 +11,8 @@ type submitted_answer = {
 };
 
 type topic_practice_check_props = {
-  questions: question[];
-  lesson: { id: string; title: string };
+  questions: topic_question[];
+  lessons: { id: string; title: string }[];
   is_ready?: boolean;
   on_submit_answer?: (answer: {
     question_id: string;
@@ -21,9 +21,24 @@ type topic_practice_check_props = {
   }) => void;
 };
 
+function unique_lessons(
+  lessons: { id: string; title: string }[],
+): { id: string; title: string }[] {
+  const seen = new Set<string>();
+
+  return lessons.filter((lesson) => {
+    if (seen.has(lesson.id)) {
+      return false;
+    }
+
+    seen.add(lesson.id);
+    return true;
+  });
+}
+
 export function TopicPracticeCheck({
   questions,
-  lesson,
+  lessons,
   is_ready = true,
   on_submit_answer,
 }: topic_practice_check_props) {
@@ -33,12 +48,13 @@ export function TopicPracticeCheck({
   );
   const [answers, set_answers] = useState<Record<string, submitted_answer>>({});
 
-  const current_question = questions[current_index];
   const is_finished = current_index >= questions.length;
+  const related_lessons = unique_lessons(lessons);
+  const has_multiple_lessons = related_lessons.length > 1;
 
   if (is_finished) {
     const correct_count = questions.filter(
-      (question) => answers[question.id]?.is_correct,
+      (item) => answers[item.question.id]?.is_correct,
     ).length;
 
     return (
@@ -50,7 +66,7 @@ export function TopicPracticeCheck({
           {correct_count} de {questions.length} respuestas correctas
         </h2>
         <ol className="mt-6 space-y-6" aria-label="resultado por pregunta">
-          {questions.map((question, question_index) => {
+          {questions.map(({ question, lesson }, question_index) => {
             const answer = answers[question.id];
 
             if (!answer) {
@@ -85,21 +101,35 @@ export function TopicPracticeCheck({
                   <p className="mt-2 leading-6 text-slate-700">
                     {question.explanation}
                   </p>
+                  {has_multiple_lessons ? (
+                    <Link
+                      className="mt-3 inline-block text-sm font-semibold text-teal-800 underline decoration-teal-300 underline-offset-4 transition-colors hover:text-teal-950 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-700"
+                      href={`/leccion/${lesson.id}`}
+                    >
+                      repasar {lesson.title}
+                    </Link>
+                  ) : null}
                 </article>
               </li>
             );
           })}
         </ol>
-        <Link
-          className="mt-6 inline-block rounded-md bg-teal-700 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-teal-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
-          href={`/leccion/${lesson.id}`}
-        >
-          volver a {lesson.title}
-        </Link>
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          {related_lessons.map((lesson) => (
+            <Link
+              className="inline-block w-fit rounded-md bg-teal-700 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-teal-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
+              href={`/leccion/${lesson.id}`}
+              key={lesson.id}
+            >
+              volver a {lesson.title}
+            </Link>
+          ))}
+        </div>
       </section>
     );
   }
 
+  const current_question = questions[current_index].question;
   const answer = answers[current_question.id];
   const has_submitted = answer !== undefined;
 

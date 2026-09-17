@@ -4,6 +4,7 @@ import path from "node:path";
 import matter from "gray-matter";
 import { describe, expect, it } from "vitest";
 
+import { conciencia_historica_questions } from "@content/questions/conciencia-historica";
 import { cultura_digital_questions } from "@content/questions/cultura-digital";
 import { pensamiento_matematico_questions } from "@content/questions/pensamiento-matematico";
 
@@ -139,5 +140,155 @@ describe("cultura digital question bank — cd-2-1-ciudadania-digital", () => {
     );
 
     expect(has_relation_or_ordering).toBe(true);
+  });
+});
+
+const ch_3_1_reserved_ids: Record<string, string[]> = {
+  "ch-conquista-de-pueblos-originarios-01": [
+    "ch-cpo-001",
+    "ch-cpo-002",
+    "ch-cpo-003",
+    "ch-cpo-004",
+    "ch-cpo-005",
+  ],
+  "ch-resistencias-de-pueblos-originarios-01": [
+    "ch-rpo-001",
+    "ch-rpo-002",
+    "ch-rpo-003",
+    "ch-rpo-004",
+    "ch-rpo-005",
+  ],
+  "ch-impacto-cultural-de-resistencias-originarias-02": [
+    "ch-icr-001",
+    "ch-icr-002",
+    "ch-icr-003",
+    "ch-icr-004",
+    "ch-icr-005",
+  ],
+  "ch-grupos-sociales-de-la-nueva-espana-01": [
+    "ch-gsn-001",
+    "ch-gsn-002",
+    "ch-gsn-003",
+    "ch-gsn-004",
+    "ch-gsn-005",
+  ],
+  "ch-origen-del-patrimonio-historico-01": [
+    "ch-oph-001",
+    "ch-oph-002",
+    "ch-oph-003",
+    "ch-oph-004",
+    "ch-oph-005",
+  ],
+  "ch-preservacion-del-patrimonio-historico-01": [
+    "ch-pph-001",
+    "ch-pph-002",
+    "ch-pph-003",
+    "ch-pph-004",
+    "ch-pph-005",
+  ],
+};
+
+const ch_3_1_lesson_directory = path.join(
+  process.cwd(),
+  "content",
+  "lessons",
+  "conciencia-historica",
+  "ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales",
+);
+
+async function read_ch_lesson_frontmatter(
+  lesson_id: string,
+): Promise<{ topic_id: string; question_ids: string[] }> {
+  const file_path = path.join(ch_3_1_lesson_directory, `${lesson_id}.md`);
+  const raw = await readFile(file_path, "utf-8");
+  const { data } = matter(raw);
+
+  return {
+    topic_id: data["topic-id"],
+    question_ids: data["question-ids"],
+  };
+}
+
+describe("conciencia histórica question bank — ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales", () => {
+  it("has exactly thirty records", () => {
+    expect(conciencia_historica_questions).toHaveLength(30);
+  });
+
+  it("has exactly the reserved ids for each lesson, five per lesson, no extra records", async () => {
+    const by_id = new Map(
+      conciencia_historica_questions.map((question) => [question.id, question]),
+    );
+    const all_expected_ids = Object.values(ch_3_1_reserved_ids).flat();
+
+    expect(
+      new Set(conciencia_historica_questions.map((question) => question.id)),
+    ).toEqual(new Set(all_expected_ids));
+
+    for (const [lesson_id, expected_ids] of Object.entries(ch_3_1_reserved_ids)) {
+      const lesson = await read_ch_lesson_frontmatter(lesson_id);
+
+      expect(new Set(lesson.question_ids)).toEqual(new Set(expected_ids));
+
+      const lesson_questions = expected_ids.map((id) => by_id.get(id));
+      expect(lesson_questions.every((question) => question !== undefined)).toBe(true);
+
+      for (const question of lesson_questions) {
+        expect(question?.topic_id).toBe(lesson.topic_id);
+      }
+    }
+  });
+
+  it("gives topic ch-3-1-2 exactly ten questions, split across its two declaring lessons", () => {
+    const grouped = group_questions_by_topic(conciencia_historica_questions);
+    const topic_3_1_2 =
+      grouped.get("ch-3-1-2-movimientos-de-resistencia-de-pueblos-originarios") ?? [];
+
+    const expected_ids = new Set([
+      ...ch_3_1_reserved_ids["ch-resistencias-de-pueblos-originarios-01"],
+      ...ch_3_1_reserved_ids["ch-impacto-cultural-de-resistencias-originarias-02"],
+    ]);
+
+    expect(topic_3_1_2).toHaveLength(10);
+    expect(new Set(topic_3_1_2.map((question) => question.id))).toEqual(expected_ids);
+  });
+
+  it("has no structurally invalid question — options, answer, explanation, common error, source", () => {
+    const errors = conciencia_historica_questions.flatMap(find_invalid_options);
+    expect(errors).toEqual([]);
+  });
+
+  it("shares no id with the pensamiento matemático or cultura digital banks", () => {
+    expect(
+      find_duplicate_ids(
+        conciencia_historica_questions,
+        cultura_digital_questions,
+        pensamiento_matematico_questions,
+      ),
+    ).toEqual([]);
+  });
+
+  it("every question traces to its topic's guide code on page 13", () => {
+    for (const question of conciencia_historica_questions) {
+      const code = question.topic_id
+        .match(/^ch-(\d-\d-\d)-/)?.[1]
+        ?.replaceAll("-", ".");
+      expect(question.source_reference).toContain("página 13");
+      expect(question.source_reference).toContain(`código ${code}`);
+    }
+  });
+
+  it("includes at least one relation and one ordering question", () => {
+    const relation_or_ordering = conciencia_historica_questions.filter((question) =>
+      question.options.every((option) => /^\d[a-z,\s\d]*$/.test(option)),
+    );
+    const has_ordering = relation_or_ordering.some((question) =>
+      question.options.every((option) => /^[\d,\s]+$/.test(option)),
+    );
+    const has_relation = relation_or_ordering.some((question) =>
+      question.options.some((option) => /[a-z]/.test(option)),
+    );
+
+    expect(has_ordering).toBe(true);
+    expect(has_relation).toBe(true);
   });
 });

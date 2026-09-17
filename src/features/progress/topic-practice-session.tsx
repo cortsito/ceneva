@@ -1,18 +1,17 @@
 "use client";
 
-import type { question } from "@content/questions/types";
-
+import type { topic_question } from "@/features/practice/unit-topic-content";
 import { TopicPracticeCheck } from "@/features/practice/topic-practice-check";
 
 import { usePilotProgress } from "./use-pilot-progress";
 
 type topic_practice_session_props = {
-  lesson: { id: string; title: string };
-  questions: question[];
+  lessons: { id: string; title: string }[];
+  questions: topic_question[];
 };
 
 export function TopicPracticeSession({
-  lesson,
+  lessons,
   questions,
 }: topic_practice_session_props) {
   const { is_hydrated, record_practice_answer } = usePilotProgress();
@@ -26,7 +25,7 @@ export function TopicPracticeSession({
       ) : null}
       <TopicPracticeCheck
         is_ready={is_hydrated}
-        lesson={lesson}
+        lessons={lessons}
         on_submit_answer={record_practice_answer}
         questions={questions}
       />
