@@ -6,7 +6,8 @@ validar que una ruta guiada mejora la continuidad de estudio y la comprensión f
 ## mvp
 
 - registro simple o modo invitado con progreso local.
-- diagnóstico breve por área.
+- diagnóstico breve por área, iniciado desde un selector.
+- simulacro combinado de cobertura mvp: una pregunta por tema disponible, sin presentarlo como examen oficial completo.
 - una ruta navegable con las siete áreas.
 - lecciones interactivas para una primera unidad por área.
 - práctica por tema con feedback explicado.
@@ -28,7 +29,7 @@ validar que una ruta guiada mejora la continuidad de estudio y la comprensión f
 2. diseñar y validar la plantilla de una lección.
 3. crear una vertical completa: un área, varias lecciones y práctica conectada.
 4. implementar progreso y repaso.
-5. construir el simulador desde cero, basado en el material oficial permitido.
+5. construir el diagnóstico por área y el simulacro combinado de cobertura, basados en el material oficial permitido.
 6. expandir las demás áreas con el mismo sistema editorial, dentro del alcance del mvp.
 
 ## métricas de validación

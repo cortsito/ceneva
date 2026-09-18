@@ -1,15 +1,15 @@
 "use client";
 
-import { PilotSimulatorCheck } from "@/features/simulator/pilot-simulator-check";
-import type { pilot_simulator_item } from "@/features/simulator/pilot-simulator";
+import { SimulatorCheck } from "@/features/simulator/simulator-check";
+import type { simulator_coverage_item } from "@/features/simulator/simulator-coverage";
 
 import { usePilotProgress } from "./use-pilot-progress";
 
-type pilot_simulator_session_props = {
-  items: pilot_simulator_item[];
+type simulator_session_props = {
+  items: simulator_coverage_item[];
 };
 
-export function PilotSimulatorSession({ items }: pilot_simulator_session_props) {
+export function SimulatorSession({ items }: simulator_session_props) {
   const { is_hydrated, record_simulator_answer } = usePilotProgress();
 
   return (
@@ -19,7 +19,7 @@ export function PilotSimulatorSession({ items }: pilot_simulator_session_props) 
           cargando tu avance local.
         </p>
       ) : null}
-      <PilotSimulatorCheck
+      <SimulatorCheck
         is_ready={is_hydrated}
         items={items}
         on_submit_answer={record_simulator_answer}

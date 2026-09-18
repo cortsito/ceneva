@@ -1,23 +1,21 @@
 import type { topic_progress } from "@/features/progress/pilot-progress";
 
-import type { pilot_diagnostic_item } from "./pilot-diagnostic";
+import type { area_diagnostic_item } from "./area-diagnostic";
 
-export type pilot_diagnostic_answer = {
+export type diagnostic_answer = {
   question_id: string;
   selected_option_index: number;
   is_correct: boolean;
 };
 
-export type pilot_diagnostic_recommendation = {
+export type diagnostic_recommendation = {
   topic_id: string;
   topic_title: string;
   lesson_id: string;
   lesson_title: string;
 };
 
-function to_recommendation(
-  item: pilot_diagnostic_item,
-): pilot_diagnostic_recommendation {
+function to_recommendation(item: area_diagnostic_item): diagnostic_recommendation {
   return {
     topic_id: item.topic.id,
     topic_title: item.topic.title,
@@ -26,11 +24,11 @@ function to_recommendation(
   };
 }
 
-export function get_pilot_diagnostic_recommendation(
-  items: pilot_diagnostic_item[],
-  answers: Record<string, pilot_diagnostic_answer>,
+export function get_diagnostic_recommendation(
+  items: area_diagnostic_item[],
+  answers: Record<string, diagnostic_answer>,
   topics: topic_progress[],
-): pilot_diagnostic_recommendation {
+): diagnostic_recommendation {
   const first_incorrect_item = items.find(
     (item) => answers[item.question.id]?.is_correct === false,
   );

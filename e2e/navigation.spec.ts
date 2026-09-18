@@ -4,6 +4,8 @@ const base_routes = [
   "/",
   "/onboarding",
   "/diagnostico",
+  "/diagnostico/pensamiento-matematico",
+  "/diagnostico/cultura-digital",
   "/ruta",
   "/ruta/pensamiento-matematico",
   "/ruta/cultura-digital",
@@ -663,7 +665,7 @@ async function answer_diagnostic_question(
 }
 
 async function complete_pilot_diagnostic(page: Page) {
-  await page.goto("/diagnostico");
+  await page.goto("/diagnostico/pensamiento-matematico");
 
   for (const [index, option_label] of diagnostic_correct_options.entries()) {
     const is_last_question = index === diagnostic_correct_options.length - 1;
@@ -676,10 +678,63 @@ async function complete_pilot_diagnostic(page: Page) {
   }
 }
 
-test("el diagnóstico responde desde el teclado y no revela resultados hasta terminar", async ({
+test("el selector de diagnóstico muestra las siete áreas disponibles y lleva a un diagnóstico por área", async ({
   page,
 }) => {
   await page.goto("/diagnostico");
+
+  await expect(
+    page.getByRole("link", { name: "empezar diagnóstico de pensamiento matemático" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "empezar diagnóstico de cultura digital" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "empezar diagnóstico de ciencias sociales" }),
+  ).toBeVisible();
+
+  await page
+    .getByRole("link", { name: "empezar diagnóstico de cultura digital" })
+    .click();
+
+  await expect(page).toHaveURL("/diagnostico/cultura-digital");
+  await expect(page.getByRole("heading", { level: 1 })).toContainText(
+    "cultura digital",
+  );
+});
+
+test("un diagnóstico de un área distinta a pensamiento matemático se resuelve y recomienda solo dentro de esa área", async ({
+  page,
+}) => {
+  await page.goto("/diagnostico/cultura-digital");
+
+  await expect(page.getByText("pregunta 1 de 5")).toBeVisible();
+
+  for (let index = 0; index < 5; index += 1) {
+    const options = await page.getByRole("radio").all();
+
+    await options[0].check();
+    await page
+      .getByRole("button", {
+        name: index === 4 ? "ver resultado" : "siguiente pregunta",
+      })
+      .click();
+  }
+
+  await expect(
+    page.getByRole("heading", { level: 2, name: "de 5 respuestas correctas" }),
+  ).toBeVisible();
+  await expect(page.getByText("tema 1 de 5", { exact: false })).toBeVisible();
+  await expect(page.getByText("tema 5 de 5", { exact: false })).toBeVisible();
+  await expect(page.getByText("pensamiento matemático", { exact: false })).toHaveCount(
+    0,
+  );
+});
+
+test("el diagnóstico responde desde el teclado y no revela resultados hasta terminar", async ({
+  page,
+}) => {
+  await page.goto("/diagnostico/pensamiento-matematico");
 
   await expect(page.getByText("pregunta 1 de 4")).toBeVisible();
 
@@ -724,7 +779,7 @@ test("completar el diagnóstico muestra resultados explicados por tema y recomie
 test("una respuesta incorrecta del diagnóstico recomienda el tema correspondiente", async ({
   page,
 }) => {
-  await page.goto("/diagnostico");
+  await page.goto("/diagnostico/pensamiento-matematico");
 
   await answer_diagnostic_question(
     page,
@@ -764,7 +819,7 @@ test("los intentos del diagnóstico persisten como historial y recargar reinicia
   await expect(topic_card.getByText("1 intentos", { exact: false })).toBeVisible();
   await expect(topic_card.getByText("precisión 100%", { exact: false })).toBeVisible();
 
-  await page.goto("/diagnostico");
+  await page.goto("/diagnostico/pensamiento-matematico");
 
   await expect(page.getByText("pregunta 1 de 4")).toBeVisible();
 
@@ -777,61 +832,98 @@ test("los intentos del diagnóstico persisten como historial y recargar reinicia
   await expect(topic_card.getByText("1 intentos", { exact: false })).toBeVisible();
 });
 
-const pilot_simulator_correct_options = [
+const simulator_coverage_correct_options = [
   "el número de llamadas recibidas en un día",
-  "categórica",
-  "cualitativa",
-  "se obtiene por medición y puede incluir fracciones",
-  "1b, 2a, 3c",
   "sistemático",
-  "estratificado",
-  "por conglomerados",
-  "una muestra de cada turno",
-  "1c, 2b, 3a",
   "`8.5`",
-  "`7`",
-  "azul",
-  "la mediana",
-  "1b, 2c, 3a",
   "`8 / 3`",
-  "`1`",
-  "el conjunto b, porque sus datos se alejan más de la media",
-  "elevar al cuadrado las diferencias, sumarlas y dividir entre el número de datos",
-  "1c, 2b, 3a",
+  "su historial de comentarios, reacciones y publicaciones en distintos servicios en línea",
+  "freeware",
+  "almacenamiento en la nube",
+  "phishing",
+  "cambiar su contraseña por una nueva y única, y habilitar la autenticación en dos factores",
+  "a los purépechas",
+  "a la guerra de castas",
+  "a los criollos",
+  "virreinal, porque se construyó durante la colonia como sede del poder virreinal",
+  "transmisión comunitaria",
+  "pensamiento mítico",
+  "sí, porque evalúa la evidencia y la fuente antes de aceptar la afirmación",
+  "sí, porque asume su libertad para decidir y su responsabilidad sobre el resultado",
+  "a doxa, porque se sostiene por costumbre y no por un fundamento verificable",
+  "iónico",
+  "líquido",
+  "sí, porque cada elemento tiene el mismo número de átomos en ambos lados: 1 calcio, 1 carbono y 3 oxígenos",
+  "68 °f",
+  "0.00899 n",
+  "importancia de las abejas para la producción de alimentos",
+  "relación causal",
+  "animal",
+  "resumen",
+  "porque su ausencia prolongada pone en riesgo su supervivencia",
+  "tierra",
+  "sector primario",
+  "renta",
+  "informal, porque no está registrado ante las instituciones correspondientes, sin importar cuánto gane",
+  "sí, porque traslada recursos de un grupo de mayor ingreso hacia otro de menor ingreso para reducir una desigualdad",
+  "sí, porque es un sistema de seguridad social universal y sostenido con gasto público",
+  "privatización",
+  "la práctica es la remoción de suelo sin restauración posterior, y el impacto es la erosión y la sedimentación del río cercano",
 ];
 
 async function answer_simulator_question(
   page: Page,
-  option_label: string,
+  correct_option_label: string,
   final_action_label: "siguiente pregunta" | "ver reporte",
+  answer_correctly = true,
 ) {
-  await page.getByRole("radio", { name: option_label, exact: true }).check();
+  if (answer_correctly) {
+    await page.getByRole("radio", { name: correct_option_label, exact: true }).check();
+  } else {
+    await page
+      .locator("label")
+      .filter({ hasNotText: correct_option_label })
+      .first()
+      .getByRole("radio")
+      .check();
+  }
+
   await page.getByRole("button", { name: final_action_label }).click();
 }
 
-async function complete_pilot_simulator(
+async function complete_simulator_coverage(
   page: Page,
-  option_overrides: Record<number, string> = {},
+  incorrect_indexes: number[] = [],
 ) {
   await page.goto("/simulacro");
 
-  for (const [index, default_option] of pilot_simulator_correct_options.entries()) {
-    const is_last_question = index === pilot_simulator_correct_options.length - 1;
+  for (const [index, correct_option] of simulator_coverage_correct_options.entries()) {
+    const is_last_question = index === simulator_coverage_correct_options.length - 1;
 
     await answer_simulator_question(
       page,
-      option_overrides[index] ?? default_option,
+      correct_option,
       is_last_question ? "ver reporte" : "siguiente pregunta",
+      !incorrect_indexes.includes(index),
     );
   }
 }
 
-test("el simulacro responde desde el teclado y no revela resultados hasta el reporte final", async ({
+test("el simulacro identifica la cobertura mvp antes de iniciar y responde desde el teclado sin revelar resultados", async ({
   page,
 }) => {
   await page.goto("/simulacro");
 
-  await expect(page.getByText("pregunta 1 de 20")).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1 })).toContainText(
+    "valida tu preparación en las siete áreas",
+  );
+  await expect(
+    page.getByText("simulacro de cobertura mvp", { exact: false }),
+  ).toBeVisible();
+  await expect(
+    page.getByText("no es el examen oficial completo", { exact: false }),
+  ).toBeVisible();
+  await expect(page.getByText("pregunta 1 de 36")).toBeVisible();
 
   const first_option = page.getByRole("radio", {
     name: "el peso de una mochila en kilogramos",
@@ -849,88 +941,76 @@ test("el simulacro responde desde el teclado y no revela resultados hasta el rep
 
   await page.getByRole("button", { name: "siguiente pregunta" }).click();
 
-  await expect(page.getByText("pregunta 2 de 20")).toBeVisible();
+  await expect(page.getByText("pregunta 2 de 36")).toBeVisible();
   await expect(page.getByText("correcto", { exact: false })).toHaveCount(0);
 });
 
-test("completar el simulacro con un error muestra el reporte agrupado por tema y enlaza el error a su lección", async ({
+test("completar el simulacro de cobertura con un error no-pm muestra el reporte agrupado por área y tema, enlaza el error a su lección, y los intentos persisten tras recargar", async ({
   page,
 }) => {
-  await complete_pilot_simulator(page, { 6: "por conglomerados" });
+  const servicios_digitales_index = 6;
+
+  await complete_simulator_coverage(page, [servicios_digitales_index]);
 
   await expect(
-    page.getByRole("heading", { level: 2, name: "19 de 20 respuestas correctas" }),
+    page.getByRole("heading", { level: 2, name: "35 de 36 respuestas correctas" }),
   ).toBeVisible();
 
-  const mismatched_topic = page
-    .getByText("tipos de muestra", { exact: true })
-    .locator("xpath=ancestor::article");
+  const pm_area = page
+    .getByText("pensamiento matemático", { exact: true })
+    .locator("xpath=ancestor::article[1]");
 
-  await expect(
-    mismatched_topic.getByText("4 de 5 correctas", { exact: false }),
-  ).toBeVisible();
-  await expect(
-    mismatched_topic.getByText("una universidad separa a su alumnado", {
-      exact: false,
-    }),
-  ).toBeVisible();
-  await expect(
-    mismatched_topic.getByText("tu respuesta:", { exact: false }),
-  ).toContainText("por conglomerados");
+  await expect(pm_area.getByText("4 de 4 correctas", { exact: false })).toBeVisible();
+
+  const cd_area = page
+    .getByText("cultura digital", { exact: true })
+    .locator("xpath=ancestor::article[1]");
+
+  await expect(cd_area.getByText("4 de 5 correctas", { exact: false })).toBeVisible();
+
+  const mismatched_topic = cd_area
+    .getByText("tipos de servicios digitales", { exact: true })
+    .locator("xpath=ancestor::li[1]");
+
   await expect(
     mismatched_topic.getByText("respuesta correcta:", { exact: false }),
-  ).toContainText("estratificado");
-
-  const flawless_topic = page
-    .getByText("tipos de variables", { exact: true })
-    .locator("xpath=ancestor::article");
-
-  await expect(
-    flawless_topic.getByText("respondiste correctamente todas las preguntas"),
-  ).toBeVisible();
+  ).toContainText("almacenamiento en la nube");
 
   await mismatched_topic
-    .getByRole("link", { name: "repasar tipos de muestreo" })
+    .getByRole("link", { name: "repasar servicios digitales" })
     .click();
 
-  await expect(page).toHaveURL("/leccion/pm-tipos-de-muestra-01");
-});
+  await expect(page).toHaveURL("/leccion/cd-servicios-digitales-01");
 
-test("los intentos del simulacro persisten como historial y recargar reinicia la sesión visual", async ({
-  page,
-}) => {
-  await complete_pilot_simulator(page);
-
-  await page.goto("/ruta/pensamiento-matematico");
+  await page.goto("/ruta/cultura-digital");
 
   const topic_card = page
-    .getByRole("heading", { name: "tipos de variables" })
+    .getByRole("heading", { name: "tipos de servicios digitales" })
     .locator("xpath=ancestor::article");
 
-  await expect(topic_card.getByText("5 intentos", { exact: false })).toBeVisible();
-  await expect(topic_card.getByText("precisión 100%", { exact: false })).toBeVisible();
+  await expect(topic_card.getByText("1 intentos", { exact: false })).toBeVisible();
 
   await page.goto("/simulacro");
 
-  await expect(page.getByText("pregunta 1 de 20")).toBeVisible();
+  await expect(page.getByText("pregunta 1 de 36")).toBeVisible();
 
   await page.reload();
 
-  await expect(page.getByText("pregunta 1 de 20")).toBeVisible();
+  await expect(page.getByText("pregunta 1 de 36")).toBeVisible();
 
-  await page.goto("/ruta/pensamiento-matematico");
+  await page.goto("/ruta/cultura-digital");
 
-  await expect(topic_card.getByText("5 intentos", { exact: false })).toBeVisible();
+  await expect(topic_card.getByText("1 intentos", { exact: false })).toBeVisible();
 });
 
 test("el simulacro se puede responder en pantalla móvil", async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 667 });
   await page.goto("/simulacro");
 
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "valida tu preparación.",
+  await expect(page.getByRole("heading", { level: 1 })).toContainText(
+    "valida tu preparación en las siete áreas",
   );
-  await expect(page.getByText("pregunta 1 de 20")).toBeVisible();
+  await expect(page.getByText("pregunta 1 de 36")).toBeVisible();
 
   await answer_simulator_question(
     page,
@@ -938,7 +1018,7 @@ test("el simulacro se puede responder en pantalla móvil", async ({ page }) => {
     "siguiente pregunta",
   );
 
-  await expect(page.getByText("pregunta 2 de 20")).toBeVisible();
+  await expect(page.getByText("pregunta 2 de 36")).toBeVisible();
 });
 
 const ch_movimientos_correct_options = [

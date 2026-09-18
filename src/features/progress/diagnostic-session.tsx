@@ -1,7 +1,7 @@
 "use client";
 
-import { PilotDiagnosticCheck } from "@/features/diagnostic/pilot-diagnostic-check";
-import type { pilot_diagnostic_item } from "@/features/diagnostic/pilot-diagnostic";
+import { DiagnosticCheck } from "@/features/diagnostic/diagnostic-check";
+import type { area_diagnostic_item } from "@/features/diagnostic/area-diagnostic";
 
 import {
   calculate_topic_progress,
@@ -9,15 +9,15 @@ import {
 } from "./pilot-progress";
 import { usePilotProgress } from "./use-pilot-progress";
 
-type pilot_diagnostic_session_props = {
-  items: pilot_diagnostic_item[];
+type diagnostic_session_props = {
+  items: area_diagnostic_item[];
   topic_definitions: pilot_topic_progress_definition[];
 };
 
-export function PilotDiagnosticSession({
+export function DiagnosticSession({
   items,
   topic_definitions,
-}: pilot_diagnostic_session_props) {
+}: diagnostic_session_props) {
   const { progress, is_hydrated, record_diagnostic_answer } = usePilotProgress();
   const topics = topic_definitions.map((definition) =>
     calculate_topic_progress(definition, progress),
@@ -30,7 +30,7 @@ export function PilotDiagnosticSession({
           cargando tu avance local.
         </p>
       ) : null}
-      <PilotDiagnosticCheck
+      <DiagnosticCheck
         is_ready={is_hydrated}
         items={items}
         on_submit_answer={record_diagnostic_answer}

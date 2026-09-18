@@ -1,14 +1,10 @@
-import {
-  flatten_pilot_simulator_groups,
-  get_pilot_simulator,
-} from "@/features/simulator/pilot-simulator";
-import { PilotSimulatorView } from "@/features/simulator/pilot-simulator-view";
+import { get_simulator_coverage } from "@/features/simulator/simulator-coverage";
+import { SimulatorView } from "@/features/simulator/simulator-view";
 
-export const metadata = { title: "simulacros" };
+export const metadata = { title: "simulacro" };
 
 export default async function SimulatorPage() {
-  const groups = await get_pilot_simulator();
-  const items = flatten_pilot_simulator_groups(groups);
+  const items = await get_simulator_coverage();
 
-  return <PilotSimulatorView items={items} />;
+  return <SimulatorView items={items} />;
 }

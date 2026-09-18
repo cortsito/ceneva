@@ -6,11 +6,11 @@ import type {
   topic_status,
 } from "@/features/progress/pilot-progress";
 
-import { get_pilot_diagnostic_recommendation } from "./pilot-diagnostic-recommendation";
-import type { pilot_diagnostic_answer } from "./pilot-diagnostic-recommendation";
-import type { pilot_diagnostic_item } from "./pilot-diagnostic";
+import { get_diagnostic_recommendation } from "./diagnostic-recommendation";
+import type { diagnostic_answer } from "./diagnostic-recommendation";
+import type { area_diagnostic_item } from "./area-diagnostic";
 
-function create_item(topic_id: string, question_id: string): pilot_diagnostic_item {
+function create_item(topic_id: string, question_id: string): area_diagnostic_item {
   return {
     topic: { id: topic_id, title: `tema ${topic_id}`, code: "1.1.1" },
     lesson: { id: `${topic_id}-leccion`, title: `lección ${topic_id}` },
@@ -50,11 +50,11 @@ function create_topic_progress(topic_id: string, status: topic_status): topic_pr
   };
 }
 
-function answer(question_id: string, is_correct: boolean): pilot_diagnostic_answer {
+function answer(question_id: string, is_correct: boolean): diagnostic_answer {
   return { question_id, selected_option_index: 0, is_correct };
 }
 
-describe("get_pilot_diagnostic_recommendation", () => {
+describe("get_diagnostic_recommendation", () => {
   const items = [
     create_item("t1", "q1"),
     create_item("t2", "q2"),
@@ -76,17 +76,15 @@ describe("get_pilot_diagnostic_recommendation", () => {
       q4: answer("q4", true),
     };
 
-    expect(get_pilot_diagnostic_recommendation(items, answers, all_disponible)).toEqual(
-      {
-        topic_id: "t2",
-        topic_title: "tema t2",
-        lesson_id: "t2-leccion",
-        lesson_title: "lección t2",
-      },
-    );
+    expect(get_diagnostic_recommendation(items, answers, all_disponible)).toEqual({
+      topic_id: "t2",
+      topic_title: "tema t2",
+      lesson_id: "t2-leccion",
+      lesson_title: "lección t2",
+    });
   });
 
-  it("recomienda el primer tema accesible cuando todas las respuestas son correctas", () => {
+  it("recomienda el primer tema accesible cuando todas las respuestas son correctas, sin recomendar un tema bloqueado", () => {
     const answers = {
       q1: answer("q1", true),
       q2: answer("q2", true),
@@ -100,7 +98,7 @@ describe("get_pilot_diagnostic_recommendation", () => {
       create_topic_progress("t4", "dominado"),
     ];
 
-    expect(get_pilot_diagnostic_recommendation(items, answers, topics)).toEqual({
+    expect(get_diagnostic_recommendation(items, answers, topics)).toEqual({
       topic_id: "t2",
       topic_title: "tema t2",
       lesson_id: "t2-leccion",
@@ -122,7 +120,7 @@ describe("get_pilot_diagnostic_recommendation", () => {
       create_topic_progress("t4", "bloqueado"),
     ];
 
-    expect(get_pilot_diagnostic_recommendation(items, answers, topics)).toEqual({
+    expect(get_diagnostic_recommendation(items, answers, topics)).toEqual({
       topic_id: "t1",
       topic_title: "tema t1",
       lesson_id: "t1-leccion",

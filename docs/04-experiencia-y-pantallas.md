@@ -3,8 +3,8 @@
 
 1. bienvenida breve: qué hace ceneva y cuánto tiempo puede estudiar la persona.
 2. selección de meta: fecha estimada de examen o ritmo semanal.
-3. diagnóstico opcional, pero recomendado.
-4. resultado: nivel por área y primera recomendación.
+3. diagnóstico opcional, pero recomendado: la persona elige un área.
+4. resultado breve de esa área y primera recomendación.
 5. llegada a inicio con una acción primaria: continuar mi ruta.
 
 ## inicio
@@ -45,4 +45,4 @@ debe incluir respuesta correcta, explicación, tema relacionado y acción siguie
 
 ## simulacro
 
-el flujo puede conservar la experiencia actual. la mejora importante ocurre al final: el reporte agrupa errores por tema y permite ir directamente a estudiar o practicar ese contenido.
+el mvp usa un único simulacro de cobertura: una pregunta `simulator` por cada tema de las siete unidades disponibles, en orden de área y currículo. actualmente son 36 preguntas. debe llamarse explícitamente «simulacro de cobertura mvp» y aclarar que no representa el examen oficial completo. el reporte agrupa errores por área y tema y permite ir directamente a estudiar o practicar ese contenido.

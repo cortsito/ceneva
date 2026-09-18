@@ -6,29 +6,29 @@ import Link from "next/link";
 import type { topic_progress } from "@/features/progress/pilot-progress";
 
 import {
-  get_pilot_diagnostic_recommendation,
-  type pilot_diagnostic_answer,
-} from "./pilot-diagnostic-recommendation";
-import type { pilot_diagnostic_item } from "./pilot-diagnostic";
+  get_diagnostic_recommendation,
+  type diagnostic_answer,
+} from "./diagnostic-recommendation";
+import type { area_diagnostic_item } from "./area-diagnostic";
 
-type pilot_diagnostic_check_props = {
-  items: pilot_diagnostic_item[];
+type diagnostic_check_props = {
+  items: area_diagnostic_item[];
   topics: topic_progress[];
   is_ready?: boolean;
-  on_submit_answer?: (answer: pilot_diagnostic_answer) => void;
+  on_submit_answer?: (answer: diagnostic_answer) => void;
 };
 
-export function PilotDiagnosticCheck({
+export function DiagnosticCheck({
   items,
   topics,
   is_ready = true,
   on_submit_answer,
-}: pilot_diagnostic_check_props) {
+}: diagnostic_check_props) {
   const [current_index, set_current_index] = useState(0);
   const [pending_option_index, set_pending_option_index] = useState<number | undefined>(
     undefined,
   );
-  const [answers, set_answers] = useState<Record<string, pilot_diagnostic_answer>>({});
+  const [answers, set_answers] = useState<Record<string, diagnostic_answer>>({});
 
   const is_finished = current_index >= items.length;
 
@@ -36,7 +36,7 @@ export function PilotDiagnosticCheck({
     const correct_count = items.filter(
       (item) => answers[item.question.id]?.is_correct,
     ).length;
-    const recommendation = get_pilot_diagnostic_recommendation(items, answers, topics);
+    const recommendation = get_diagnostic_recommendation(items, answers, topics);
 
     return (
       <section aria-labelledby="resultado-diagnostico" className="mt-8">
@@ -115,7 +115,7 @@ export function PilotDiagnosticCheck({
 
     const is_correct =
       pending_option_index === current_item.question.correct_option_index;
-    const answer: pilot_diagnostic_answer = {
+    const answer: diagnostic_answer = {
       question_id: current_item.question.id,
       selected_option_index: pending_option_index,
       is_correct,
