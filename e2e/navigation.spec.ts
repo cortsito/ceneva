@@ -15,12 +15,15 @@ const base_routes = [
   "/leccion/hu-filosofia-mito-y-ciencia-01",
   "/ruta/ciencias-naturales-experimentales-y-tecnologia",
   "/leccion/cn-tipos-de-enlaces-01",
+  "/ruta/lengua-y-comunicacion",
+  "/leccion/lc-titulo-del-texto-expositivo-01",
   "/practica",
   "/practica/pm-1-1-1-tipos-de-variables",
   "/practica/cd-2-1-1-elementos-de-la-identidad-digital",
   "/practica/ch-3-1-1-conquista-de-pueblos-mesoamericanos-o-aridoamericanos",
   "/practica/hu-4-1-1-filosofia-mito-y-ciencia",
   "/practica/cn-5-1-1-tipos-de-enlaces",
+  "/practica/lc-6-1-1-titulo-del-texto-expositivo",
   "/simulacro",
   "/progreso",
   "/recursos",
@@ -1404,6 +1407,188 @@ test("la práctica de un tema de ciencias naturales se puede responder en pantal
   await expect(page.getByText("pregunta 1 de 5")).toBeVisible();
 
   await answer_topic_question(page, "68 °f", "siguiente pregunta");
+
+  await expect(page.getByText("pregunta 2 de 5")).toBeVisible();
+});
+
+const lc_jmc_correct_options = [
+  "animal",
+  "sedán",
+  "2, 3, 1",
+  "4, 2, 1, 3",
+  "1b, 2a, 3c",
+];
+
+test("la ruta de lengua y comunicación muestra sus cuatro temas disponibles desde el inicio, sin prerrequisito", async ({
+  page,
+}) => {
+  await page.goto("/ruta");
+
+  await page.getByRole("link", { name: "explorar lengua y comunicación" }).click();
+
+  await expect(page).toHaveURL("/ruta/lengua-y-comunicacion");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "estrategias de comprensión lectora",
+  );
+
+  for (const topic_title of [
+    "título del texto expositivo",
+    "tipos de relaciones lógicas entre oraciones",
+    "jerarquía de la información en mapas conceptuales",
+    "tipos de formas textuales de comunicación (resumen, relato simple, reseña y comentario crítico)",
+  ]) {
+    const topic = page
+      .getByRole("heading", { name: topic_title })
+      .locator("xpath=ancestor::article");
+
+    await expect(topic.getByText("disponible", { exact: true })).toBeVisible();
+  }
+});
+
+test("completar la lección de jerarquía en mapas conceptuales habilita su práctica, cuyo resultado enlaza de vuelta y persiste como dominado tras recargar sin afectar otras áreas", async ({
+  page,
+}) => {
+  await page.goto("/leccion/lc-jerarquia-en-mapas-conceptuales-01");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "jerarquía en mapas conceptuales",
+  );
+  await expect(page.getByText("antes de continuar")).toHaveCount(0);
+  await page.getByRole("button", { name: "marcar lección como completada" }).click();
+  await expect(page.getByRole("button", { name: "lección completada" })).toBeDisabled();
+
+  await page.goto("/practica/lc-6-1-3-jerarquia-de-informacion-en-mapas-conceptuales");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "jerarquía de la información en mapas conceptuales",
+  );
+  await expect(page.getByText("pregunta 1 de 5")).toBeVisible();
+  await expect(page.getByText("correcto", { exact: false })).toHaveCount(0);
+
+  const second_option = page.getByRole("radio", { name: "reptil", exact: true });
+
+  await expect(second_option).toBeEnabled();
+  await second_option.focus();
+  await page.keyboard.press("ArrowUp");
+
+  await expect(
+    page.getByRole("radio", { name: lc_jmc_correct_options[0], exact: true }),
+  ).toBeChecked();
+
+  await page.getByRole("button", { name: "confirmar respuesta" }).click();
+  await expect(page.getByRole("status").first()).toContainText("correcto.");
+  await page.getByRole("button", { name: "siguiente pregunta" }).click();
+
+  for (const [index, option_label] of lc_jmc_correct_options.entries()) {
+    if (index === 0) {
+      continue;
+    }
+
+    const is_last_question = index === lc_jmc_correct_options.length - 1;
+
+    await answer_topic_question(
+      page,
+      option_label,
+      is_last_question ? "ver resultados" : "siguiente pregunta",
+    );
+  }
+
+  await expect(
+    page.getByRole("heading", { level: 2, name: "5 de 5 respuestas correctas" }),
+  ).toBeVisible();
+
+  await page
+    .getByRole("link", { name: "volver a jerarquía en mapas conceptuales" })
+    .click();
+
+  await expect(page).toHaveURL("/leccion/lc-jerarquia-en-mapas-conceptuales-01");
+
+  await page.goto("/ruta/lengua-y-comunicacion");
+
+  const dominated_topic = page
+    .getByRole("heading", { name: "jerarquía de la información en mapas conceptuales" })
+    .locator("xpath=ancestor::article");
+
+  await expect(dominated_topic.getByText("dominado", { exact: true })).toBeVisible();
+
+  await page.reload();
+
+  await expect(dominated_topic.getByText("dominado", { exact: true })).toBeVisible();
+
+  await page.goto("/ruta/pensamiento-matematico");
+
+  const pilot_topic = page
+    .getByRole("heading", { name: "tipos de variables" })
+    .locator("xpath=ancestor::article");
+
+  await expect(pilot_topic.getByText("disponible", { exact: true })).toBeVisible();
+  await expect(pilot_topic.getByText("sin intentos", { exact: false })).toBeVisible();
+
+  await page.goto("/ruta/cultura-digital");
+
+  const cultura_digital_topic = page
+    .getByRole("heading", { name: "elementos de la identidad digital" })
+    .locator("xpath=ancestor::article");
+
+  await expect(
+    cultura_digital_topic.getByText("disponible", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    cultura_digital_topic.getByText("sin intentos", { exact: false }),
+  ).toBeVisible();
+
+  await page.goto("/ruta/conciencia-historica");
+
+  const conciencia_historica_topic = page
+    .getByRole("heading", {
+      name: "conquista de los pueblos mesoamericanos o aridoamericanos durante los siglos xvi a xix",
+    })
+    .locator("xpath=ancestor::article");
+
+  await expect(
+    conciencia_historica_topic.getByText("disponible", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    conciencia_historica_topic.getByText("sin intentos", { exact: false }),
+  ).toBeVisible();
+
+  await page.goto("/ruta/humanidades");
+
+  const humanidades_topic = page
+    .getByRole("heading", { name: "filosofía, mito y ciencia" })
+    .locator("xpath=ancestor::article");
+
+  await expect(
+    humanidades_topic.getByText("disponible", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    humanidades_topic.getByText("sin intentos", { exact: false }),
+  ).toBeVisible();
+
+  await page.goto("/ruta/ciencias-naturales-experimentales-y-tecnologia");
+
+  const ciencias_naturales_topic = page
+    .getByRole("heading", { name: "tipos de enlaces iónico, covalente y metálico" })
+    .locator("xpath=ancestor::article");
+
+  await expect(
+    ciencias_naturales_topic.getByText("disponible", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    ciencias_naturales_topic.getByText("sin intentos", { exact: false }),
+  ).toBeVisible();
+});
+
+test("la práctica de un tema de lengua y comunicación se puede responder en pantalla móvil", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 375, height: 667 });
+  await page.goto("/practica/lc-6-1-4-formas-textuales-de-comunicacion");
+
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "tipos de formas textuales de comunicación (resumen, relato simple, reseña y comentario crítico)",
+  );
+  await expect(page.getByText("pregunta 1 de 5")).toBeVisible();
+
+  await answer_topic_question(page, "resumen", "siguiente pregunta");
 
   await expect(page.getByText("pregunta 2 de 5")).toBeVisible();
 });

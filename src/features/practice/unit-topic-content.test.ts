@@ -184,6 +184,33 @@ describe("get_topic_content", () => {
     ]);
   });
 
+  it("resuelve un tema real de la unidad de lengua y comunicación", async () => {
+    const content = await get_topic_content(
+      "lengua-y-comunicacion",
+      "lc-6-1-estrategias-de-comprension-lectora",
+      "lc-6-1-3-jerarquia-de-informacion-en-mapas-conceptuales",
+    );
+
+    expect(content?.topic).toMatchObject({
+      id: "lc-6-1-3-jerarquia-de-informacion-en-mapas-conceptuales",
+      title: "jerarquía de la información en mapas conceptuales",
+      code: "6.1.3",
+    });
+    expect(content?.lessons).toEqual([
+      {
+        id: "lc-jerarquia-en-mapas-conceptuales-01",
+        title: "jerarquía en mapas conceptuales",
+      },
+    ]);
+    expect(content?.questions.map((item) => item.question.id)).toEqual([
+      "lc-jmc-001",
+      "lc-jmc-002",
+      "lc-jmc-003",
+      "lc-jmc-004",
+      "lc-jmc-005",
+    ]);
+  });
+
   it("no resuelve un tema inexistente, de otra unidad o de una unidad no registrada", async () => {
     await expect(
       get_topic_content(
@@ -332,6 +359,22 @@ describe("get_available_topic_content", () => {
     expect(content?.questions).toHaveLength(5);
   });
 
+  it("resuelve el contenido de un tema de lengua y comunicación sin declarar su área ni unidad", async () => {
+    const content = await get_available_topic_content(
+      "lc-6-1-1-titulo-del-texto-expositivo",
+    );
+
+    expect(content?.topic).toMatchObject({
+      id: "lc-6-1-1-titulo-del-texto-expositivo",
+      title: "título del texto expositivo",
+      code: "6.1.1",
+    });
+    expect(content?.lessons).toEqual([
+      { id: "lc-titulo-del-texto-expositivo-01", title: "título del texto expositivo" },
+    ]);
+    expect(content?.questions).toHaveLength(5);
+  });
+
   it("no resuelve un tema inexistente ni uno de una unidad no registrada", async () => {
     await expect(
       get_available_topic_content("tema-inexistente"),
@@ -346,6 +389,9 @@ describe("get_available_topic_content", () => {
     ).resolves.toBeUndefined();
     await expect(
       get_available_topic_content("hu-4-2-1-funciones-de-la-lengua"),
+    ).resolves.toBeUndefined();
+    await expect(
+      get_available_topic_content("lc-6-2-1-figuras-retoricas"),
     ).resolves.toBeUndefined();
   });
 });

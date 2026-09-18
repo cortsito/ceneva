@@ -3,11 +3,13 @@ import { ciencias_naturales_experimentales_y_tecnologia } from "@content/curricu
 import { conciencia_historica } from "@content/curriculum/conciencia-historica";
 import { cultura_digital } from "@content/curriculum/cultura-digital";
 import { humanidades } from "@content/curriculum/humanidades";
+import { lengua_y_comunicacion } from "@content/curriculum/lengua-y-comunicacion";
 import { pensamiento_matematico } from "@content/curriculum/pensamiento-matematico";
 import { ciencias_naturales_experimentales_y_tecnologia_questions } from "@content/questions/ciencias-naturales-experimentales-y-tecnologia";
 import { conciencia_historica_questions } from "@content/questions/conciencia-historica";
 import { cultura_digital_questions } from "@content/questions/cultura-digital";
 import { humanidades_questions } from "@content/questions/humanidades";
+import { lengua_y_comunicacion_questions } from "@content/questions/lengua-y-comunicacion";
 import { pensamiento_matematico_questions } from "@content/questions/pensamiento-matematico";
 import type { question } from "@content/questions/types";
 
@@ -48,5 +50,11 @@ export const available_units: available_unit[] = [
     unit_id: "cn-5-1-materia-y-sus-interacciones",
     area: ciencias_naturales_experimentales_y_tecnologia,
     questions: ciencias_naturales_experimentales_y_tecnologia_questions,
+  },
+  {
+    area_id: "lengua-y-comunicacion",
+    unit_id: "lc-6-1-estrategias-de-comprension-lectora",
+    area: lengua_y_comunicacion,
+    questions: lengua_y_comunicacion_questions,
   },
 ];

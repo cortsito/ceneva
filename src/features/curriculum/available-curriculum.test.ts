@@ -120,6 +120,31 @@ describe("get_available_unit", () => {
     ).toBeUndefined();
   });
 
+  it("resuelve la unidad de lengua y comunicación, con sus cuatro temas sin prerrequisito", () => {
+    const resolved = get_available_unit(
+      "lengua-y-comunicacion",
+      "lc-6-1-estrategias-de-comprension-lectora",
+    );
+
+    expect(resolved?.area.id).toBe("lengua-y-comunicacion");
+    expect(resolved?.unit.id).toBe("lc-6-1-estrategias-de-comprension-lectora");
+    expect(resolved?.unit.topics.map((topic) => topic.id)).toEqual([
+      "lc-6-1-1-titulo-del-texto-expositivo",
+      "lc-6-1-2-relaciones-logicas-entre-oraciones",
+      "lc-6-1-3-jerarquia-de-informacion-en-mapas-conceptuales",
+      "lc-6-1-4-formas-textuales-de-comunicacion",
+    ]);
+  });
+
+  it("no resuelve una unidad de lengua y comunicación todavía sin contenido listo", () => {
+    expect(
+      get_available_unit(
+        "lengua-y-comunicacion",
+        "lc-6-2-recursos-del-analisis-literario",
+      ),
+    ).toBeUndefined();
+  });
+
   it("no resuelve un área desconocida", () => {
     expect(
       get_available_unit("ciencias-naturales", "cualquier-unidad"),
@@ -163,6 +188,9 @@ describe("get_available_unit_for_area", () => {
       get_available_unit_for_area("ciencias-naturales-experimentales-y-tecnologia")
         ?.unit.id,
     ).toBe("cn-5-1-materia-y-sus-interacciones");
+    expect(get_available_unit_for_area("lengua-y-comunicacion")?.unit.id).toBe(
+      "lc-6-1-estrategias-de-comprension-lectora",
+    );
   });
 
   it("no resuelve un área sin unidades de contenido listas", () => {
@@ -220,6 +248,15 @@ describe("get_unit_questions", () => {
         "cn-5-1-materia-y-sus-interacciones",
       ),
     ).toHaveLength(25);
+  });
+
+  it("devuelve las veinte preguntas de la unidad de lengua y comunicación", () => {
+    expect(
+      get_unit_questions(
+        "lengua-y-comunicacion",
+        "lc-6-1-estrategias-de-comprension-lectora",
+      ),
+    ).toHaveLength(20);
   });
 
   it("devuelve undefined para una unidad no registrada", () => {

@@ -8,6 +8,7 @@ import { ciencias_naturales_experimentales_y_tecnologia_questions } from "@conte
 import { conciencia_historica_questions } from "@content/questions/conciencia-historica";
 import { cultura_digital_questions } from "@content/questions/cultura-digital";
 import { humanidades_questions } from "@content/questions/humanidades";
+import { lengua_y_comunicacion_questions } from "@content/questions/lengua-y-comunicacion";
 import { pensamiento_matematico_questions } from "@content/questions/pensamiento-matematico";
 
 import {
@@ -574,6 +575,141 @@ describe("ciencias naturales question bank — cn-5-1-materia-y-sus-interaccione
 
       expect(new Set(question.options).size).toBe(question.options.length);
       expect(question.explanation).toMatch(/[0-9]/);
+    }
+  });
+});
+
+const lc_6_1_reserved_ids: Record<string, string[]> = {
+  "lc-titulo-del-texto-expositivo-01": [
+    "lc-tte-001",
+    "lc-tte-002",
+    "lc-tte-003",
+    "lc-tte-004",
+    "lc-tte-005",
+  ],
+  "lc-relaciones-logicas-entre-oraciones-01": [
+    "lc-rlo-001",
+    "lc-rlo-002",
+    "lc-rlo-003",
+    "lc-rlo-004",
+    "lc-rlo-005",
+  ],
+  "lc-jerarquia-en-mapas-conceptuales-01": [
+    "lc-jmc-001",
+    "lc-jmc-002",
+    "lc-jmc-003",
+    "lc-jmc-004",
+    "lc-jmc-005",
+  ],
+  "lc-formas-textuales-de-comunicacion-01": [
+    "lc-ftc-001",
+    "lc-ftc-002",
+    "lc-ftc-003",
+    "lc-ftc-004",
+    "lc-ftc-005",
+  ],
+};
+
+const lc_6_1_lesson_directory = path.join(
+  process.cwd(),
+  "content",
+  "lessons",
+  "lengua-y-comunicacion",
+  "lc-6-1-estrategias-de-comprension-lectora",
+);
+
+async function read_lc_lesson_frontmatter(
+  lesson_id: string,
+): Promise<{ topic_id: string; question_ids: string[] }> {
+  const file_path = path.join(lc_6_1_lesson_directory, `${lesson_id}.md`);
+  const raw = await readFile(file_path, "utf-8");
+  const { data } = matter(raw);
+
+  return {
+    topic_id: data["topic-id"],
+    question_ids: data["question-ids"],
+  };
+}
+
+describe("lengua y comunicación question bank — lc-6-1-estrategias-de-comprension-lectora", () => {
+  it("has exactly twenty records", () => {
+    expect(lengua_y_comunicacion_questions).toHaveLength(20);
+  });
+
+  it("has exactly the reserved ids for each lesson, five per lesson, no extra records", async () => {
+    const by_id = new Map(
+      lengua_y_comunicacion_questions.map((question) => [question.id, question]),
+    );
+    const all_expected_ids = Object.values(lc_6_1_reserved_ids).flat();
+
+    expect(
+      new Set(lengua_y_comunicacion_questions.map((question) => question.id)),
+    ).toEqual(new Set(all_expected_ids));
+
+    for (const [lesson_id, expected_ids] of Object.entries(lc_6_1_reserved_ids)) {
+      const lesson = await read_lc_lesson_frontmatter(lesson_id);
+
+      expect(new Set(lesson.question_ids)).toEqual(new Set(expected_ids));
+
+      const lesson_questions = expected_ids.map((id) => by_id.get(id));
+      expect(lesson_questions.every((question) => question !== undefined)).toBe(true);
+
+      for (const question of lesson_questions) {
+        expect(question?.topic_id).toBe(lesson.topic_id);
+      }
+    }
+  });
+
+  it("has no structurally invalid question — options, answer, explanation, common error, source", () => {
+    const errors = lengua_y_comunicacion_questions.flatMap(find_invalid_options);
+    expect(errors).toEqual([]);
+  });
+
+  it("shares no id with the pensamiento matemático, cultura digital, conciencia histórica, humanidades or ciencias naturales banks", () => {
+    expect(
+      find_duplicate_ids(
+        lengua_y_comunicacion_questions,
+        ciencias_naturales_experimentales_y_tecnologia_questions,
+        humanidades_questions,
+        conciencia_historica_questions,
+        cultura_digital_questions,
+        pensamiento_matematico_questions,
+      ),
+    ).toEqual([]);
+  });
+
+  it("every question traces to its topic's guide code on page 17", () => {
+    for (const question of lengua_y_comunicacion_questions) {
+      const code = question.topic_id
+        .match(/^lc-(\d-\d-\d)-/)?.[1]
+        ?.replaceAll("-", ".");
+      expect(question.source_reference).toContain("página 17");
+      expect(question.source_reference).toContain(`código ${code}`);
+    }
+  });
+
+  it("includes a real general-to-particular ordering question in the concept-hierarchy topic", () => {
+    const grouped = group_questions_by_topic(lengua_y_comunicacion_questions);
+    const jmc_questions =
+      grouped.get("lc-6-1-3-jerarquia-de-informacion-en-mapas-conceptuales") ?? [];
+
+    const has_ordering = jmc_questions.some((question) =>
+      question.options.every((option) => /^[\d,\s]+$/.test(option)),
+    );
+
+    expect(has_ordering).toBe(true);
+  });
+
+  it("includes at least one relation question per lesson", () => {
+    const grouped = group_questions_by_topic(lengua_y_comunicacion_questions);
+
+    for (const [, questions] of grouped) {
+      const has_relation = questions.some(
+        (question) =>
+          question.options.every((option) => /^\d[a-z,\s\d]*$/.test(option)) &&
+          question.options.some((option) => /[a-z]/.test(option)),
+      );
+      expect(has_relation).toBe(true);
     }
   });
 });

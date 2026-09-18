@@ -211,6 +211,46 @@ describe("get_unit_lessons", () => {
     }
   });
 
+  it("carga las cuatro lecciones de la unidad de lengua y comunicación, todas sin prerrequisito", async () => {
+    const lessons = await get_unit_lessons(
+      "lengua-y-comunicacion",
+      "lc-6-1-estrategias-de-comprension-lectora",
+    );
+
+    expect(lessons).toHaveLength(4);
+    expect(lessons.map((lesson) => lesson.id).sort()).toEqual(
+      [
+        "lc-titulo-del-texto-expositivo-01",
+        "lc-relaciones-logicas-entre-oraciones-01",
+        "lc-jerarquia-en-mapas-conceptuales-01",
+        "lc-formas-textuales-de-comunicacion-01",
+      ].sort(),
+    );
+
+    for (const lesson of lessons) {
+      expect(lesson.prerequisites).toEqual([]);
+    }
+
+    const jerarquia = lessons.find(
+      (lesson) => lesson.id === "lc-jerarquia-en-mapas-conceptuales-01",
+    );
+
+    expect(jerarquia).toMatchObject({
+      area_id: "lengua-y-comunicacion",
+      unit_id: "lc-6-1-estrategias-de-comprension-lectora",
+      topic_id: "lc-6-1-3-jerarquia-de-informacion-en-mapas-conceptuales",
+      title: "jerarquía en mapas conceptuales",
+      question_ids: [
+        "lc-jmc-001",
+        "lc-jmc-002",
+        "lc-jmc-003",
+        "lc-jmc-004",
+        "lc-jmc-005",
+      ],
+      source: { guide: "docs/guiaoficial.pdf", page: 17, code: "6.1.3" },
+    });
+  });
+
   it("no expone lecciones ajenas a una unidad registrada", async () => {
     await expect(
       get_unit_lesson(
@@ -291,6 +331,18 @@ describe("get_available_lesson", () => {
       topic_id: "cn-5-1-3-ley-de-conservacion-de-la-materia",
       prerequisites: ["cn-tipos-de-enlaces-01"],
     });
+
+    const lengua_y_comunicacion_lesson = await get_available_lesson(
+      "lc-formas-textuales-de-comunicacion-01",
+    );
+
+    expect(lengua_y_comunicacion_lesson).toMatchObject({
+      id: "lc-formas-textuales-de-comunicacion-01",
+      area_id: "lengua-y-comunicacion",
+      unit_id: "lc-6-1-estrategias-de-comprension-lectora",
+      topic_id: "lc-6-1-4-formas-textuales-de-comunicacion",
+      prerequisites: [],
+    });
   });
 
   it("no resuelve una lección inexistente ni una de una unidad no registrada", async () => {
@@ -300,5 +352,8 @@ describe("get_available_lesson", () => {
       get_available_lesson("hu-funciones-de-la-lengua-01"),
     ).resolves.toBeUndefined();
     await expect(get_available_lesson("cn-luz-visible-01")).resolves.toBeUndefined();
+    await expect(
+      get_available_lesson("lc-fuentes-primarias-y-secundarias-01"),
+    ).resolves.toBeUndefined();
   });
 });

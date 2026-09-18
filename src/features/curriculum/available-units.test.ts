@@ -3,8 +3,8 @@ import { describe, expect, it } from "vitest";
 import { available_units } from "./available-units";
 
 describe("available_units", () => {
-  it("lista exactamente las cinco unidades de contenido listas, en orden estable", () => {
-    expect(available_units).toHaveLength(5);
+  it("lista exactamente las seis unidades de contenido listas, en orden estable", () => {
+    expect(available_units).toHaveLength(6);
     expect(
       available_units.map((entry) => ({
         area_id: entry.area_id,
@@ -25,6 +25,10 @@ describe("available_units", () => {
         area_id: "ciencias-naturales-experimentales-y-tecnologia",
         unit_id: "cn-5-1-materia-y-sus-interacciones",
       },
+      {
+        area_id: "lengua-y-comunicacion",
+        unit_id: "lc-6-1-estrategias-de-comprension-lectora",
+      },
     ]);
   });
 
@@ -35,6 +39,7 @@ describe("available_units", () => {
       conciencia_historica,
       humanidades,
       ciencias_naturales,
+      lengua_y_comunicacion,
     ] = available_units;
 
     expect(pensamiento_matematico?.area.id).toBe("pensamiento-matematico");
@@ -71,6 +76,14 @@ describe("available_units", () => {
     expect(ciencias_naturales?.questions).toHaveLength(25);
     expect(
       ciencias_naturales?.questions.every((question) => question.id.startsWith("cn-")),
+    ).toBe(true);
+
+    expect(lengua_y_comunicacion?.area.id).toBe("lengua-y-comunicacion");
+    expect(lengua_y_comunicacion?.questions).toHaveLength(20);
+    expect(
+      lengua_y_comunicacion?.questions.every((question) =>
+        question.id.startsWith("lc-"),
+      ),
     ).toBe(true);
   });
 });
