@@ -1,10 +1,8 @@
 import Link from "next/link";
 
-import { get_pilot_curriculum } from "@/features/curriculum/pilot-curriculum";
-import { get_pilot_lessons } from "@/features/lesson/pilot-lessons";
 import { get_pilot_review_candidates } from "@/features/practice/pilot-review-candidates";
-import { PilotHomeGuidance } from "@/features/progress/pilot-home-guidance";
-import { create_pilot_topic_progress_definitions } from "@/features/progress/pilot-progress";
+import { GlobalHomeGuidance } from "@/features/progress/global-home-guidance";
+import { get_global_topic_definitions } from "@/features/progress/global-topic-definitions";
 
 const study_promises = [
   "una ruta clara a partir de la guía oficial.",
@@ -13,9 +11,7 @@ const study_promises = [
 ];
 
 export default async function HomePage() {
-  const { unit } = get_pilot_curriculum();
-  const lessons = await get_pilot_lessons();
-  const topic_definitions = create_pilot_topic_progress_definitions(unit, lessons);
+  const areas = await get_global_topic_definitions();
   const review_candidates = await get_pilot_review_candidates();
 
   return (
@@ -46,13 +42,8 @@ export default async function HomePage() {
           </Link>
         </div>
         <div className="w-full border-t border-slate-200 pt-6">
-          <p className="text-sm font-semibold text-slate-950">
-            tu próxima acción en pensamiento matemático
-          </p>
-          <PilotHomeGuidance
-            review_candidates={review_candidates}
-            topic_definitions={topic_definitions}
-          />
+          <p className="text-sm font-semibold text-slate-950">tu próxima acción</p>
+          <GlobalHomeGuidance areas={areas} review_candidates={review_candidates} />
         </div>
       </div>
       <aside className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">

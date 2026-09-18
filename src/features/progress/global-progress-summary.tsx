@@ -2,12 +2,13 @@
 
 import type { pilot_review_candidate } from "@/features/practice/pilot-review-candidates";
 
-import type { pilot_topic_progress_definition } from "./pilot-progress";
-import { PilotNextActionCta } from "./pilot-next-action-cta";
-import { usePilotDashboard } from "./use-pilot-dashboard";
+import type { area_topic_definitions } from "./global-progress";
+import { GlobalNextActionCta } from "./global-next-action-cta";
+import { calculate_pilot_summary } from "./pilot-summary";
+import { useGlobalDashboard } from "./use-global-dashboard";
 
-type pilot_progress_summary_props = {
-  topic_definitions: pilot_topic_progress_definition[];
+type global_progress_summary_props = {
+  areas: area_topic_definitions[];
   review_candidates: pilot_review_candidate[];
 };
 
@@ -15,14 +16,12 @@ function format_accuracy(accuracy: number | undefined): string {
   return accuracy === undefined ? "sin intentos" : `${Math.round(accuracy * 100)}%`;
 }
 
-export function PilotProgressSummary({
-  topic_definitions,
+export function GlobalProgressSummary({
+  areas,
   review_candidates,
-}: pilot_progress_summary_props) {
-  const { is_hydrated, next_action, summary } = usePilotDashboard(
-    topic_definitions,
-    review_candidates,
-  );
+}: global_progress_summary_props) {
+  const { area_progress, is_hydrated, next_action, pending_review_count } =
+    useGlobalDashboard(areas, review_candidates);
 
   if (!is_hydrated) {
     return (
@@ -31,6 +30,11 @@ export function PilotProgressSummary({
       </p>
     );
   }
+
+  const summary = calculate_pilot_summary(
+    area_progress.flatMap((area) => area.topics),
+    pending_review_count,
+  );
 
   return (
     <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
@@ -61,9 +65,9 @@ export function PilotProgressSummary({
         </div>
       </dl>
       <div className="mt-6">
-        <PilotNextActionCta
+        <GlobalNextActionCta
           next_action={next_action}
-          pending_review_count={summary.pending_review_count}
+          pending_review_count={pending_review_count}
         />
       </div>
     </div>

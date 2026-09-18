@@ -1,21 +1,21 @@
 import Link from "next/link";
 
-import type { pilot_next_action } from "./pilot-summary";
+import type { global_next_action } from "./global-progress";
 
-type pilot_next_action_cta_props = {
-  next_action: pilot_next_action;
+type global_next_action_cta_props = {
+  next_action: global_next_action;
   pending_review_count: number;
 };
 
-export function PilotNextActionCta({
+export function GlobalNextActionCta({
   next_action,
   pending_review_count,
-}: pilot_next_action_cta_props) {
+}: global_next_action_cta_props) {
   return (
     <div className="flex flex-col gap-3 sm:flex-row">
       {next_action.kind === "completed" ? (
         <p className="text-sm font-medium text-teal-900">
-          dominaste los cuatro temas piloto de pensamiento estadístico.
+          dominaste todos los temas disponibles de las siete áreas.
         </p>
       ) : (
         <Link

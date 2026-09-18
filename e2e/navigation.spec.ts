@@ -135,11 +135,14 @@ test("el avance del piloto persiste después de recargar", async ({ page }) => {
 
   await page.goto("/progreso");
 
-  const progress_topic = page
-    .getByRole("heading", { name: "tipos de variables" })
+  const pm_area_block = page
+    .getByRole("heading", { name: "pensamiento matemático" })
     .locator("xpath=ancestor::article");
+  const dominated_stat = pm_area_block
+    .getByText("temas dominados", { exact: true })
+    .locator("xpath=following-sibling::*[1]");
 
-  await expect(progress_topic.getByText("dominado", { exact: true })).toBeVisible();
+  await expect(dominated_stat).toHaveText("1/4");
 });
 
 test("storage malformado no impide renderizar la ruta piloto", async ({ page }) => {
@@ -496,20 +499,23 @@ test("inicio y progreso recomiendan practicar tras completar la lección de un t
 
   await page.goto("/progreso");
 
-  const lessons_stat = page
+  const pm_area_block = page
+    .getByRole("heading", { name: "pensamiento matemático" })
+    .locator("xpath=ancestor::article");
+  const lessons_stat = pm_area_block
     .getByText("lecciones completadas", { exact: true })
     .locator("xpath=following-sibling::*[1]");
 
   await expect(lessons_stat).toHaveText("1/4");
   await expect(
-    page.getByRole("link", { name: "practicar tipos de variables" }),
+    pm_area_block.getByRole("link", { name: "practicar tipos de variables" }),
   ).toBeVisible();
 
   await page.reload();
 
   await expect(lessons_stat).toHaveText("1/4");
   await expect(
-    page.getByRole("link", { name: "practicar tipos de variables" }),
+    pm_area_block.getByRole("link", { name: "practicar tipos de variables" }),
   ).toBeVisible();
 
   await page.setViewportSize({ width: 375, height: 667 });
@@ -518,6 +524,126 @@ test("inicio y progreso recomiendan practicar tras completar la lección de un t
   await expect(
     page.getByRole("link", { name: "practicar tipos de variables" }),
   ).toBeVisible();
+});
+
+test("el inicio no declara completed con pensamiento matemático dominado si otra área sigue intacta", async ({
+  page,
+}) => {
+  const pm_lesson_ids = [
+    "pm-tipos-de-variables-01",
+    "pm-tipos-de-muestra-01",
+    "pm-medidas-de-tendencia-central-01",
+    "pm-medidas-de-dispersion-01",
+  ];
+  const pm_question_id_groups = [
+    ["pm-tv-001", "pm-tv-002", "pm-tv-003", "pm-tv-004", "pm-tv-005"],
+    ["pm-tm-001", "pm-tm-002", "pm-tm-003", "pm-tm-004", "pm-tm-005"],
+    ["pm-mtc-001", "pm-mtc-002", "pm-mtc-003", "pm-mtc-004", "pm-mtc-005"],
+    ["pm-md-001", "pm-md-002", "pm-md-003", "pm-md-004", "pm-md-005"],
+  ];
+
+  await page.addInitScript(
+    ({
+      lesson_ids,
+      question_id_groups,
+    }: {
+      lesson_ids: string[];
+      question_id_groups: string[][];
+    }) => {
+      const attempts = question_id_groups.flatMap((question_ids) =>
+        question_ids.map((question_id, index) => ({
+          question_id,
+          selected_option_index: 0,
+          is_correct: true,
+          created_at: `2026-09-18T00:00:0${index}.000Z`,
+          mode: "practice",
+        })),
+      );
+
+      window.localStorage.setItem(
+        "ceneva.learner-progress",
+        JSON.stringify({
+          schema_version: 1,
+          completed_lesson_ids: lesson_ids,
+          attempts,
+          onboarding_completed: false,
+        }),
+      );
+    },
+    { lesson_ids: pm_lesson_ids, question_id_groups: pm_question_id_groups },
+  );
+
+  await page.goto("/");
+
+  await expect(
+    page.getByText("dominaste todos los temas disponibles", { exact: false }),
+  ).not.toBeVisible();
+
+  const next_action_link = page.getByRole("link", {
+    name: "continuar identidad digital",
+  });
+
+  await expect(next_action_link).toBeVisible();
+  await expect(next_action_link).toHaveAttribute(
+    "href",
+    "/leccion/cd-identidad-digital-01",
+  );
+});
+
+test("el progreso de un área no-pm se refleja en /progreso tras recargar", async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    const question_ids = [
+      "cd-id-001",
+      "cd-id-002",
+      "cd-id-003",
+      "cd-id-004",
+      "cd-id-005",
+    ];
+    const attempts = question_ids.map((question_id, index) => ({
+      question_id,
+      selected_option_index: 0,
+      is_correct: true,
+      created_at: `2026-09-18T00:00:0${index}.000Z`,
+      mode: "practice",
+    }));
+
+    window.localStorage.setItem(
+      "ceneva.learner-progress",
+      JSON.stringify({
+        schema_version: 1,
+        completed_lesson_ids: ["cd-identidad-digital-01"],
+        attempts,
+        onboarding_completed: false,
+      }),
+    );
+  });
+
+  await page.goto("/progreso");
+
+  const cd_area_block = page
+    .getByRole("heading", { name: "cultura digital" })
+    .locator("xpath=ancestor::article");
+  const dominated_stat = cd_area_block
+    .getByText("temas dominados", { exact: true })
+    .locator("xpath=following-sibling::*[1]");
+
+  await expect(dominated_stat).toHaveText("1/5");
+
+  const pm_area_block = page
+    .getByRole("heading", { name: "pensamiento matemático" })
+    .locator("xpath=ancestor::article");
+
+  await expect(
+    pm_area_block
+      .getByText("temas dominados", { exact: true })
+      .locator("xpath=following-sibling::*[1]"),
+  ).toHaveText("0/4");
+
+  await page.reload();
+
+  await expect(dominated_stat).toHaveText("1/5");
 });
 
 const diagnostic_correct_options = [
