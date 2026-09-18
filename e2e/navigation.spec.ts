@@ -45,6 +45,58 @@ test("la navegación global lleva a mi ruta", async ({ page }) => {
   );
 });
 
+test("el selector de tema cicla claro, oscuro y sistema, persiste tras recargar y no toca el progreso", async ({
+  page,
+}) => {
+  await page.goto("/");
+
+  await expect(page.getByRole("button", { name: /^Tema: Sistema\./ })).toBeVisible();
+
+  await page.getByRole("button", { name: /^Tema: Sistema\./ }).click();
+  await expect(page.getByRole("button", { name: /^Tema: Claro\./ })).toBeVisible();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+
+  await page.getByRole("button", { name: /^Tema: Claro\./ }).click();
+  await expect(page.getByRole("button", { name: /^Tema: Oscuro\./ })).toBeVisible();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+
+  await page.getByRole("button", { name: /^Tema: Oscuro\./ }).click();
+  await expect(page.getByRole("button", { name: /^Tema: Sistema\./ })).toBeVisible();
+
+  await page.getByRole("button", { name: /^Tema: Sistema\./ }).click();
+  await expect(page.getByRole("button", { name: /^Tema: Claro\./ })).toBeVisible();
+
+  await page.reload();
+
+  await expect(page.getByRole("button", { name: /^Tema: Claro\./ })).toBeVisible();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+
+  const storage_snapshot = await page.evaluate(() => ({
+    theme: window.localStorage.getItem("ceneva.interface-theme"),
+    progress: window.localStorage.getItem("ceneva.learner-progress"),
+  }));
+
+  expect(storage_snapshot.theme).toBe("light");
+  expect(storage_snapshot.progress).toBeNull();
+});
+
+test("el selector de tema se opera desde el teclado", async ({ page }) => {
+  await page.goto("/");
+
+  const theme_toggle = page.getByRole("button", { name: /^Tema: Sistema\./ });
+
+  await theme_toggle.focus();
+  await expect(theme_toggle).toBeFocused();
+
+  await page.keyboard.press("Enter");
+  await expect(page.getByRole("button", { name: /^Tema: Claro\./ })).toBeVisible();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+
+  await page.keyboard.press(" ");
+  await expect(page.getByRole("button", { name: /^Tema: Oscuro\./ })).toBeVisible();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+});
+
 test("la ruta piloto abre una lección markdown real", async ({ page }) => {
   await page.goto("/ruta");
 

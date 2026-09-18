@@ -1,9 +1,9 @@
 export const primary_navigation = [
-  { href: "/", label: "inicio" },
-  { href: "/ruta", label: "mi ruta" },
-  { href: "/practica", label: "práctica" },
-  { href: "/simulacro", label: "simulacros" },
-  { href: "/progreso", label: "progreso" },
+  { href: "/", label: "Inicio" },
+  { href: "/ruta", label: "Mi ruta" },
+  { href: "/practica", label: "Práctica" },
+  { href: "/simulacro", label: "Simulacros" },
+  { href: "/progreso", label: "Progreso" },
 ] as const;
 
 export const base_routes = [
