@@ -145,6 +145,36 @@ describe("get_available_unit", () => {
     ).toBeUndefined();
   });
 
+  it("resuelve la unidad de ciencias sociales, con su grafo de prerrequisitos interno", () => {
+    const resolved = get_available_unit(
+      "ciencias-sociales",
+      "cs-7-1-organizacion-economica",
+    );
+
+    expect(resolved?.area.id).toBe("ciencias-sociales");
+    expect(resolved?.unit.id).toBe("cs-7-1-organizacion-economica");
+    expect(resolved?.unit.topics.map((topic) => topic.id)).toEqual([
+      "cs-7-1-1-necesidades-materiales-vitales-y-no-vitales",
+      "cs-7-1-2-factores-de-procesos-de-produccion",
+      "cs-7-1-3-tipos-de-sectores-productivos",
+      "cs-7-1-4-mecanismos-de-distribucion-de-la-riqueza",
+      "cs-7-1-5-empleo-formal-e-informal",
+      "cs-7-1-6-mecanismos-estatales-de-redistribucion-de-la-riqueza",
+      "cs-7-1-7-caracteristicas-del-estado-de-bienestar",
+      "cs-7-1-8-caracteristicas-del-modelo-economico-neoliberal",
+      "cs-7-1-9-degradacion-ambiental-por-formas-de-produccion",
+    ]);
+  });
+
+  it("no resuelve una unidad de ciencias sociales todavía sin contenido listo", () => {
+    expect(
+      get_available_unit("ciencias-sociales", "cs-7-2-perspectivas-politicas"),
+    ).toBeUndefined();
+    expect(
+      get_available_unit("ciencias-sociales", "cs-7-3-problemas-sociologicos"),
+    ).toBeUndefined();
+  });
+
   it("no resuelve un área desconocida", () => {
     expect(
       get_available_unit("ciencias-naturales", "cualquier-unidad"),
@@ -190,6 +220,9 @@ describe("get_available_unit_for_area", () => {
     ).toBe("cn-5-1-materia-y-sus-interacciones");
     expect(get_available_unit_for_area("lengua-y-comunicacion")?.unit.id).toBe(
       "lc-6-1-estrategias-de-comprension-lectora",
+    );
+    expect(get_available_unit_for_area("ciencias-sociales")?.unit.id).toBe(
+      "cs-7-1-organizacion-economica",
     );
   });
 
@@ -257,6 +290,12 @@ describe("get_unit_questions", () => {
         "lc-6-1-estrategias-de-comprension-lectora",
       ),
     ).toHaveLength(20);
+  });
+
+  it("devuelve las cuarenta y cinco preguntas de la unidad de ciencias sociales", () => {
+    expect(
+      get_unit_questions("ciencias-sociales", "cs-7-1-organizacion-economica"),
+    ).toHaveLength(45);
   });
 
   it("devuelve undefined para una unidad no registrada", () => {

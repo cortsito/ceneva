@@ -3,8 +3,8 @@ import { describe, expect, it } from "vitest";
 import { available_units } from "./available-units";
 
 describe("available_units", () => {
-  it("lista exactamente las seis unidades de contenido listas, en orden estable", () => {
-    expect(available_units).toHaveLength(6);
+  it("lista exactamente las siete unidades de contenido listas, en orden estable", () => {
+    expect(available_units).toHaveLength(7);
     expect(
       available_units.map((entry) => ({
         area_id: entry.area_id,
@@ -29,6 +29,10 @@ describe("available_units", () => {
         area_id: "lengua-y-comunicacion",
         unit_id: "lc-6-1-estrategias-de-comprension-lectora",
       },
+      {
+        area_id: "ciencias-sociales",
+        unit_id: "cs-7-1-organizacion-economica",
+      },
     ]);
   });
 
@@ -40,6 +44,7 @@ describe("available_units", () => {
       humanidades,
       ciencias_naturales,
       lengua_y_comunicacion,
+      ciencias_sociales,
     ] = available_units;
 
     expect(pensamiento_matematico?.area.id).toBe("pensamiento-matematico");
@@ -84,6 +89,12 @@ describe("available_units", () => {
       lengua_y_comunicacion?.questions.every((question) =>
         question.id.startsWith("lc-"),
       ),
+    ).toBe(true);
+
+    expect(ciencias_sociales?.area.id).toBe("ciencias-sociales");
+    expect(ciencias_sociales?.questions).toHaveLength(45);
+    expect(
+      ciencias_sociales?.questions.every((question) => question.id.startsWith("cs-")),
     ).toBe(true);
   });
 });

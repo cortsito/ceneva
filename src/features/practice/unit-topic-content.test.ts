@@ -233,6 +233,37 @@ describe("get_topic_content", () => {
         "cd-2-2-1-definicion-del-ciberespacio",
       ),
     ).resolves.toBeUndefined();
+    await expect(
+      get_topic_content(
+        "ciencias-sociales",
+        "cs-7-2-perspectivas-politicas",
+        "cs-7-2-1-teorias-sobre-el-origen-del-estado",
+      ),
+    ).resolves.toBeUndefined();
+  });
+
+  it("resuelve un tema real de la unidad de ciencias sociales", async () => {
+    const content = await get_topic_content(
+      "ciencias-sociales",
+      "cs-7-1-organizacion-economica",
+      "cs-7-1-4-mecanismos-de-distribucion-de-la-riqueza",
+    );
+
+    expect(content?.topic).toMatchObject({
+      id: "cs-7-1-4-mecanismos-de-distribucion-de-la-riqueza",
+      title: "mecanismos de distribución de la riqueza",
+      code: "7.1.4",
+    });
+    expect(content?.lessons).toEqual([
+      { id: "cs-distribucion-de-la-riqueza-01", title: "distribución de la riqueza" },
+    ]);
+    expect(content?.questions.map((item) => item.question.id)).toEqual([
+      "cs-mdr-001",
+      "cs-mdr-002",
+      "cs-mdr-003",
+      "cs-mdr-004",
+      "cs-mdr-005",
+    ]);
   });
 
   it("atribuye cada una de las diez preguntas del tema real ch-3-1-2 a su lección declarante exacta", async () => {
@@ -375,6 +406,25 @@ describe("get_available_topic_content", () => {
     expect(content?.questions).toHaveLength(5);
   });
 
+  it("resuelve el contenido de un tema de ciencias sociales sin declarar su área ni unidad", async () => {
+    const content = await get_available_topic_content(
+      "cs-7-1-9-degradacion-ambiental-por-formas-de-produccion",
+    );
+
+    expect(content?.topic).toMatchObject({
+      id: "cs-7-1-9-degradacion-ambiental-por-formas-de-produccion",
+      title: "degradación ambiental por las formas de producción",
+      code: "7.1.9",
+    });
+    expect(content?.lessons).toEqual([
+      {
+        id: "cs-degradacion-ambiental-y-produccion-01",
+        title: "degradación ambiental y producción",
+      },
+    ]);
+    expect(content?.questions).toHaveLength(5);
+  });
+
   it("no resuelve un tema inexistente ni uno de una unidad no registrada", async () => {
     await expect(
       get_available_topic_content("tema-inexistente"),
@@ -392,6 +442,9 @@ describe("get_available_topic_content", () => {
     ).resolves.toBeUndefined();
     await expect(
       get_available_topic_content("lc-6-2-1-figuras-retoricas"),
+    ).resolves.toBeUndefined();
+    await expect(
+      get_available_topic_content("cs-7-3-1-tipos-de-organizacion-social"),
     ).resolves.toBeUndefined();
   });
 });

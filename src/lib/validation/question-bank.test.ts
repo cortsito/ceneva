@@ -5,6 +5,7 @@ import matter from "gray-matter";
 import { describe, expect, it } from "vitest";
 
 import { ciencias_naturales_experimentales_y_tecnologia_questions } from "@content/questions/ciencias-naturales-experimentales-y-tecnologia";
+import { ciencias_sociales_questions } from "@content/questions/ciencias-sociales";
 import { conciencia_historica_questions } from "@content/questions/conciencia-historica";
 import { cultura_digital_questions } from "@content/questions/cultura-digital";
 import { humanidades_questions } from "@content/questions/humanidades";
@@ -702,6 +703,179 @@ describe("lengua y comunicación question bank — lc-6-1-estrategias-de-compren
 
   it("includes at least one relation question per lesson", () => {
     const grouped = group_questions_by_topic(lengua_y_comunicacion_questions);
+
+    for (const [, questions] of grouped) {
+      const has_relation = questions.some(
+        (question) =>
+          question.options.every((option) => /^\d[a-z,\s\d]*$/.test(option)) &&
+          question.options.some((option) => /[a-z]/.test(option)),
+      );
+      expect(has_relation).toBe(true);
+    }
+  });
+});
+
+const cs_7_1_reserved_ids: Record<string, string[]> = {
+  "cs-necesidades-materiales-01": [
+    "cs-nmv-001",
+    "cs-nmv-002",
+    "cs-nmv-003",
+    "cs-nmv-004",
+    "cs-nmv-005",
+  ],
+  "cs-factores-de-produccion-01": [
+    "cs-fpp-001",
+    "cs-fpp-002",
+    "cs-fpp-003",
+    "cs-fpp-004",
+    "cs-fpp-005",
+  ],
+  "cs-sectores-productivos-01": [
+    "cs-tsp-001",
+    "cs-tsp-002",
+    "cs-tsp-003",
+    "cs-tsp-004",
+    "cs-tsp-005",
+  ],
+  "cs-distribucion-de-la-riqueza-01": [
+    "cs-mdr-001",
+    "cs-mdr-002",
+    "cs-mdr-003",
+    "cs-mdr-004",
+    "cs-mdr-005",
+  ],
+  "cs-empleo-formal-e-informal-01": [
+    "cs-efi-001",
+    "cs-efi-002",
+    "cs-efi-003",
+    "cs-efi-004",
+    "cs-efi-005",
+  ],
+  "cs-redistribucion-estatal-de-la-riqueza-01": [
+    "cs-mer-001",
+    "cs-mer-002",
+    "cs-mer-003",
+    "cs-mer-004",
+    "cs-mer-005",
+  ],
+  "cs-estado-de-bienestar-01": [
+    "cs-ceb-001",
+    "cs-ceb-002",
+    "cs-ceb-003",
+    "cs-ceb-004",
+    "cs-ceb-005",
+  ],
+  "cs-modelo-economico-neoliberal-01": [
+    "cs-cmen-001",
+    "cs-cmen-002",
+    "cs-cmen-003",
+    "cs-cmen-004",
+    "cs-cmen-005",
+  ],
+  "cs-degradacion-ambiental-y-produccion-01": [
+    "cs-dap-001",
+    "cs-dap-002",
+    "cs-dap-003",
+    "cs-dap-004",
+    "cs-dap-005",
+  ],
+};
+
+const cs_7_1_lesson_directory = path.join(
+  process.cwd(),
+  "content",
+  "lessons",
+  "ciencias-sociales",
+  "cs-7-1-organizacion-economica",
+);
+
+async function read_cs_lesson_frontmatter(
+  lesson_id: string,
+): Promise<{ topic_id: string; question_ids: string[] }> {
+  const file_path = path.join(cs_7_1_lesson_directory, `${lesson_id}.md`);
+  const raw = await readFile(file_path, "utf-8");
+  const { data } = matter(raw);
+
+  return {
+    topic_id: data["topic-id"],
+    question_ids: data["question-ids"],
+  };
+}
+
+describe("ciencias sociales question bank — cs-7-1-organizacion-economica", () => {
+  it("has exactly forty-five records", () => {
+    expect(ciencias_sociales_questions).toHaveLength(45);
+  });
+
+  it("has exactly the reserved ids for each lesson, five per lesson, no extra records", async () => {
+    const by_id = new Map(
+      ciencias_sociales_questions.map((question) => [question.id, question]),
+    );
+    const all_expected_ids = Object.values(cs_7_1_reserved_ids).flat();
+
+    expect(new Set(ciencias_sociales_questions.map((question) => question.id))).toEqual(
+      new Set(all_expected_ids),
+    );
+
+    for (const [lesson_id, expected_ids] of Object.entries(cs_7_1_reserved_ids)) {
+      const lesson = await read_cs_lesson_frontmatter(lesson_id);
+
+      expect(new Set(lesson.question_ids)).toEqual(new Set(expected_ids));
+
+      const lesson_questions = expected_ids.map((id) => by_id.get(id));
+      expect(lesson_questions.every((question) => question !== undefined)).toBe(true);
+
+      for (const question of lesson_questions) {
+        expect(question?.topic_id).toBe(lesson.topic_id);
+      }
+    }
+  });
+
+  it("has no structurally invalid question — options, answer, explanation, common error, source", () => {
+    const errors = ciencias_sociales_questions.flatMap(find_invalid_options);
+    expect(errors).toEqual([]);
+  });
+
+  it("shares no id with the pensamiento matemático, cultura digital, conciencia histórica, humanidades, ciencias naturales or lengua y comunicación banks", () => {
+    expect(
+      find_duplicate_ids(
+        ciencias_sociales_questions,
+        lengua_y_comunicacion_questions,
+        ciencias_naturales_experimentales_y_tecnologia_questions,
+        humanidades_questions,
+        conciencia_historica_questions,
+        cultura_digital_questions,
+        pensamiento_matematico_questions,
+      ),
+    ).toEqual([]);
+  });
+
+  it("every question traces to its topic's guide code on page 19", () => {
+    for (const question of ciencias_sociales_questions) {
+      const code = question.topic_id
+        .match(/^cs-(\d-\d-\d)-/)?.[1]
+        ?.replaceAll("-", ".");
+      expect(question.source_reference).toContain("página 19");
+      expect(question.source_reference).toContain(`código ${code}`);
+    }
+  });
+
+  it("includes a genuine relation question distinguishing vital from non-vital needs", () => {
+    const grouped = group_questions_by_topic(ciencias_sociales_questions);
+    const nmv_questions =
+      grouped.get("cs-7-1-1-necesidades-materiales-vitales-y-no-vitales") ?? [];
+
+    const has_relation = nmv_questions.some(
+      (question) =>
+        question.options.every((option) => /^\d[a-z,\s\d]*$/.test(option)) &&
+        question.options.some((option) => /[a-z]/.test(option)),
+    );
+
+    expect(has_relation).toBe(true);
+  });
+
+  it("includes at least one relation question per lesson", () => {
+    const grouped = group_questions_by_topic(ciencias_sociales_questions);
 
     for (const [, questions] of grouped) {
       const has_relation = questions.some(

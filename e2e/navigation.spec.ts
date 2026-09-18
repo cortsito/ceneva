@@ -17,6 +17,8 @@ const base_routes = [
   "/leccion/cn-tipos-de-enlaces-01",
   "/ruta/lengua-y-comunicacion",
   "/leccion/lc-titulo-del-texto-expositivo-01",
+  "/ruta/ciencias-sociales",
+  "/leccion/cs-necesidades-materiales-01",
   "/practica",
   "/practica/pm-1-1-1-tipos-de-variables",
   "/practica/cd-2-1-1-elementos-de-la-identidad-digital",
@@ -24,6 +26,7 @@ const base_routes = [
   "/practica/hu-4-1-1-filosofia-mito-y-ciencia",
   "/practica/cn-5-1-1-tipos-de-enlaces",
   "/practica/lc-6-1-1-titulo-del-texto-expositivo",
+  "/practica/cs-7-1-1-necesidades-materiales-vitales-y-no-vitales",
   "/simulacro",
   "/progreso",
   "/recursos",
@@ -1589,6 +1592,217 @@ test("la práctica de un tema de lengua y comunicación se puede responder en pa
   await expect(page.getByText("pregunta 1 de 5")).toBeVisible();
 
   await answer_topic_question(page, "resumen", "siguiente pregunta");
+
+  await expect(page.getByText("pregunta 2 de 5")).toBeVisible();
+});
+
+const cs_fpp_correct_options = [
+  "tierra",
+  "capital",
+  "no, porque el dinero se vuelve capital solo cuando se convierte en un bien productivo usado en el proceso, no mientras permanece ahorrado",
+  "quien cose aporta trabajo; quien decide y asume el riesgo aporta organización",
+  "1b, 2d, 3a, 4c",
+];
+
+test("la ruta de ciencias sociales muestra sus nueve temas, con necesidades, factores y empleo disponibles y el resto bloqueado por su grafo interno", async ({
+  page,
+}) => {
+  await page.goto("/ruta");
+
+  await page.getByRole("link", { name: "explorar ciencias sociales" }).click();
+
+  await expect(page).toHaveURL("/ruta/ciencias-sociales");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "organización económica",
+  );
+
+  for (const topic_title of [
+    "necesidades materiales vitales y no vitales",
+    "factores de los procesos de producción",
+    "empleo formal e informal",
+  ]) {
+    const topic = page
+      .getByRole("heading", { name: topic_title })
+      .locator("xpath=ancestor::article");
+
+    await expect(topic.getByText("disponible", { exact: true })).toBeVisible();
+  }
+
+  for (const topic_title of [
+    "tipos de sectores productivos",
+    "mecanismos de distribución de la riqueza",
+    "mecanismos estatales de redistribución de la riqueza",
+    "características del estado de bienestar",
+    "características del modelo económico neoliberal",
+    "degradación ambiental por las formas de producción",
+  ]) {
+    const topic = page
+      .getByRole("heading", { name: topic_title })
+      .locator("xpath=ancestor::article");
+
+    await expect(topic.getByText("bloqueado", { exact: true })).toBeVisible();
+  }
+});
+
+test("completar la cadena interna de ciencias sociales desbloquea sectores, distribución, redistribución, estado de bienestar y neoliberalismo, la práctica de factores queda dominada y persiste tras recargar sin afectar otras áreas", async ({
+  page,
+}) => {
+  async function complete_lesson(lesson_id: string, title: string) {
+    await page.goto(`/leccion/${lesson_id}`);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(title);
+    await page.getByRole("button", { name: "marcar lección como completada" }).click();
+    await expect(
+      page.getByRole("button", { name: "lección completada" }),
+    ).toBeDisabled();
+  }
+
+  async function expect_topic_status(topic_title: string, status: string) {
+    await page.goto("/ruta/ciencias-sociales");
+    const topic = page
+      .getByRole("heading", { name: topic_title })
+      .locator("xpath=ancestor::article");
+    await expect(topic.getByText(status, { exact: true })).toBeVisible();
+  }
+
+  await complete_lesson("cs-factores-de-produccion-01", "factores de producción");
+
+  await expect_topic_status("tipos de sectores productivos", "disponible");
+  await expect_topic_status("mecanismos de distribución de la riqueza", "disponible");
+
+  await complete_lesson("cs-sectores-productivos-01", "sectores productivos");
+  await expect_topic_status(
+    "degradación ambiental por las formas de producción",
+    "disponible",
+  );
+
+  await complete_lesson(
+    "cs-distribucion-de-la-riqueza-01",
+    "distribución de la riqueza",
+  );
+  await expect_topic_status(
+    "mecanismos estatales de redistribución de la riqueza",
+    "disponible",
+  );
+
+  await complete_lesson(
+    "cs-redistribucion-estatal-de-la-riqueza-01",
+    "redistribución estatal de la riqueza",
+  );
+  await expect_topic_status("características del estado de bienestar", "disponible");
+
+  await complete_lesson("cs-estado-de-bienestar-01", "estado de bienestar");
+  await expect_topic_status(
+    "características del modelo económico neoliberal",
+    "disponible",
+  );
+
+  await page.goto("/practica/cs-7-1-2-factores-de-procesos-de-produccion");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "factores de los procesos de producción",
+  );
+  await expect(page.getByText("pregunta 1 de 5")).toBeVisible();
+  await expect(page.getByText("correcto", { exact: false })).toHaveCount(0);
+
+  const second_option = page.getByRole("radio", { name: "capital", exact: true });
+
+  await expect(second_option).toBeEnabled();
+  await second_option.focus();
+  await page.keyboard.press("ArrowUp");
+
+  await expect(
+    page.getByRole("radio", { name: cs_fpp_correct_options[0], exact: true }),
+  ).toBeChecked();
+
+  await page.getByRole("button", { name: "confirmar respuesta" }).click();
+  await expect(page.getByRole("status").first()).toContainText("correcto.");
+  await page.getByRole("button", { name: "siguiente pregunta" }).click();
+
+  for (const [index, option_label] of cs_fpp_correct_options.entries()) {
+    if (index === 0) {
+      continue;
+    }
+
+    const is_last_question = index === cs_fpp_correct_options.length - 1;
+
+    await answer_topic_question(
+      page,
+      option_label,
+      is_last_question ? "ver resultados" : "siguiente pregunta",
+    );
+  }
+
+  await expect(
+    page.getByRole("heading", { level: 2, name: "5 de 5 respuestas correctas" }),
+  ).toBeVisible();
+
+  await page.getByRole("link", { name: "volver a factores de producción" }).click();
+
+  await expect(page).toHaveURL("/leccion/cs-factores-de-produccion-01");
+
+  await page.goto("/ruta/ciencias-sociales");
+
+  const dominated_topic = page
+    .getByRole("heading", { name: "factores de los procesos de producción" })
+    .locator("xpath=ancestor::article");
+
+  await expect(dominated_topic.getByText("dominado", { exact: true })).toBeVisible();
+
+  await page.reload();
+
+  await expect(dominated_topic.getByText("dominado", { exact: true })).toBeVisible();
+
+  await page.goto("/ruta/pensamiento-matematico");
+
+  const pilot_topic = page
+    .getByRole("heading", { name: "tipos de variables" })
+    .locator("xpath=ancestor::article");
+
+  await expect(pilot_topic.getByText("disponible", { exact: true })).toBeVisible();
+  await expect(pilot_topic.getByText("sin intentos", { exact: false })).toBeVisible();
+
+  await page.goto("/ruta/cultura-digital");
+
+  const cultura_digital_topic = page
+    .getByRole("heading", { name: "elementos de la identidad digital" })
+    .locator("xpath=ancestor::article");
+
+  await expect(
+    cultura_digital_topic.getByText("disponible", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    cultura_digital_topic.getByText("sin intentos", { exact: false }),
+  ).toBeVisible();
+
+  await page.goto("/ruta/lengua-y-comunicacion");
+
+  const lengua_y_comunicacion_topic = page
+    .getByRole("heading", { name: "título del texto expositivo" })
+    .locator("xpath=ancestor::article");
+
+  await expect(
+    lengua_y_comunicacion_topic.getByText("disponible", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    lengua_y_comunicacion_topic.getByText("sin intentos", { exact: false }),
+  ).toBeVisible();
+});
+
+test("la práctica de un tema de ciencias sociales se puede responder en pantalla móvil", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 375, height: 667 });
+  await page.goto("/practica/cs-7-1-1-necesidades-materiales-vitales-y-no-vitales");
+
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "necesidades materiales vitales y no vitales",
+  );
+  await expect(page.getByText("pregunta 1 de 5")).toBeVisible();
+
+  await answer_topic_question(
+    page,
+    "porque su ausencia prolongada pone en riesgo su supervivencia",
+    "siguiente pregunta",
+  );
 
   await expect(page.getByText("pregunta 2 de 5")).toBeVisible();
 });

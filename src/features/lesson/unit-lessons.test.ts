@@ -251,6 +251,67 @@ describe("get_unit_lessons", () => {
     });
   });
 
+  it("carga las nueve lecciones de la unidad de ciencias sociales, con su grafo de prerrequisitos real", async () => {
+    const lessons = await get_unit_lessons(
+      "ciencias-sociales",
+      "cs-7-1-organizacion-economica",
+    );
+
+    expect(lessons).toHaveLength(9);
+    expect(lessons.map((lesson) => lesson.id).sort()).toEqual(
+      [
+        "cs-necesidades-materiales-01",
+        "cs-factores-de-produccion-01",
+        "cs-sectores-productivos-01",
+        "cs-distribucion-de-la-riqueza-01",
+        "cs-empleo-formal-e-informal-01",
+        "cs-redistribucion-estatal-de-la-riqueza-01",
+        "cs-estado-de-bienestar-01",
+        "cs-modelo-economico-neoliberal-01",
+        "cs-degradacion-ambiental-y-produccion-01",
+      ].sort(),
+    );
+
+    const by_id = new Map(lessons.map((lesson) => [lesson.id, lesson]));
+
+    for (const no_prerequisite_id of [
+      "cs-necesidades-materiales-01",
+      "cs-factores-de-produccion-01",
+      "cs-empleo-formal-e-informal-01",
+    ]) {
+      expect(by_id.get(no_prerequisite_id)?.prerequisites).toEqual([]);
+    }
+
+    expect(by_id.get("cs-sectores-productivos-01")).toMatchObject({
+      area_id: "ciencias-sociales",
+      unit_id: "cs-7-1-organizacion-economica",
+      topic_id: "cs-7-1-3-tipos-de-sectores-productivos",
+      prerequisites: ["cs-factores-de-produccion-01"],
+      question_ids: [
+        "cs-tsp-001",
+        "cs-tsp-002",
+        "cs-tsp-003",
+        "cs-tsp-004",
+        "cs-tsp-005",
+      ],
+    });
+    expect(by_id.get("cs-distribucion-de-la-riqueza-01")?.prerequisites).toEqual([
+      "cs-factores-de-produccion-01",
+    ]);
+    expect(
+      by_id.get("cs-redistribucion-estatal-de-la-riqueza-01")?.prerequisites,
+    ).toEqual(["cs-distribucion-de-la-riqueza-01"]);
+    expect(by_id.get("cs-estado-de-bienestar-01")?.prerequisites).toEqual([
+      "cs-redistribucion-estatal-de-la-riqueza-01",
+    ]);
+    expect(by_id.get("cs-modelo-economico-neoliberal-01")?.prerequisites).toEqual([
+      "cs-estado-de-bienestar-01",
+    ]);
+    expect(
+      by_id.get("cs-degradacion-ambiental-y-produccion-01")?.prerequisites,
+    ).toEqual(["cs-sectores-productivos-01"]);
+  });
+
   it("no expone lecciones ajenas a una unidad registrada", async () => {
     await expect(
       get_unit_lesson(
@@ -343,6 +404,18 @@ describe("get_available_lesson", () => {
       topic_id: "lc-6-1-4-formas-textuales-de-comunicacion",
       prerequisites: [],
     });
+
+    const ciencias_sociales_lesson = await get_available_lesson(
+      "cs-redistribucion-estatal-de-la-riqueza-01",
+    );
+
+    expect(ciencias_sociales_lesson).toMatchObject({
+      id: "cs-redistribucion-estatal-de-la-riqueza-01",
+      area_id: "ciencias-sociales",
+      unit_id: "cs-7-1-organizacion-economica",
+      topic_id: "cs-7-1-6-mecanismos-estatales-de-redistribucion-de-la-riqueza",
+      prerequisites: ["cs-distribucion-de-la-riqueza-01"],
+    });
   });
 
   it("no resuelve una lección inexistente ni una de una unidad no registrada", async () => {
@@ -354,6 +427,9 @@ describe("get_available_lesson", () => {
     await expect(get_available_lesson("cn-luz-visible-01")).resolves.toBeUndefined();
     await expect(
       get_available_lesson("lc-fuentes-primarias-y-secundarias-01"),
+    ).resolves.toBeUndefined();
+    await expect(
+      get_available_lesson("cs-teorias-sobre-el-origen-del-estado-01"),
     ).resolves.toBeUndefined();
   });
 });
