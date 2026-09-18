@@ -1,8 +1,9 @@
 import type { question } from "@content/questions/types";
 
-import { get_pilot_curriculum } from "@/features/curriculum/pilot-curriculum";
+import { get_available_unit } from "@/features/curriculum/available-curriculum";
+import { available_units } from "@/features/curriculum/available-units";
 
-import { get_pilot_topic_practice } from "./pilot-topic-practice";
+import { get_topic_content } from "./unit-topic-content";
 
 export type pilot_review_candidate = {
   question: question;
@@ -11,23 +12,26 @@ export type pilot_review_candidate = {
 };
 
 export async function get_pilot_review_candidates(): Promise<pilot_review_candidate[]> {
-  const { unit } = get_pilot_curriculum();
   const candidates: pilot_review_candidate[] = [];
 
-  for (const topic of unit.topics) {
-    const practice = await get_pilot_topic_practice(topic.id);
+  for (const { area_id, unit_id } of available_units) {
+    const resolved = get_available_unit(area_id, unit_id);
 
-    if (!practice) {
+    if (!resolved) {
       continue;
     }
 
-    practice.questions.forEach((question) => {
-      candidates.push({
-        question,
-        topic: practice.topic,
-        lesson: practice.lesson,
+    for (const topic of resolved.unit.topics) {
+      const content = await get_topic_content(area_id, unit_id, topic.id);
+
+      if (!content) {
+        continue;
+      }
+
+      content.questions.forEach(({ question, lesson }) => {
+        candidates.push({ question, topic: content.topic, lesson });
       });
-    });
+    }
   }
 
   return candidates;

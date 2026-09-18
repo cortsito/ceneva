@@ -413,6 +413,44 @@ test("un error de práctica por tema entra a la cola de repaso y sale al corregi
   ).toBeVisible();
 });
 
+test("un error de práctica en un área no-pm entra a la cola de repaso y sale al corregirse", async ({
+  page,
+}) => {
+  await page.goto("/practica/cd-2-1-1-elementos-de-la-identidad-digital");
+
+  await page
+    .getByRole("radio", {
+      name: "la contraseña que usa para iniciar sesión en sus cuentas",
+      exact: true,
+    })
+    .check();
+  await page.getByRole("button", { name: "confirmar respuesta" }).click();
+
+  await page.goto("/practica");
+
+  await expect(
+    page.getByText("elementos de la identidad digital", { exact: false }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "repasar identidad digital" }),
+  ).toBeVisible();
+
+  await page
+    .getByRole("radio", {
+      name: "su historial de comentarios, reacciones y publicaciones en distintos servicios en línea",
+      exact: true,
+    })
+    .check();
+
+  await expect(page.getByRole("status").first()).toContainText("correcto.");
+
+  await page.reload();
+
+  await expect(
+    page.getByText("no tienes preguntas pendientes de repaso", { exact: false }),
+  ).toBeVisible();
+});
+
 test("storage malformado no impide renderizar la cola de repaso", async ({ page }) => {
   await page.addInitScript(() => {
     window.localStorage.setItem("ceneva.learner-progress", "{");
