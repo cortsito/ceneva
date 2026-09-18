@@ -94,6 +94,32 @@ describe("get_available_unit", () => {
     ).toBeUndefined();
   });
 
+  it("resuelve la unidad de ciencias naturales, con el tema de conservación bloqueado por su prerrequisito", () => {
+    const resolved = get_available_unit(
+      "ciencias-naturales-experimentales-y-tecnologia",
+      "cn-5-1-materia-y-sus-interacciones",
+    );
+
+    expect(resolved?.area.id).toBe("ciencias-naturales-experimentales-y-tecnologia");
+    expect(resolved?.unit.id).toBe("cn-5-1-materia-y-sus-interacciones");
+    expect(resolved?.unit.topics.map((topic) => topic.id)).toEqual([
+      "cn-5-1-1-tipos-de-enlaces",
+      "cn-5-1-2-estados-de-agregacion-de-la-materia",
+      "cn-5-1-3-ley-de-conservacion-de-la-materia",
+      "cn-5-1-4-conversion-de-escalas-termometricas",
+      "cn-5-1-5-ley-de-coulomb",
+    ]);
+  });
+
+  it("no resuelve una unidad de ciencias naturales todavía sin contenido listo", () => {
+    expect(
+      get_available_unit(
+        "ciencias-naturales-experimentales-y-tecnologia",
+        "cn-5-2-conservacion-de-la-energia-y-sus-interacciones",
+      ),
+    ).toBeUndefined();
+  });
+
   it("no resuelve un área desconocida", () => {
     expect(
       get_available_unit("ciencias-naturales", "cualquier-unidad"),
@@ -133,6 +159,10 @@ describe("get_available_unit_for_area", () => {
     expect(get_available_unit_for_area("humanidades")?.unit.id).toBe(
       "hu-4-1-fundamentos-del-pensamiento-filosofico",
     );
+    expect(
+      get_available_unit_for_area("ciencias-naturales-experimentales-y-tecnologia")
+        ?.unit.id,
+    ).toBe("cn-5-1-materia-y-sus-interacciones");
   });
 
   it("no resuelve un área sin unidades de contenido listas", () => {
@@ -181,6 +211,15 @@ describe("get_unit_questions", () => {
         "hu-4-1-fundamentos-del-pensamiento-filosofico",
       ),
     ).toHaveLength(20);
+  });
+
+  it("devuelve las veinticinco preguntas de la unidad de ciencias naturales", () => {
+    expect(
+      get_unit_questions(
+        "ciencias-naturales-experimentales-y-tecnologia",
+        "cn-5-1-materia-y-sus-interacciones",
+      ),
+    ).toHaveLength(25);
   });
 
   it("devuelve undefined para una unidad no registrada", () => {

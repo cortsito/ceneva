@@ -13,11 +13,14 @@ const base_routes = [
   "/leccion/cd-identidad-digital-01",
   "/leccion/ch-conquista-de-pueblos-originarios-01",
   "/leccion/hu-filosofia-mito-y-ciencia-01",
+  "/ruta/ciencias-naturales-experimentales-y-tecnologia",
+  "/leccion/cn-tipos-de-enlaces-01",
   "/practica",
   "/practica/pm-1-1-1-tipos-de-variables",
   "/practica/cd-2-1-1-elementos-de-la-identidad-digital",
   "/practica/ch-3-1-1-conquista-de-pueblos-mesoamericanos-o-aridoamericanos",
   "/practica/hu-4-1-1-filosofia-mito-y-ciencia",
+  "/practica/cn-5-1-1-tipos-de-enlaces",
   "/simulacro",
   "/progreso",
   "/recursos",
@@ -1204,6 +1207,203 @@ test("la práctica de un tema de humanidades se puede responder en pantalla móv
     "a doxa, porque se sostiene por costumbre y no por un fundamento verificable",
     "siguiente pregunta",
   );
+
+  await expect(page.getByText("pregunta 2 de 5")).toBeVisible();
+});
+
+const cn_enl_correct_options = [
+  "iónico",
+  "covalente",
+  "metálico",
+  "porque el magnesio, al ser metal, cede electrones al oxígeno, que los recibe al ser no metal",
+  "1c, 2a, 3b",
+];
+
+test("la ruta de ciencias naturales muestra sus cinco temas, con conservación de la materia bloqueado hasta completar enlaces químicos", async ({
+  page,
+}) => {
+  await page.goto("/ruta");
+
+  await page
+    .getByRole("link", {
+      name: "explorar ciencias naturales, experimentales y tecnología",
+    })
+    .click();
+
+  await expect(page).toHaveURL("/ruta/ciencias-naturales-experimentales-y-tecnologia");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "la materia y sus interacciones",
+  );
+
+  for (const topic_title of [
+    "tipos de enlaces iónico, covalente y metálico",
+    "características de los estados de agregación de la materia",
+    "conversión de escalas termométricas",
+    "ley de coulomb",
+  ]) {
+    const available_topic = page
+      .getByRole("heading", { name: topic_title })
+      .locator("xpath=ancestor::article");
+
+    await expect(
+      available_topic.getByText("disponible", { exact: true }),
+    ).toBeVisible();
+  }
+
+  const conservation_topic = page
+    .getByRole("heading", { name: "ley de la conservación de la materia" })
+    .locator("xpath=ancestor::article");
+
+  await expect(
+    conservation_topic.getByText("bloqueado", { exact: true }),
+  ).toBeVisible();
+});
+
+test("completar la lección de enlaces químicos desbloquea conservación de la materia, y la práctica del tema base persiste como dominado tras recargar sin afectar otras áreas", async ({
+  page,
+}) => {
+  await page.goto("/leccion/cn-tipos-de-enlaces-01");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("enlaces químicos");
+  await expect(page.getByText("antes de continuar")).toHaveCount(0);
+  await page.getByRole("button", { name: "marcar lección como completada" }).click();
+  await expect(page.getByRole("button", { name: "lección completada" })).toBeDisabled();
+
+  await page.goto("/leccion/cn-conservacion-de-la-materia-01");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "conservación de la materia",
+  );
+  await expect(
+    page.getByRole("link", { name: "repasa cn-tipos-de-enlaces-01" }),
+  ).toBeVisible();
+
+  await page.goto("/ruta/ciencias-naturales-experimentales-y-tecnologia");
+
+  const conservation_topic = page
+    .getByRole("heading", { name: "ley de la conservación de la materia" })
+    .locator("xpath=ancestor::article");
+
+  await expect(
+    conservation_topic.getByText("disponible", { exact: true }),
+  ).toBeVisible();
+
+  await page.goto("/practica/cn-5-1-1-tipos-de-enlaces");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "tipos de enlaces iónico, covalente y metálico",
+  );
+  await expect(page.getByText("pregunta 1 de 5")).toBeVisible();
+  await expect(page.getByText("correcto", { exact: false })).toHaveCount(0);
+
+  const third_option = page.getByRole("radio", { name: "metálico", exact: true });
+
+  await expect(third_option).toBeEnabled();
+  await third_option.focus();
+  await page.keyboard.press("ArrowUp");
+
+  await expect(
+    page.getByRole("radio", { name: cn_enl_correct_options[0], exact: true }),
+  ).toBeChecked();
+
+  await page.getByRole("button", { name: "confirmar respuesta" }).click();
+  await expect(page.getByRole("status").first()).toContainText("correcto.");
+  await page.getByRole("button", { name: "siguiente pregunta" }).click();
+
+  for (const [index, option_label] of cn_enl_correct_options.entries()) {
+    if (index === 0) {
+      continue;
+    }
+
+    const is_last_question = index === cn_enl_correct_options.length - 1;
+
+    await answer_topic_question(
+      page,
+      option_label,
+      is_last_question ? "ver resultados" : "siguiente pregunta",
+    );
+  }
+
+  await expect(
+    page.getByRole("heading", { level: 2, name: "5 de 5 respuestas correctas" }),
+  ).toBeVisible();
+
+  await page.getByRole("link", { name: "volver a enlaces químicos" }).click();
+
+  await expect(page).toHaveURL("/leccion/cn-tipos-de-enlaces-01");
+
+  await page.goto("/ruta/ciencias-naturales-experimentales-y-tecnologia");
+
+  const dominated_topic = page
+    .getByRole("heading", { name: "tipos de enlaces iónico, covalente y metálico" })
+    .locator("xpath=ancestor::article");
+
+  await expect(dominated_topic.getByText("dominado", { exact: true })).toBeVisible();
+
+  await page.reload();
+
+  await expect(dominated_topic.getByText("dominado", { exact: true })).toBeVisible();
+
+  await page.goto("/ruta/pensamiento-matematico");
+
+  const pilot_topic = page
+    .getByRole("heading", { name: "tipos de variables" })
+    .locator("xpath=ancestor::article");
+
+  await expect(pilot_topic.getByText("disponible", { exact: true })).toBeVisible();
+  await expect(pilot_topic.getByText("sin intentos", { exact: false })).toBeVisible();
+
+  await page.goto("/ruta/cultura-digital");
+
+  const cultura_digital_topic = page
+    .getByRole("heading", { name: "elementos de la identidad digital" })
+    .locator("xpath=ancestor::article");
+
+  await expect(
+    cultura_digital_topic.getByText("disponible", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    cultura_digital_topic.getByText("sin intentos", { exact: false }),
+  ).toBeVisible();
+
+  await page.goto("/ruta/conciencia-historica");
+
+  const conciencia_historica_topic = page
+    .getByRole("heading", {
+      name: "conquista de los pueblos mesoamericanos o aridoamericanos durante los siglos xvi a xix",
+    })
+    .locator("xpath=ancestor::article");
+
+  await expect(
+    conciencia_historica_topic.getByText("disponible", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    conciencia_historica_topic.getByText("sin intentos", { exact: false }),
+  ).toBeVisible();
+
+  await page.goto("/ruta/humanidades");
+
+  const humanidades_topic = page
+    .getByRole("heading", { name: "filosofía, mito y ciencia" })
+    .locator("xpath=ancestor::article");
+
+  await expect(
+    humanidades_topic.getByText("disponible", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    humanidades_topic.getByText("sin intentos", { exact: false }),
+  ).toBeVisible();
+});
+
+test("la práctica de un tema de ciencias naturales se puede responder en pantalla móvil", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 375, height: 667 });
+  await page.goto("/practica/cn-5-1-4-conversion-de-escalas-termometricas");
+
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "conversión de escalas termométricas",
+  );
+  await expect(page.getByText("pregunta 1 de 5")).toBeVisible();
+
+  await answer_topic_question(page, "68 °f", "siguiente pregunta");
 
   await expect(page.getByText("pregunta 2 de 5")).toBeVisible();
 });

@@ -170,6 +170,47 @@ describe("get_unit_lessons", () => {
     }
   });
 
+  it("carga las cinco lecciones de la unidad de ciencias naturales, con el prerrequisito real de conservación", async () => {
+    const lessons = await get_unit_lessons(
+      "ciencias-naturales-experimentales-y-tecnologia",
+      "cn-5-1-materia-y-sus-interacciones",
+    );
+
+    expect(lessons).toHaveLength(5);
+    expect(lessons.map((lesson) => lesson.id).sort()).toEqual(
+      [
+        "cn-tipos-de-enlaces-01",
+        "cn-estados-de-agregacion-01",
+        "cn-conservacion-de-la-materia-01",
+        "cn-conversion-de-temperatura-01",
+        "cn-ley-de-coulomb-01",
+      ].sort(),
+    );
+
+    const bond_types = lessons.find((lesson) => lesson.id === "cn-tipos-de-enlaces-01");
+    const conservation = lessons.find(
+      (lesson) => lesson.id === "cn-conservacion-de-la-materia-01",
+    );
+
+    expect(bond_types?.prerequisites).toEqual([]);
+    expect(conservation).toMatchObject({
+      area_id: "ciencias-naturales-experimentales-y-tecnologia",
+      unit_id: "cn-5-1-materia-y-sus-interacciones",
+      topic_id: "cn-5-1-3-ley-de-conservacion-de-la-materia",
+      prerequisites: ["cn-tipos-de-enlaces-01"],
+      question_ids: ["cn-cm-001", "cn-cm-002", "cn-cm-003", "cn-cm-004", "cn-cm-005"],
+    });
+
+    for (const no_prerequisite_id of [
+      "cn-estados-de-agregacion-01",
+      "cn-conversion-de-temperatura-01",
+      "cn-ley-de-coulomb-01",
+    ]) {
+      const lesson = lessons.find((item) => item.id === no_prerequisite_id);
+      expect(lesson?.prerequisites).toEqual([]);
+    }
+  });
+
   it("no expone lecciones ajenas a una unidad registrada", async () => {
     await expect(
       get_unit_lesson(
@@ -238,6 +279,18 @@ describe("get_available_lesson", () => {
       topic_id: "hu-4-1-2-pensamiento-critico",
       prerequisites: ["hu-filosofia-mito-y-ciencia-01"],
     });
+
+    const ciencias_naturales_lesson = await get_available_lesson(
+      "cn-conservacion-de-la-materia-01",
+    );
+
+    expect(ciencias_naturales_lesson).toMatchObject({
+      id: "cn-conservacion-de-la-materia-01",
+      area_id: "ciencias-naturales-experimentales-y-tecnologia",
+      unit_id: "cn-5-1-materia-y-sus-interacciones",
+      topic_id: "cn-5-1-3-ley-de-conservacion-de-la-materia",
+      prerequisites: ["cn-tipos-de-enlaces-01"],
+    });
   });
 
   it("no resuelve una lección inexistente ni una de una unidad no registrada", async () => {
@@ -246,5 +299,6 @@ describe("get_available_lesson", () => {
     await expect(
       get_available_lesson("hu-funciones-de-la-lengua-01"),
     ).resolves.toBeUndefined();
+    await expect(get_available_lesson("cn-luz-visible-01")).resolves.toBeUndefined();
   });
 });

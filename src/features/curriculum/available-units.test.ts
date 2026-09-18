@@ -3,8 +3,8 @@ import { describe, expect, it } from "vitest";
 import { available_units } from "./available-units";
 
 describe("available_units", () => {
-  it("lista exactamente las cuatro unidades de contenido listas, en orden estable", () => {
-    expect(available_units).toHaveLength(4);
+  it("lista exactamente las cinco unidades de contenido listas, en orden estable", () => {
+    expect(available_units).toHaveLength(5);
     expect(
       available_units.map((entry) => ({
         area_id: entry.area_id,
@@ -21,12 +21,21 @@ describe("available_units", () => {
         area_id: "humanidades",
         unit_id: "hu-4-1-fundamentos-del-pensamiento-filosofico",
       },
+      {
+        area_id: "ciencias-naturales-experimentales-y-tecnologia",
+        unit_id: "cn-5-1-materia-y-sus-interacciones",
+      },
     ]);
   });
 
   it("asocia cada entrada con su árbol de currículo y su banco de preguntas reales", () => {
-    const [pensamiento_matematico, cultura_digital, conciencia_historica, humanidades] =
-      available_units;
+    const [
+      pensamiento_matematico,
+      cultura_digital,
+      conciencia_historica,
+      humanidades,
+      ciencias_naturales,
+    ] = available_units;
 
     expect(pensamiento_matematico?.area.id).toBe("pensamiento-matematico");
     expect(pensamiento_matematico?.questions.length).toBeGreaterThan(0);
@@ -54,6 +63,14 @@ describe("available_units", () => {
     expect(humanidades?.questions).toHaveLength(20);
     expect(
       humanidades?.questions.every((question) => question.id.startsWith("hu-")),
+    ).toBe(true);
+
+    expect(ciencias_naturales?.area.id).toBe(
+      "ciencias-naturales-experimentales-y-tecnologia",
+    );
+    expect(ciencias_naturales?.questions).toHaveLength(25);
+    expect(
+      ciencias_naturales?.questions.every((question) => question.id.startsWith("cn-")),
     ).toBe(true);
   });
 });

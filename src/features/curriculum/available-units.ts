@@ -1,8 +1,10 @@
 import type { curriculum_area } from "@content/curriculum/types";
+import { ciencias_naturales_experimentales_y_tecnologia } from "@content/curriculum/ciencias-naturales-experimentales-y-tecnologia";
 import { conciencia_historica } from "@content/curriculum/conciencia-historica";
 import { cultura_digital } from "@content/curriculum/cultura-digital";
 import { humanidades } from "@content/curriculum/humanidades";
 import { pensamiento_matematico } from "@content/curriculum/pensamiento-matematico";
+import { ciencias_naturales_experimentales_y_tecnologia_questions } from "@content/questions/ciencias-naturales-experimentales-y-tecnologia";
 import { conciencia_historica_questions } from "@content/questions/conciencia-historica";
 import { cultura_digital_questions } from "@content/questions/cultura-digital";
 import { humanidades_questions } from "@content/questions/humanidades";
@@ -40,5 +42,11 @@ export const available_units: available_unit[] = [
     unit_id: "hu-4-1-fundamentos-del-pensamiento-filosofico",
     area: humanidades,
     questions: humanidades_questions,
+  },
+  {
+    area_id: "ciencias-naturales-experimentales-y-tecnologia",
+    unit_id: "cn-5-1-materia-y-sus-interacciones",
+    area: ciencias_naturales_experimentales_y_tecnologia,
+    questions: ciencias_naturales_experimentales_y_tecnologia_questions,
   },
 ];

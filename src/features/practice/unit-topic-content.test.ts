@@ -160,6 +160,30 @@ describe("get_topic_content", () => {
     ]);
   });
 
+  it("resuelve un tema real de la unidad de ciencias naturales", async () => {
+    const content = await get_topic_content(
+      "ciencias-naturales-experimentales-y-tecnologia",
+      "cn-5-1-materia-y-sus-interacciones",
+      "cn-5-1-3-ley-de-conservacion-de-la-materia",
+    );
+
+    expect(content?.topic).toMatchObject({
+      id: "cn-5-1-3-ley-de-conservacion-de-la-materia",
+      title: "ley de la conservación de la materia",
+      code: "5.1.3",
+    });
+    expect(content?.lessons).toEqual([
+      { id: "cn-conservacion-de-la-materia-01", title: "conservación de la materia" },
+    ]);
+    expect(content?.questions.map((item) => item.question.id)).toEqual([
+      "cn-cm-001",
+      "cn-cm-002",
+      "cn-cm-003",
+      "cn-cm-004",
+      "cn-cm-005",
+    ]);
+  });
+
   it("no resuelve un tema inexistente, de otra unidad o de una unidad no registrada", async () => {
     await expect(
       get_topic_content(
@@ -290,6 +314,20 @@ describe("get_available_topic_content", () => {
     });
     expect(content?.lessons).toEqual([
       { id: "hu-filosofia-mito-y-ciencia-01", title: "filosofía, mito y ciencia" },
+    ]);
+    expect(content?.questions).toHaveLength(5);
+  });
+
+  it("resuelve el contenido de un tema de ciencias naturales sin declarar su área ni unidad", async () => {
+    const content = await get_available_topic_content("cn-5-1-1-tipos-de-enlaces");
+
+    expect(content?.topic).toMatchObject({
+      id: "cn-5-1-1-tipos-de-enlaces",
+      title: "tipos de enlaces iónico, covalente y metálico",
+      code: "5.1.1",
+    });
+    expect(content?.lessons).toEqual([
+      { id: "cn-tipos-de-enlaces-01", title: "enlaces químicos" },
     ]);
     expect(content?.questions).toHaveLength(5);
   });
