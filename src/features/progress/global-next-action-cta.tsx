@@ -14,12 +14,12 @@ export function GlobalNextActionCta({
   return (
     <div className="flex flex-col gap-3 sm:flex-row">
       {next_action.kind === "completed" ? (
-        <p className="text-sm font-medium text-teal-900">
-          dominaste todos los temas disponibles de las siete áreas.
+        <p className="text-sm font-medium text-accent">
+          Dominaste todos los temas disponibles de las siete áreas.
         </p>
       ) : (
         <Link
-          className="rounded-md bg-teal-700 px-5 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-teal-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
+          className="rounded-md bg-accent px-5 py-3 text-center text-sm font-semibold text-accent-contrast transition-colors hover:bg-accent-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
           href={next_action.href}
         >
           {next_action.label}
@@ -27,10 +27,10 @@ export function GlobalNextActionCta({
       )}
       {pending_review_count > 0 ? (
         <Link
-          className="rounded-md border border-amber-300 bg-amber-50 px-5 py-3 text-center text-sm font-semibold text-amber-900 transition-colors hover:border-amber-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
+          className="rounded-md border border-warning bg-warning-soft px-5 py-3 text-center text-sm font-semibold text-warning transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
           href="/practica"
         >
-          repasar {pending_review_count} pendiente
+          Repasar {pending_review_count} pendiente
           {pending_review_count === 1 ? "" : "s"}
         </Link>
       ) : null}

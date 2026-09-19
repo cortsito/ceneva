@@ -13,15 +13,15 @@ export function AreaNextActionCta({
 }: area_next_action_cta_props) {
   if (next_action.kind === "completed") {
     return (
-      <p className="text-sm font-medium text-teal-900">
-        dominaste todos los temas disponibles de {area_title}.
+      <p className="text-sm font-medium text-accent">
+        Dominaste todos los temas disponibles de {area_title}.
       </p>
     );
   }
 
   return (
     <Link
-      className="w-fit rounded-md bg-teal-700 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-teal-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
+      className="inline-block w-fit rounded-md bg-accent px-4 py-2 text-sm font-semibold text-accent-contrast transition-colors hover:bg-accent-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
       href={next_action.href}
     >
       {next_action.label}

@@ -122,21 +122,25 @@ a {
 /*
  * temporary dark-theme compatibility layer.
  *
- * content screens (inicio, ruta, lección, práctica, diagnóstico, simulacro,
- * progreso) still use hardcoded tailwind slate/teal/red/amber/emerald
- * utilities instead of the semantic tokens above, per
- * docs/tasks/2026-09-18-task_diseno-editorial-fundamentos.md's own scope
- * (only the shared frame was in scope there). those utilities compile to
- * `var(--color-<name>)`, fixed to their light-mode hex regardless of theme,
- * so switching to dark mode made them illegible (near-black text on a
- * near-black canvas). remapping `--color-white`/`--color-slate-*` etc.
- * globally isn't safe, since e.g. `--color-white` is also used by
- * `text-white` on accent buttons, which must stay white in both themes — so
- * this overrides the exact utility classes actually in use instead, reusing
- * the existing semantic tokens rather than inventing new colors.
+ * the learning-experience screens (lección, práctica por tema, diagnóstico,
+ * simulacro) plus onboarding/recursos still use hardcoded tailwind
+ * slate/teal/red utilities instead of the semantic tokens above; inicio,
+ * ruta, ruta/[area], progreso and the root práctica review queue were
+ * migrated to semantic tokens directly in
+ * docs/tasks/2026-09-18-task_diseno-editorial-navegacion.md, and every
+ * selector below that only those screens used has been removed. those
+ * utilities compile to `var(--color-<name>)`, fixed to their light-mode hex
+ * regardless of theme, so switching to dark mode made them illegible
+ * (near-black text on a near-black canvas). remapping
+ * `--color-white`/`--color-slate-*` etc. globally isn't safe, since e.g.
+ * `--color-white` is also used by `text-white` on accent buttons, which must
+ * stay white in both themes — so this overrides the exact utility classes
+ * actually in use instead, reusing the existing semantic tokens rather than
+ * inventing new colors.
  *
- * delete this block once the next redesign task migrates those screens to
- * the semantic tokens directly; every selector here should then be dead.
+ * delete this block once the next redesign task migrates the remaining
+ * learning-experience screens to the semantic tokens directly; every
+ * selector here should then be dead.
  */
 :root[data-theme="dark"] {
   .bg-white,
@@ -148,34 +152,16 @@ a {
     background-color: var(--surface);
   }
 
-  .bg-slate-200 {
-    background-color: var(--line);
-  }
-
   .disabled\:bg-slate-400:disabled {
     background-color: var(--line);
   }
 
-  .bg-teal-50,
-  .bg-teal-100 {
+  .bg-teal-50 {
     background-color: var(--accent-soft);
-  }
-
-  .bg-teal-600 {
-    background-color: var(--accent);
   }
 
   .bg-red-50 {
     background-color: var(--danger-soft);
-  }
-
-  .bg-amber-50,
-  .bg-amber-100 {
-    background-color: var(--warning-soft);
-  }
-
-  .bg-emerald-100 {
-    background-color: var(--success-soft);
   }
 
   .text-slate-950,
@@ -188,8 +174,7 @@ a {
     color: var(--ink-muted);
   }
 
-  .text-teal-800,
-  .hover\:text-teal-800:hover {
+  .text-teal-800 {
     color: var(--accent);
   }
 
@@ -199,27 +184,19 @@ a {
     color: var(--ink);
   }
 
-  .text-red-950,
-  .text-amber-900,
-  .text-amber-950,
-  .text-emerald-950 {
+  .text-red-950 {
     color: var(--ink);
   }
 
   .border-slate-200,
   .border-slate-300,
   .border-teal-200,
-  .border-red-200,
-  .border-amber-300 {
+  .border-red-200 {
     border-color: var(--line);
   }
 
   .hover\:border-slate-400:hover {
     border-color: var(--accent);
-  }
-
-  .hover\:border-amber-400:hover {
-    border-color: var(--warning);
   }
 
   .border-teal-700 {

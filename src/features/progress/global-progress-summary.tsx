@@ -1,6 +1,7 @@
 "use client";
 
 import type { pilot_review_candidate } from "@/features/practice/pilot-review-candidates";
+import { Stat } from "@/components/ui/stat";
 
 import type { area_topic_definitions } from "./global-progress";
 import { GlobalNextActionCta } from "./global-next-action-cta";
@@ -25,8 +26,8 @@ export function GlobalProgressSummary({
 
   if (!is_hydrated) {
     return (
-      <p className="text-sm text-slate-600" role="status">
-        cargando tu resumen de avance.
+      <p className="text-sm text-ink-muted" role="status">
+        Cargando tu resumen de avance.
       </p>
     );
   }
@@ -37,34 +38,20 @@ export function GlobalProgressSummary({
   );
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-      <dl className="grid grid-cols-2 gap-6 sm:grid-cols-4">
-        <div>
-          <dt className="text-sm text-slate-600">temas dominados</dt>
-          <dd className="mt-1 text-2xl font-semibold text-slate-950">
-            {summary.dominated_topics}/{summary.total_topics}
-          </dd>
-        </div>
-        <div>
-          <dt className="text-sm text-slate-600">lecciones completadas</dt>
-          <dd className="mt-1 text-2xl font-semibold text-slate-950">
-            {summary.completed_lessons}/{summary.total_lessons}
-          </dd>
-        </div>
-        <div>
-          <dt className="text-sm text-slate-600">precisión</dt>
-          <dd className="mt-1 text-2xl font-semibold text-slate-950">
-            {format_accuracy(summary.accuracy)}
-          </dd>
-        </div>
-        <div>
-          <dt className="text-sm text-slate-600">repaso pendiente</dt>
-          <dd className="mt-1 text-2xl font-semibold text-slate-950">
-            {summary.pending_review_count}
-          </dd>
-        </div>
+    <div className="border-y border-line py-8">
+      <dl className="grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-4">
+        <Stat
+          label="temas dominados"
+          value={`${summary.dominated_topics}/${summary.total_topics}`}
+        />
+        <Stat
+          label="lecciones completadas"
+          value={`${summary.completed_lessons}/${summary.total_lessons}`}
+        />
+        <Stat label="precisión" value={format_accuracy(summary.accuracy)} />
+        <Stat label="repaso pendiente" value={summary.pending_review_count} />
       </dl>
-      <div className="mt-6">
+      <div className="mt-8">
         <GlobalNextActionCta
           next_action={next_action}
           pending_review_count={pending_review_count}

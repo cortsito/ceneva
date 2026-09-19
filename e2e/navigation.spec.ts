@@ -41,7 +41,7 @@ test("la navegación global lleva a mi ruta", async ({ page }) => {
 
   await expect(page).toHaveURL(/\/ruta$/);
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "una ruta de estudio",
+    "Una ruta de estudio",
   );
 });
 
@@ -95,6 +95,26 @@ test("el selector de tema se opera desde el teclado", async ({ page }) => {
   await page.keyboard.press(" ");
   await expect(page.getByRole("button", { name: /^Tema: Oscuro\./ })).toBeVisible();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+});
+
+test("el tema oscuro persiste al navegar a las superficies de navegación y recargar", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: /^Tema: Sistema\./ }).click();
+  await page.getByRole("button", { name: /^Tema: Claro\./ }).click();
+  await expect(page.getByRole("button", { name: /^Tema: Oscuro\./ })).toBeVisible();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+
+  for (const path of ["/ruta", "/progreso", "/practica"]) {
+    await page.goto(path);
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  }
+
+  await page.reload();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
 });
 
 test("la ruta piloto abre una lección markdown real", async ({ page }) => {
@@ -516,7 +536,7 @@ test("storage malformado no impide renderizar la cola de repaso", async ({ page 
   await page.goto("/practica");
 
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "repasa tus errores pendientes.",
+    "Repasa tus errores pendientes.",
   );
   await expect(
     page.getByText("no tienes preguntas pendientes de repaso", { exact: false }),

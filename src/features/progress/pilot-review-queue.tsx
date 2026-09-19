@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 
+import { Eyebrow } from "@/components/ui/eyebrow";
 import type { pilot_review_candidate } from "@/features/practice/pilot-review-candidates";
 
 import { select_pending_review_items, type pilot_review_item } from "./pilot-review";
@@ -41,44 +42,44 @@ export function PilotReviewQueue({ candidates }: pilot_review_queue_props) {
   }
 
   return (
-    <section className="mx-auto flex w-full max-w-3xl flex-col gap-8 px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
-      <header>
-        <p className="text-sm font-semibold tracking-wide text-teal-800">práctica</p>
-        <h1 className="mt-3 text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl">
-          repasa tus errores pendientes.
+    <section className="mx-auto flex w-full max-w-3xl flex-col gap-10 px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+      <header className="space-y-4">
+        <Eyebrow>Práctica</Eyebrow>
+        <h1 className="font-display text-4xl font-semibold tracking-tight text-ink sm:text-5xl">
+          Repasa tus errores pendientes.
         </h1>
-        <p className="mt-4 max-w-xl leading-7 text-slate-600">
-          esta cola muestra preguntas cuya última respuesta fue incorrecta, hasta cinco
+        <p className="max-w-xl leading-7 text-ink-muted">
+          Esta cola muestra preguntas cuya última respuesta fue incorrecta, hasta cinco
           a la vez.
         </p>
       </header>
 
       {!is_hydrated || queue === null ? (
-        <p className="text-sm text-slate-600" role="status">
-          cargando tu cola de repaso.
+        <p className="text-sm text-ink-muted" role="status">
+          Cargando tu cola de repaso.
         </p>
       ) : queue.length === 0 ? (
-        <p className="rounded-xl border border-slate-200 bg-white p-6 leading-7 text-slate-700 shadow-sm">
-          no tienes preguntas pendientes de repaso. las preguntas que respondas de forma
+        <p className="border-y border-line py-8 leading-7 text-ink-muted">
+          No tienes preguntas pendientes de repaso. Las preguntas que respondas de forma
           incorrecta en la ruta o en práctica por tema aparecerán aquí.
         </p>
       ) : (
-        <ol aria-label="preguntas pendientes de repaso" className="space-y-6">
+        <ol
+          aria-label="preguntas pendientes de repaso"
+          className="divide-y divide-line border-y border-line"
+        >
           {queue.map((item, item_index) => {
             const answer = answers[item.question.id];
             const has_answered = answer !== undefined;
 
             return (
-              <li key={item.question.id}>
-                <fieldset
-                  className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6"
-                  disabled={has_answered}
-                >
+              <li className="py-8 sm:py-10" key={item.question.id}>
+                <fieldset disabled={has_answered}>
                   <legend className="w-full">
-                    <span className="text-sm font-semibold text-teal-800">
-                      repaso {item_index + 1} de {queue.length} · {item.topic.title}
+                    <span className="text-xs font-semibold tracking-[0.16em] text-accent uppercase">
+                      Repaso {item_index + 1} de {queue.length} · {item.topic.title}
                     </span>
-                    <span className="mt-3 block whitespace-pre-line text-lg font-semibold leading-7 text-slate-950">
+                    <span className="mt-3 block text-lg font-semibold leading-7 whitespace-pre-line text-ink">
                       {item.question.prompt}
                     </span>
                   </legend>
@@ -90,25 +91,25 @@ export function PilotReviewQueue({ candidates }: pilot_review_queue_props) {
                       const option_state = has_answered
                         ? is_selected
                           ? answer.is_correct
-                            ? "border-teal-700 bg-teal-50"
-                            : "border-red-700 bg-red-50"
-                          : "border-slate-300 bg-white"
-                        : "border-slate-300 bg-white hover:border-slate-400";
+                            ? "border-accent bg-accent-soft"
+                            : "border-danger bg-danger-soft"
+                          : "border-line bg-surface"
+                        : "border-line bg-surface hover:border-accent";
 
                       return (
                         <label
-                          className={`flex cursor-pointer items-start gap-3 rounded-lg border p-4 text-slate-800 transition-colors ${option_state}`}
+                          className={`flex cursor-pointer items-start gap-3 rounded-lg border p-4 text-ink transition-colors ${option_state}`}
                           key={option}
                         >
                           <input
                             checked={is_selected}
-                            className="mt-0.5 size-4 shrink-0 accent-teal-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
+                            className="mt-0.5 size-4 shrink-0 accent-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                             name={item.question.id}
                             onChange={() => select_option(item, option_index)}
                             type="radio"
                             value={option_index}
                           />
-                          <span className="whitespace-pre-line leading-6">
+                          <span className="leading-6 whitespace-pre-line">
                             {option}
                           </span>
                         </label>
@@ -121,17 +122,17 @@ export function PilotReviewQueue({ candidates }: pilot_review_queue_props) {
                     aria-atomic="true"
                     className={`mt-3 rounded-lg border p-4 ${
                       answer.is_correct
-                        ? "border-teal-200 bg-teal-50 text-teal-950"
-                        : "border-red-200 bg-red-50 text-red-950"
+                        ? "border-accent bg-accent-soft text-ink"
+                        : "border-danger bg-danger-soft text-ink"
                     }`}
                     role="status"
                   >
                     <p className="font-semibold">
-                      {answer.is_correct ? "correcto." : "todavía no es correcto."}
+                      {answer.is_correct ? "Correcto." : "Todavía no es correcto."}
                     </p>
                     {!answer.is_correct ? (
                       <p className="mt-2 leading-6">
-                        la respuesta correcta es:{" "}
+                        La respuesta correcta es:{" "}
                         <strong>
                           {item.question.options[item.question.correct_option_index]}
                         </strong>
@@ -141,16 +142,16 @@ export function PilotReviewQueue({ candidates }: pilot_review_queue_props) {
                     <p className="mt-2 leading-6">{item.question.explanation}</p>
                     <p className="mt-3 text-sm font-medium leading-6">
                       {answer.is_correct
-                        ? "saldrá de tu cola de repaso la próxima vez que la visites."
-                        : "sigue pendiente en tu cola de repaso."}
+                        ? "Saldrá de tu cola de repaso la próxima vez que la visites."
+                        : "Sigue pendiente en tu cola de repaso."}
                     </p>
                   </div>
                 ) : null}
                 <Link
-                  className="mt-3 inline-block text-sm font-semibold text-teal-800 underline decoration-teal-300 underline-offset-4 transition-colors hover:text-teal-950 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-700"
+                  className="mt-3 inline-block text-sm font-semibold text-accent underline decoration-accent/40 underline-offset-4 transition-colors hover:text-accent-strong focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
                   href={`/leccion/${item.lesson.id}`}
                 >
-                  repasar {item.lesson.title}
+                  Repasar {item.lesson.title}
                 </Link>
               </li>
             );

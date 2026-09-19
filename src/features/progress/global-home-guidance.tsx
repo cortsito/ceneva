@@ -22,8 +22,8 @@ export function GlobalHomeGuidance({
 
   if (!is_hydrated) {
     return (
-      <p className="mt-6 text-sm text-slate-600" role="status">
-        cargando tu próxima acción.
+      <p className="mt-6 text-sm text-ink-muted" role="status">
+        Cargando tu próxima acción.
       </p>
     );
   }
