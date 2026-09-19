@@ -60,7 +60,7 @@ export function TopicPracticeCheck({
     return (
       <section aria-labelledby="resultado-practica" className="mt-8">
         <h2
-          className="text-2xl font-semibold tracking-tight text-slate-950"
+          className="font-display text-2xl font-semibold tracking-tight text-ink"
           id="resultado-practica"
         >
           {correct_count} de {questions.length} respuestas correctas
@@ -76,37 +76,37 @@ export function TopicPracticeCheck({
             return (
               <li key={question.id}>
                 <article
-                  className={`rounded-xl border p-5 shadow-sm sm:p-6 ${
+                  className={`rounded-xl border p-5 sm:p-6 ${
                     answer.is_correct
-                      ? "border-teal-200 bg-teal-50"
-                      : "border-red-200 bg-red-50"
+                      ? "border-accent bg-accent-soft"
+                      : "border-danger bg-danger-soft"
                   }`}
                 >
-                  <p className="text-sm font-semibold text-slate-700">
-                    pregunta {question_index + 1} de {questions.length}
+                  <p className="text-sm font-semibold text-ink-muted">
+                    Pregunta {question_index + 1} de {questions.length}
                   </p>
-                  <p className="mt-2 whitespace-pre-line text-lg font-semibold leading-7 text-slate-950">
+                  <p className="mt-2 text-lg leading-7 font-semibold whitespace-pre-line text-ink">
                     {question.prompt}
                   </p>
-                  <p className="mt-3 leading-6 text-slate-800">
-                    tu respuesta:{" "}
+                  <p className="mt-3 leading-6 text-ink">
+                    Tu respuesta:{" "}
                     <strong>{question.options[answer.selected_option_index]}</strong>
                   </p>
                   {!answer.is_correct ? (
-                    <p className="mt-2 leading-6 text-slate-800">
-                      respuesta correcta:{" "}
+                    <p className="mt-2 leading-6 text-ink">
+                      Respuesta correcta:{" "}
                       <strong>{question.options[question.correct_option_index]}</strong>
                     </p>
                   ) : null}
-                  <p className="mt-2 leading-6 text-slate-700">
+                  <p className="mt-2 leading-6 text-ink-muted">
                     {question.explanation}
                   </p>
                   {has_multiple_lessons ? (
                     <Link
-                      className="mt-3 inline-block text-sm font-semibold text-teal-800 underline decoration-teal-300 underline-offset-4 transition-colors hover:text-teal-950 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-700"
+                      className="mt-3 inline-block text-sm font-semibold text-accent underline decoration-accent/40 underline-offset-4 transition-colors hover:text-accent-strong focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
                       href={`/leccion/${lesson.id}`}
                     >
-                      repasar {lesson.title}
+                      Repasar {lesson.title}
                     </Link>
                   ) : null}
                 </article>
@@ -117,11 +117,11 @@ export function TopicPracticeCheck({
         <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           {related_lessons.map((lesson) => (
             <Link
-              className="inline-block w-fit rounded-md bg-teal-700 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-teal-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
+              className="inline-block w-fit rounded-md bg-accent px-4 py-3 text-sm font-semibold text-accent-contrast transition-colors hover:bg-accent-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
               href={`/leccion/${lesson.id}`}
               key={lesson.id}
             >
-              volver a {lesson.title}
+              Volver a {lesson.title}
             </Link>
           ))}
         </div>
@@ -162,17 +162,17 @@ export function TopicPracticeCheck({
   return (
     <section aria-labelledby="practica-por-tema" className="mt-8">
       <h2
-        className="text-xl font-semibold tracking-tight text-slate-950"
+        className="font-display text-xl font-semibold tracking-tight text-ink"
         id="practica-por-tema"
       >
-        pregunta {current_index + 1} de {questions.length}
+        Pregunta {current_index + 1} de {questions.length}
       </h2>
       <fieldset
-        className="mt-5 rounded-xl border border-slate-200 bg-white p-5 shadow-sm disabled:cursor-wait disabled:opacity-70 sm:p-6"
+        className="mt-5 rounded-xl border border-line bg-surface-raised p-5 disabled:cursor-wait disabled:opacity-70 sm:p-6"
         disabled={!is_ready || has_submitted}
       >
         <legend className="w-full">
-          <span className="block whitespace-pre-line text-lg font-semibold leading-7 text-slate-950">
+          <span className="block text-lg leading-7 font-semibold whitespace-pre-line text-ink">
             {current_question.prompt}
           </span>
         </legend>
@@ -184,25 +184,25 @@ export function TopicPracticeCheck({
             const option_state = has_submitted
               ? is_selected
                 ? answer.is_correct
-                  ? "border-teal-700 bg-teal-50"
-                  : "border-red-700 bg-red-50"
-                : "border-slate-300 bg-white"
-              : "border-slate-300 bg-white hover:border-slate-400";
+                  ? "border-accent bg-accent-soft"
+                  : "border-danger bg-danger-soft"
+                : "border-line bg-surface-raised"
+              : "border-line bg-surface-raised hover:border-accent";
 
             return (
               <label
-                className={`flex cursor-pointer items-start gap-3 rounded-lg border p-4 text-slate-800 transition-colors ${option_state}`}
+                className={`flex cursor-pointer items-start gap-3 rounded-lg border p-4 text-ink transition-colors ${option_state}`}
                 key={option}
               >
                 <input
                   checked={is_selected}
-                  className="mt-0.5 size-4 shrink-0 accent-teal-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
+                  className="mt-0.5 size-4 shrink-0 accent-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                   name={current_question.id}
                   onChange={() => set_pending_option_index(option_index)}
                   type="radio"
                   value={option_index}
                 />
-                <span className="whitespace-pre-line leading-6">{option}</span>
+                <span className="leading-6 whitespace-pre-line">{option}</span>
               </label>
             );
           })}
@@ -210,29 +210,29 @@ export function TopicPracticeCheck({
       </fieldset>
       {!has_submitted ? (
         <button
-          className="mt-5 rounded-md bg-teal-700 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-teal-800 disabled:cursor-not-allowed disabled:bg-slate-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
+          className="mt-5 rounded-md bg-accent px-4 py-3 text-sm font-semibold text-accent-contrast transition-colors hover:bg-accent-strong disabled:cursor-not-allowed disabled:bg-line focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
           disabled={!is_ready || pending_option_index === undefined}
           onClick={submit_answer}
           type="button"
         >
-          confirmar respuesta
+          Confirmar respuesta
         </button>
       ) : (
         <div
           aria-atomic="true"
           className={`mt-5 rounded-lg border p-4 ${
             answer.is_correct
-              ? "border-teal-200 bg-teal-50 text-teal-950"
-              : "border-red-200 bg-red-50 text-red-950"
+              ? "border-accent bg-accent-soft text-ink"
+              : "border-danger bg-danger-soft text-ink"
           }`}
           role="status"
         >
           <p className="font-semibold">
-            {answer.is_correct ? "correcto." : "incorrecto."}
+            {answer.is_correct ? "Correcto." : "Incorrecto."}
           </p>
           {!answer.is_correct ? (
             <p className="mt-2 leading-6">
-              la respuesta correcta es:{" "}
+              La respuesta correcta es:{" "}
               <strong>
                 {current_question.options[current_question.correct_option_index]}
               </strong>
@@ -241,13 +241,13 @@ export function TopicPracticeCheck({
           ) : null}
           <p className="mt-2 leading-6">{current_question.explanation}</p>
           <button
-            className="mt-4 rounded-md bg-teal-700 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-teal-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
+            className="mt-4 rounded-md bg-accent px-4 py-3 text-sm font-semibold text-accent-contrast transition-colors hover:bg-accent-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
             onClick={go_to_next_question}
             type="button"
           >
             {current_index + 1 < questions.length
-              ? "siguiente pregunta"
-              : "ver resultados"}
+              ? "Siguiente pregunta"
+              : "Ver resultados"}
           </button>
         </div>
       )}

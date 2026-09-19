@@ -19,8 +19,8 @@ export function LessonSession({ lesson_id, questions }: lesson_session_props) {
   return (
     <div>
       {!is_hydrated ? (
-        <p className="mt-6 text-sm text-slate-600" role="status">
-          cargando tu avance local.
+        <p className="mt-6 text-sm text-ink-muted" role="status">
+          Cargando tu avance local.
         </p>
       ) : null}
       <LessonCheck
@@ -28,24 +28,24 @@ export function LessonSession({ lesson_id, questions }: lesson_session_props) {
         on_answer={record_practice_answer}
         questions={questions}
       />
-      <section className="mt-8 rounded-xl border border-slate-200 bg-slate-100 p-5 sm:p-6">
-        <h3 className="text-xl font-semibold tracking-tight text-slate-950">
-          termina esta lección
+      <section className="mt-8 rounded-xl border border-line bg-surface p-5 sm:p-6">
+        <h3 className="font-display text-xl font-semibold tracking-tight text-ink">
+          Termina esta lección
         </h3>
-        <p className="mt-3 leading-7 text-slate-700">
-          marca la lección como completada cuando hayas revisado la comprobación.
+        <p className="mt-3 leading-7 text-ink-muted">
+          Marca la lección como completada cuando hayas revisado la comprobación.
         </p>
         <button
-          className="mt-5 rounded-md bg-teal-700 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-teal-800 disabled:cursor-not-allowed disabled:bg-slate-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
+          className="mt-5 rounded-md bg-accent px-4 py-3 text-sm font-semibold text-accent-contrast transition-colors hover:bg-accent-strong disabled:cursor-not-allowed disabled:bg-line focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
           disabled={!is_hydrated || is_completed}
           onClick={() => mark_lesson_completed(lesson_id)}
           type="button"
         >
-          {is_completed ? "lección completada" : "marcar lección como completada"}
+          {is_completed ? "Lección completada" : "Marcar lección como completada"}
         </button>
         {is_completed ? (
-          <p className="mt-3 text-sm font-medium text-teal-900" role="status">
-            guardamos esta lección en tu avance local.
+          <p className="mt-3 text-sm font-medium text-accent" role="status">
+            Guardamos esta lección en tu avance local.
           </p>
         ) : null}
       </section>

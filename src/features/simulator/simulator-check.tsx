@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 
+import { Eyebrow } from "@/components/ui/eyebrow";
+
 import {
   calculate_simulator_coverage_report,
   type simulator_answer,
@@ -33,27 +35,25 @@ export function SimulatorCheck({
 
     return (
       <section aria-labelledby="resultado-simulacro" className="mt-8">
-        <p className="text-sm font-semibold tracking-wide text-teal-800">
-          simulacro de cobertura mvp
-        </p>
+        <Eyebrow>Simulacro de cobertura MVP</Eyebrow>
         <h2
-          className="mt-2 text-2xl font-semibold tracking-tight text-slate-950"
+          className="mt-2 font-display text-2xl font-semibold tracking-tight text-ink"
           id="resultado-simulacro"
         >
           {report.correct_count} de {report.total_count} respuestas correctas
         </h2>
-        <p className="mt-2 leading-6 text-slate-600">
-          cubre una pregunta por tema en las siete áreas disponibles. no es el examen
+        <p className="mt-2 leading-6 text-ink-muted">
+          Cubre una pregunta por tema en las siete áreas disponibles. No es el examen
           oficial completo ni una simulación de su duración o dificultad real.
         </p>
         <ol className="mt-6 space-y-10" aria-label="resultado por área">
           {report.areas.map((area_report) => (
             <li key={area_report.area.id}>
-              <article className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-                <p className="text-sm font-semibold text-teal-800">
+              <article className="rounded-xl border border-line bg-surface-raised p-5 sm:p-6">
+                <p className="text-sm font-semibold text-accent">
                   {area_report.area.title}
                 </p>
-                <p className="mt-2 text-lg font-semibold text-slate-950">
+                <p className="mt-2 text-lg font-semibold text-ink">
                   {area_report.correct_count} de {area_report.total_count} correctas ·
                   precisión {Math.round(area_report.accuracy * 100)}%
                 </p>
@@ -63,28 +63,28 @@ export function SimulatorCheck({
                 >
                   {area_report.topics.map((topic_report) => (
                     <li
-                      className="rounded-lg border border-slate-200 p-4"
+                      className="rounded-lg border border-line p-4"
                       key={topic_report.topic.id}
                     >
-                      <p className="text-sm font-semibold text-slate-700">
+                      <p className="text-sm font-semibold text-ink-muted">
                         {topic_report.topic.title}
                       </p>
                       {topic_report.incorrect_items.length === 0 ? (
-                        <p className="mt-2 leading-6 text-teal-800">
-                          respuesta correcta.
+                        <p className="mt-2 leading-6 text-accent">
+                          Respuesta correcta.
                         </p>
                       ) : (
                         <ul className="mt-2 space-y-3">
                           {topic_report.incorrect_items.map((incorrect) => (
                             <li
-                              className="rounded-lg border border-red-200 bg-red-50 p-4"
+                              className="rounded-lg border border-danger bg-danger-soft p-4"
                               key={incorrect.question.id}
                             >
-                              <p className="whitespace-pre-line font-semibold leading-6 text-slate-950">
+                              <p className="font-semibold leading-6 whitespace-pre-line text-ink">
                                 {incorrect.question.prompt}
                               </p>
-                              <p className="mt-2 leading-6 text-slate-800">
-                                tu respuesta:{" "}
+                              <p className="mt-2 leading-6 text-ink">
+                                Tu respuesta:{" "}
                                 <strong>
                                   {
                                     incorrect.question.options[
@@ -93,8 +93,8 @@ export function SimulatorCheck({
                                   }
                                 </strong>
                               </p>
-                              <p className="mt-2 leading-6 text-slate-800">
-                                respuesta correcta:{" "}
+                              <p className="mt-2 leading-6 text-ink">
+                                Respuesta correcta:{" "}
                                 <strong>
                                   {
                                     incorrect.question.options[
@@ -103,7 +103,7 @@ export function SimulatorCheck({
                                   }
                                 </strong>
                               </p>
-                              <p className="mt-2 leading-6 text-slate-700">
+                              <p className="mt-2 leading-6 text-ink-muted">
                                 {incorrect.question.explanation}
                               </p>
                             </li>
@@ -111,10 +111,10 @@ export function SimulatorCheck({
                         </ul>
                       )}
                       <Link
-                        className="mt-3 inline-block text-sm font-semibold text-teal-800 underline decoration-teal-300 underline-offset-4 transition-colors hover:text-teal-950 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-700"
+                        className="mt-3 inline-block text-sm font-semibold text-accent underline decoration-accent/40 underline-offset-4 transition-colors hover:text-accent-strong focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
                         href={`/leccion/${topic_report.lesson.id}`}
                       >
-                        repasar {topic_report.lesson.title}
+                        Repasar {topic_report.lesson.title}
                       </Link>
                     </li>
                   ))}
@@ -154,18 +154,18 @@ export function SimulatorCheck({
   return (
     <section aria-labelledby="simulacro-cobertura" className="mt-8">
       <h2
-        className="text-xl font-semibold tracking-tight text-slate-950"
+        className="font-display text-xl font-semibold tracking-tight text-ink"
         id="simulacro-cobertura"
       >
-        pregunta {current_index + 1} de {items.length} · {current_item.area.title} ·{" "}
+        Pregunta {current_index + 1} de {items.length} · {current_item.area.title} ·{" "}
         {current_item.topic.title}
       </h2>
       <fieldset
-        className="mt-5 rounded-xl border border-slate-200 bg-white p-5 shadow-sm disabled:cursor-wait disabled:opacity-70 sm:p-6"
+        className="mt-5 rounded-xl border border-line bg-surface-raised p-5 disabled:cursor-wait disabled:opacity-70 sm:p-6"
         disabled={!is_ready}
       >
         <legend className="w-full">
-          <span className="block whitespace-pre-line text-lg font-semibold leading-7 text-slate-950">
+          <span className="block text-lg leading-7 font-semibold whitespace-pre-line text-ink">
             {current_item.question.prompt}
           </span>
         </legend>
@@ -175,34 +175,34 @@ export function SimulatorCheck({
 
             return (
               <label
-                className={`flex cursor-pointer items-start gap-3 rounded-lg border p-4 text-slate-800 transition-colors ${
+                className={`flex cursor-pointer items-start gap-3 rounded-lg border p-4 text-ink transition-colors ${
                   is_selected
-                    ? "border-teal-700 bg-teal-50"
-                    : "border-slate-300 bg-white hover:border-slate-400"
+                    ? "border-accent bg-accent-soft"
+                    : "border-line bg-surface-raised hover:border-accent"
                 }`}
                 key={option}
               >
                 <input
                   checked={is_selected}
-                  className="mt-0.5 size-4 shrink-0 accent-teal-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
+                  className="mt-0.5 size-4 shrink-0 accent-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                   name={current_item.question.id}
                   onChange={() => set_pending_option_index(option_index)}
                   type="radio"
                   value={option_index}
                 />
-                <span className="whitespace-pre-line leading-6">{option}</span>
+                <span className="leading-6 whitespace-pre-line">{option}</span>
               </label>
             );
           })}
         </div>
       </fieldset>
       <button
-        className="mt-5 rounded-md bg-teal-700 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-teal-800 disabled:cursor-not-allowed disabled:bg-slate-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
+        className="mt-5 rounded-md bg-accent px-4 py-3 text-sm font-semibold text-accent-contrast transition-colors hover:bg-accent-strong disabled:cursor-not-allowed disabled:bg-line focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
         disabled={!is_ready || pending_option_index === undefined}
         onClick={submit_answer}
         type="button"
       >
-        {current_index + 1 < items.length ? "siguiente pregunta" : "ver reporte"}
+        {current_index + 1 < items.length ? "Siguiente pregunta" : "Ver reporte"}
       </button>
     </section>
   );

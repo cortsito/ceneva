@@ -42,13 +42,13 @@ export function LessonCheck({
   return (
     <section className="mt-8" aria-labelledby="comprobacion-interactiva">
       <h3
-        className="text-xl font-semibold tracking-tight text-slate-950"
+        className="font-display text-xl font-semibold tracking-tight text-ink"
         id="comprobacion-interactiva"
       >
-        responde las cinco preguntas
+        Responde las cinco preguntas
       </h3>
-      <p className="mt-3 leading-7 text-slate-700">
-        elige una opción en cada pregunta. recibirás feedback inmediato y puedes cambiar
+      <p className="mt-3 leading-7 text-ink-muted">
+        Elige una opción en cada pregunta. Recibirás feedback inmediato y puedes cambiar
         tu respuesta durante esta sesión.
       </p>
       <ol className="mt-6 space-y-6" aria-label="preguntas de comprobación">
@@ -61,14 +61,14 @@ export function LessonCheck({
           return (
             <li key={question.id}>
               <fieldset
-                className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm disabled:cursor-wait disabled:opacity-70 sm:p-6"
+                className="rounded-xl border border-line bg-surface-raised p-5 disabled:cursor-wait disabled:opacity-70 sm:p-6"
                 disabled={!is_ready}
               >
                 <legend className="w-full">
-                  <span className="text-sm font-semibold text-teal-800">
-                    pregunta {question_index + 1} de {questions.length}
+                  <span className="text-sm font-semibold text-accent">
+                    Pregunta {question_index + 1} de {questions.length}
                   </span>
-                  <span className="mt-3 block whitespace-pre-line text-lg font-semibold leading-7 text-slate-950">
+                  <span className="mt-3 block text-lg leading-7 font-semibold whitespace-pre-line text-ink">
                     {question.prompt}
                   </span>
                 </legend>
@@ -78,25 +78,25 @@ export function LessonCheck({
                     const option_state =
                       has_answer && is_selected
                         ? is_correct
-                          ? "border-teal-700 bg-teal-50"
-                          : "border-red-700 bg-red-50"
-                        : "border-slate-300 bg-white hover:border-slate-400";
+                          ? "border-accent bg-accent-soft"
+                          : "border-danger bg-danger-soft"
+                        : "border-line bg-surface-raised hover:border-accent";
 
                     return (
                       <label
-                        className={`flex cursor-pointer items-start gap-3 rounded-lg border p-4 text-slate-800 transition-colors ${option_state}`}
+                        className={`flex cursor-pointer items-start gap-3 rounded-lg border p-4 text-ink transition-colors ${option_state}`}
                         key={option}
                       >
                         <input
                           aria-describedby={has_answer ? feedback_id : undefined}
                           checked={is_selected}
-                          className="mt-0.5 size-4 shrink-0 accent-teal-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
+                          className="mt-0.5 size-4 shrink-0 accent-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                           name={question.id}
                           onChange={() => select_answer(question, option_index)}
                           type="radio"
                           value={option_index}
                         />
-                        <span className="whitespace-pre-line leading-6">{option}</span>
+                        <span className="leading-6 whitespace-pre-line">{option}</span>
                       </label>
                     );
                   })}
@@ -106,18 +106,18 @@ export function LessonCheck({
                     aria-atomic="true"
                     className={`mt-5 rounded-lg border p-4 ${
                       is_correct
-                        ? "border-teal-200 bg-teal-50 text-teal-950"
-                        : "border-red-200 bg-red-50 text-red-950"
+                        ? "border-accent bg-accent-soft text-ink"
+                        : "border-danger bg-danger-soft text-ink"
                     }`}
                     id={feedback_id}
                     role="status"
                   >
                     <p className="font-semibold">
-                      {is_correct ? "correcto." : "todavía no es correcto."}
+                      {is_correct ? "Correcto." : "Todavía no es correcto."}
                     </p>
                     {!is_correct ? (
                       <p className="mt-2 leading-6">
-                        la respuesta correcta es:{" "}
+                        La respuesta correcta es:{" "}
                         <strong>
                           {question.options[question.correct_option_index]}
                         </strong>
@@ -125,10 +125,10 @@ export function LessonCheck({
                       </p>
                     ) : null}
                     <p className="mt-2 leading-6">{question.explanation}</p>
-                    <p className="mt-3 text-sm font-medium leading-6">
+                    <p className="mt-3 text-sm leading-6 font-medium">
                       {is_correct
-                        ? "continúa con la siguiente pregunta."
-                        : "revisa la explicación y elige otra opción si quieres intentarlo de nuevo."}
+                        ? "Continúa con la siguiente pregunta."
+                        : "Revisa la explicación y elige otra opción si quieres intentarlo de nuevo."}
                     </p>
                   </div>
                 ) : null}

@@ -145,7 +145,7 @@ test("una lección ajena al piloto responde con not found", async ({ page }) => 
   await page.goto("/leccion/pm-probabilidad-simple-01");
 
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "no encontramos esta página.",
+    "No encontramos esta página.",
   );
 });
 
@@ -167,7 +167,7 @@ test("la comprobación responde desde el teclado con feedback explicado", async 
       name: "el número de llamadas recibidas en un día",
     }),
   ).toBeChecked();
-  await expect(page.getByRole("status").first()).toContainText("correcto.");
+  await expect(page.getByRole("status").first()).toContainText("Correcto.");
   await expect(page.getByRole("status").first()).toContainText(
     "el número de llamadas se obtiene contando unidades completas.",
   );
@@ -258,7 +258,7 @@ test("la comprobación de cultura digital responde desde el teclado con feedback
       name: "su historial de comentarios, reacciones y publicaciones en distintos servicios en línea",
     }),
   ).toBeChecked();
-  await expect(page.getByRole("status").first()).toContainText("correcto.");
+  await expect(page.getByRole("status").first()).toContainText("Correcto.");
   await expect(page.getByRole("status").first()).toContainText(
     "la identidad digital reúne datos de perfil, contenido publicado e interacciones",
   );
@@ -437,7 +437,7 @@ test("una práctica por tema con id inválido responde con not found", async ({
   await page.goto("/practica/tema-inexistente");
 
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "no encontramos esta página.",
+    "No encontramos esta página.",
   );
 });
 
@@ -478,7 +478,7 @@ test("un error de práctica por tema entra a la cola de repaso y sale al corregi
 
   await page.getByRole("radio", { name: "sistemático", exact: true }).check();
 
-  await expect(page.getByRole("status").first()).toContainText("correcto.");
+  await expect(page.getByRole("status").first()).toContainText("Correcto.");
   await expect(page.getByRole("status").first()).toContainText(
     "la selección comienza en una posición aleatoria",
   );
@@ -519,7 +519,7 @@ test("un error de práctica en un área no-pm entra a la cola de repaso y sale a
     })
     .check();
 
-  await expect(page.getByRole("status").first()).toContainText("correcto.");
+  await expect(page.getByRole("status").first()).toContainText("Correcto.");
 
   await page.reload();
 
@@ -987,7 +987,7 @@ test("el simulacro identifica la cobertura mvp antes de iniciar y responde desde
   await page.goto("/simulacro");
 
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "valida tu preparación en las siete áreas",
+    "Valida tu preparación en las siete áreas",
   );
   await expect(
     page.getByText("simulacro de cobertura mvp", { exact: false }),
@@ -1080,7 +1080,7 @@ test("el simulacro se puede responder en pantalla móvil", async ({ page }) => {
   await page.goto("/simulacro");
 
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "valida tu preparación en las siete áreas",
+    "Valida tu preparación en las siete áreas",
   );
   await expect(page.getByText("pregunta 1 de 36")).toBeVisible();
 
@@ -1328,7 +1328,7 @@ test("la práctica del tema partido conciencia histórica responde desde el tecl
 
   await page.getByRole("button", { name: "confirmar respuesta" }).click();
 
-  await expect(page.getByRole("status").first()).toContainText("correcto.");
+  await expect(page.getByRole("status").first()).toContainText("Correcto.");
 
   await page.getByRole("button", { name: "siguiente pregunta" }).click();
 
@@ -1440,7 +1440,7 @@ test("completar la lección base de humanidades desbloquea una lección dependie
   ).toBeChecked();
 
   await page.getByRole("button", { name: "confirmar respuesta" }).click();
-  await expect(page.getByRole("status").first()).toContainText("correcto.");
+  await expect(page.getByRole("status").first()).toContainText("Correcto.");
   await page.getByRole("button", { name: "siguiente pregunta" }).click();
 
   for (const [index, option_label] of hu_fmc_correct_options.entries()) {
@@ -1626,7 +1626,7 @@ test("completar la lección de enlaces químicos desbloquea conservación de la 
   ).toBeChecked();
 
   await page.getByRole("button", { name: "confirmar respuesta" }).click();
-  await expect(page.getByRole("status").first()).toContainText("correcto.");
+  await expect(page.getByRole("status").first()).toContainText("Correcto.");
   await page.getByRole("button", { name: "siguiente pregunta" }).click();
 
   for (const [index, option_label] of cn_enl_correct_options.entries()) {
@@ -1793,7 +1793,7 @@ test("completar la lección de jerarquía en mapas conceptuales habilita su prá
   ).toBeChecked();
 
   await page.getByRole("button", { name: "confirmar respuesta" }).click();
-  await expect(page.getByRole("status").first()).toContainText("correcto.");
+  await expect(page.getByRole("status").first()).toContainText("Correcto.");
   await page.getByRole("button", { name: "siguiente pregunta" }).click();
 
   for (const [index, option_label] of lc_jmc_correct_options.entries()) {
@@ -2030,7 +2030,7 @@ test("completar la cadena interna de ciencias sociales desbloquea sectores, dist
   ).toBeChecked();
 
   await page.getByRole("button", { name: "confirmar respuesta" }).click();
-  await expect(page.getByRole("status").first()).toContainText("correcto.");
+  await expect(page.getByRole("status").first()).toContainText("Correcto.");
   await page.getByRole("button", { name: "siguiente pregunta" }).click();
 
   for (const [index, option_label] of cs_fpp_correct_options.entries()) {
