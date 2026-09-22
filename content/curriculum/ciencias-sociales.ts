@@ -2,7 +2,7 @@ import type { curriculum_area } from './types'
 
 export const ciencias_sociales: curriculum_area = {
   "id": "ciencias-sociales",
-  "title": "ciencias sociales",
+  "title": "Ciencias sociales",
   "description": "ruta de estudio de ciencias sociales basada en la guía oficial.",
   "source": {
     "guide": "docs/guiaoficial.pdf",
@@ -15,7 +15,7 @@ export const ciencias_sociales: curriculum_area = {
   "units": [
     {
       "id": "cs-7-1-organizacion-economica",
-      "title": "organización económica",
+      "title": "Organización económica",
       "source": {
         "guide": "docs/guiaoficial.pdf",
         "pages": [
@@ -26,7 +26,7 @@ export const ciencias_sociales: curriculum_area = {
       "topics": [
         {
           "id": "cs-7-1-1-necesidades-materiales-vitales-y-no-vitales",
-          "title": "necesidades materiales vitales y no vitales",
+          "title": "Necesidades materiales vitales y no vitales",
           "lesson_ids": [
             "cs-necesidades-materiales-01"
           ],
@@ -40,7 +40,7 @@ export const ciencias_sociales: curriculum_area = {
         },
         {
           "id": "cs-7-1-2-factores-de-procesos-de-produccion",
-          "title": "factores de los procesos de producción",
+          "title": "Factores de los procesos de producción",
           "lesson_ids": [
             "cs-factores-de-produccion-01"
           ],
@@ -54,7 +54,7 @@ export const ciencias_sociales: curriculum_area = {
         },
         {
           "id": "cs-7-1-3-tipos-de-sectores-productivos",
-          "title": "tipos de sectores productivos",
+          "title": "Tipos de sectores productivos",
           "lesson_ids": [
             "cs-sectores-productivos-01"
           ],
@@ -68,7 +68,7 @@ export const ciencias_sociales: curriculum_area = {
         },
         {
           "id": "cs-7-1-4-mecanismos-de-distribucion-de-la-riqueza",
-          "title": "mecanismos de distribución de la riqueza",
+          "title": "Mecanismos de distribución de la riqueza",
           "lesson_ids": [
             "cs-distribucion-de-la-riqueza-01"
           ],
@@ -82,7 +82,7 @@ export const ciencias_sociales: curriculum_area = {
         },
         {
           "id": "cs-7-1-5-empleo-formal-e-informal",
-          "title": "empleo formal e informal",
+          "title": "Empleo formal e informal",
           "lesson_ids": [
             "cs-empleo-formal-e-informal-01"
           ],
@@ -96,7 +96,7 @@ export const ciencias_sociales: curriculum_area = {
         },
         {
           "id": "cs-7-1-6-mecanismos-estatales-de-redistribucion-de-la-riqueza",
-          "title": "mecanismos estatales de redistribución de la riqueza",
+          "title": "Mecanismos estatales de redistribución de la riqueza",
           "lesson_ids": [
             "cs-redistribucion-estatal-de-la-riqueza-01"
           ],
@@ -110,7 +110,7 @@ export const ciencias_sociales: curriculum_area = {
         },
         {
           "id": "cs-7-1-7-caracteristicas-del-estado-de-bienestar",
-          "title": "características del estado de bienestar",
+          "title": "Características del estado de bienestar",
           "lesson_ids": [
             "cs-estado-de-bienestar-01"
           ],
@@ -124,7 +124,7 @@ export const ciencias_sociales: curriculum_area = {
         },
         {
           "id": "cs-7-1-8-caracteristicas-del-modelo-economico-neoliberal",
-          "title": "características del modelo económico neoliberal",
+          "title": "Características del modelo económico neoliberal",
           "lesson_ids": [
             "cs-modelo-economico-neoliberal-01"
           ],
@@ -138,7 +138,7 @@ export const ciencias_sociales: curriculum_area = {
         },
         {
           "id": "cs-7-1-9-degradacion-ambiental-por-formas-de-produccion",
-          "title": "degradación ambiental por las formas de producción",
+          "title": "Degradación ambiental por las formas de producción",
           "lesson_ids": [
             "cs-degradacion-ambiental-y-produccion-01"
           ],

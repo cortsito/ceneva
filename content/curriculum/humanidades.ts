@@ -2,7 +2,7 @@ import type { curriculum_area } from './types'
 
 export const humanidades: curriculum_area = {
   "id": "humanidades",
-  "title": "humanidades",
+  "title": "Humanidades",
   "description": "ruta de estudio de humanidades basada en la guía oficial.",
   "source": {
     "guide": "docs/guiaoficial.pdf",
@@ -15,7 +15,7 @@ export const humanidades: curriculum_area = {
   "units": [
     {
       "id": "hu-4-1-fundamentos-del-pensamiento-filosofico",
-      "title": "fundamentos del pensamiento filosófico",
+      "title": "Fundamentos del pensamiento filosófico",
       "source": {
         "guide": "docs/guiaoficial.pdf",
         "pages": [
@@ -26,7 +26,7 @@ export const humanidades: curriculum_area = {
       "topics": [
         {
           "id": "hu-4-1-1-filosofia-mito-y-ciencia",
-          "title": "filosofía, mito y ciencia",
+          "title": "Filosofía, mito y ciencia",
           "lesson_ids": [
             "hu-filosofia-mito-y-ciencia-01"
           ],
@@ -40,7 +40,7 @@ export const humanidades: curriculum_area = {
         },
         {
           "id": "hu-4-1-2-pensamiento-critico",
-          "title": "pensamiento crítico",
+          "title": "Pensamiento crítico",
           "lesson_ids": [
             "hu-pensamiento-critico-01"
           ],
@@ -54,7 +54,7 @@ export const humanidades: curriculum_area = {
         },
         {
           "id": "hu-4-1-3-pensamiento-existencialista",
-          "title": "pensamiento existencialista",
+          "title": "Pensamiento existencialista",
           "lesson_ids": [
             "hu-pensamiento-existencialista-01"
           ],
@@ -68,7 +68,7 @@ export const humanidades: curriculum_area = {
         },
         {
           "id": "hu-4-1-4-doxa-y-episteme",
-          "title": "doxa y episteme",
+          "title": "Doxa y episteme",
           "lesson_ids": [
             "hu-doxa-y-episteme-01"
           ],

@@ -2,7 +2,7 @@ import type { curriculum_area } from './types'
 
 export const cultura_digital: curriculum_area = {
   "id": "cultura-digital",
-  "title": "cultura digital",
+  "title": "Cultura digital",
   "description": "ruta de estudio de cultura digital basada en la guía oficial.",
   "source": {
     "guide": "docs/guiaoficial.pdf",
@@ -15,7 +15,7 @@ export const cultura_digital: curriculum_area = {
   "units": [
     {
       "id": "cd-2-1-ciudadania-digital",
-      "title": "ciudadanía digital",
+      "title": "Ciudadanía digital",
       "source": {
         "guide": "docs/guiaoficial.pdf",
         "pages": [
@@ -26,7 +26,7 @@ export const cultura_digital: curriculum_area = {
       "topics": [
         {
           "id": "cd-2-1-1-elementos-de-la-identidad-digital",
-          "title": "elementos de la identidad digital",
+          "title": "Elementos de la identidad digital",
           "lesson_ids": [
             "cd-identidad-digital-01"
           ],
@@ -40,7 +40,7 @@ export const cultura_digital: curriculum_area = {
         },
         {
           "id": "cd-2-1-2-tipos-de-licenciamiento-de-software",
-          "title": "tipos de licenciamiento de software",
+          "title": "Tipos de licenciamiento de software",
           "lesson_ids": [
             "cd-licenciamiento-de-software-01"
           ],
@@ -54,7 +54,7 @@ export const cultura_digital: curriculum_area = {
         },
         {
           "id": "cd-2-1-3-tipos-de-servicios-digitales",
-          "title": "tipos de servicios digitales",
+          "title": "Tipos de servicios digitales",
           "lesson_ids": [
             "cd-servicios-digitales-01"
           ],
@@ -68,7 +68,7 @@ export const cultura_digital: curriculum_area = {
         },
         {
           "id": "cd-2-1-4-tipos-de-amenazas-de-seguridad-digital",
-          "title": "tipos de amenazas de seguridad digital",
+          "title": "Tipos de amenazas de seguridad digital",
           "lesson_ids": [
             "cd-amenazas-de-seguridad-digital-01"
           ],
@@ -82,7 +82,7 @@ export const cultura_digital: curriculum_area = {
         },
         {
           "id": "cd-2-1-5-medidas-de-seguridad-digital",
-          "title": "medidas de seguridad digital",
+          "title": "Medidas de seguridad digital",
           "lesson_ids": [
             "cd-medidas-de-seguridad-digital-01"
           ],

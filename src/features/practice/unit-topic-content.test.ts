@@ -97,11 +97,11 @@ describe("get_topic_content", () => {
 
     expect(content?.topic).toMatchObject({
       id: "pm-1-1-1-tipos-de-variables",
-      title: "tipos de variables",
+      title: "Tipos de variables",
       code: "1.1.1",
     });
     expect(content?.lessons).toEqual([
-      { id: "pm-tipos-de-variables-01", title: "variables estadísticas" },
+      { id: "pm-tipos-de-variables-01", title: "Variables estadísticas" },
     ]);
     expect(content?.questions).toHaveLength(5);
     expect(
@@ -121,11 +121,11 @@ describe("get_topic_content", () => {
 
     expect(content?.topic).toMatchObject({
       id: "cd-2-1-1-elementos-de-la-identidad-digital",
-      title: "elementos de la identidad digital",
+      title: "Elementos de la identidad digital",
       code: "2.1.1",
     });
     expect(content?.lessons).toEqual([
-      { id: "cd-identidad-digital-01", title: "identidad digital" },
+      { id: "cd-identidad-digital-01", title: "Identidad digital" },
     ]);
     expect(content?.questions.map((item) => item.question.id)).toEqual([
       "cd-id-001",
@@ -145,11 +145,11 @@ describe("get_topic_content", () => {
 
     expect(content?.topic).toMatchObject({
       id: "hu-4-1-2-pensamiento-critico",
-      title: "pensamiento crítico",
+      title: "Pensamiento crítico",
       code: "4.1.2",
     });
     expect(content?.lessons).toEqual([
-      { id: "hu-pensamiento-critico-01", title: "pensamiento crítico" },
+      { id: "hu-pensamiento-critico-01", title: "Pensamiento crítico" },
     ]);
     expect(content?.questions.map((item) => item.question.id)).toEqual([
       "hu-pc-001",
@@ -169,11 +169,11 @@ describe("get_topic_content", () => {
 
     expect(content?.topic).toMatchObject({
       id: "cn-5-1-3-ley-de-conservacion-de-la-materia",
-      title: "ley de la conservación de la materia",
+      title: "Ley de la conservación de la materia",
       code: "5.1.3",
     });
     expect(content?.lessons).toEqual([
-      { id: "cn-conservacion-de-la-materia-01", title: "conservación de la materia" },
+      { id: "cn-conservacion-de-la-materia-01", title: "Conservación de la materia" },
     ]);
     expect(content?.questions.map((item) => item.question.id)).toEqual([
       "cn-cm-001",
@@ -193,13 +193,13 @@ describe("get_topic_content", () => {
 
     expect(content?.topic).toMatchObject({
       id: "lc-6-1-3-jerarquia-de-informacion-en-mapas-conceptuales",
-      title: "jerarquía de la información en mapas conceptuales",
+      title: "Jerarquía de la información en mapas conceptuales",
       code: "6.1.3",
     });
     expect(content?.lessons).toEqual([
       {
         id: "lc-jerarquia-en-mapas-conceptuales-01",
-        title: "jerarquía en mapas conceptuales",
+        title: "Jerarquía en mapas conceptuales",
       },
     ]);
     expect(content?.questions.map((item) => item.question.id)).toEqual([
@@ -251,11 +251,11 @@ describe("get_topic_content", () => {
 
     expect(content?.topic).toMatchObject({
       id: "cs-7-1-4-mecanismos-de-distribucion-de-la-riqueza",
-      title: "mecanismos de distribución de la riqueza",
+      title: "Mecanismos de distribución de la riqueza",
       code: "7.1.4",
     });
     expect(content?.lessons).toEqual([
-      { id: "cs-distribucion-de-la-riqueza-01", title: "distribución de la riqueza" },
+      { id: "cs-distribucion-de-la-riqueza-01", title: "Distribución de la riqueza" },
     ]);
     expect(content?.questions.map((item) => item.question.id)).toEqual([
       "cs-mdr-001",
@@ -276,11 +276,11 @@ describe("get_topic_content", () => {
     expect(content?.lessons).toEqual([
       {
         id: "ch-resistencias-de-pueblos-originarios-01",
-        title: "resistencias de pueblos originarios",
+        title: "Resistencias de pueblos originarios",
       },
       {
         id: "ch-impacto-cultural-de-resistencias-originarias-02",
-        title: "impacto cultural de resistencias originarias",
+        title: "Impacto cultural de resistencias originarias",
       },
     ]);
     expect(content?.questions).toHaveLength(10);
@@ -318,7 +318,7 @@ describe("get_available_topic_content", () => {
 
     expect(content?.topic.id).toBe("pm-1-1-1-tipos-de-variables");
     expect(content?.lessons).toEqual([
-      { id: "pm-tipos-de-variables-01", title: "variables estadísticas" },
+      { id: "pm-tipos-de-variables-01", title: "Variables estadísticas" },
     ]);
     expect(content?.questions).toHaveLength(5);
   });
@@ -330,13 +330,13 @@ describe("get_available_topic_content", () => {
 
     expect(content?.topic).toMatchObject({
       id: "cd-2-1-4-tipos-de-amenazas-de-seguridad-digital",
-      title: "tipos de amenazas de seguridad digital",
+      title: "Tipos de amenazas de seguridad digital",
       code: "2.1.4",
     });
     expect(content?.lessons).toEqual([
       {
         id: "cd-amenazas-de-seguridad-digital-01",
-        title: "amenazas de seguridad digital",
+        title: "Amenazas de seguridad digital",
       },
     ]);
     expect(content?.questions.map((item) => item.question.id)).toEqual([
@@ -367,11 +367,11 @@ describe("get_available_topic_content", () => {
 
     expect(content?.topic).toMatchObject({
       id: "hu-4-1-1-filosofia-mito-y-ciencia",
-      title: "filosofía, mito y ciencia",
+      title: "Filosofía, mito y ciencia",
       code: "4.1.1",
     });
     expect(content?.lessons).toEqual([
-      { id: "hu-filosofia-mito-y-ciencia-01", title: "filosofía, mito y ciencia" },
+      { id: "hu-filosofia-mito-y-ciencia-01", title: "Filosofía, mito y ciencia" },
     ]);
     expect(content?.questions).toHaveLength(5);
   });
@@ -381,11 +381,11 @@ describe("get_available_topic_content", () => {
 
     expect(content?.topic).toMatchObject({
       id: "cn-5-1-1-tipos-de-enlaces",
-      title: "tipos de enlaces iónico, covalente y metálico",
+      title: "Tipos de enlaces iónico, covalente y metálico",
       code: "5.1.1",
     });
     expect(content?.lessons).toEqual([
-      { id: "cn-tipos-de-enlaces-01", title: "enlaces químicos" },
+      { id: "cn-tipos-de-enlaces-01", title: "Enlaces químicos" },
     ]);
     expect(content?.questions).toHaveLength(5);
   });
@@ -397,11 +397,11 @@ describe("get_available_topic_content", () => {
 
     expect(content?.topic).toMatchObject({
       id: "lc-6-1-1-titulo-del-texto-expositivo",
-      title: "título del texto expositivo",
+      title: "Título del texto expositivo",
       code: "6.1.1",
     });
     expect(content?.lessons).toEqual([
-      { id: "lc-titulo-del-texto-expositivo-01", title: "título del texto expositivo" },
+      { id: "lc-titulo-del-texto-expositivo-01", title: "Título del texto expositivo" },
     ]);
     expect(content?.questions).toHaveLength(5);
   });
@@ -413,13 +413,13 @@ describe("get_available_topic_content", () => {
 
     expect(content?.topic).toMatchObject({
       id: "cs-7-1-9-degradacion-ambiental-por-formas-de-produccion",
-      title: "degradación ambiental por las formas de producción",
+      title: "Degradación ambiental por las formas de producción",
       code: "7.1.9",
     });
     expect(content?.lessons).toEqual([
       {
         id: "cs-degradacion-ambiental-y-produccion-01",
-        title: "degradación ambiental y producción",
+        title: "Degradación ambiental y producción",
       },
     ]);
     expect(content?.questions).toHaveLength(5);

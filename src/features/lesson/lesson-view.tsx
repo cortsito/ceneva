@@ -52,14 +52,14 @@ type markdown_sections = {
   cierre: string;
 };
 
+const COMPROBACION_HEADING = /\n(## comprobación)\n/i;
+const CIERRE_HEADING = /\n(## cierre)\n/i;
+
 function get_markdown_sections(body: string): markdown_sections {
   const body_without_title = get_markdown_body(body);
-  const [before_comprobacion, remaining_body] = body_without_title.split(
-    "\n## comprobación\n",
-    2,
-  );
+  const comprobacion_match = body_without_title.match(COMPROBACION_HEADING);
 
-  if (remaining_body === undefined) {
+  if (comprobacion_match?.index === undefined) {
     return {
       before_comprobacion: body_without_title,
       comprobacion: "",
@@ -67,12 +67,24 @@ function get_markdown_sections(body: string): markdown_sections {
     };
   }
 
-  const [comprobacion_body, cierre_body] = remaining_body.split("\n## cierre\n", 2);
+  const before_comprobacion = body_without_title.slice(0, comprobacion_match.index);
+  const remaining_body = body_without_title.slice(
+    comprobacion_match.index + comprobacion_match[0].length,
+  );
+  const cierre_match = remaining_body.match(CIERRE_HEADING);
+
+  if (cierre_match?.index === undefined) {
+    return {
+      before_comprobacion,
+      comprobacion: `${comprobacion_match[1]}\n${remaining_body}`,
+      cierre: "",
+    };
+  }
 
   return {
     before_comprobacion,
-    comprobacion: `## comprobación\n${comprobacion_body}`,
-    cierre: cierre_body === undefined ? "" : `## cierre\n${cierre_body}`,
+    comprobacion: `${comprobacion_match[1]}\n${remaining_body.slice(0, cierre_match.index)}`,
+    cierre: `${cierre_match[1]}\n${remaining_body.slice(cierre_match.index + cierre_match[0].length)}`,
   };
 }
 

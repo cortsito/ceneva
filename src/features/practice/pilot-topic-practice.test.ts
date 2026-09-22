@@ -9,12 +9,12 @@ describe("get_pilot_topic_practice", () => {
     expect(practice).toMatchObject({
       topic: {
         id: "pm-1-1-1-tipos-de-variables",
-        title: "tipos de variables",
+        title: "Tipos de variables",
         code: "1.1.1",
       },
       lesson: {
         id: "pm-tipos-de-variables-01",
-        title: "variables estadísticas",
+        title: "Variables estadísticas",
       },
     });
     expect(practice?.questions).toHaveLength(5);

@@ -34,8 +34,8 @@ describe("get_pilot_review_candidates", () => {
     );
 
     expect(tipos_de_variables_candidate).toMatchObject({
-      topic: { id: "pm-1-1-1-tipos-de-variables", title: "tipos de variables" },
-      lesson: { id: "pm-tipos-de-variables-01", title: "variables estadísticas" },
+      topic: { id: "pm-1-1-1-tipos-de-variables", title: "Tipos de variables" },
+      lesson: { id: "pm-tipos-de-variables-01", title: "Variables estadísticas" },
     });
   });
 

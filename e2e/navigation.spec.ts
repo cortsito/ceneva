@@ -124,14 +124,14 @@ test("la ruta piloto abre una lección markdown real", async ({ page }) => {
 
   await expect(page).toHaveURL("/ruta/pensamiento-matematico");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "pensamiento estadístico",
+    "Pensamiento estadístico",
   );
 
   await page.getByRole("link", { name: "estudiar variables estadísticas" }).click();
 
   await expect(page).toHaveURL("/leccion/pm-tipos-de-variables-01");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "variables estadísticas",
+    "Variables estadísticas",
   );
   await expect(
     page.getByText("clasificar variables cuantitativas, cualitativas y categóricas."),
@@ -169,7 +169,7 @@ test("la comprobación responde desde el teclado con feedback explicado", async 
   ).toBeChecked();
   await expect(page.getByRole("status").first()).toContainText("Correcto.");
   await expect(page.getByRole("status").first()).toContainText(
-    "el número de llamadas se obtiene contando unidades completas.",
+    "El número de llamadas se obtiene contando unidades completas.",
   );
 });
 
@@ -227,7 +227,7 @@ test("storage malformado no impide renderizar la ruta piloto", async ({ page }) 
   await page.goto("/ruta/pensamiento-matematico");
 
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "pensamiento estadístico",
+    "Pensamiento estadístico",
   );
   await expect(page.getByText("disponible", { exact: true }).first()).toBeVisible();
 });
@@ -260,7 +260,7 @@ test("la comprobación de cultura digital responde desde el teclado con feedback
   ).toBeChecked();
   await expect(page.getByRole("status").first()).toContainText("Correcto.");
   await expect(page.getByRole("status").first()).toContainText(
-    "la identidad digital reúne datos de perfil, contenido publicado e interacciones",
+    "La identidad digital reúne datos de perfil, contenido publicado e interacciones",
   );
 });
 
@@ -276,7 +276,7 @@ test("el flujo completo de cultura digital persiste tras recargar y no afecta el
 
   await expect(page).toHaveURL("/ruta/cultura-digital");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "ciudadanía digital",
+    "Ciudadanía digital",
   );
 
   const blocked_topic = page
@@ -288,7 +288,7 @@ test("el flujo completo de cultura digital persiste tras recargar y no afecta el
   await page.getByRole("link", { name: "estudiar identidad digital" }).click();
 
   await expect(page).toHaveURL("/leccion/cd-identidad-digital-01");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("identidad digital");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Identidad digital");
 
   await page.getByRole("button", { name: "marcar lección como completada" }).click();
   await expect(page.getByRole("button", { name: "lección completada" })).toBeDisabled();
@@ -296,7 +296,7 @@ test("el flujo completo de cultura digital persiste tras recargar y no afecta el
   await page.goto("/practica/cd-2-1-1-elementos-de-la-identidad-digital");
 
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "elementos de la identidad digital",
+    "Elementos de la identidad digital",
   );
 
   for (const [
@@ -324,7 +324,7 @@ test("el flujo completo de cultura digital persiste tras recargar y no afecta el
   await page.goto("/ruta/cultura-digital");
 
   const identidad_topic = page
-    .getByRole("heading", { name: "elementos de la identidad digital" })
+    .getByRole("heading", { name: "Elementos de la identidad digital" })
     .locator("xpath=ancestor::article");
 
   await expect(identidad_topic.getByText("dominado", { exact: true })).toBeVisible();
@@ -350,7 +350,7 @@ test("la práctica de cultura digital se puede responder en pantalla móvil", as
   await page.goto("/practica/cd-2-1-1-elementos-de-la-identidad-digital");
 
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "elementos de la identidad digital",
+    "Elementos de la identidad digital",
   );
   await expect(page.getByText("pregunta 1 de 5")).toBeVisible();
 
@@ -408,7 +408,7 @@ test("completar una práctica por tema muestra resultados explicados y enlaza a 
 }) => {
   await page.goto("/practica/pm-1-1-2-tipos-de-muestra");
 
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("tipos de muestra");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Tipos de muestra");
   await expect(page.getByText("pregunta 1 de 5")).toBeVisible();
 
   for (const [index, option_label] of tipos_de_muestra_correct_options.entries()) {
@@ -428,7 +428,7 @@ test("completar una práctica por tema muestra resultados explicados y enlaza a 
   await page.getByRole("link", { name: "volver a tipos de muestreo" }).click();
 
   await expect(page).toHaveURL("/leccion/pm-tipos-de-muestra-01");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("tipos de muestreo");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Tipos de muestreo");
 });
 
 test("una práctica por tema con id inválido responde con not found", async ({
@@ -449,7 +449,7 @@ test("los intentos de la práctica por tema persisten después de recargar", asy
   await page.goto("/ruta/pensamiento-matematico");
 
   const topic_card = page
-    .getByRole("heading", { name: "tipos de muestra" })
+    .getByRole("heading", { name: "Tipos de muestra" })
     .locator("xpath=ancestor::article");
 
   await expect(topic_card.getByText("5 intentos", { exact: false })).toBeVisible();
@@ -471,7 +471,7 @@ test("un error de práctica por tema entra a la cola de repaso y sale al corregi
 
   await page.goto("/practica");
 
-  await expect(page.getByText("tipos de muestra", { exact: false })).toBeVisible();
+  await expect(page.getByText("Tipos de muestra", { exact: false })).toBeVisible();
   await expect(
     page.getByRole("link", { name: "repasar tipos de muestreo" }),
   ).toBeVisible();
@@ -480,7 +480,7 @@ test("un error de práctica por tema entra a la cola de repaso y sale al corregi
 
   await expect(page.getByRole("status").first()).toContainText("Correcto.");
   await expect(page.getByRole("status").first()).toContainText(
-    "la selección comienza en una posición aleatoria",
+    "La selección comienza en una posición aleatoria",
   );
 
   await page.reload();
@@ -506,7 +506,7 @@ test("un error de práctica en un área no-pm entra a la cola de repaso y sale a
   await page.goto("/practica");
 
   await expect(
-    page.getByText("elementos de la identidad digital", { exact: false }),
+    page.getByText("Elementos de la identidad digital", { exact: false }),
   ).toBeVisible();
   await expect(
     page.getByRole("link", { name: "repasar identidad digital" }),
@@ -697,7 +697,7 @@ test("el progreso de un área no-pm se refleja en /progreso tras recargar", asyn
   await page.goto("/progreso");
 
   const cd_area_block = page
-    .getByRole("heading", { name: "cultura digital" })
+    .getByRole("heading", { name: "Cultura digital" })
     .locator("xpath=ancestor::article");
   const dominated_stat = cd_area_block
     .getByText("temas dominados", { exact: true })
@@ -771,7 +771,7 @@ test("el selector de diagnóstico muestra las siete áreas disponibles y lleva a
 
   await expect(page).toHaveURL("/diagnostico/cultura-digital");
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "cultura digital",
+    "Cultura digital",
   );
 });
 
@@ -915,7 +915,7 @@ const simulator_coverage_correct_options = [
   "phishing",
   "cambiar su contraseña por una nueva y única, y habilitar la autenticación en dos factores",
   "a los purépechas",
-  "a la guerra de castas",
+  "a la Guerra de Castas",
   "a los criollos",
   "virreinal, porque se construyó durante la colonia como sede del poder virreinal",
   "transmisión comunitaria",
@@ -926,8 +926,8 @@ const simulator_coverage_correct_options = [
   "iónico",
   "líquido",
   "sí, porque cada elemento tiene el mismo número de átomos en ambos lados: 1 calcio, 1 carbono y 3 oxígenos",
-  "68 °f",
-  "0.00899 n",
+  "68 °F",
+  "0.00899 N",
   "importancia de las abejas para la producción de alimentos",
   "relación causal",
   "animal",
@@ -1029,19 +1029,19 @@ test("completar el simulacro de cobertura con un error no-pm muestra el reporte 
   ).toBeVisible();
 
   const pm_area = page
-    .getByText("pensamiento matemático", { exact: true })
+    .getByText("Pensamiento matemático", { exact: true })
     .locator("xpath=ancestor::article[1]");
 
   await expect(pm_area.getByText("4 de 4 correctas", { exact: false })).toBeVisible();
 
   const cd_area = page
-    .getByText("cultura digital", { exact: true })
+    .getByText("Cultura digital", { exact: true })
     .locator("xpath=ancestor::article[1]");
 
   await expect(cd_area.getByText("4 de 5 correctas", { exact: false })).toBeVisible();
 
   const mismatched_topic = cd_area
-    .getByText("tipos de servicios digitales", { exact: true })
+    .getByText("Tipos de servicios digitales", { exact: true })
     .locator("xpath=ancestor::li[1]");
 
   await expect(
@@ -1094,14 +1094,14 @@ test("el simulacro se puede responder en pantalla móvil", async ({ page }) => {
 });
 
 const ch_movimientos_correct_options = [
-  "a la guerra de castas",
-  "yaqui",
+  "a la Guerra de Castas",
+  "Yaqui",
   "el despojo de tierras",
   "1b, 2c, 3a",
   "2, 3, 1, 4",
-  "felipe carrillo puerto",
-  "la danza del venado",
-  "la cuaresma y semana santa yaqui",
+  "Felipe Carrillo Puerto",
+  "la Danza del Venado",
+  "la Cuaresma y Semana Santa yaqui",
   "la organización comunal en defensa de su territorio y sus recursos",
   "1b, 2c, 3a",
 ];
@@ -1115,12 +1115,12 @@ test("la ruta de conciencia histórica muestra sus cinco temas y el tema partido
 
   await expect(page).toHaveURL("/ruta/conciencia-historica");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "perspectivas del méxico antiguo y virreinal en los contextos globales",
+    "Perspectivas del México antiguo y virreinal en los contextos globales",
   );
 
   const movimientos_topic = page
     .getByRole("heading", {
-      name: "movimientos de resistencia de los pueblos originarios y su impacto actual",
+      name: "Movimientos de resistencia de los pueblos originarios y su impacto actual",
     })
     .locator("xpath=ancestor::article");
 
@@ -1138,7 +1138,7 @@ test("la ruta de conciencia histórica muestra sus cinco temas y el tema partido
 
   const conquista_topic = page
     .getByRole("heading", {
-      name: "conquista de los pueblos mesoamericanos o aridoamericanos durante los siglos xvi a xix",
+      name: "Conquista de los pueblos mesoamericanos o aridoamericanos durante los siglos XVI a XIX",
     })
     .locator("xpath=ancestor::article");
 
@@ -1150,14 +1150,14 @@ test("completar ambas lecciones del tema partido conciencia histórica habilita 
 }) => {
   await page.goto("/leccion/ch-conquista-de-pueblos-originarios-01");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "conquista de pueblos originarios",
+    "Conquista de pueblos originarios",
   );
   await page.getByRole("button", { name: "marcar lección como completada" }).click();
   await expect(page.getByRole("button", { name: "lección completada" })).toBeDisabled();
 
   await page.goto("/leccion/ch-resistencias-de-pueblos-originarios-01");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "resistencias de pueblos originarios",
+    "Resistencias de pueblos originarios",
   );
   await expect(
     page.getByRole("link", { name: "repasa ch-conquista-de-pueblos-originarios-01" }),
@@ -1169,7 +1169,7 @@ test("completar ambas lecciones del tema partido conciencia histórica habilita 
 
   const movimientos_topic = page
     .getByRole("heading", {
-      name: "movimientos de resistencia de los pueblos originarios y su impacto actual",
+      name: "Movimientos de resistencia de los pueblos originarios y su impacto actual",
     })
     .locator("xpath=ancestor::article");
 
@@ -1179,7 +1179,7 @@ test("completar ambas lecciones del tema partido conciencia histórica habilita 
 
   await page.goto("/leccion/ch-impacto-cultural-de-resistencias-originarias-02");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "impacto cultural de resistencias originarias",
+    "Impacto cultural de resistencias originarias",
   );
   await expect(
     page.getByRole("link", {
@@ -1193,7 +1193,7 @@ test("completar ambas lecciones del tema partido conciencia histórica habilita 
     "/practica/ch-3-1-2-movimientos-de-resistencia-de-pueblos-originarios",
   );
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "movimientos de resistencia de los pueblos originarios y su impacto actual",
+    "Movimientos de resistencia de los pueblos originarios y su impacto actual",
   );
   await expect(
     page.getByText("responde las 10 preguntas de este tema", { exact: false }),
@@ -1271,7 +1271,7 @@ test("completar ambas lecciones del tema partido conciencia histórica habilita 
 
   const dominated_topic = page
     .getByRole("heading", {
-      name: "movimientos de resistencia de los pueblos originarios y su impacto actual",
+      name: "Movimientos de resistencia de los pueblos originarios y su impacto actual",
     })
     .locator("xpath=ancestor::article");
 
@@ -1293,7 +1293,7 @@ test("completar ambas lecciones del tema partido conciencia histórica habilita 
   await page.goto("/ruta/cultura-digital");
 
   const cultura_digital_topic = page
-    .getByRole("heading", { name: "elementos de la identidad digital" })
+    .getByRole("heading", { name: "Elementos de la identidad digital" })
     .locator("xpath=ancestor::article");
 
   await expect(
@@ -1313,18 +1313,18 @@ test("la práctica del tema partido conciencia histórica responde desde el tecl
 
   await expect(page.getByText("pregunta 1 de 10")).toBeVisible();
 
-  await answer_topic_question(page, "a la guerra de castas", "siguiente pregunta");
+  await answer_topic_question(page, "a la Guerra de Castas", "siguiente pregunta");
 
   await expect(page.getByText("pregunta 2 de 10")).toBeVisible();
   await expect(page.getByText("correcto", { exact: false })).toHaveCount(0);
 
-  const second_question_option = page.getByRole("radio", { name: "usumacinta" });
+  const second_question_option = page.getByRole("radio", { name: "Usumacinta" });
 
   await expect(second_question_option).toBeEnabled();
   await second_question_option.focus();
   await page.keyboard.press("ArrowDown");
 
-  await expect(page.getByRole("radio", { name: "yaqui" })).toBeChecked();
+  await expect(page.getByRole("radio", { name: "Yaqui" })).toBeChecked();
 
   await page.getByRole("button", { name: "confirmar respuesta" }).click();
 
@@ -1344,7 +1344,7 @@ test("la práctica de un tema de una sola lección de conciencia histórica se p
   );
 
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "conquista de los pueblos mesoamericanos o aridoamericanos durante los siglos xvi a xix",
+    "Conquista de los pueblos mesoamericanos o aridoamericanos durante los siglos XVI a XIX",
   );
   await expect(page.getByText("pregunta 1 de 5")).toBeVisible();
 
@@ -1370,19 +1370,19 @@ test("la ruta de humanidades muestra sus cuatro temas, con los tres dependientes
 
   await expect(page).toHaveURL("/ruta/humanidades");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "fundamentos del pensamiento filosófico",
+    "Fundamentos del pensamiento filosófico",
   );
 
   const base_topic = page
-    .getByRole("heading", { name: "filosofía, mito y ciencia" })
+    .getByRole("heading", { name: "Filosofía, mito y ciencia" })
     .locator("xpath=ancestor::article");
 
   await expect(base_topic.getByText("disponible", { exact: true })).toBeVisible();
 
   for (const topic_title of [
-    "pensamiento crítico",
+    "Pensamiento crítico",
     "pensamiento existencialista",
-    "doxa y episteme",
+    "Doxa y episteme",
   ]) {
     const dependent_topic = page
       .getByRole("heading", { name: topic_title })
@@ -1397,7 +1397,7 @@ test("completar la lección base de humanidades desbloquea una lección dependie
 }) => {
   await page.goto("/leccion/hu-filosofia-mito-y-ciencia-01");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "filosofía, mito y ciencia",
+    "Filosofía, mito y ciencia",
   );
   await expect(page.getByText("antes de continuar")).toHaveCount(0);
   await page.getByRole("button", { name: "marcar lección como completada" }).click();
@@ -1405,7 +1405,7 @@ test("completar la lección base de humanidades desbloquea una lección dependie
 
   await page.goto("/leccion/hu-pensamiento-critico-01");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "pensamiento crítico",
+    "Pensamiento crítico",
   );
   await expect(
     page.getByRole("link", { name: "repasa hu-filosofia-mito-y-ciencia-01" }),
@@ -1414,14 +1414,14 @@ test("completar la lección base de humanidades desbloquea una lección dependie
   await page.goto("/ruta/humanidades");
 
   const dependent_topic = page
-    .getByRole("heading", { name: "pensamiento crítico" })
+    .getByRole("heading", { name: "Pensamiento crítico" })
     .locator("xpath=ancestor::article");
 
   await expect(dependent_topic.getByText("disponible", { exact: true })).toBeVisible();
 
   await page.goto("/practica/hu-4-1-1-filosofia-mito-y-ciencia");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "filosofía, mito y ciencia",
+    "Filosofía, mito y ciencia",
   );
   await expect(page.getByText("pregunta 1 de 5")).toBeVisible();
   await expect(page.getByText("correcto", { exact: false })).toHaveCount(0);
@@ -1468,7 +1468,7 @@ test("completar la lección base de humanidades desbloquea una lección dependie
   await page.goto("/ruta/humanidades");
 
   const dominated_topic = page
-    .getByRole("heading", { name: "filosofía, mito y ciencia" })
+    .getByRole("heading", { name: "Filosofía, mito y ciencia" })
     .locator("xpath=ancestor::article");
 
   await expect(dominated_topic.getByText("dominado", { exact: true })).toBeVisible();
@@ -1489,7 +1489,7 @@ test("completar la lección base de humanidades desbloquea una lección dependie
   await page.goto("/ruta/cultura-digital");
 
   const cultura_digital_topic = page
-    .getByRole("heading", { name: "elementos de la identidad digital" })
+    .getByRole("heading", { name: "Elementos de la identidad digital" })
     .locator("xpath=ancestor::article");
 
   await expect(
@@ -1503,7 +1503,7 @@ test("completar la lección base de humanidades desbloquea una lección dependie
 
   const conciencia_historica_topic = page
     .getByRole("heading", {
-      name: "conquista de los pueblos mesoamericanos o aridoamericanos durante los siglos xvi a xix",
+      name: "Conquista de los pueblos mesoamericanos o aridoamericanos durante los siglos XVI a XIX",
     })
     .locator("xpath=ancestor::article");
 
@@ -1521,7 +1521,7 @@ test("la práctica de un tema de humanidades se puede responder en pantalla móv
   await page.setViewportSize({ width: 375, height: 667 });
   await page.goto("/practica/hu-4-1-4-doxa-y-episteme");
 
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("doxa y episteme");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Doxa y episteme");
   await expect(page.getByText("pregunta 1 de 5")).toBeVisible();
 
   await answer_topic_question(
@@ -1554,7 +1554,7 @@ test("la ruta de ciencias naturales muestra sus cinco temas, con conservación d
 
   await expect(page).toHaveURL("/ruta/ciencias-naturales-experimentales-y-tecnologia");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "la materia y sus interacciones",
+    "La materia y sus interacciones",
   );
 
   for (const topic_title of [
@@ -1585,14 +1585,14 @@ test("completar la lección de enlaces químicos desbloquea conservación de la 
   page,
 }) => {
   await page.goto("/leccion/cn-tipos-de-enlaces-01");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("enlaces químicos");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Enlaces químicos");
   await expect(page.getByText("antes de continuar")).toHaveCount(0);
   await page.getByRole("button", { name: "marcar lección como completada" }).click();
   await expect(page.getByRole("button", { name: "lección completada" })).toBeDisabled();
 
   await page.goto("/leccion/cn-conservacion-de-la-materia-01");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "conservación de la materia",
+    "Conservación de la materia",
   );
   await expect(
     page.getByRole("link", { name: "repasa cn-tipos-de-enlaces-01" }),
@@ -1610,7 +1610,7 @@ test("completar la lección de enlaces químicos desbloquea conservación de la 
 
   await page.goto("/practica/cn-5-1-1-tipos-de-enlaces");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "tipos de enlaces iónico, covalente y metálico",
+    "Tipos de enlaces iónico, covalente y metálico",
   );
   await expect(page.getByText("pregunta 1 de 5")).toBeVisible();
   await expect(page.getByText("correcto", { exact: false })).toHaveCount(0);
@@ -1675,7 +1675,7 @@ test("completar la lección de enlaces químicos desbloquea conservación de la 
   await page.goto("/ruta/cultura-digital");
 
   const cultura_digital_topic = page
-    .getByRole("heading", { name: "elementos de la identidad digital" })
+    .getByRole("heading", { name: "Elementos de la identidad digital" })
     .locator("xpath=ancestor::article");
 
   await expect(
@@ -1689,7 +1689,7 @@ test("completar la lección de enlaces químicos desbloquea conservación de la 
 
   const conciencia_historica_topic = page
     .getByRole("heading", {
-      name: "conquista de los pueblos mesoamericanos o aridoamericanos durante los siglos xvi a xix",
+      name: "Conquista de los pueblos mesoamericanos o aridoamericanos durante los siglos XVI a XIX",
     })
     .locator("xpath=ancestor::article");
 
@@ -1703,7 +1703,7 @@ test("completar la lección de enlaces químicos desbloquea conservación de la 
   await page.goto("/ruta/humanidades");
 
   const humanidades_topic = page
-    .getByRole("heading", { name: "filosofía, mito y ciencia" })
+    .getByRole("heading", { name: "Filosofía, mito y ciencia" })
     .locator("xpath=ancestor::article");
 
   await expect(
@@ -1721,11 +1721,11 @@ test("la práctica de un tema de ciencias naturales se puede responder en pantal
   await page.goto("/practica/cn-5-1-4-conversion-de-escalas-termometricas");
 
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "conversión de escalas termométricas",
+    "Conversión de escalas termométricas",
   );
   await expect(page.getByText("pregunta 1 de 5")).toBeVisible();
 
-  await answer_topic_question(page, "68 °f", "siguiente pregunta");
+  await answer_topic_question(page, "68 °F", "siguiente pregunta");
 
   await expect(page.getByText("pregunta 2 de 5")).toBeVisible();
 });
@@ -1747,14 +1747,14 @@ test("la ruta de lengua y comunicación muestra sus cuatro temas disponibles des
 
   await expect(page).toHaveURL("/ruta/lengua-y-comunicacion");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "estrategias de comprensión lectora",
+    "Estrategias de comprensión lectora",
   );
 
   for (const topic_title of [
     "título del texto expositivo",
     "tipos de relaciones lógicas entre oraciones",
-    "jerarquía de la información en mapas conceptuales",
-    "tipos de formas textuales de comunicación (resumen, relato simple, reseña y comentario crítico)",
+    "Jerarquía de la información en mapas conceptuales",
+    "Tipos de formas textuales de comunicación (resumen, relato simple, reseña y comentario crítico)",
   ]) {
     const topic = page
       .getByRole("heading", { name: topic_title })
@@ -1769,7 +1769,7 @@ test("completar la lección de jerarquía en mapas conceptuales habilita su prá
 }) => {
   await page.goto("/leccion/lc-jerarquia-en-mapas-conceptuales-01");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "jerarquía en mapas conceptuales",
+    "Jerarquía en mapas conceptuales",
   );
   await expect(page.getByText("antes de continuar")).toHaveCount(0);
   await page.getByRole("button", { name: "marcar lección como completada" }).click();
@@ -1777,7 +1777,7 @@ test("completar la lección de jerarquía en mapas conceptuales habilita su prá
 
   await page.goto("/practica/lc-6-1-3-jerarquia-de-informacion-en-mapas-conceptuales");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "jerarquía de la información en mapas conceptuales",
+    "Jerarquía de la información en mapas conceptuales",
   );
   await expect(page.getByText("pregunta 1 de 5")).toBeVisible();
   await expect(page.getByText("correcto", { exact: false })).toHaveCount(0);
@@ -1823,7 +1823,7 @@ test("completar la lección de jerarquía en mapas conceptuales habilita su prá
   await page.goto("/ruta/lengua-y-comunicacion");
 
   const dominated_topic = page
-    .getByRole("heading", { name: "jerarquía de la información en mapas conceptuales" })
+    .getByRole("heading", { name: "Jerarquía de la información en mapas conceptuales" })
     .locator("xpath=ancestor::article");
 
   await expect(dominated_topic.getByText("dominado", { exact: true })).toBeVisible();
@@ -1844,7 +1844,7 @@ test("completar la lección de jerarquía en mapas conceptuales habilita su prá
   await page.goto("/ruta/cultura-digital");
 
   const cultura_digital_topic = page
-    .getByRole("heading", { name: "elementos de la identidad digital" })
+    .getByRole("heading", { name: "Elementos de la identidad digital" })
     .locator("xpath=ancestor::article");
 
   await expect(
@@ -1858,7 +1858,7 @@ test("completar la lección de jerarquía en mapas conceptuales habilita su prá
 
   const conciencia_historica_topic = page
     .getByRole("heading", {
-      name: "conquista de los pueblos mesoamericanos o aridoamericanos durante los siglos xvi a xix",
+      name: "Conquista de los pueblos mesoamericanos o aridoamericanos durante los siglos XVI a XIX",
     })
     .locator("xpath=ancestor::article");
 
@@ -1872,7 +1872,7 @@ test("completar la lección de jerarquía en mapas conceptuales habilita su prá
   await page.goto("/ruta/humanidades");
 
   const humanidades_topic = page
-    .getByRole("heading", { name: "filosofía, mito y ciencia" })
+    .getByRole("heading", { name: "Filosofía, mito y ciencia" })
     .locator("xpath=ancestor::article");
 
   await expect(
@@ -1903,7 +1903,7 @@ test("la práctica de un tema de lengua y comunicación se puede responder en pa
   await page.goto("/practica/lc-6-1-4-formas-textuales-de-comunicacion");
 
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "tipos de formas textuales de comunicación (resumen, relato simple, reseña y comentario crítico)",
+    "Tipos de formas textuales de comunicación (resumen, relato simple, reseña y comentario crítico)",
   );
   await expect(page.getByText("pregunta 1 de 5")).toBeVisible();
 
@@ -1929,12 +1929,12 @@ test("la ruta de ciencias sociales muestra sus nueve temas, con necesidades, fac
 
   await expect(page).toHaveURL("/ruta/ciencias-sociales");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "organización económica",
+    "Organización económica",
   );
 
   for (const topic_title of [
-    "necesidades materiales vitales y no vitales",
-    "factores de los procesos de producción",
+    "Necesidades materiales vitales y no vitales",
+    "Factores de los procesos de producción",
     "empleo formal e informal",
   ]) {
     const topic = page
@@ -1980,12 +1980,12 @@ test("completar la cadena interna de ciencias sociales desbloquea sectores, dist
     await expect(topic.getByText(status, { exact: true })).toBeVisible();
   }
 
-  await complete_lesson("cs-factores-de-produccion-01", "factores de producción");
+  await complete_lesson("cs-factores-de-produccion-01", "Factores de producción");
 
   await expect_topic_status("tipos de sectores productivos", "disponible");
   await expect_topic_status("mecanismos de distribución de la riqueza", "disponible");
 
-  await complete_lesson("cs-sectores-productivos-01", "sectores productivos");
+  await complete_lesson("cs-sectores-productivos-01", "Sectores productivos");
   await expect_topic_status(
     "degradación ambiental por las formas de producción",
     "disponible",
@@ -1993,7 +1993,7 @@ test("completar la cadena interna de ciencias sociales desbloquea sectores, dist
 
   await complete_lesson(
     "cs-distribucion-de-la-riqueza-01",
-    "distribución de la riqueza",
+    "Distribución de la riqueza",
   );
   await expect_topic_status(
     "mecanismos estatales de redistribución de la riqueza",
@@ -2002,11 +2002,11 @@ test("completar la cadena interna de ciencias sociales desbloquea sectores, dist
 
   await complete_lesson(
     "cs-redistribucion-estatal-de-la-riqueza-01",
-    "redistribución estatal de la riqueza",
+    "Redistribución estatal de la riqueza",
   );
   await expect_topic_status("características del estado de bienestar", "disponible");
 
-  await complete_lesson("cs-estado-de-bienestar-01", "estado de bienestar");
+  await complete_lesson("cs-estado-de-bienestar-01", "Estado de bienestar");
   await expect_topic_status(
     "características del modelo económico neoliberal",
     "disponible",
@@ -2014,7 +2014,7 @@ test("completar la cadena interna de ciencias sociales desbloquea sectores, dist
 
   await page.goto("/practica/cs-7-1-2-factores-de-procesos-de-produccion");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "factores de los procesos de producción",
+    "Factores de los procesos de producción",
   );
   await expect(page.getByText("pregunta 1 de 5")).toBeVisible();
   await expect(page.getByText("correcto", { exact: false })).toHaveCount(0);
@@ -2058,7 +2058,7 @@ test("completar la cadena interna de ciencias sociales desbloquea sectores, dist
   await page.goto("/ruta/ciencias-sociales");
 
   const dominated_topic = page
-    .getByRole("heading", { name: "factores de los procesos de producción" })
+    .getByRole("heading", { name: "Factores de los procesos de producción" })
     .locator("xpath=ancestor::article");
 
   await expect(dominated_topic.getByText("dominado", { exact: true })).toBeVisible();
@@ -2079,7 +2079,7 @@ test("completar la cadena interna de ciencias sociales desbloquea sectores, dist
   await page.goto("/ruta/cultura-digital");
 
   const cultura_digital_topic = page
-    .getByRole("heading", { name: "elementos de la identidad digital" })
+    .getByRole("heading", { name: "Elementos de la identidad digital" })
     .locator("xpath=ancestor::article");
 
   await expect(
@@ -2110,7 +2110,7 @@ test("la práctica de un tema de ciencias sociales se puede responder en pantall
   await page.goto("/practica/cs-7-1-1-necesidades-materiales-vitales-y-no-vitales");
 
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "necesidades materiales vitales y no vitales",
+    "Necesidades materiales vitales y no vitales",
   );
   await expect(page.getByText("pregunta 1 de 5")).toBeVisible();
 

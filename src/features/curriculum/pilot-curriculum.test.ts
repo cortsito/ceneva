@@ -8,7 +8,7 @@ describe("get_pilot_curriculum", () => {
 
     expect(curriculum.area.id).toBe(pilot_area_id);
     expect(curriculum.unit.id).toBe(pilot_unit_id);
-    expect(curriculum.unit.title).toBe("pensamiento estadístico");
+    expect(curriculum.unit.title).toBe("Pensamiento estadístico");
     expect(curriculum.unit.topics.map((topic) => topic.id)).toEqual([
       "pm-1-1-1-tipos-de-variables",
       "pm-1-1-2-tipos-de-muestra",

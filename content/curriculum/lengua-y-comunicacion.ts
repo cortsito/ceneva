@@ -2,7 +2,7 @@ import type { curriculum_area } from './types'
 
 export const lengua_y_comunicacion: curriculum_area = {
   "id": "lengua-y-comunicacion",
-  "title": "lengua y comunicación",
+  "title": "Lengua y comunicación",
   "description": "ruta de estudio de lengua y comunicación basada en la guía oficial.",
   "source": {
     "guide": "docs/guiaoficial.pdf",
@@ -15,7 +15,7 @@ export const lengua_y_comunicacion: curriculum_area = {
   "units": [
     {
       "id": "lc-6-1-estrategias-de-comprension-lectora",
-      "title": "estrategias de comprensión lectora",
+      "title": "Estrategias de comprensión lectora",
       "source": {
         "guide": "docs/guiaoficial.pdf",
         "pages": [
@@ -26,7 +26,7 @@ export const lengua_y_comunicacion: curriculum_area = {
       "topics": [
         {
           "id": "lc-6-1-1-titulo-del-texto-expositivo",
-          "title": "título del texto expositivo",
+          "title": "Título del texto expositivo",
           "lesson_ids": [
             "lc-titulo-del-texto-expositivo-01"
           ],
@@ -40,7 +40,7 @@ export const lengua_y_comunicacion: curriculum_area = {
         },
         {
           "id": "lc-6-1-2-relaciones-logicas-entre-oraciones",
-          "title": "tipos de relaciones lógicas entre oraciones",
+          "title": "Tipos de relaciones lógicas entre oraciones",
           "lesson_ids": [
             "lc-relaciones-logicas-entre-oraciones-01"
           ],
@@ -54,7 +54,7 @@ export const lengua_y_comunicacion: curriculum_area = {
         },
         {
           "id": "lc-6-1-3-jerarquia-de-informacion-en-mapas-conceptuales",
-          "title": "jerarquía de la información en mapas conceptuales",
+          "title": "Jerarquía de la información en mapas conceptuales",
           "lesson_ids": [
             "lc-jerarquia-en-mapas-conceptuales-01"
           ],
@@ -68,7 +68,7 @@ export const lengua_y_comunicacion: curriculum_area = {
         },
         {
           "id": "lc-6-1-4-formas-textuales-de-comunicacion",
-          "title": "tipos de formas textuales de comunicación (resumen, relato simple, reseña y comentario crítico)",
+          "title": "Tipos de formas textuales de comunicación (resumen, relato simple, reseña y comentario crítico)",
           "lesson_ids": [
             "lc-formas-textuales-de-comunicacion-01"
           ],

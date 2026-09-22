@@ -2,7 +2,7 @@ import type { curriculum_area } from './types'
 
 export const conciencia_historica: curriculum_area = {
   "id": "conciencia-historica",
-  "title": "conciencia histórica",
+  "title": "Conciencia histórica",
   "description": "ruta de estudio de conciencia histórica basada en la guía oficial.",
   "source": {
     "guide": "docs/guiaoficial.pdf",
@@ -15,7 +15,7 @@ export const conciencia_historica: curriculum_area = {
   "units": [
     {
       "id": "ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales",
-      "title": "perspectivas del méxico antiguo y virreinal en los contextos globales",
+      "title": "Perspectivas del México antiguo y virreinal en los contextos globales",
       "source": {
         "guide": "docs/guiaoficial.pdf",
         "pages": [
@@ -26,7 +26,7 @@ export const conciencia_historica: curriculum_area = {
       "topics": [
         {
           "id": "ch-3-1-1-conquista-de-pueblos-mesoamericanos-o-aridoamericanos",
-          "title": "conquista de los pueblos mesoamericanos o aridoamericanos durante los siglos xvi a xix",
+          "title": "Conquista de los pueblos mesoamericanos o aridoamericanos durante los siglos XVI a XIX",
           "lesson_ids": [
             "ch-conquista-de-pueblos-originarios-01"
           ],
@@ -40,7 +40,7 @@ export const conciencia_historica: curriculum_area = {
         },
         {
           "id": "ch-3-1-2-movimientos-de-resistencia-de-pueblos-originarios",
-          "title": "movimientos de resistencia de los pueblos originarios y su impacto actual",
+          "title": "Movimientos de resistencia de los pueblos originarios y su impacto actual",
           "lesson_ids": [
             "ch-resistencias-de-pueblos-originarios-01",
             "ch-impacto-cultural-de-resistencias-originarias-02"
@@ -55,7 +55,7 @@ export const conciencia_historica: curriculum_area = {
         },
         {
           "id": "ch-3-1-3-grupos-sociales-de-la-nueva-espana",
-          "title": "grupos sociales de la nueva españa",
+          "title": "Grupos sociales de la Nueva España",
           "lesson_ids": [
             "ch-grupos-sociales-de-la-nueva-espana-01"
           ],
@@ -69,7 +69,7 @@ export const conciencia_historica: curriculum_area = {
         },
         {
           "id": "ch-3-1-4-origen-del-patrimonio-prehispanico-y-virreinal",
-          "title": "origen del patrimonio histórico prehispánico y virreinal",
+          "title": "Origen del patrimonio histórico prehispánico y virreinal",
           "lesson_ids": [
             "ch-origen-del-patrimonio-historico-01"
           ],
@@ -83,7 +83,7 @@ export const conciencia_historica: curriculum_area = {
         },
         {
           "id": "ch-3-1-5-preservacion-del-patrimonio-prehispanico-y-virreinal",
-          "title": "preservación del patrimonio histórico prehispánico y virreinal",
+          "title": "Preservación del patrimonio histórico prehispánico y virreinal",
           "lesson_ids": [
             "ch-preservacion-del-patrimonio-historico-01"
           ],

@@ -2,7 +2,7 @@ import type { curriculum_area } from './types'
 
 export const pensamiento_matematico: curriculum_area = {
   "id": "pensamiento-matematico",
-  "title": "pensamiento matemático",
+  "title": "Pensamiento matemático",
   "description": "ruta de estudio de pensamiento matemático basada en la guía oficial.",
   "source": {
     "guide": "docs/guiaoficial.pdf",
@@ -15,7 +15,7 @@ export const pensamiento_matematico: curriculum_area = {
   "units": [
     {
       "id": "pm-1-1-pensamiento-estadistico",
-      "title": "pensamiento estadístico",
+      "title": "Pensamiento estadístico",
       "source": {
         "guide": "docs/guiaoficial.pdf",
         "pages": [
@@ -26,7 +26,7 @@ export const pensamiento_matematico: curriculum_area = {
       "topics": [
         {
           "id": "pm-1-1-1-tipos-de-variables",
-          "title": "tipos de variables",
+          "title": "Tipos de variables",
           "lesson_ids": [
             "pm-tipos-de-variables-01"
           ],
@@ -40,7 +40,7 @@ export const pensamiento_matematico: curriculum_area = {
         },
         {
           "id": "pm-1-1-2-tipos-de-muestra",
-          "title": "tipos de muestra",
+          "title": "Tipos de muestra",
           "lesson_ids": [
             "pm-tipos-de-muestra-01"
           ],
@@ -54,7 +54,7 @@ export const pensamiento_matematico: curriculum_area = {
         },
         {
           "id": "pm-1-1-3-medidas-de-tendencia-central",
-          "title": "medidas de tendencia central",
+          "title": "Medidas de tendencia central",
           "lesson_ids": [
             "pm-medidas-de-tendencia-central-01"
           ],
@@ -68,7 +68,7 @@ export const pensamiento_matematico: curriculum_area = {
         },
         {
           "id": "pm-1-1-4-medidas-de-dispersion",
-          "title": "medidas de dispersión",
+          "title": "Medidas de dispersión",
           "lesson_ids": [
             "pm-medidas-de-dispersion-01"
           ],

@@ -3,8 +3,8 @@ id: cn-conversion-de-temperatura-01
 area-id: ciencias-naturales-experimentales-y-tecnologia
 unit-id: cn-5-1-materia-y-sus-interacciones
 topic-id: cn-5-1-4-conversion-de-escalas-termometricas
-title: conversión de temperatura
-objective: convertir temperaturas entre escalas celsius y fahrenheit.
+title: Conversión de temperatura
+objective: Convertir temperaturas entre escalas Celsius y Fahrenheit.
 estimated-minutes: 10
 prerequisites: []
 question-ids:
@@ -19,54 +19,54 @@ source:
   code: 5.1.4
 ---
 
-# conversión de temperatura
+# Conversión de temperatura
 
-## objetivo
+## Objetivo
 
-convertir un valor de temperatura de la escala celsius a fahrenheit, o de fahrenheit a celsius, aplicando la fórmula correspondiente paso a paso.
+Convertir un valor de temperatura de la escala Celsius a Fahrenheit, o de Fahrenheit a Celsius, aplicando la fórmula correspondiente paso a paso.
 
-## explicación
+## Explicación
 
-celsius y fahrenheit son dos escalas distintas para medir la misma temperatura, con puntos de referencia diferentes: el agua se congela a 0 °c pero a 32 °f, y hierve a 100 °c pero a 212 °f. para convertir entre ellas se usan estas fórmulas:
+Celsius y Fahrenheit son dos escalas distintas para medir la misma temperatura, con puntos de referencia diferentes: el agua se congela a 0 °C pero a 32 °F, y hierve a 100 °C pero a 212 °F. Para convertir entre ellas se usan estas fórmulas:
 
-- de celsius a fahrenheit: `°f = (°c × 9/5) + 32`
-- de fahrenheit a celsius: `°c = (°f − 32) × 5/9`
+- De Celsius a Fahrenheit: `°F = (°C × 9/5) + 32`
+- De Fahrenheit a Celsius: `°C = (°F − 32) × 5/9`
 
-el factor `9/5` (o su inverso `5/9`) ajusta el tamaño del grado, porque un grado celsius equivale a 1.8 grados fahrenheit. la constante `32` ajusta el punto de partida, porque 0 °c no corresponde a 0 °f, sino a 32 °f. al convertir de fahrenheit a celsius, hay que restar el 32 primero, antes de multiplicar por `5/9`, porque esa resta ubica el valor en la misma referencia de partida (0) que usa la escala celsius.
+El factor `9/5` (o su inverso `5/9`) ajusta el tamaño del grado, porque un grado Celsius equivale a 1.8 grados Fahrenheit. La constante `32` ajusta el punto de partida, porque 0 °C no corresponde a 0 °F, sino a 32 °F. Al convertir de Fahrenheit a Celsius, hay que restar el 32 primero, antes de multiplicar por `5/9`, porque esa resta ubica el valor en la misma referencia de partida (0) que usa la escala Celsius.
 
-## ejemplo resuelto
+## Ejemplo resuelto
 
-convierte 25 °c a fahrenheit, y luego convierte 98.6 °f a celsius.
+Convierte 25 °C a Fahrenheit, y luego convierte 98.6 °F a Celsius.
 
-**de celsius a fahrenheit:**
+**De Celsius a Fahrenheit:**
 
-1. fórmula: `°f = (°c × 9/5) + 32`
-2. sustitución: `°f = (25 × 9/5) + 32`
-3. aritmética: 25 × 9 = 225; 225 ÷ 5 = 45; 45 + 32 = 77
-4. resultado con unidad: 25 °c equivalen a 77 °f.
+1. Fórmula: `°F = (°C × 9/5) + 32`
+2. Sustitución: `°F = (25 × 9/5) + 32`
+3. Aritmética: 25 × 9 = 225; 225 ÷ 5 = 45; 45 + 32 = 77
+4. Resultado con unidad: 25 °C equivalen a 77 °F.
 
-**de fahrenheit a celsius:**
+**De Fahrenheit a Celsius:**
 
-1. fórmula: `°c = (°f − 32) × 5/9`
-2. sustitución: `°c = (98.6 − 32) × 5/9`
-3. aritmética: 98.6 − 32 = 66.6; 66.6 × 5 = 333; 333 ÷ 9 = 37
-4. resultado con unidad: 98.6 °f equivalen a 37 °c.
+1. Fórmula: `°C = (°F − 32) × 5/9`
+2. Sustitución: `°C = (98.6 − 32) × 5/9`
+3. Aritmética: 98.6 − 32 = 66.6; 66.6 × 5 = 333; 333 ÷ 9 = 37
+4. Resultado con unidad: 98.6 °F equivalen a 37 °C.
 
-## error frecuente
+## Error frecuente
 
-respeta el orden de las operaciones en cada fórmula. al convertir de fahrenheit a celsius, el error típico es multiplicar `°f` por `5/9` primero y restar 32 después, en lugar de restar 32 primero y multiplicar el resultado por `5/9`; eso produce un valor incorrecto porque la resta debe aplicarse antes de reescalar el grado. de forma similar, al convertir de celsius a fahrenheit, sumar 32 antes de multiplicar por `9/5` también da un resultado equivocado.
+Respeta el orden de las operaciones en cada fórmula. Al convertir de Fahrenheit a Celsius, el error típico es multiplicar `°F` por `5/9` primero y restar 32 después, en lugar de restar 32 primero y multiplicar el resultado por `5/9`; eso produce un valor incorrecto porque la resta debe aplicarse antes de reescalar el grado. De forma similar, al convertir de Celsius a Fahrenheit, sumar 32 antes de multiplicar por `9/5` también da un resultado equivocado.
 
-## práctica guiada
+## Práctica guiada
 
-1. intenta primero: convierte 40 °c a fahrenheit, mostrando fórmula, sustitución y aritmética.
-   respuesta: `°f = (40 × 9/5) + 32`; 40 × 9 = 360; 360 ÷ 5 = 72; 72 + 32 = 104. 40 °c equivalen a 104 °f.
-2. intenta primero: convierte 212 °f a celsius, mostrando fórmula, sustitución y aritmética.
-   respuesta: `°c = (212 − 32) × 5/9`; 212 − 32 = 180; 180 × 5 = 900; 900 ÷ 9 = 100. 212 °f equivalen a 100 °c.
+1. Intenta primero: convierte 40 °C a Fahrenheit, mostrando fórmula, sustitución y aritmética.
+   Respuesta: `°F = (40 × 9/5) + 32`; 40 × 9 = 360; 360 ÷ 5 = 72; 72 + 32 = 104. 40 °C equivalen a 104 °F.
+2. Intenta primero: convierte 212 °F a Celsius, mostrando fórmula, sustitución y aritmética.
+   Respuesta: `°C = (212 − 32) × 5/9`; 212 − 32 = 180; 180 × 5 = 900; 900 ÷ 9 = 100. 212 °F equivalen a 100 °C.
 
-## comprobación
+## Comprobación
 
-esta lección tiene cinco reactivos reservados en `question-ids`. sus enunciados, opciones, respuestas y explicaciones se incorporarán al banco tipado en el paso 4.
+Esta lección tiene cinco reactivos reservados en `question-ids`. Sus enunciados, opciones, respuestas y explicaciones están disponibles en `content/questions/ciencias-naturales-experimentales-y-tecnologia.ts`.
 
-## cierre
+## Cierre
 
-ya puedes convertir una temperatura entre celsius y fahrenheit en cualquier dirección, aplicando la fórmula correcta con sus sustituciones y su orden de operaciones.
+Ya puedes convertir una temperatura entre Celsius y Fahrenheit en cualquier dirección, aplicando la fórmula correcta con sus sustituciones y su orden de operaciones.

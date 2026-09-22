@@ -4,320 +4,320 @@ export const pensamiento_matematico_questions: question[] = [
   {
     id: 'pm-tv-001',
     topic_id: 'pm-1-1-1-tipos-de-variables',
-    prompt: '¿cuál variable es cuantitativa discreta?',
+    prompt: '¿Cuál variable es cuantitativa discreta?',
     options: [
       'el peso de una mochila en kilogramos',
       'el número de llamadas recibidas en un día',
       'la temperatura de una habitación'
     ],
     correct_option_index: 1,
-    explanation: 'el número de llamadas se obtiene contando unidades completas. el peso y la temperatura se miden y pueden incluir fracciones.',
-    common_error: 'clasificar cualquier dato numérico como discreto sin distinguir entre conteo y medición.',
-    source_reference: 'guía oficial, página 11, código 1.1.1; calibración de profundidad: página 27.',
+    explanation: 'El número de llamadas se obtiene contando unidades completas. El peso y la temperatura se miden y pueden incluir fracciones.',
+    common_error: 'Clasificar cualquier dato numérico como discreto sin distinguir entre conteo y medición.',
+    source_reference: 'Guía oficial, página 11, código 1.1.1; calibración de profundidad: página 27.',
     difficulty: 'basic',
     use_cases: ['diagnostic', 'practice', 'review', 'simulator']
   },
   {
     id: 'pm-tv-002',
     topic_id: 'pm-1-1-1-tipos-de-variables',
-    prompt: 'una escuela registra el código postal de cada estudiante. ¿cómo se clasifica esta variable?',
+    prompt: 'Una escuela registra el código postal de cada estudiante. ¿Cómo se clasifica esta variable?',
     options: [
       'cuantitativa discreta',
       'cualitativa ordinal',
       'categórica'
     ],
     correct_option_index: 2,
-    explanation: 'el código postal identifica una zona. aunque contiene dígitos, no representa una cantidad que pueda sumarse o promediarse.',
-    common_error: 'considerar que los códigos son cantidades solo porque se escriben con números.',
-    source_reference: 'guía oficial, página 11, código 1.1.1.',
+    explanation: 'El código postal identifica una zona. Aunque contiene dígitos, no representa una cantidad que pueda sumarse o promediarse.',
+    common_error: 'Considerar que los códigos son cantidades solo porque se escriben con números.',
+    source_reference: 'Guía oficial, página 11, código 1.1.1.',
     difficulty: 'basic',
     use_cases: ['practice', 'review', 'simulator']
   },
   {
     id: 'pm-tv-003',
     topic_id: 'pm-1-1-1-tipos-de-variables',
-    prompt: 'en una encuesta, las respuestas sobre satisfacción son «baja», «media» y «alta». ¿qué tipo de variable representa?',
+    prompt: 'En una encuesta, las respuestas sobre satisfacción son «baja», «media» y «alta». ¿Qué tipo de variable representa?',
     options: [
       'cualitativa',
       'cuantitativa continua',
       'cuantitativa discreta'
     ],
     correct_option_index: 0,
-    explanation: 'las respuestas describen una cualidad u opinión mediante etiquetas. no son cantidades medidas ni contadas.',
-    common_error: 'tratar etiquetas ordenadas como si fueran valores numéricos con los que se pueden hacer operaciones aritméticas.',
-    source_reference: 'guía oficial, página 11, código 1.1.1.',
+    explanation: 'Las respuestas describen una cualidad u opinión mediante etiquetas. No son cantidades medidas ni contadas.',
+    common_error: 'Tratar etiquetas ordenadas como si fueran valores numéricos con los que se pueden hacer operaciones aritméticas.',
+    source_reference: 'Guía oficial, página 11, código 1.1.1.',
     difficulty: 'basic',
     use_cases: ['diagnostic', 'practice', 'review', 'simulator']
   },
   {
     id: 'pm-tv-004',
     topic_id: 'pm-1-1-1-tipos-de-variables',
-    prompt: 'la masa de cada paquete se registra con una balanza. se clasifica como cuantitativa continua porque _______.',
+    prompt: 'La masa de cada paquete se registra con una balanza. Se clasifica como cuantitativa continua porque _______.',
     options: [
       'solo puede tomar números enteros',
       'se obtiene por medición y puede incluir fracciones',
       'identifica un grupo sin orden ni cantidad'
     ],
     correct_option_index: 1,
-    explanation: 'la masa se mide y puede tomar valores fraccionarios, como `1.35` kg. por ello es una variable cuantitativa continua.',
-    common_error: 'asumir que un dato mostrado como entero deja de ser continuo aunque el instrumento pueda medir fracciones.',
-    source_reference: 'guía oficial, página 11, código 1.1.1.',
+    explanation: 'La masa se mide y puede tomar valores fraccionarios, como `1.35` kg. Por ello es una variable cuantitativa continua.',
+    common_error: 'Asumir que un dato mostrado como entero deja de ser continuo aunque el instrumento pueda medir fracciones.',
+    source_reference: 'Guía oficial, página 11, código 1.1.1.',
     difficulty: 'intermediate',
     use_cases: ['practice', 'review', 'simulator']
   },
   {
     id: 'pm-tv-005',
     topic_id: 'pm-1-1-1-tipos-de-variables',
-    prompt: 'relaciona cada tipo de variable con el ejemplo correspondiente.\n\n1. cuantitativa discreta\n2. cuantitativa continua\n3. categórica\n\na. estatura de una persona\nb. número de hermanos\nc. grupo sanguíneo',
+    prompt: 'Relaciona cada tipo de variable con el ejemplo correspondiente.\n\n1. cuantitativa discreta\n2. cuantitativa continua\n3. categórica\n\na. estatura de una persona\nb. número de hermanos\nc. grupo sanguíneo',
     options: [
       '1a, 2b, 3c',
       '1b, 2a, 3c',
       '1c, 2a, 3b'
     ],
     correct_option_index: 1,
-    explanation: 'el número de hermanos se cuenta, la estatura se mide y el grupo sanguíneo clasifica en categorías.',
-    common_error: 'intercambiar la variable discreta con la continua por fijarse en el formato del dato y no en cómo se obtiene.',
-    source_reference: 'guía oficial, página 11, código 1.1.1.',
+    explanation: 'El número de hermanos se cuenta, la estatura se mide y el grupo sanguíneo clasifica en categorías.',
+    common_error: 'Intercambiar la variable discreta con la continua por fijarse en el formato del dato y no en cómo se obtiene.',
+    source_reference: 'Guía oficial, página 11, código 1.1.1.',
     difficulty: 'intermediate',
     use_cases: ['practice', 'review', 'simulator']
   },
   {
     id: 'pm-tm-001',
     topic_id: 'pm-1-1-2-tipos-de-muestra',
-    prompt: 'de una lista alfabética, una investigadora elige al azar el primer registro y después selecciona cada doceavo nombre. ¿qué tipo de muestreo aplica?',
+    prompt: 'De una lista alfabética, una investigadora elige al azar el primer registro y después selecciona cada doceavo nombre. ¿Qué tipo de muestreo aplica?',
     options: [
       'sistemático',
       'estratificado',
       'por conglomerados'
     ],
     correct_option_index: 0,
-    explanation: 'la selección comienza en una posición aleatoria y continúa con un intervalo fijo de doce registros.',
-    common_error: 'confundir un intervalo regular de una lista con la selección de grupos completos.',
-    source_reference: 'guía oficial, página 11, código 1.1.2.',
+    explanation: 'La selección comienza en una posición aleatoria y continúa con un intervalo fijo de doce registros.',
+    common_error: 'Confundir un intervalo regular de una lista con la selección de grupos completos.',
+    source_reference: 'Guía oficial, página 11, código 1.1.2.',
     difficulty: 'basic',
     use_cases: ['diagnostic', 'practice', 'review', 'simulator']
   },
   {
     id: 'pm-tm-002',
     topic_id: 'pm-1-1-2-tipos-de-muestra',
-    prompt: 'una universidad separa a su alumnado por semestre y selecciona al azar una proporción de estudiantes de cada semestre. ¿qué muestreo usa?',
+    prompt: 'Una universidad separa a su alumnado por semestre y selecciona al azar una proporción de estudiantes de cada semestre. ¿Qué muestreo usa?',
     options: [
       'por conglomerados',
       'estratificado',
       'sistemático'
     ],
     correct_option_index: 1,
-    explanation: 'los semestres son estratos y se toma una parte de cada uno para asegurar su representación.',
-    common_error: 'llamar conglomerados a los estratos aunque se seleccionen personas dentro de todos los grupos.',
-    source_reference: 'guía oficial, página 11, código 1.1.2.',
+    explanation: 'Los semestres son estratos y se toma una parte de cada uno para asegurar su representación.',
+    common_error: 'Llamar conglomerados a los estratos aunque se seleccionen personas dentro de todos los grupos.',
+    source_reference: 'Guía oficial, página 11, código 1.1.2.',
     difficulty: 'intermediate',
     use_cases: ['practice', 'review', 'simulator']
   },
   {
     id: 'pm-tm-003',
     topic_id: 'pm-1-1-2-tipos-de-muestra',
-    prompt: 'para conocer los hábitos de lectura, se eligen cuatro salones al azar y se encuesta a todo el alumnado de esos salones. ¿qué muestreo se utiliza?',
+    prompt: 'Para conocer los hábitos de lectura, se eligen cuatro salones al azar y se encuesta a todo el alumnado de esos salones. ¿Qué muestreo se utiliza?',
     options: [
       'sistemático',
       'estratificado',
       'por conglomerados'
     ],
     correct_option_index: 2,
-    explanation: 'los salones son grupos naturales y se seleccionan algunos completos para estudiar a todos sus integrantes.',
-    common_error: 'confundir seleccionar algunos grupos completos con tomar una muestra dentro de cada grupo.',
-    source_reference: 'guía oficial, página 11, código 1.1.2.',
+    explanation: 'Los salones son grupos naturales y se seleccionan algunos completos para estudiar a todos sus integrantes.',
+    common_error: 'Confundir seleccionar algunos grupos completos con tomar una muestra dentro de cada grupo.',
+    source_reference: 'Guía oficial, página 11, código 1.1.2.',
     difficulty: 'intermediate',
     use_cases: ['practice', 'review', 'simulator']
   },
   {
     id: 'pm-tm-004',
     topic_id: 'pm-1-1-2-tipos-de-muestra',
-    prompt: 'para asegurar que cada turno de una fábrica esté representado, se debe seleccionar _______.',
+    prompt: 'Para asegurar que cada turno de una fábrica esté representado, se debe seleccionar _______.',
     options: [
       'a todo el personal de un solo turno',
       'una muestra de cada turno',
       'cada vigésimo nombre de una lista sin distinguir turnos'
     ],
     correct_option_index: 1,
-    explanation: 'cada turno funciona como un estrato. seleccionar una muestra de cada uno corresponde a un muestreo estratificado.',
-    common_error: 'usar una muestra de un solo grupo cuando el objetivo exige representación de todos los subgrupos.',
-    source_reference: 'guía oficial, página 11, código 1.1.2.',
+    explanation: 'Cada turno funciona como un estrato. Seleccionar una muestra de cada uno corresponde a un muestreo estratificado.',
+    common_error: 'Usar una muestra de un solo grupo cuando el objetivo exige representación de todos los subgrupos.',
+    source_reference: 'Guía oficial, página 11, código 1.1.2.',
     difficulty: 'intermediate',
     use_cases: ['practice', 'review', 'simulator']
   },
   {
     id: 'pm-tm-005',
     topic_id: 'pm-1-1-2-tipos-de-muestra',
-    prompt: 'relaciona cada método con su procedimiento.\n\n1. sistemático\n2. estratificado\n3. por conglomerados\n\na. elegir algunos salones y encuestar a todo su alumnado\nb. tomar una muestra de cada semestre\nc. seleccionar cada décimo registro después de un inicio al azar',
+    prompt: 'Relaciona cada método con su procedimiento.\n\n1. sistemático\n2. estratificado\n3. por conglomerados\n\na. elegir algunos salones y encuestar a todo su alumnado\nb. tomar una muestra de cada semestre\nc. seleccionar cada décimo registro después de un inicio al azar',
     options: [
       '1c, 2b, 3a',
       '1a, 2c, 3b',
       '1b, 2a, 3c'
     ],
     correct_option_index: 0,
-    explanation: 'el sistemático usa intervalos regulares, el estratificado toma elementos de cada subgrupo y el de conglomerados elige grupos completos.',
-    common_error: 'intercambiar estratos y conglomerados al no distinguir entre seleccionar dentro de todos los grupos y seleccionar solo algunos grupos completos.',
-    source_reference: 'guía oficial, página 11, código 1.1.2.',
+    explanation: 'El sistemático usa intervalos regulares, el estratificado toma elementos de cada subgrupo y el de conglomerados elige grupos completos.',
+    common_error: 'Intercambiar estratos y conglomerados al no distinguir entre seleccionar dentro de todos los grupos y seleccionar solo algunos grupos completos.',
+    source_reference: 'Guía oficial, página 11, código 1.1.2.',
     difficulty: 'advanced',
     use_cases: ['practice', 'review', 'simulator']
   },
   {
     id: 'pm-mtc-001',
     topic_id: 'pm-1-1-3-medidas-de-tendencia-central',
-    prompt: 'las calificaciones de cuatro estudiantes son `6, 8, 9, 11`. ¿cuál es la media?',
+    prompt: 'Las calificaciones de cuatro estudiantes son `6, 8, 9, 11`. ¿Cuál es la media?',
     options: [
       '`8`',
       '`8.5`',
       '`9`'
     ],
     correct_option_index: 1,
-    explanation: 'la suma es `34` y hay cuatro datos. `34 / 4 = 8.5`.',
-    common_error: 'dividir entre una cantidad distinta del número de datos o elegir uno de los valores centrales sin calcular la suma.',
-    source_reference: 'guía oficial, página 11, código 1.1.3.',
+    explanation: 'La suma es `34` y hay cuatro datos. `34 / 4 = 8.5`.',
+    common_error: 'Dividir entre una cantidad distinta del número de datos o elegir uno de los valores centrales sin calcular la suma.',
+    source_reference: 'Guía oficial, página 11, código 1.1.3.',
     difficulty: 'basic',
     use_cases: ['diagnostic', 'practice', 'review', 'simulator']
   },
   {
     id: 'pm-mtc-002',
     topic_id: 'pm-1-1-3-medidas-de-tendencia-central',
-    prompt: 'considera los datos `12, 4, 9, 7, 5`. ¿cuál es la mediana?',
+    prompt: 'Considera los datos `12, 4, 9, 7, 5`. ¿Cuál es la mediana?',
     options: [
       '`5`',
       '`9`',
       '`7`'
     ],
     correct_option_index: 2,
-    explanation: 'al ordenar los datos se obtiene `4, 5, 7, 9, 12`. el valor central es `7`.',
-    common_error: 'elegir el dato ubicado en medio de la lista original sin ordenar los valores primero.',
-    source_reference: 'guía oficial, página 11, código 1.1.3.',
+    explanation: 'Al ordenar los datos se obtiene `4, 5, 7, 9, 12`. El valor central es `7`.',
+    common_error: 'Elegir el dato ubicado en medio de la lista original sin ordenar los valores primero.',
+    source_reference: 'Guía oficial, página 11, código 1.1.3.',
     difficulty: 'basic',
     use_cases: ['practice', 'review', 'simulator']
   },
   {
     id: 'pm-mtc-003',
     topic_id: 'pm-1-1-3-medidas-de-tendencia-central',
-    prompt: 'en un registro de colores preferidos, azul aparece `9` veces, verde `6` y rojo `4`. ¿cuál es la moda?',
+    prompt: 'En un registro de colores preferidos, azul aparece `9` veces, verde `6` y rojo `4`. ¿Cuál es la moda?',
     options: [
       'azul',
       'verde',
       'rojo'
     ],
     correct_option_index: 0,
-    explanation: 'la moda es el valor que aparece con mayor frecuencia. azul tiene nueve apariciones, más que los demás colores.',
-    common_error: 'confundir la moda con el valor numérico más grande o con el promedio de las frecuencias.',
-    source_reference: 'guía oficial, página 11, código 1.1.3.',
+    explanation: 'La moda es el valor que aparece con mayor frecuencia. Azul tiene nueve apariciones, más que los demás colores.',
+    common_error: 'Confundir la moda con el valor numérico más grande o con el promedio de las frecuencias.',
+    source_reference: 'Guía oficial, página 11, código 1.1.3.',
     difficulty: 'basic',
     use_cases: ['diagnostic', 'practice', 'review', 'simulator']
   },
   {
     id: 'pm-mtc-004',
     topic_id: 'pm-1-1-3-medidas-de-tendencia-central',
-    prompt: 'los ingresos de cinco personas son `9 000, 10 000, 11 000, 12 000, 65 000`. la _______ describe mejor el ingreso típico.',
+    prompt: 'Los ingresos de cinco personas son `9 000, 10 000, 11 000, 12 000, 65 000`. La _______ describe mejor el ingreso típico.',
     options: [
       'la media',
       'la mediana',
       'la moda'
     ],
     correct_option_index: 1,
-    explanation: 'la mediana es `11 000` y no se altera por el valor extremo de `65 000`. la media quedaría elevada por ese ingreso.',
-    common_error: 'usar siempre la media sin revisar si hay valores extremos que distorsionan el resultado.',
-    source_reference: 'guía oficial, página 11, código 1.1.3.',
+    explanation: 'La mediana es `11 000` y no se altera por el valor extremo de `65 000`. La media quedaría elevada por ese ingreso.',
+    common_error: 'Usar siempre la media sin revisar si hay valores extremos que distorsionan el resultado.',
+    source_reference: 'Guía oficial, página 11, código 1.1.3.',
     difficulty: 'intermediate',
     use_cases: ['practice', 'review', 'simulator']
   },
   {
     id: 'pm-mtc-005',
     topic_id: 'pm-1-1-3-medidas-de-tendencia-central',
-    prompt: 'relaciona cada medida con su definición.\n\n1. media\n2. mediana\n3. moda\n\na. valor que más se repite\nb. suma de los datos dividida entre su cantidad\nc. valor central después de ordenar',
+    prompt: 'Relaciona cada medida con su definición.\n\n1. media\n2. mediana\n3. moda\n\na. valor que más se repite\nb. suma de los datos dividida entre su cantidad\nc. valor central después de ordenar',
     options: [
       '1a, 2b, 3c',
       '1b, 2c, 3a',
       '1c, 2a, 3b'
     ],
     correct_option_index: 1,
-    explanation: 'la media usa todos los datos, la mediana ocupa la posición central ordenada y la moda es el valor más frecuente.',
-    common_error: 'intercambiar mediana y moda al no recordar que una depende de ordenar y la otra de repetir.',
-    source_reference: 'guía oficial, página 11, código 1.1.3.',
+    explanation: 'La media usa todos los datos, la mediana ocupa la posición central ordenada y la moda es el valor más frecuente.',
+    common_error: 'Intercambiar mediana y moda al no recordar que una depende de ordenar y la otra de repetir.',
+    source_reference: 'Guía oficial, página 11, código 1.1.3.',
     difficulty: 'advanced',
     use_cases: ['practice', 'review', 'simulator']
   },
   {
     id: 'pm-md-001',
     topic_id: 'pm-1-1-4-medidas-de-dispersion',
-    prompt: 'usa la fórmula de población. para los datos `2, 4, 6`, ¿cuál es la varianza?',
+    prompt: 'Usa la fórmula de población. Para los datos `2, 4, 6`, ¿cuál es la varianza?',
     options: [
       '`4`',
       '`8 / 3`',
       '`8`'
     ],
     correct_option_index: 1,
-    explanation: 'la media es `4`. las diferencias al cuadrado son `4, 0, 4`, cuya suma es `8`. al dividir entre tres se obtiene `8 / 3`.',
-    common_error: 'sumar los cuadrados de las diferencias pero no dividir entre el número total de datos.',
-    source_reference: 'guía oficial, página 11, código 1.1.4.',
+    explanation: 'La media es `4`. Las diferencias al cuadrado son `4, 0, 4`, cuya suma es `8`. Al dividir entre tres se obtiene `8 / 3`.',
+    common_error: 'Sumar los cuadrados de las diferencias pero no dividir entre el número total de datos.',
+    source_reference: 'Guía oficial, página 11, código 1.1.4.',
     difficulty: 'intermediate',
     use_cases: ['practice', 'review', 'simulator']
   },
   {
     id: 'pm-md-002',
     topic_id: 'pm-1-1-4-medidas-de-dispersion',
-    prompt: 'usa la fórmula de población. los datos son `2, 2, 4, 4`. ¿cuál es su desviación estándar?',
+    prompt: 'Usa la fórmula de población. Los datos son `2, 2, 4, 4`. ¿Cuál es su desviación estándar?',
     options: [
       '`1`',
       '`2`',
       '`4`'
     ],
     correct_option_index: 0,
-    explanation: 'la media es `3`. la varianza es `(1 + 1 + 1 + 1) / 4 = 1`; la desviación estándar es la raíz de `1`, que también es `1`.',
-    common_error: 'reportar la varianza como desviación estándar sin calcular la raíz cuadrada.',
-    source_reference: 'guía oficial, página 11, código 1.1.4.',
+    explanation: 'La media es `3`. La varianza es `(1 + 1 + 1 + 1) / 4 = 1`; la desviación estándar es la raíz de `1`, que también es `1`.',
+    common_error: 'Reportar la varianza como desviación estándar sin calcular la raíz cuadrada.',
+    source_reference: 'Guía oficial, página 11, código 1.1.4.',
     difficulty: 'intermediate',
     use_cases: ['practice', 'review', 'simulator']
   },
   {
     id: 'pm-md-003',
     topic_id: 'pm-1-1-4-medidas-de-dispersion',
-    prompt: 'los conjuntos `a = 4, 5, 6` y `b = 2, 5, 8` tienen media `5`. ¿cuál presenta mayor dispersión?',
+    prompt: 'Los conjuntos `a = 4, 5, 6` y `b = 2, 5, 8` tienen media `5`. ¿Cuál presenta mayor dispersión?',
     options: [
       'el conjunto a, porque tiene tres datos consecutivos',
       'ambos, porque tienen la misma media',
       'el conjunto b, porque sus datos se alejan más de la media'
     ],
     correct_option_index: 2,
-    explanation: 'en el conjunto b las distancias respecto de `5` son mayores. la igualdad de medias no implica la misma dispersión.',
-    common_error: 'concluir que dos conjuntos tienen igual variabilidad solo porque comparten la misma media.',
-    source_reference: 'guía oficial, página 11, código 1.1.4.',
+    explanation: 'En el conjunto b las distancias respecto de `5` son mayores. La igualdad de medias no implica la misma dispersión.',
+    common_error: 'Concluir que dos conjuntos tienen igual variabilidad solo porque comparten la misma media.',
+    source_reference: 'Guía oficial, página 11, código 1.1.4.',
     difficulty: 'basic',
     use_cases: ['diagnostic', 'practice', 'review', 'simulator']
   },
   {
     id: 'pm-md-004',
     topic_id: 'pm-1-1-4-medidas-de-dispersion',
-    prompt: 'después de restar la media a cada dato, el paso necesario para calcular la varianza es _______.',
+    prompt: 'Después de restar la media a cada dato, el paso necesario para calcular la varianza es _______.',
     options: [
       'sumar las diferencias sin modificarlas',
       'elevar al cuadrado las diferencias, sumarlas y dividir entre el número de datos',
       'tomar la raíz cuadrada de cada diferencia'
     ],
     correct_option_index: 1,
-    explanation: 'las diferencias se elevan al cuadrado para que los signos no se cancelen. después se promedian esos cuadrados.',
-    common_error: 'sumar diferencias positivas y negativas, lo que puede dar cero aunque los datos estén dispersos.',
-    source_reference: 'guía oficial, página 11, código 1.1.4.',
+    explanation: 'Las diferencias se elevan al cuadrado para que los signos no se cancelen. Después se promedian esos cuadrados.',
+    common_error: 'Sumar diferencias positivas y negativas, lo que puede dar cero aunque los datos estén dispersos.',
+    source_reference: 'Guía oficial, página 11, código 1.1.4.',
     difficulty: 'intermediate',
     use_cases: ['practice', 'review', 'simulator']
   },
   {
     id: 'pm-md-005',
     topic_id: 'pm-1-1-4-medidas-de-dispersion',
-    prompt: 'relaciona cada concepto con su descripción.\n\n1. media\n2. varianza\n3. desviación estándar\n\na. raíz cuadrada de la varianza\nb. promedio de las diferencias al cuadrado respecto de la media\nc. valor central usado como referencia para medir distancias',
+    prompt: 'Relaciona cada concepto con su descripción.\n\n1. media\n2. varianza\n3. desviación estándar\n\na. raíz cuadrada de la varianza\nb. promedio de las diferencias al cuadrado respecto de la media\nc. valor central usado como referencia para medir distancias',
     options: [
       '1b, 2a, 3c',
       '1c, 2b, 3a',
       '1c, 2a, 3b'
     ],
     correct_option_index: 1,
-    explanation: 'la media sirve de referencia, la varianza promedia las diferencias al cuadrado y la desviación estándar es la raíz de la varianza.',
-    common_error: 'intercambiar varianza y desviación estándar por no distinguir entre el promedio de cuadrados y su raíz.',
-    source_reference: 'guía oficial, página 11, código 1.1.4.',
+    explanation: 'La media sirve de referencia, la varianza promedia las diferencias al cuadrado y la desviación estándar es la raíz de la varianza.',
+    common_error: 'Intercambiar varianza y desviación estándar por no distinguir entre el promedio de cuadrados y su raíz.',
+    source_reference: 'Guía oficial, página 11, código 1.1.4.',
     difficulty: 'advanced',
     use_cases: ['practice', 'review', 'simulator']
   },

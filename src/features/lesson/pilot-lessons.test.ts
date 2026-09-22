@@ -17,8 +17,8 @@ describe("pilot lesson loader", () => {
       area_id: "pensamiento-matematico",
       unit_id: "pm-1-1-pensamiento-estadistico",
       topic_id: "pm-1-1-1-tipos-de-variables",
-      title: "variables estadísticas",
-      objective: "clasificar variables cuantitativas, cualitativas y categóricas.",
+      title: "Variables estadísticas",
+      objective: "Clasificar variables cuantitativas, cualitativas y categóricas.",
       estimated_minutes: 10,
       prerequisites: [],
       question_ids: ["pm-tv-001", "pm-tv-002", "pm-tv-003", "pm-tv-004", "pm-tv-005"],
@@ -28,7 +28,7 @@ describe("pilot lesson loader", () => {
         code: "1.1.1",
       },
     });
-    expect(lessons[0]?.body).toContain("## explicación");
+    expect(lessons[0]?.body).toContain("## Explicación");
     expect(lessons[3]?.prerequisites).toEqual(["pm-medidas-de-tendencia-central-01"]);
   });
 

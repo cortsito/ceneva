@@ -2,7 +2,7 @@ import type { curriculum_area } from './types'
 
 export const ciencias_naturales_experimentales_y_tecnologia: curriculum_area = {
   "id": "ciencias-naturales-experimentales-y-tecnologia",
-  "title": "ciencias naturales, experimentales y tecnología",
+  "title": "Ciencias naturales, experimentales y tecnología",
   "description": "ruta de estudio de ciencias naturales, experimentales y tecnología basada en la guía oficial.",
   "source": {
     "guide": "docs/guiaoficial.pdf",
@@ -16,7 +16,7 @@ export const ciencias_naturales_experimentales_y_tecnologia: curriculum_area = {
   "units": [
     {
       "id": "cn-5-1-materia-y-sus-interacciones",
-      "title": "la materia y sus interacciones",
+      "title": "La materia y sus interacciones",
       "source": {
         "guide": "docs/guiaoficial.pdf",
         "pages": [
@@ -27,7 +27,7 @@ export const ciencias_naturales_experimentales_y_tecnologia: curriculum_area = {
       "topics": [
         {
           "id": "cn-5-1-1-tipos-de-enlaces",
-          "title": "tipos de enlaces iónico, covalente y metálico",
+          "title": "Tipos de enlaces iónico, covalente y metálico",
           "lesson_ids": [
             "cn-tipos-de-enlaces-01"
           ],
@@ -41,7 +41,7 @@ export const ciencias_naturales_experimentales_y_tecnologia: curriculum_area = {
         },
         {
           "id": "cn-5-1-2-estados-de-agregacion-de-la-materia",
-          "title": "características de los estados de agregación de la materia",
+          "title": "Características de los estados de agregación de la materia",
           "lesson_ids": [
             "cn-estados-de-agregacion-01"
           ],
@@ -55,7 +55,7 @@ export const ciencias_naturales_experimentales_y_tecnologia: curriculum_area = {
         },
         {
           "id": "cn-5-1-3-ley-de-conservacion-de-la-materia",
-          "title": "ley de la conservación de la materia",
+          "title": "Ley de la conservación de la materia",
           "lesson_ids": [
             "cn-conservacion-de-la-materia-01"
           ],
@@ -69,7 +69,7 @@ export const ciencias_naturales_experimentales_y_tecnologia: curriculum_area = {
         },
         {
           "id": "cn-5-1-4-conversion-de-escalas-termometricas",
-          "title": "conversión de escalas termométricas",
+          "title": "Conversión de escalas termométricas",
           "lesson_ids": [
             "cn-conversion-de-temperatura-01"
           ],
@@ -83,7 +83,7 @@ export const ciencias_naturales_experimentales_y_tecnologia: curriculum_area = {
         },
         {
           "id": "cn-5-1-5-ley-de-coulomb",
-          "title": "ley de coulomb",
+          "title": "Ley de Coulomb",
           "lesson_ids": [
             "cn-ley-de-coulomb-01"
           ],

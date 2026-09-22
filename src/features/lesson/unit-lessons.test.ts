@@ -49,11 +49,11 @@ describe("get_unit_lessons", () => {
       area_id: "cultura-digital",
       unit_id: "cd-2-1-ciudadania-digital",
       topic_id: "cd-2-1-1-elementos-de-la-identidad-digital",
-      title: "identidad digital",
+      title: "Identidad digital",
       question_ids: ["cd-id-001", "cd-id-002", "cd-id-003", "cd-id-004", "cd-id-005"],
       source: { guide: "docs/guiaoficial.pdf", page: 12, code: "2.1.1" },
     });
-    expect(identidad?.body).toContain("# identidad digital");
+    expect(identidad?.body).toContain("# Identidad digital");
   });
 
   it("carga las seis lecciones de la unidad de conciencia histórica, incluyendo el tema partido en dos", async () => {
@@ -85,7 +85,7 @@ describe("get_unit_lessons", () => {
       area_id: "conciencia-historica",
       unit_id: "ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales",
       topic_id: "ch-3-1-2-movimientos-de-resistencia-de-pueblos-originarios",
-      title: "resistencias de pueblos originarios",
+      title: "Resistencias de pueblos originarios",
       prerequisites: ["ch-conquista-de-pueblos-originarios-01"],
       question_ids: [
         "ch-rpo-001",
@@ -100,7 +100,7 @@ describe("get_unit_lessons", () => {
       area_id: "conciencia-historica",
       unit_id: "ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales",
       topic_id: "ch-3-1-2-movimientos-de-resistencia-de-pueblos-originarios",
-      title: "impacto cultural de resistencias originarias",
+      title: "Impacto cultural de resistencias originarias",
       prerequisites: ["ch-resistencias-de-pueblos-originarios-01"],
       question_ids: [
         "ch-icr-001",
@@ -239,7 +239,7 @@ describe("get_unit_lessons", () => {
       area_id: "lengua-y-comunicacion",
       unit_id: "lc-6-1-estrategias-de-comprension-lectora",
       topic_id: "lc-6-1-3-jerarquia-de-informacion-en-mapas-conceptuales",
-      title: "jerarquía en mapas conceptuales",
+      title: "Jerarquía en mapas conceptuales",
       question_ids: [
         "lc-jmc-001",
         "lc-jmc-002",
