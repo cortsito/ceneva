@@ -17,10 +17,10 @@ type pilot_topic_progress_list_props = {
 };
 
 const status_styles: Record<topic_status, string> = {
-  bloqueado: "bg-warning-soft text-warning",
-  disponible: "bg-line text-ink",
-  "en progreso": "bg-accent-soft text-accent",
-  dominado: "bg-success-soft text-success",
+  bloqueado: "border-warning/50 bg-warning-soft text-warning",
+  disponible: "border-line-strong bg-surface-raised text-ink-muted",
+  "en progreso": "border-accent/50 bg-accent-soft text-accent",
+  dominado: "border-success/50 bg-success-soft text-success",
 };
 
 function format_accuracy(accuracy: number | undefined): string {
@@ -46,12 +46,12 @@ export function PilotTopicProgressList({
             status={
               is_hydrated ? (
                 <span
-                  className={`w-fit shrink-0 rounded-full px-3 py-1 text-sm font-semibold ${status_styles[topic_progress.status]}`}
+                  className={`w-fit shrink-0 rounded-full border px-3 py-1 text-xs font-bold ${status_styles[topic_progress.status]}`}
                 >
                   {topic_progress.status}
                 </span>
               ) : (
-                <span className="w-fit shrink-0 rounded-full bg-line px-3 py-1 text-sm font-semibold text-ink">
+                <span className="w-fit shrink-0 rounded-full border border-line bg-surface-raised px-3 py-1 text-xs font-bold text-ink-muted">
                   Cargando avance
                 </span>
               )
@@ -80,7 +80,7 @@ export function PilotTopicProgressList({
                     key={lesson.id}
                   >
                     <Link
-                      className="w-fit rounded-md font-semibold text-accent underline decoration-accent/40 underline-offset-4 transition-colors hover:text-accent-strong focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+                      className="button-secondary w-fit py-2"
                       href={`/leccion/${lesson.id}`}
                     >
                       Estudiar {lesson.title}

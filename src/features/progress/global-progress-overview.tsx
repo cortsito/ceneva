@@ -10,13 +10,11 @@ export async function GlobalProgressOverview() {
   const review_candidates = await get_pilot_review_candidates();
 
   return (
-    <section className="mx-auto flex w-full max-w-4xl flex-col gap-10 px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+    <section className="page-shell flex max-w-5xl flex-col gap-10">
       <header className="space-y-4">
         <Eyebrow>Progreso</Eyebrow>
-        <h1 className="font-display text-4xl font-semibold tracking-tight text-ink sm:text-5xl">
-          Tu avance en las siete áreas
-        </h1>
-        <p className="max-w-2xl text-lg leading-8 text-ink-muted">
+        <h1 className="page-heading">Tu avance en las siete áreas</h1>
+        <p className="page-intro">
           Revisa tus temas dominados, lecciones completadas y precisión por área.
         </p>
       </header>

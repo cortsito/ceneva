@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 
+import { AnswerOption, QuestionProgress } from "@/components/learning/question-ui";
 import type { topic_progress } from "@/features/progress/pilot-progress";
 
 import {
@@ -39,14 +40,18 @@ export function DiagnosticCheck({
     const recommendation = get_diagnostic_recommendation(items, answers, topics);
 
     return (
-      <section aria-labelledby="resultado-diagnostico" className="mt-8">
+      <section aria-labelledby="resultado-diagnostico" className="question-stage">
         <h2
-          className="font-display text-2xl font-semibold tracking-tight text-ink"
+          className="font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl"
           id="resultado-diagnostico"
         >
           {correct_count} de {items.length} respuestas correctas
         </h2>
-        <ol className="mt-6 space-y-6" aria-label="resultado por tema">
+        <p className="mt-3 max-w-xl leading-7 text-ink-muted">
+          Este resultado orienta tu punto de partida; no modifica por sí solo el dominio
+          de los temas.
+        </p>
+        <ol className="mt-7 space-y-4" aria-label="resultado por tema">
           {items.map((item, item_index) => {
             const answer = answers[item.question.id];
 
@@ -57,9 +62,9 @@ export function DiagnosticCheck({
             return (
               <li key={item.question.id}>
                 <article
-                  className={`rounded-xl border p-5 sm:p-6 ${
+                  className={`result-card ${
                     answer.is_correct
-                      ? "border-accent bg-accent-soft"
+                      ? "border-success bg-success-soft"
                       : "border-danger bg-danger-soft"
                   }`}
                 >
@@ -91,12 +96,12 @@ export function DiagnosticCheck({
             );
           })}
         </ol>
-        <div className="mt-6 rounded-xl border border-accent bg-accent-soft p-5 sm:p-6">
+        <div className="surface-panel mt-6 border-accent bg-accent-soft p-5 sm:p-6">
           <p className="font-semibold text-ink">
             Empieza por {recommendation.topic_title}.
           </p>
           <Link
-            className="mt-4 inline-block rounded-md bg-accent px-4 py-3 text-sm font-semibold text-accent-contrast transition-colors hover:bg-accent-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+            className="button-primary mt-4"
             href={`/leccion/${recommendation.lesson_id}`}
           >
             Ir a {recommendation.lesson_title}
@@ -131,51 +136,43 @@ export function DiagnosticCheck({
   }
 
   return (
-    <section aria-labelledby="diagnostico-piloto" className="mt-8">
+    <section aria-labelledby="diagnostico-piloto" className="question-stage">
       <h2
-        className="font-display text-xl font-semibold tracking-tight text-ink"
+        aria-label={`Pregunta ${current_index + 1} de ${items.length}`}
+        className="sr-only"
         id="diagnostico-piloto"
-      >
-        Pregunta {current_index + 1} de {items.length}
-      </h2>
-      <fieldset
-        className="mt-5 rounded-xl border border-line bg-surface-raised p-5 disabled:cursor-wait disabled:opacity-70 sm:p-6"
-        disabled={!is_ready}
-      >
+      />
+      <QuestionProgress
+        context={current_item.topic.title}
+        current={current_index + 1}
+        total={items.length}
+      />
+      <fieldset className="question-card" disabled={!is_ready}>
         <legend className="w-full">
-          <span className="block text-lg leading-7 font-semibold whitespace-pre-line text-ink">
+          <span className="question-prompt whitespace-pre-line">
             {current_item.question.prompt}
           </span>
         </legend>
-        <div className="mt-5 space-y-3">
+        <div className="answer-list">
           {current_item.question.options.map((option, option_index) => {
             const is_selected = pending_option_index === option_index;
 
             return (
-              <label
-                className={`flex cursor-pointer items-start gap-3 rounded-lg border p-4 text-ink transition-colors ${
-                  is_selected
-                    ? "border-accent bg-accent-soft"
-                    : "border-line bg-surface-raised hover:border-accent"
-                }`}
+              <AnswerOption
+                checked={is_selected}
+                index={option_index}
                 key={option}
-              >
-                <input
-                  checked={is_selected}
-                  className="mt-0.5 size-4 shrink-0 accent-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                  name={current_item.question.id}
-                  onChange={() => set_pending_option_index(option_index)}
-                  type="radio"
-                  value={option_index}
-                />
-                <span className="leading-6 whitespace-pre-line">{option}</span>
-              </label>
+                name={current_item.question.id}
+                on_change={() => set_pending_option_index(option_index)}
+                option={option}
+                state={is_selected ? "selected" : "idle"}
+              />
             );
           })}
         </div>
       </fieldset>
       <button
-        className="mt-5 rounded-md bg-accent px-4 py-3 text-sm font-semibold text-accent-contrast transition-colors hover:bg-accent-strong disabled:cursor-not-allowed disabled:bg-line focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        className="button-primary mt-4 sm:w-auto"
         disabled={!is_ready || pending_option_index === undefined}
         onClick={submit_answer}
         type="button"

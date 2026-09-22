@@ -9,13 +9,11 @@ export const metadata = { title: "diagnóstico" };
 
 export default function DiagnosticSelectorPage() {
   return (
-    <section className="mx-auto flex w-full max-w-4xl flex-col gap-10 px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+    <section className="page-shell flex max-w-5xl flex-col gap-10">
       <div className="space-y-4">
         <Eyebrow>Diagnóstico</Eyebrow>
-        <h1 className="max-w-2xl font-display text-4xl font-semibold tracking-tight text-ink sm:text-5xl">
-          Elige un área para empezar.
-        </h1>
-        <p className="max-w-2xl text-lg leading-8 text-ink-muted">
+        <h1 className="page-heading">Elige un área para empezar.</h1>
+        <p className="page-intro">
           Cada diagnóstico es breve: una pregunta por cada tema del área elegida. No
           verás si acertaste hasta terminar, y al final tendrás una recomendación para
           esa área.
@@ -42,7 +40,7 @@ export default function DiagnosticSelectorPage() {
                 {unit.topics.length} preguntas, una por cada tema de {unit.title}.
               </p>
               <Link
-                className="inline-block w-fit rounded-md bg-accent px-4 py-3 text-sm font-semibold text-accent-contrast transition-colors hover:bg-accent-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                className="button-primary sm:w-auto"
                 href={`/diagnostico/${entry.area_id}`}
               >
                 Empezar diagnóstico de {area.title}

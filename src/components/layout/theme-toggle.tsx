@@ -80,12 +80,12 @@ export function ThemeToggle() {
   return (
     <button
       aria-label={`Tema: ${theme_preference_label[preference]}. Cambiar a ${theme_preference_label[next_preference]}.`}
-      className="flex shrink-0 items-center gap-2 rounded-md border border-line px-2.5 py-2 text-xs font-medium text-ink-muted transition-colors hover:border-accent hover:text-ink"
+      className="flex size-10 shrink-0 items-center justify-center gap-2 rounded-xl border border-line bg-surface-raised text-xs font-semibold text-ink-muted transition-colors hover:border-accent hover:bg-accent-soft hover:text-ink lg:w-auto lg:px-3"
       onClick={() => set_preference(next_preference)}
       type="button"
     >
       <Icon />
-      <span aria-hidden="true" className="hidden sm:inline">
+      <span aria-hidden="true" className="hidden lg:inline">
         {theme_preference_label[preference]}
       </span>
     </button>

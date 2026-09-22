@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 
+import { AnswerOption, QuestionProgress } from "@/components/learning/question-ui";
 import { Eyebrow } from "@/components/ui/eyebrow";
 
 import {
@@ -34,10 +35,10 @@ export function SimulatorCheck({
     const report = calculate_simulator_coverage_report(items, answers);
 
     return (
-      <section aria-labelledby="resultado-simulacro" className="mt-8">
+      <section aria-labelledby="resultado-simulacro" className="question-stage">
         <Eyebrow>Simulacro de cobertura MVP</Eyebrow>
         <h2
-          className="mt-2 font-display text-2xl font-semibold tracking-tight text-ink"
+          className="mt-3 font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl"
           id="resultado-simulacro"
         >
           {report.correct_count} de {report.total_count} respuestas correctas
@@ -46,10 +47,10 @@ export function SimulatorCheck({
           Cubre una pregunta por tema en las siete áreas disponibles. No es el examen
           oficial completo ni una simulación de su duración o dificultad real.
         </p>
-        <ol className="mt-6 space-y-10" aria-label="resultado por área">
+        <ol className="mt-7 space-y-5" aria-label="resultado por área">
           {report.areas.map((area_report) => (
             <li key={area_report.area.id}>
-              <article className="rounded-xl border border-line bg-surface-raised p-5 sm:p-6">
+              <article className="surface-panel p-5 sm:p-6">
                 <p className="text-sm font-semibold text-accent">
                   {area_report.area.title}
                 </p>
@@ -63,7 +64,7 @@ export function SimulatorCheck({
                 >
                   {area_report.topics.map((topic_report) => (
                     <li
-                      className="rounded-lg border border-line p-4"
+                      className="border-t border-line py-4 first:border-t-0"
                       key={topic_report.topic.id}
                     >
                       <p className="text-sm font-semibold text-ink-muted">
@@ -77,7 +78,7 @@ export function SimulatorCheck({
                         <ul className="mt-2 space-y-3">
                           {topic_report.incorrect_items.map((incorrect) => (
                             <li
-                              className="rounded-lg border border-danger bg-danger-soft p-4"
+                              className="result-card border-danger bg-danger-soft"
                               key={incorrect.question.id}
                             >
                               <p className="font-semibold leading-6 whitespace-pre-line text-ink">
@@ -152,52 +153,43 @@ export function SimulatorCheck({
   }
 
   return (
-    <section aria-labelledby="simulacro-cobertura" className="mt-8">
+    <section aria-labelledby="simulacro-cobertura" className="question-stage">
       <h2
-        className="font-display text-xl font-semibold tracking-tight text-ink"
+        aria-label={`Pregunta ${current_index + 1} de ${items.length} · ${current_item.area.title} · ${current_item.topic.title}`}
+        className="sr-only"
         id="simulacro-cobertura"
-      >
-        Pregunta {current_index + 1} de {items.length} · {current_item.area.title} ·{" "}
-        {current_item.topic.title}
-      </h2>
-      <fieldset
-        className="mt-5 rounded-xl border border-line bg-surface-raised p-5 disabled:cursor-wait disabled:opacity-70 sm:p-6"
-        disabled={!is_ready}
-      >
+      />
+      <QuestionProgress
+        context={`${current_item.area.title} · ${current_item.topic.title}`}
+        current={current_index + 1}
+        total={items.length}
+      />
+      <fieldset className="question-card" disabled={!is_ready}>
         <legend className="w-full">
-          <span className="block text-lg leading-7 font-semibold whitespace-pre-line text-ink">
+          <span className="question-prompt whitespace-pre-line">
             {current_item.question.prompt}
           </span>
         </legend>
-        <div className="mt-5 space-y-3">
+        <div className="answer-list">
           {current_item.question.options.map((option, option_index) => {
             const is_selected = pending_option_index === option_index;
 
             return (
-              <label
-                className={`flex cursor-pointer items-start gap-3 rounded-lg border p-4 text-ink transition-colors ${
-                  is_selected
-                    ? "border-accent bg-accent-soft"
-                    : "border-line bg-surface-raised hover:border-accent"
-                }`}
+              <AnswerOption
+                checked={is_selected}
+                index={option_index}
                 key={option}
-              >
-                <input
-                  checked={is_selected}
-                  className="mt-0.5 size-4 shrink-0 accent-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                  name={current_item.question.id}
-                  onChange={() => set_pending_option_index(option_index)}
-                  type="radio"
-                  value={option_index}
-                />
-                <span className="leading-6 whitespace-pre-line">{option}</span>
-              </label>
+                name={current_item.question.id}
+                on_change={() => set_pending_option_index(option_index)}
+                option={option}
+                state={is_selected ? "selected" : "idle"}
+              />
             );
           })}
         </div>
       </fieldset>
       <button
-        className="mt-5 rounded-md bg-accent px-4 py-3 text-sm font-semibold text-accent-contrast transition-colors hover:bg-accent-strong disabled:cursor-not-allowed disabled:bg-line focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        className="button-primary mt-4 sm:w-auto"
         disabled={!is_ready || pending_option_index === undefined}
         onClick={submit_answer}
         type="button"

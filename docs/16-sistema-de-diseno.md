@@ -41,7 +41,9 @@ el uso de fuentes del sistema evita una dependencia de red y da al titular una v
 
 ### marco
 
-- encabezado compacto y pegajoso: marca tipográfica, descriptor pequeño, navegación mínima y selector de tema.
+- encabezado compacto y pegajoso: marca tipográfica, navegación mínima y selector de tema.
+- en móvil, el encabezado cerrado ocupa una sola fila: marca, tema y menú. la navegación se muestra en un panel desplegable de dos columnas; nunca se distribuye en varias filas dentro del encabezado.
+- en escritorio, la navegación se agrupa como un control central compacto y el descriptor largo solo aparece cuando existe espacio suficiente.
 - pie sobrio con divisor editorial, sin una segunda barra de navegación pesada.
 - ancho de lectura estrecho para lecciones; ancho de composición mayor para ruta, inicio y progreso.
 
@@ -54,8 +56,20 @@ el uso de fuentes del sistema evita una dependencia de red y da al titular una v
 ### aprendizaje
 
 - lección: encabezado con código, título, objetivo y metadatos; cuerpo con medida tipográfica de lectura, intertítulos serif y llamadas puntuales.
-- práctica, diagnóstico y simulacro: panel de pregunta contrastado, opciones con estado inequívoco y progreso visible sin revelar respuestas antes de tiempo.
+- práctica, diagnóstico y simulacro: panel de pregunta contrastado, progreso lineal visible y opciones identificadas con letras. selección, acierto y error cambian borde, fondo, marcador y texto; ningún estado depende solo del color.
+- en móvil, los controles usan toda la anchura disponible y mantienen una altura táctil mínima. el encabezado permanece en una sola fila y la pregunta conserva una columna de lectura sin desbordamiento horizontal.
 - resultados: errores, explicación y siguiente acción se organizan por jerarquía editorial, no por alertas genéricas.
+
+## revisión integral de interfaz · 2026-09-22
+
+la segunda revisión visual sustituye el primer resultado del rediseño editorial sin cambiar su intención. el sistema conserva la serif editorial, el teal y la grilla, pero corrige densidad, contraste y consistencia:
+
+- la paleta clara usa un canvas cálido, superficies blancas y tinta azul-negra; la paleta oscura usa canvas `#090e13`, superficies `#111920`/`#17232c`, tinta `#f5f7f4` y texto secundario `#bec9cd`.
+- se añaden `surface-soft`, `ink-subtle` y `line-strong` para evitar usar texto tenue o bordes ambiguos en contextos que requieren más contraste.
+- `page-shell`, `reading-shell`, `page-heading`, `page-intro`, botones, paneles y controles de pregunta forman el vocabulario presentacional compartido. estas clases no contienen reglas de dominio.
+- las opciones conservan radios nativos para teclado y lector de pantalla, pero presentan marcadores `a`/`b`/`c`, áreas táctiles amplias y estados visuales propios.
+- inicio, ruta, diagnóstico, progreso, lecciones, práctica, simulacro, placeholders y errores comparten ahora la misma escala, radio, borde y jerarquía de acciones.
+- no se agregan dependencias visuales, fuentes remotas ni cambios a contenido, rutas, progreso o persistencia.
 
 ## alcance de capitalización
 

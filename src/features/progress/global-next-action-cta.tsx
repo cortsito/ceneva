@@ -18,16 +18,13 @@ export function GlobalNextActionCta({
           Dominaste todos los temas disponibles de las siete áreas.
         </p>
       ) : (
-        <Link
-          className="rounded-md bg-accent px-5 py-3 text-center text-sm font-semibold text-accent-contrast transition-colors hover:bg-accent-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-          href={next_action.href}
-        >
+        <Link className="button-primary" href={next_action.href}>
           {next_action.label}
         </Link>
       )}
       {pending_review_count > 0 ? (
         <Link
-          className="rounded-md border border-warning bg-warning-soft px-5 py-3 text-center text-sm font-semibold text-warning transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          className="button-secondary border-warning bg-warning-soft text-warning"
           href="/practica"
         >
           Repasar {pending_review_count} pendiente

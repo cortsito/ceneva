@@ -45,6 +45,31 @@ test("la navegación global lleva a mi ruta", async ({ page }) => {
   );
 });
 
+test("el encabezado móvil permanece en una fila y abre la navegación bajo demanda", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+
+  const header = page.locator("header");
+  const header_box = await header.boundingBox();
+
+  expect(header_box).not.toBeNull();
+  expect(header_box?.height).toBeLessThanOrEqual(66);
+  await expect(
+    page.getByRole("navigation", { name: "Navegación principal" }),
+  ).not.toBeVisible();
+
+  await page.getByRole("button", { name: "Abrir menú" }).click();
+
+  await expect(
+    page.getByRole("navigation", { name: "Navegación móvil" }),
+  ).toBeVisible();
+  await expect(page.getByRole("link", { name: "Mi ruta" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Cerrar menú" })).toBeVisible();
+  expect((await header.boundingBox())?.height).toBeLessThanOrEqual(66);
+});
+
 test("el selector de tema cicla claro, oscuro y sistema, persiste tras recargar y no toca el progreso", async ({
   page,
 }) => {

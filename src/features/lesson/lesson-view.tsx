@@ -14,29 +14,31 @@ type lesson_view_props = {
 
 const markdown_components: Components = {
   h2: ({ children }) => (
-    <h2 className="mt-10 font-display text-2xl font-semibold tracking-tight text-ink">
+    <h2 className="mt-12 font-display text-3xl font-semibold tracking-[-0.025em] text-ink">
       {children}
     </h2>
   ),
   h3: ({ children }) => (
-    <h3 className="mt-8 font-display text-xl font-semibold tracking-tight text-ink">
+    <h3 className="mt-8 font-display text-2xl font-semibold tracking-tight text-ink">
       {children}
     </h3>
   ),
-  p: ({ children }) => <p className="mt-4 leading-7 text-ink-muted">{children}</p>,
+  p: ({ children }) => (
+    <p className="mt-4 text-[1.02rem] leading-8 text-ink-muted">{children}</p>
+  ),
   ul: ({ children }) => (
-    <ul className="mt-4 list-disc space-y-2 pl-6 leading-7 text-ink-muted">
+    <ul className="mt-5 list-disc space-y-3 pl-6 text-[1.02rem] leading-8 text-ink-muted marker:text-accent">
       {children}
     </ul>
   ),
   ol: ({ children }) => (
-    <ol className="mt-4 list-decimal space-y-2 pl-6 leading-7 text-ink-muted">
+    <ol className="mt-5 list-decimal space-y-3 pl-6 text-[1.02rem] leading-8 text-ink-muted marker:font-bold marker:text-accent">
       {children}
     </ol>
   ),
   li: ({ children }) => <li>{children}</li>,
   code: ({ children }) => (
-    <code className="rounded bg-surface px-1.5 py-0.5 font-mono text-[0.9em] text-ink">
+    <code className="rounded-md border border-line bg-surface-raised px-1.5 py-0.5 font-mono text-[0.9em] text-ink">
       {children}
     </code>
   ),
@@ -94,32 +96,27 @@ export function LessonView({ lesson }: lesson_view_props) {
   const resolved_unit = get_available_unit(lesson.area_id, lesson.unit_id);
 
   return (
-    <article className="mx-auto w-full max-w-3xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+    <article className="reading-shell">
       {resolved_unit ? (
-        <Link
-          className="text-sm font-semibold text-accent underline decoration-accent/40 underline-offset-4 transition-colors hover:text-accent-strong focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
-          href={`/ruta/${lesson.area_id}`}
-        >
+        <Link className="button-quiet" href={`/ruta/${lesson.area_id}`}>
           Volver a {resolved_unit.unit.title}
         </Link>
       ) : null}
-      <header className="mt-8 border-b border-line pb-8">
+      <header className="mt-7 border-b border-line pb-9">
         <Eyebrow>Lección · tema {lesson.source.code}</Eyebrow>
-        <h1 className="mt-3 font-display text-4xl font-semibold tracking-tight text-ink sm:text-5xl">
-          {lesson.title}
-        </h1>
-        <p className="mt-5 text-lg leading-8 text-ink-muted">{lesson.objective}</p>
-        <p className="mt-4 text-sm text-ink-muted">
+        <h1 className="page-heading mt-3">{lesson.title}</h1>
+        <p className="page-intro mt-5">{lesson.objective}</p>
+        <p className="mt-5 inline-flex rounded-full border border-line bg-surface px-3 py-1.5 text-xs font-semibold text-ink-muted">
           {lesson.estimated_minutes} minutos · guía oficial, página {lesson.source.page}
         </p>
         {lesson.prerequisites.length > 0 ? (
-          <div className="mt-6 rounded-lg bg-surface p-4">
+          <div className="surface-panel mt-6 p-4">
             <p className="text-sm font-semibold text-ink">Antes de continuar</p>
             <ul className="mt-2 space-y-2">
               {lesson.prerequisites.map((prerequisite_id) => (
                 <li key={prerequisite_id}>
                   <Link
-                    className="text-sm font-medium text-accent underline decoration-accent/40 underline-offset-4 hover:text-accent-strong focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+                    className="button-quiet text-sm"
                     href={`/leccion/${prerequisite_id}`}
                   >
                     Repasa {prerequisite_id}

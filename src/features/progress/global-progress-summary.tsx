@@ -38,20 +38,28 @@ export function GlobalProgressSummary({
   );
 
   return (
-    <div className="border-y border-line py-8">
-      <dl className="grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-4">
-        <Stat
-          label="temas dominados"
-          value={`${summary.dominated_topics}/${summary.total_topics}`}
-        />
-        <Stat
-          label="lecciones completadas"
-          value={`${summary.completed_lessons}/${summary.total_lessons}`}
-        />
-        <Stat label="precisión" value={format_accuracy(summary.accuracy)} />
-        <Stat label="repaso pendiente" value={summary.pending_review_count} />
+    <div className="surface-panel overflow-hidden">
+      <dl className="grid grid-cols-2 divide-x divide-y divide-line sm:grid-cols-4 sm:divide-y-0">
+        <div className="p-5 sm:p-6">
+          <Stat
+            label="temas dominados"
+            value={`${summary.dominated_topics}/${summary.total_topics}`}
+          />
+        </div>
+        <div className="p-5 sm:p-6">
+          <Stat
+            label="lecciones completadas"
+            value={`${summary.completed_lessons}/${summary.total_lessons}`}
+          />
+        </div>
+        <div className="p-5 sm:p-6">
+          <Stat label="precisión" value={format_accuracy(summary.accuracy)} />
+        </div>
+        <div className="p-5 sm:p-6">
+          <Stat label="repaso pendiente" value={summary.pending_review_count} />
+        </div>
       </dl>
-      <div className="mt-8">
+      <div className="border-t border-line bg-accent-soft p-5 sm:p-6">
         <GlobalNextActionCta
           next_action={next_action}
           pending_review_count={pending_review_count}

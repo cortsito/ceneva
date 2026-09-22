@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 
+import { AnswerOption, FeedbackPanel } from "@/components/learning/question-ui";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import type { pilot_review_candidate } from "@/features/practice/pilot-review-candidates";
 
@@ -42,13 +43,11 @@ export function PilotReviewQueue({ candidates }: pilot_review_queue_props) {
   }
 
   return (
-    <section className="mx-auto flex w-full max-w-3xl flex-col gap-10 px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+    <section className="reading-shell flex flex-col gap-10">
       <header className="space-y-4">
         <Eyebrow>Práctica</Eyebrow>
-        <h1 className="font-display text-4xl font-semibold tracking-tight text-ink sm:text-5xl">
-          Repasa tus errores pendientes.
-        </h1>
-        <p className="max-w-xl leading-7 text-ink-muted">
+        <h1 className="page-heading">Repasa tus errores pendientes.</h1>
+        <p className="page-intro">
           Esta cola muestra preguntas cuya última respuesta fue incorrecta, hasta cinco
           a la vez.
         </p>
@@ -64,26 +63,23 @@ export function PilotReviewQueue({ candidates }: pilot_review_queue_props) {
           incorrecta en la ruta o en práctica por tema aparecerán aquí.
         </p>
       ) : (
-        <ol
-          aria-label="preguntas pendientes de repaso"
-          className="divide-y divide-line border-y border-line"
-        >
+        <ol aria-label="preguntas pendientes de repaso" className="space-y-8">
           {queue.map((item, item_index) => {
             const answer = answers[item.question.id];
             const has_answered = answer !== undefined;
 
             return (
-              <li className="py-8 sm:py-10" key={item.question.id}>
-                <fieldset disabled={has_answered}>
+              <li key={item.question.id}>
+                <fieldset className="question-card mt-0" disabled={has_answered}>
                   <legend className="w-full">
-                    <span className="text-xs font-semibold tracking-[0.16em] text-accent uppercase">
+                    <span className="text-[0.7rem] font-extrabold tracking-[0.16em] text-accent uppercase">
                       Repaso {item_index + 1} de {queue.length} · {item.topic.title}
                     </span>
-                    <span className="mt-3 block text-lg font-semibold leading-7 whitespace-pre-line text-ink">
+                    <span className="question-prompt mt-3 whitespace-pre-line">
                       {item.question.prompt}
                     </span>
                   </legend>
-                  <div className="mt-5 space-y-3">
+                  <div className="answer-list">
                     {item.question.options.map((option, option_index) => {
                       const is_selected = has_answered
                         ? answer.selected_option_index === option_index
@@ -91,42 +87,27 @@ export function PilotReviewQueue({ candidates }: pilot_review_queue_props) {
                       const option_state = has_answered
                         ? is_selected
                           ? answer.is_correct
-                            ? "border-accent bg-accent-soft"
-                            : "border-danger bg-danger-soft"
-                          : "border-line bg-surface"
-                        : "border-line bg-surface hover:border-accent";
+                            ? "correct"
+                            : "incorrect"
+                          : "idle"
+                        : "idle";
 
                       return (
-                        <label
-                          className={`flex cursor-pointer items-start gap-3 rounded-lg border p-4 text-ink transition-colors ${option_state}`}
+                        <AnswerOption
+                          checked={is_selected}
+                          index={option_index}
                           key={option}
-                        >
-                          <input
-                            checked={is_selected}
-                            className="mt-0.5 size-4 shrink-0 accent-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                            name={item.question.id}
-                            onChange={() => select_option(item, option_index)}
-                            type="radio"
-                            value={option_index}
-                          />
-                          <span className="leading-6 whitespace-pre-line">
-                            {option}
-                          </span>
-                        </label>
+                          name={item.question.id}
+                          on_change={() => select_option(item, option_index)}
+                          option={option}
+                          state={option_state}
+                        />
                       );
                     })}
                   </div>
                 </fieldset>
                 {has_answered ? (
-                  <div
-                    aria-atomic="true"
-                    className={`mt-3 rounded-lg border p-4 ${
-                      answer.is_correct
-                        ? "border-accent bg-accent-soft text-ink"
-                        : "border-danger bg-danger-soft text-ink"
-                    }`}
-                    role="status"
-                  >
+                  <FeedbackPanel tone={answer.is_correct ? "success" : "danger"}>
                     <p className="font-semibold">
                       {answer.is_correct ? "Correcto." : "Todavía no es correcto."}
                     </p>
@@ -145,12 +126,9 @@ export function PilotReviewQueue({ candidates }: pilot_review_queue_props) {
                         ? "Saldrá de tu cola de repaso la próxima vez que la visites."
                         : "Sigue pendiente en tu cola de repaso."}
                     </p>
-                  </div>
+                  </FeedbackPanel>
                 ) : null}
-                <Link
-                  className="mt-3 inline-block text-sm font-semibold text-accent underline decoration-accent/40 underline-offset-4 transition-colors hover:text-accent-strong focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
-                  href={`/leccion/${item.lesson.id}`}
-                >
+                <Link className="button-quiet mt-3" href={`/leccion/${item.lesson.id}`}>
                   Repasar {item.lesson.title}
                 </Link>
               </li>

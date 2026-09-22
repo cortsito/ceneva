@@ -20,10 +20,7 @@ export function AreaNextActionCta({
   }
 
   return (
-    <Link
-      className="inline-block w-fit rounded-md bg-accent px-4 py-2 text-sm font-semibold text-accent-contrast transition-colors hover:bg-accent-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-      href={next_action.href}
-    >
+    <Link className="button-primary w-fit py-2" href={next_action.href}>
       {next_action.label}
     </Link>
   );

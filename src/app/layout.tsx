@@ -32,7 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Saltar al contenido principal
         </a>
         <SiteHeader />
-        <main className="flex-1" id="contenido-principal">
+        <main className="flex-1 bg-canvas text-ink" id="contenido-principal">
           {children}
         </main>
         <SiteFooter />

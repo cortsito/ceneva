@@ -28,7 +28,7 @@ export function LessonSession({ lesson_id, questions }: lesson_session_props) {
         on_answer={record_practice_answer}
         questions={questions}
       />
-      <section className="mt-8 rounded-xl border border-line bg-surface p-5 sm:p-6">
+      <section className="surface-panel mt-10 p-5 sm:p-6">
         <h3 className="font-display text-xl font-semibold tracking-tight text-ink">
           Termina esta lección
         </h3>
@@ -36,7 +36,7 @@ export function LessonSession({ lesson_id, questions }: lesson_session_props) {
           Marca la lección como completada cuando hayas revisado la comprobación.
         </p>
         <button
-          className="mt-5 rounded-md bg-accent px-4 py-3 text-sm font-semibold text-accent-contrast transition-colors hover:bg-accent-strong disabled:cursor-not-allowed disabled:bg-line focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          className="button-primary mt-5 sm:w-auto"
           disabled={!is_hydrated || is_completed}
           onClick={() => mark_lesson_completed(lesson_id)}
           type="button"

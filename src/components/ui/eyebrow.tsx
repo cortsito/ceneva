@@ -4,7 +4,7 @@ type eyebrow_props = {
 
 export function Eyebrow({ children }: eyebrow_props) {
   return (
-    <p className="text-xs font-semibold tracking-[0.16em] text-accent uppercase">
+    <p className="text-[0.7rem] font-extrabold tracking-[0.18em] text-accent uppercase">
       {children}
     </p>
   );
