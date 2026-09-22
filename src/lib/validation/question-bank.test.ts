@@ -11,12 +11,38 @@ import { cultura_digital_questions } from "@content/questions/cultura-digital";
 import { humanidades_questions } from "@content/questions/humanidades";
 import { lengua_y_comunicacion_questions } from "@content/questions/lengua-y-comunicacion";
 import { pensamiento_matematico_questions } from "@content/questions/pensamiento-matematico";
+import type { question } from "@content/questions/types";
 
 import {
   find_duplicate_ids,
   find_invalid_options,
   group_questions_by_topic,
 } from "./question-bank";
+
+describe("question bank stimulus validation", () => {
+  const valid_question: question = {
+    id: "q-stimulus",
+    topic_id: "topic-stimulus",
+    prompt: "¿qué afirma el texto?",
+    options: ["opción a", "opción b", "opción c"],
+    correct_option_index: 0,
+    explanation: "explicación de prueba.",
+    common_error: "error común de prueba.",
+    source_reference: "referencia de prueba.",
+    difficulty: "basic",
+    use_cases: ["practice"],
+  };
+
+  it("acepta una pregunta sin estímulo separado", () => {
+    expect(find_invalid_options(valid_question)).toEqual([]);
+  });
+
+  it("rechaza un estímulo explícito vacío", () => {
+    expect(find_invalid_options({ ...valid_question, stimulus: "   " })).toContain(
+      "q-stimulus tiene un texto base vacío.",
+    );
+  });
+});
 
 const cd_2_1_reserved_ids: Record<string, string[]> = {
   "cd-2-1-1-elementos-de-la-identidad-digital": [

@@ -13,12 +13,17 @@ export type simulator_incorrect_item = {
   selected_option_index: number;
 };
 
+export type simulator_result_item = simulator_incorrect_item & {
+  is_correct: boolean;
+};
+
 export type simulator_topic_report = {
   topic: { id: string; title: string; code: string };
   lesson: { id: string; title: string };
   correct_count: number;
   total_count: number;
   accuracy: number;
+  result_items: simulator_result_item[];
   incorrect_items: simulator_incorrect_item[];
 };
 
@@ -68,6 +73,15 @@ export function calculate_simulator_coverage_report(
       correct_count: is_correct ? 1 : 0,
       total_count: 1,
       accuracy: is_correct ? 1 : 0,
+      result_items: answer
+        ? [
+            {
+              question: item.question,
+              selected_option_index: answer.selected_option_index,
+              is_correct,
+            },
+          ]
+        : [],
       incorrect_items:
         !is_correct && answer
           ? [

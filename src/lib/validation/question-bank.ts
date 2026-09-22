@@ -20,6 +20,10 @@ export function find_invalid_options(question: question): string[] {
     errors.push(`${question.id} requiere una explicación.`);
   }
 
+  if (question.stimulus !== undefined && question.stimulus.trim().length === 0) {
+    errors.push(`${question.id} tiene un texto base vacío.`);
+  }
+
   if (!question.common_error || question.common_error.trim().length === 0) {
     errors.push(`${question.id} requiere un error común.`);
   }

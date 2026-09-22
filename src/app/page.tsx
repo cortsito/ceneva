@@ -27,7 +27,7 @@ export default async function HomePage() {
             </span>
           </div>
           <div className="space-y-6">
-            <h1 className="page-heading">
+            <h1 className="page-heading page-heading--display">
               Estudia con una ruta, no solo con un simulador.
             </h1>
             <p className="page-intro">

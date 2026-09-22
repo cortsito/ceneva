@@ -71,6 +71,23 @@ la segunda revisión visual sustituye el primer resultado del rediseño editoria
 - inicio, ruta, diagnóstico, progreso, lecciones, práctica, simulacro, placeholders y errores comparten ahora la misma escala, radio, borde y jerarquía de acciones.
 - no se agregan dependencias visuales, fuentes remotas ni cambios a contenido, rutas, progreso o persistencia.
 
+## ux pedagógica de preguntas y lecciones · 2026-09-22
+
+la claridad de aprendizaje prevalece sobre cualquier gesto editorial. una pantalla debe dejar claro qué se está estudiando, qué acción sigue y qué resultado tuvo sin depender de inferencias, color aislado o jerarquías tipográficas ambiguas.
+
+- toda pregunta vive dentro de una superficie completa. el enunciado ya no funciona como `legend` visual sobre el borde: el `fieldset` nativo se conserva para semántica y teclado, pero no dibuja el contenedor.
+- cuando un reactivo incluye una lectura, caso o cita extensa, `stimulus` contiene el texto base y `prompt` conserva únicamente la instrucción. ambos bloques tienen etiquetas y estilos distintos.
+- una opción contestada comunica su estado con texto, icono, borde y color. los resultados siempre dicen `acierto` o `por reforzar`; nunca se interpreta un acierto por la ausencia de una corrección.
+- la revisión separa `tu respuesta`, `respuesta correcta`, `por qué` y `error común`. las respuestas correctas pueden colapsar su detalle en resultados extensos; los errores permanecen abiertos porque requieren una acción de aprendizaje.
+- el resultado total es el dato principal de la pantalla: cantidad correcta, total, porcentaje y siguiente acción aparecen antes del detalle por pregunta.
+- diagnóstico y simulacro conservan su regla de no revelar respuestas durante la sesión. esta mejora cambia la presentación del reporte final, no la validez de la evaluación.
+- la lección no muestra metadatos de autoría, ids, rutas de archivos, calibración ni notas del banco. `comprobación` existe como sección editorial interna y el componente interactivo representa esa etapa para la persona usuaria.
+- las lecciones usan una secuencia constante: objetivo observable, aprende, observa, error frecuente, inténtalo, comprobación interactiva y cierre. cada etapa tiene una función visual distinta y un índice lateral solo cuando existe espacio suficiente.
+- los títulos de actividad son compactos. la portada puede conservar un display expresivo, pero preguntas, lecciones y resultados priorizan contenido visible antes del primer scroll.
+- el ancho de una evaluación es mayor que el ancho de lectura de una lección. el contenido usa mejor el escritorio sin crear líneas de texto excesivamente largas.
+
+estas reglas son estructurales y se aplican mediante componentes compartidos en `src/components/learning/question-ui.tsx`; no deben volver a implementarse de forma aislada en cada flujo.
+
 ## alcance de capitalización
 
 el rediseño corrige inmediatamente el chrome de la aplicación: navegación, botones, encabezados, mensajes de estado y metadatos. las lecciones y los 185 reactivos de las unidades registradas requieren una revisión editorial separada y manual por lote. no se aplica una transformación automática de mayúsculas: rompería nombres propios, siglas, citas, fórmulas y opciones de reactivos.

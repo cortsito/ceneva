@@ -3,7 +3,13 @@
 import { useState } from "react";
 import Link from "next/link";
 
-import { AnswerOption, QuestionProgress } from "@/components/learning/question-ui";
+import {
+  AnswerOption,
+  AnswerReviewCard,
+  QuestionFrame,
+  QuestionProgress,
+  ScoreSummary,
+} from "@/components/learning/question-ui";
 import type { topic_progress } from "@/features/progress/pilot-progress";
 
 import {
@@ -41,16 +47,13 @@ export function DiagnosticCheck({
 
     return (
       <section aria-labelledby="resultado-diagnostico" className="question-stage">
-        <h2
-          className="font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl"
-          id="resultado-diagnostico"
-        >
-          {correct_count} de {items.length} respuestas correctas
-        </h2>
-        <p className="mt-3 max-w-xl leading-7 text-ink-muted">
-          Este resultado orienta tu punto de partida; no modifica por sí solo el dominio
-          de los temas.
-        </p>
+        <div id="resultado-diagnostico">
+          <ScoreSummary
+            correct={correct_count}
+            description="Este resultado orienta tu punto de partida; no modifica por sí solo el dominio de los temas."
+            total={items.length}
+          />
+        </div>
         <ol className="mt-7 space-y-4" aria-label="resultado por tema">
           {items.map((item, item_index) => {
             const answer = answers[item.question.id];
@@ -61,37 +64,14 @@ export function DiagnosticCheck({
 
             return (
               <li key={item.question.id}>
-                <article
-                  className={`result-card ${
-                    answer.is_correct
-                      ? "border-success bg-success-soft"
-                      : "border-danger bg-danger-soft"
-                  }`}
-                >
-                  <p className="text-sm font-semibold text-ink-muted">
-                    Tema {item_index + 1} de {items.length} · {item.topic.title}
-                  </p>
-                  <p className="mt-2 text-lg leading-7 font-semibold whitespace-pre-line text-ink">
-                    {item.question.prompt}
-                  </p>
-                  <p className="mt-3 leading-6 text-ink">
-                    Tu respuesta:{" "}
-                    <strong>
-                      {item.question.options[answer.selected_option_index]}
-                    </strong>
-                  </p>
-                  {!answer.is_correct ? (
-                    <p className="mt-2 leading-6 text-ink">
-                      Respuesta correcta:{" "}
-                      <strong>
-                        {item.question.options[item.question.correct_option_index]}
-                      </strong>
-                    </p>
-                  ) : null}
-                  <p className="mt-2 leading-6 text-ink-muted">
-                    {item.question.explanation}
-                  </p>
-                </article>
+                <AnswerReviewCard
+                  context={item.topic.title}
+                  index={item_index + 1}
+                  is_correct={answer.is_correct}
+                  question={item.question}
+                  selected_option_index={answer.selected_option_index}
+                  total={items.length}
+                />
               </li>
             );
           })}
@@ -147,30 +127,27 @@ export function DiagnosticCheck({
         current={current_index + 1}
         total={items.length}
       />
-      <fieldset className="question-card" disabled={!is_ready}>
-        <legend className="w-full">
-          <span className="question-prompt whitespace-pre-line">
-            {current_item.question.prompt}
-          </span>
-        </legend>
-        <div className="answer-list">
-          {current_item.question.options.map((option, option_index) => {
-            const is_selected = pending_option_index === option_index;
+      <QuestionFrame
+        disabled={!is_ready}
+        prompt={current_item.question.prompt}
+        stimulus={current_item.question.stimulus}
+      >
+        {current_item.question.options.map((option, option_index) => {
+          const is_selected = pending_option_index === option_index;
 
-            return (
-              <AnswerOption
-                checked={is_selected}
-                index={option_index}
-                key={option}
-                name={current_item.question.id}
-                on_change={() => set_pending_option_index(option_index)}
-                option={option}
-                state={is_selected ? "selected" : "idle"}
-              />
-            );
-          })}
-        </div>
-      </fieldset>
+          return (
+            <AnswerOption
+              checked={is_selected}
+              index={option_index}
+              key={option}
+              name={current_item.question.id}
+              on_change={() => set_pending_option_index(option_index)}
+              option={option}
+              state={is_selected ? "selected" : "idle"}
+            />
+          );
+        })}
+      </QuestionFrame>
       <button
         className="button-primary mt-4 sm:w-auto"
         disabled={!is_ready || pending_option_index === undefined}

@@ -1,5 +1,7 @@
 "use client";
 
+import type { ReactNode } from "react";
+
 import type { question } from "@content/questions/types";
 
 import { LessonCheck } from "@/features/practice/lesson-check";
@@ -7,11 +9,16 @@ import { LessonCheck } from "@/features/practice/lesson-check";
 import { usePilotProgress } from "./use-pilot-progress";
 
 type lesson_session_props = {
+  children?: ReactNode;
   lesson_id: string;
   questions: question[];
 };
 
-export function LessonSession({ lesson_id, questions }: lesson_session_props) {
+export function LessonSession({
+  children,
+  lesson_id,
+  questions,
+}: lesson_session_props) {
   const { progress, is_hydrated, record_practice_answer, mark_lesson_completed } =
     usePilotProgress();
   const is_completed = progress.completed_lesson_ids.includes(lesson_id);
@@ -28,6 +35,7 @@ export function LessonSession({ lesson_id, questions }: lesson_session_props) {
         on_answer={record_practice_answer}
         questions={questions}
       />
+      {children}
       <section className="surface-panel mt-10 p-5 sm:p-6">
         <h3 className="font-display text-xl font-semibold tracking-tight text-ink">
           Termina esta lección

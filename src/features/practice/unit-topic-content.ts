@@ -48,6 +48,10 @@ export function validate_question_shape(question: question, topic_id: string): v
   if (question.explanation.trim().length === 0) {
     throw new Error(`la pregunta ${question.id} requiere una explicación.`);
   }
+
+  if (question.stimulus !== undefined && question.stimulus.trim().length === 0) {
+    throw new Error(`la pregunta ${question.id} tiene un texto base vacío.`);
+  }
 }
 
 export function get_lesson_questions(

@@ -16,13 +16,13 @@ export function DiagnosticView({
   topic_definitions,
 }: diagnostic_view_props) {
   return (
-    <section className="reading-shell flex flex-col gap-8">
-      <header>
+    <section className="assessment-shell flex flex-col gap-8">
+      <header className="activity-header">
         <Eyebrow>Diagnóstico</Eyebrow>
-        <h1 className="page-heading mt-3">
+        <h1 className="activity-title">
           Identifica qué estudiar primero en {area_title}.
         </h1>
-        <p className="page-intro mt-4">
+        <p className="activity-intro">
           Responde {items.length} preguntas, una por cada tema de {area_title}. No verás
           si acertaste hasta terminar; al final tendrás una recomendación para empezar.
         </p>

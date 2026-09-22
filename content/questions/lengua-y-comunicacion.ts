@@ -4,8 +4,9 @@ export const lengua_y_comunicacion_questions: question[] = [
   {
     id: 'lc-tte-001',
     topic_id: 'lc-6-1-1-titulo-del-texto-expositivo',
-    prompt:
-      'Texto: "Las abejas polinizan flores mientras se alimentan de néctar, lo que permite la reproducción de muchas plantas frutales. Sin la polinización que realizan, la producción de frutas y verduras en huertos y campos se reduciría de forma importante. Por eso, cuidar las poblaciones de abejas beneficia directamente la producción de alimentos." ¿Cuál título representa mejor la idea principal de este texto?',
+    stimulus:
+      'Las abejas polinizan flores mientras se alimentan de néctar, lo que permite la reproducción de muchas plantas frutales. Sin la polinización que realizan, la producción de frutas y verduras en huertos y campos se reduciría de forma importante. Por eso, cuidar las poblaciones de abejas beneficia directamente la producción de alimentos.',
+    prompt: '¿Cuál título representa mejor la idea principal de este texto?',
     options: [
       'importancia de las abejas para la producción de alimentos',
       'la reproducción de las plantas frutales',
@@ -42,8 +43,9 @@ export const lengua_y_comunicacion_questions: question[] = [
   {
     id: 'lc-tte-003',
     topic_id: 'lc-6-1-1-titulo-del-texto-expositivo',
-    prompt:
-      'Texto: "El reciclaje de plástico requiere separar los materiales por tipo antes de procesarlos, ya que cada tipo se derrite a una temperatura distinta. Las plantas de reciclaje muelen el plástico limpio en pequeños fragmentos y lo funden para producir nuevos objetos. Gracias a este proceso, cada tonelada de plástico reciclado evita que se fabrique una tonelada de plástico nuevo a partir de petróleo." ¿Cuál título representa mejor la idea principal de este texto?',
+    stimulus:
+      'El reciclaje de plástico requiere separar los materiales por tipo antes de procesarlos, ya que cada tipo se derrite a una temperatura distinta. Las plantas de reciclaje muelen el plástico limpio en pequeños fragmentos y lo funden para producir nuevos objetos. Gracias a este proceso, cada tonelada de plástico reciclado evita que se fabrique una tonelada de plástico nuevo a partir de petróleo.',
+    prompt: '¿Cuál título representa mejor la idea principal de este texto?',
     options: [
       'cómo funciona el proceso de reciclaje de plástico',
       'ahorro de petróleo gracias al reciclaje',
@@ -61,8 +63,10 @@ export const lengua_y_comunicacion_questions: question[] = [
   {
     id: 'lc-tte-004',
     topic_id: 'lc-6-1-1-titulo-del-texto-expositivo',
+    stimulus:
+      'Las bibliotecas públicas ofrecen acceso gratuito a libros, computadoras con internet y salas de estudio silenciosas para cualquier persona de la comunidad, sin importar su nivel de ingresos. Muchas también organizan talleres de lectura y actividades culturales gratuitas para niños y adultos.',
     prompt:
-      'Texto: "Las bibliotecas públicas ofrecen acceso gratuito a libros, computadoras con internet y salas de estudio silenciosas para cualquier persona de la comunidad, sin importar su nivel de ingresos. Muchas también organizan talleres de lectura y actividades culturales gratuitas para niños y adultos." Un lector propone como título "las salas de estudio en las bibliotecas". ¿Por qué este título no representa bien el texto?',
+      'Un lector propone como título "las salas de estudio en las bibliotecas". ¿Por qué este título no representa bien el texto?',
     options: [
       'porque nombra solo uno de los servicios mencionados, no el conjunto de servicios gratuitos que ofrece la biblioteca',
       'porque las bibliotecas públicas no cuentan realmente con salas de estudio',
@@ -80,8 +84,10 @@ export const lengua_y_comunicacion_questions: question[] = [
   {
     id: 'lc-tte-005',
     topic_id: 'lc-6-1-1-titulo-del-texto-expositivo',
+    stimulus:
+      'Los mercados sobre ruedas ofrecen frutas y verduras frescas a precios más bajos que los supermercados, porque los vendedores no pagan renta fija por un local. Además, permiten a pequeños productores vender directamente sin intermediarios, lo que aumenta sus ganancias. Por estas razones, muchas familias con ingresos limitados prefieren comprar en estos mercados.',
     prompt:
-      'Texto: "Los mercados sobre ruedas ofrecen frutas y verduras frescas a precios más bajos que los supermercados, porque los vendedores no pagan renta fija por un local. Además, permiten a pequeños productores vender directamente sin intermediarios, lo que aumenta sus ganancias. Por estas razones, muchas familias con ingresos limitados prefieren comprar en estos mercados." Relaciona cada título candidato con lo que representa frente a este texto.\n\n1. Ventajas económicas de los mercados sobre ruedas\n2. Los precios de las frutas y verduras\n3. El comercio en México\n\na. Idea principal completa que organiza el texto\nb. Detalle aislado que aparece en el texto\nc. Idea más amplia que el texto no llega a desarrollar',
+      'Relaciona cada título candidato con lo que representa frente a este texto.\n\n1. Ventajas económicas de los mercados sobre ruedas\n2. Los precios de las frutas y verduras\n3. El comercio en México\n\na. Idea principal completa que organiza el texto\nb. Detalle aislado que aparece en el texto\nc. Idea más amplia que el texto no llega a desarrollar',
     options: ['1a, 2b, 3c', '1b, 2a, 3c', '1c, 2b, 3a'],
     correct_option_index: 0,
     explanation:

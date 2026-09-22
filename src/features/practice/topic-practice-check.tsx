@@ -4,9 +4,12 @@ import { useState } from "react";
 import Link from "next/link";
 
 import {
+  AnswerReviewCard,
   AnswerOption,
   FeedbackPanel,
+  QuestionFrame,
   QuestionProgress,
+  ScoreSummary,
 } from "@/components/learning/question-ui";
 
 import type { topic_question } from "./unit-topic-content";
@@ -65,16 +68,13 @@ export function TopicPracticeCheck({
 
     return (
       <section aria-labelledby="resultado-practica" className="question-stage">
-        <h2
-          className="font-display text-3xl font-semibold tracking-tight text-ink sm:text-4xl"
-          id="resultado-practica"
-        >
-          {correct_count} de {questions.length} respuestas correctas
-        </h2>
-        <p className="mt-3 max-w-xl leading-7 text-ink-muted">
-          Revisa cada respuesta y vuelve a la lección cuando necesites reforzar un
-          concepto.
-        </p>
+        <div id="resultado-practica">
+          <ScoreSummary
+            correct={correct_count}
+            description="Revisa cada respuesta y vuelve a la lección cuando necesites reforzar un concepto."
+            total={questions.length}
+          />
+        </div>
         <ol className="mt-7 space-y-4" aria-label="resultado por pregunta">
           {questions.map(({ question, lesson }, question_index) => {
             const answer = answers[question.id];
@@ -85,41 +85,20 @@ export function TopicPracticeCheck({
 
             return (
               <li key={question.id}>
-                <article
-                  className={`result-card ${
-                    answer.is_correct
-                      ? "border-success bg-success-soft"
-                      : "border-danger bg-danger-soft"
-                  }`}
-                >
-                  <p className="text-sm font-semibold text-ink-muted">
-                    Pregunta {question_index + 1} de {questions.length}
-                  </p>
-                  <p className="mt-2 text-lg leading-7 font-semibold whitespace-pre-line text-ink">
-                    {question.prompt}
-                  </p>
-                  <p className="mt-3 leading-6 text-ink">
-                    Tu respuesta:{" "}
-                    <strong>{question.options[answer.selected_option_index]}</strong>
-                  </p>
-                  {!answer.is_correct ? (
-                    <p className="mt-2 leading-6 text-ink">
-                      Respuesta correcta:{" "}
-                      <strong>{question.options[question.correct_option_index]}</strong>
-                    </p>
-                  ) : null}
-                  <p className="mt-2 leading-6 text-ink-muted">
-                    {question.explanation}
-                  </p>
-                  {has_multiple_lessons ? (
-                    <Link
-                      className="mt-3 inline-block text-sm font-semibold text-accent underline decoration-accent/40 underline-offset-4 transition-colors hover:text-accent-strong focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
-                      href={`/leccion/${lesson.id}`}
-                    >
-                      Repasar {lesson.title}
-                    </Link>
-                  ) : null}
-                </article>
+                <AnswerReviewCard
+                  action={
+                    has_multiple_lessons ? (
+                      <Link className="button-quiet" href={`/leccion/${lesson.id}`}>
+                        Repasar {lesson.title}
+                      </Link>
+                    ) : undefined
+                  }
+                  index={question_index + 1}
+                  is_correct={answer.is_correct}
+                  question={question}
+                  selected_option_index={answer.selected_option_index}
+                  total={questions.length}
+                />
               </li>
             );
           })}
@@ -177,41 +156,38 @@ export function TopicPracticeCheck({
         id="practica-por-tema"
       />
       <QuestionProgress current={current_index + 1} total={questions.length} />
-      <fieldset className="question-card" disabled={!is_ready || has_submitted}>
-        <legend className="w-full">
-          <span className="question-prompt whitespace-pre-line">
-            {current_question.prompt}
-          </span>
-        </legend>
-        <div className="answer-list">
-          {current_question.options.map((option, option_index) => {
-            const is_selected = has_submitted
-              ? answer.selected_option_index === option_index
-              : pending_option_index === option_index;
-            const option_state = has_submitted
-              ? is_selected
-                ? answer.is_correct
-                  ? "correct"
-                  : "incorrect"
-                : "idle"
+      <QuestionFrame
+        disabled={!is_ready || has_submitted}
+        prompt={current_question.prompt}
+        stimulus={current_question.stimulus}
+      >
+        {current_question.options.map((option, option_index) => {
+          const is_selected = has_submitted
+            ? answer.selected_option_index === option_index
+            : pending_option_index === option_index;
+          const option_state = has_submitted
+            ? option_index === current_question.correct_option_index
+              ? "correct"
               : is_selected
-                ? "selected"
-                : "idle";
+                ? "incorrect"
+                : "idle"
+            : is_selected
+              ? "selected"
+              : "idle";
 
-            return (
-              <AnswerOption
-                checked={is_selected}
-                index={option_index}
-                key={option}
-                name={current_question.id}
-                on_change={() => set_pending_option_index(option_index)}
-                option={option}
-                state={option_state}
-              />
-            );
-          })}
-        </div>
-      </fieldset>
+          return (
+            <AnswerOption
+              checked={is_selected}
+              index={option_index}
+              key={option}
+              name={current_question.id}
+              on_change={() => set_pending_option_index(option_index)}
+              option={option}
+              state={option_state}
+            />
+          );
+        })}
+      </QuestionFrame>
       {!has_submitted ? (
         <button
           className="button-primary mt-4 sm:w-auto"
@@ -223,19 +199,26 @@ export function TopicPracticeCheck({
         </button>
       ) : (
         <FeedbackPanel tone={answer.is_correct ? "success" : "danger"}>
-          <p className="font-semibold">
-            {answer.is_correct ? "Correcto." : "Incorrecto."}
-          </p>
           {!answer.is_correct ? (
-            <p className="mt-2 leading-6">
-              La respuesta correcta es:{" "}
-              <strong>
-                {current_question.options[current_question.correct_option_index]}
-              </strong>
-              .
-            </p>
+            <div className="answer-review__answers">
+              <div className="answer-review__answer--correct">
+                <p className="answer-review__label">Respuesta correcta:</p>
+                <p className="font-semibold leading-6">
+                  {current_question.options[current_question.correct_option_index]}
+                </p>
+              </div>
+            </div>
           ) : null}
-          <p className="mt-2 leading-6">{current_question.explanation}</p>
+          <div className="answer-review__explanation mt-3">
+            <p className="answer-review__label">Por qué</p>
+            <p>{current_question.explanation}</p>
+          </div>
+          {!answer.is_correct && current_question.common_error ? (
+            <div className="answer-review__common-error mt-3">
+              <p className="answer-review__label">Error común</p>
+              <p>{current_question.common_error}</p>
+            </div>
+          ) : null}
           <button
             className="button-primary mt-4 sm:w-auto"
             onClick={go_to_next_question}

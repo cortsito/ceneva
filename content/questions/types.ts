@@ -3,6 +3,7 @@ export type question_use_case = 'diagnostic' | 'practice' | 'review' | 'simulato
 export type question = {
   id: string
   topic_id: string
+  stimulus?: string
   prompt: string
   options: string[]
   correct_option_index: number

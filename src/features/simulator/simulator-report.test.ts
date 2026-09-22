@@ -86,6 +86,16 @@ describe("calculate_simulator_coverage_report", () => {
       selected_option_index: 1,
       question: { id: "q2", correct_option_index: 0 },
     });
+    expect(report.areas[0].topics[0].result_items[0]).toMatchObject({
+      is_correct: true,
+      selected_option_index: 0,
+      question: { id: "q1" },
+    });
+    expect(report.areas[0].topics[1].result_items[0]).toMatchObject({
+      is_correct: false,
+      selected_option_index: 1,
+      question: { id: "q2" },
+    });
   });
 
   it("enlaza cada tema fallado a su lección relacionada", () => {

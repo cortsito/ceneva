@@ -164,6 +164,9 @@ test("la ruta piloto abre una lección markdown real", async ({ page }) => {
   await expect(
     page.getByRole("heading", { level: 2, name: "explicación" }),
   ).toBeVisible();
+  await expect(page.getByText("al terminar podrás", { exact: false })).toBeVisible();
+  await expect(page.getByText("question-ids", { exact: false })).toHaveCount(0);
+  await expect(page.getByText("content/questions", { exact: false })).toHaveCount(0);
 });
 
 test("una lección ajena al piloto responde con not found", async ({ page }) => {
@@ -821,8 +824,14 @@ test("un diagnóstico de un área distinta a pensamiento matemático se resuelve
   await expect(
     page.getByRole("heading", { level: 2, name: "de 5 respuestas correctas" }),
   ).toBeVisible();
-  await expect(page.getByText("tema 1 de 5", { exact: false })).toBeVisible();
-  await expect(page.getByText("tema 5 de 5", { exact: false })).toBeVisible();
+  await expect(
+    page.getByText("Elementos de la identidad digital", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByText("Medidas de seguridad digital", { exact: true }),
+  ).toBeVisible();
+  await expect(page.locator(".result-card")).toHaveCount(5);
+  await expect(page.getByText("Por reforzar", { exact: true })).toHaveCount(5);
   await expect(page.getByText("pensamiento matemático", { exact: false })).toHaveCount(
     0,
   );
@@ -862,8 +871,10 @@ test("completar el diagnóstico muestra resultados explicados por tema y recomie
   await expect(
     page.getByRole("heading", { level: 2, name: "4 de 4 respuestas correctas" }),
   ).toBeVisible();
-  await expect(page.getByText("tema 1 de 4 · tipos de variables")).toBeVisible();
-  await expect(page.getByText("tema 4 de 4 · medidas de dispersión")).toBeVisible();
+  await expect(page.getByText("Acierto", { exact: true })).toHaveCount(4);
+  await expect(page.getByText("Tipos de variables", { exact: true })).toBeVisible();
+  await expect(page.getByText("Medidas de dispersión", { exact: true })).toBeVisible();
+  await expect(page.getByText("Por qué", { exact: true })).toHaveCount(4);
   await expect(
     page.getByText("empieza por tipos de variables.", { exact: false }),
   ).toBeVisible();
@@ -897,6 +908,22 @@ test("una respuesta incorrecta del diagnóstico recomienda el tema correspondien
   await expect(
     page.getByRole("heading", { level: 2, name: "3 de 4 respuestas correctas" }),
   ).toBeVisible();
+  const failed_result = page
+    .getByText("Por reforzar", { exact: true })
+    .locator("xpath=ancestor::article[1]");
+
+  await expect(
+    failed_result.getByText("tu respuesta:", { exact: false }),
+  ).toBeVisible();
+  await expect(
+    failed_result.getByText("respuesta correcta:", { exact: false }),
+  ).toBeVisible();
+  await expect(failed_result.locator(".answer-review__explanation")).toContainText(
+    "Por qué",
+  );
+  await expect(failed_result.locator(".answer-review__common-error")).toContainText(
+    "Error común",
+  );
   await expect(
     page.getByText("empieza por tipos de variables.", { exact: false }),
   ).toBeVisible();
@@ -1070,7 +1097,7 @@ test("completar el simulacro de cobertura con un error no-pm muestra el reporte 
     .locator("xpath=ancestor::li[1]");
 
   await expect(
-    mismatched_topic.getByText("respuesta correcta:", { exact: false }),
+    mismatched_topic.locator(".answer-review__answer--correct"),
   ).toContainText("almacenamiento en la nube");
 
   await mismatched_topic
@@ -1935,6 +1962,32 @@ test("la práctica de un tema de lengua y comunicación se puede responder en pa
   await answer_topic_question(page, "resumen", "siguiente pregunta");
 
   await expect(page.getByText("pregunta 2 de 5")).toBeVisible();
+});
+
+test("una lectura larga separa el texto base de la consigna sin montar la pregunta sobre el borde", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 375, height: 667 });
+  await page.goto("/practica/lc-6-1-1-titulo-del-texto-expositivo");
+
+  const card = page.locator(".question-card").first();
+  const prompt = card.locator(".question-prompt");
+  const card_rect = await card.evaluate((element) => {
+    const rect = element.getBoundingClientRect();
+    return { left: rect.left, right: rect.right, top: rect.top };
+  });
+  const prompt_rect = await prompt.evaluate((element) => {
+    const rect = element.getBoundingClientRect();
+    return { left: rect.left, right: rect.right, top: rect.top };
+  });
+
+  await expect(card.getByText("Texto base", { exact: true })).toBeVisible();
+  await expect(prompt).toHaveText(
+    "¿Cuál título representa mejor la idea principal de este texto?",
+  );
+  expect(prompt_rect.top).toBeGreaterThan(card_rect.top);
+  expect(prompt_rect.left).toBeGreaterThan(card_rect.left);
+  expect(prompt_rect.right).toBeLessThan(card_rect.right);
 });
 
 const cs_fpp_correct_options = [
