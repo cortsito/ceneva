@@ -77,11 +77,11 @@ describe("get_global_topic_definitions", () => {
     expect(pm_area?.topic_definitions.length).toBe(30);
   });
 
-  it("mantiene una unidad de área sin cambios para un área de una sola unidad", async () => {
+  it("concatena las unidades listas de cultura digital en un solo bloque de área", async () => {
     const areas = await get_global_topic_definitions();
     const cd_area = areas.find((area) => area.area_id === "cultura-digital");
 
-    expect(cd_area?.topic_definitions).toHaveLength(5);
+    expect(cd_area?.topic_definitions).toHaveLength(14);
   });
 });
 

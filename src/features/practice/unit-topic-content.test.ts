@@ -229,8 +229,8 @@ describe("get_topic_content", () => {
     await expect(
       get_topic_content(
         "cultura-digital",
-        "cd-2-2-comunicacion-y-colaboracion-digital",
-        "cd-2-2-1-definicion-del-ciberespacio",
+        "cd-2-4-pensamiento-algoritmico",
+        "cd-2-4-1-conceptos-del-lenguaje-algoritmico",
       ),
     ).resolves.toBeUndefined();
     await expect(
@@ -430,7 +430,7 @@ describe("get_available_topic_content", () => {
       get_available_topic_content("tema-inexistente"),
     ).resolves.toBeUndefined();
     await expect(
-      get_available_topic_content("cd-2-2-1-definicion-del-ciberespacio"),
+      get_available_topic_content("cd-2-4-1-conceptos-del-lenguaje-algoritmico"),
     ).resolves.toBeUndefined();
     await expect(
       get_available_topic_content(

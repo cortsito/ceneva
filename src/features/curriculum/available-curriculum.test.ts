@@ -183,10 +183,7 @@ describe("get_available_unit", () => {
 
   it("no resuelve una unidad no registrada aunque el área exista", () => {
     expect(
-      get_available_unit(
-        "cultura-digital",
-        "cd-2-2-comunicacion-y-colaboracion-digital",
-      ),
+      get_available_unit("cultura-digital", "cd-2-4-pensamiento-algoritmico"),
     ).toBeUndefined();
   });
 
@@ -216,12 +213,19 @@ describe("get_available_units_for_area", () => {
     ]);
   });
 
-  it("resuelve la única unidad lista de un área con una sola unidad", () => {
+  it("resuelve las tres unidades listas de cultura digital, en orden de registro", () => {
     expect(
       get_available_units_for_area("cultura-digital").map(
         (resolved) => resolved.unit.id,
       ),
-    ).toEqual(["cd-2-1-ciudadania-digital"]);
+    ).toEqual([
+      "cd-2-1-ciudadania-digital",
+      "cd-2-2-comunicacion-y-colaboracion-digital",
+      "cd-2-3-creatividad-digital",
+    ]);
+  });
+
+  it("resuelve la única unidad lista de un área con una sola unidad", () => {
     expect(
       get_available_units_for_area("conciencia-historica").map(
         (resolved) => resolved.unit.id,

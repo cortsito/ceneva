@@ -331,13 +331,10 @@ describe("get_unit_lessons", () => {
 
   it("no resuelve lecciones de una unidad no registrada", async () => {
     expect(
-      get_unit_lesson_ids(
-        "cultura-digital",
-        "cd-2-2-comunicacion-y-colaboracion-digital",
-      ),
+      get_unit_lesson_ids("cultura-digital", "cd-2-4-pensamiento-algoritmico"),
     ).toEqual([]);
     await expect(
-      get_unit_lessons("cultura-digital", "cd-2-2-comunicacion-y-colaboracion-digital"),
+      get_unit_lessons("cultura-digital", "cd-2-4-pensamiento-algoritmico"),
     ).resolves.toEqual([]);
   });
 });
@@ -420,7 +417,9 @@ describe("get_available_lesson", () => {
 
   it("no resuelve una lección inexistente ni una de una unidad no registrada", async () => {
     await expect(get_available_lesson("leccion-inexistente")).resolves.toBeUndefined();
-    await expect(get_available_lesson("cd-ciberespacio-01")).resolves.toBeUndefined();
+    await expect(
+      get_available_lesson("cd-conceptos-del-lenguaje-algoritmico-01"),
+    ).resolves.toBeUndefined();
     await expect(
       get_available_lesson("hu-funciones-de-la-lengua-01"),
     ).resolves.toBeUndefined();

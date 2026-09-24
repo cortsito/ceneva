@@ -3,8 +3,8 @@ import { describe, expect, it } from "vitest";
 import { available_units } from "./available-units";
 
 describe("available_units", () => {
-  it("lista exactamente las doce unidades de contenido listas, en orden estable", () => {
-    expect(available_units).toHaveLength(12);
+  it("lista exactamente las catorce unidades de contenido listas, en orden estable", () => {
+    expect(available_units).toHaveLength(14);
     expect(
       available_units.map((entry) => ({
         area_id: entry.area_id,
@@ -21,6 +21,14 @@ describe("available_units", () => {
       { area_id: "pensamiento-matematico", unit_id: "pm-1-5-pensamiento-geometrico" },
       { area_id: "pensamiento-matematico", unit_id: "pm-1-6-pensamiento-variacional" },
       { area_id: "cultura-digital", unit_id: "cd-2-1-ciudadania-digital" },
+      {
+        area_id: "cultura-digital",
+        unit_id: "cd-2-2-comunicacion-y-colaboracion-digital",
+      },
+      {
+        area_id: "cultura-digital",
+        unit_id: "cd-2-3-creatividad-digital",
+      },
       {
         area_id: "conciencia-historica",
         unit_id: "ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales",
@@ -71,7 +79,7 @@ describe("available_units", () => {
 
     const cultura_digital = by_area.get("cultura-digital");
     expect(cultura_digital?.area.id).toBe("cultura-digital");
-    expect(cultura_digital?.questions).toHaveLength(25);
+    expect(cultura_digital?.questions).toHaveLength(75);
     expect(
       cultura_digital?.questions.every((question) => question.id.startsWith("cd-")),
     ).toBe(true);

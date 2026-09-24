@@ -98,7 +98,7 @@ export const cultura_digital: curriculum_area = {
     },
     {
       "id": "cd-2-2-comunicacion-y-colaboracion-digital",
-      "title": "comunicación y colaboración a través de medios digitales",
+      "title": "Comunicación y colaboración a través de medios digitales",
       "source": {
         "guide": "docs/guiaoficial.pdf",
         "pages": [
@@ -109,7 +109,7 @@ export const cultura_digital: curriculum_area = {
       "topics": [
         {
           "id": "cd-2-2-1-definicion-del-ciberespacio",
-          "title": "definición del ciberespacio",
+          "title": "Definición del ciberespacio",
           "lesson_ids": [
             "cd-ciberespacio-01"
           ],
@@ -123,7 +123,7 @@ export const cultura_digital: curriculum_area = {
         },
         {
           "id": "cd-2-2-2-definicion-de-ticcad",
-          "title": "definición de las tecnologías de la información, comunicación, conocimiento y aprendizaje digital (ticcad)",
+          "title": "Definición de las tecnologías de la información, comunicación, conocimiento y aprendizaje digital (TICCAD)",
           "lesson_ids": [
             "cd-ticcad-01"
           ],
@@ -137,7 +137,7 @@ export const cultura_digital: curriculum_area = {
         },
         {
           "id": "cd-2-2-3-funcion-y-uso-de-herramientas-digitales",
-          "title": "función y uso de herramientas digitales",
+          "title": "Función y uso de herramientas digitales",
           "lesson_ids": [
             "cd-funciones-de-herramientas-digitales-01",
             "cd-uso-de-herramientas-digitales-02"
@@ -152,7 +152,7 @@ export const cultura_digital: curriculum_area = {
         },
         {
           "id": "cd-2-2-4-metodos-de-investigacion-digital",
-          "title": "métodos de investigación digital",
+          "title": "Métodos de investigación digital",
           "lesson_ids": [
             "cd-metodos-de-investigacion-digital-01"
           ],
@@ -168,7 +168,7 @@ export const cultura_digital: curriculum_area = {
     },
     {
       "id": "cd-2-3-creatividad-digital",
-      "title": "creatividad digital",
+      "title": "Creatividad digital",
       "source": {
         "guide": "docs/guiaoficial.pdf",
         "pages": [
@@ -179,7 +179,7 @@ export const cultura_digital: curriculum_area = {
       "topics": [
         {
           "id": "cd-2-3-1-herramientas-de-hoja-de-calculo",
-          "title": "herramientas del software de hoja de cálculo",
+          "title": "Herramientas del software de hoja de cálculo",
           "lesson_ids": [
             "cd-formulas-de-hoja-de-calculo-01"
           ],
@@ -193,7 +193,7 @@ export const cultura_digital: curriculum_area = {
         },
         {
           "id": "cd-2-3-2-herramientas-de-procesamiento-de-texto",
-          "title": "herramientas del software de procesamiento de texto",
+          "title": "Herramientas del software de procesamiento de texto",
           "lesson_ids": [
             "cd-herramientas-de-procesamiento-de-texto-01"
           ],
@@ -207,7 +207,7 @@ export const cultura_digital: curriculum_area = {
         },
         {
           "id": "cd-2-3-3-herramientas-de-presentaciones-electronicas",
-          "title": "herramientas del software de presentaciones electrónicas",
+          "title": "Herramientas del software de presentaciones electrónicas",
           "lesson_ids": [
             "cd-herramientas-de-presentaciones-01"
           ],
@@ -221,7 +221,7 @@ export const cultura_digital: curriculum_area = {
         },
         {
           "id": "cd-2-3-4-fases-del-metodo-addie",
-          "title": "fases del método addie para la creación de contenidos digitales",
+          "title": "Fases del método ADDIE para la creación de contenidos digitales",
           "lesson_ids": [
             "cd-metodo-addie-01"
           ],
@@ -235,7 +235,7 @@ export const cultura_digital: curriculum_area = {
         },
         {
           "id": "cd-2-3-5-campos-de-aplicacion-de-herramientas-tecnologicas",
-          "title": "campos de aplicación de herramientas tecnológicas",
+          "title": "Campos de aplicación de herramientas tecnológicas",
           "lesson_ids": [
             "cd-campos-de-aplicacion-tecnologica-01"
           ],

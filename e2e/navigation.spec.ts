@@ -12,6 +12,12 @@ const base_routes = [
   "/ruta/pensamiento-matematico/pm-1-6-pensamiento-variacional",
   "/ruta/cultura-digital",
   "/ruta/cultura-digital/cd-2-1-ciudadania-digital",
+  "/ruta/cultura-digital/cd-2-2-comunicacion-y-colaboracion-digital",
+  "/leccion/cd-ciberespacio-01",
+  "/practica/cd-2-2-1-definicion-del-ciberespacio",
+  "/ruta/cultura-digital/cd-2-3-creatividad-digital",
+  "/leccion/cd-formulas-de-hoja-de-calculo-01",
+  "/practica/cd-2-3-1-herramientas-de-hoja-de-calculo",
   "/ruta/conciencia-historica",
   "/ruta/conciencia-historica/ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales",
   "/ruta/humanidades",
@@ -201,7 +207,7 @@ test("/ruta muestra el conteo de unidades listas de cada área", async ({ page }
     .getByRole("heading", { name: "cultura digital" })
     .locator("xpath=ancestor::article");
 
-  await expect(cd_area.getByText("1 unidad lista")).toBeVisible();
+  await expect(cd_area.getByText("3 unidades listas")).toBeVisible();
 });
 
 test("/ruta/pensamiento-matematico lista sus seis unidades listas en orden curricular", async ({
@@ -1080,7 +1086,7 @@ test("el progreso de un área no-pm se refleja en /progreso tras recargar", asyn
     .getByText("temas dominados", { exact: true })
     .locator("xpath=following-sibling::*[1]");
 
-  await expect(dominated_stat).toHaveText("1/5");
+  await expect(dominated_stat).toHaveText("1/14");
 
   const pm_area_block = page
     .getByRole("heading", { name: "pensamiento matemático" })
@@ -1094,7 +1100,7 @@ test("el progreso de un área no-pm se refleja en /progreso tras recargar", asyn
 
   await page.reload();
 
-  await expect(dominated_stat).toHaveText("1/5");
+  await expect(dominated_stat).toHaveText("1/14");
 });
 
 const diagnostic_correct_options = [
@@ -1183,21 +1189,21 @@ test("un diagnóstico de un área distinta a pensamiento matemático se resuelve
 }) => {
   await page.goto("/diagnostico/cultura-digital");
 
-  await expect(page.getByText("pregunta 1 de 5")).toBeVisible();
+  await expect(page.getByText("pregunta 1 de 14")).toBeVisible();
 
-  for (let index = 0; index < 5; index += 1) {
+  for (let index = 0; index < 14; index += 1) {
     const options = await page.getByRole("radio").all();
 
     await options[0].check();
     await page
       .getByRole("button", {
-        name: index === 4 ? "ver resultado" : "siguiente pregunta",
+        name: index === 13 ? "ver resultado" : "siguiente pregunta",
       })
       .click();
   }
 
   await expect(
-    page.getByRole("heading", { level: 2, name: "de 5 respuestas correctas" }),
+    page.getByRole("heading", { level: 2, name: "de 14 respuestas correctas" }),
   ).toBeVisible();
   await expect(
     page.getByText("Elementos de la identidad digital", { exact: true }),
@@ -1205,8 +1211,8 @@ test("un diagnóstico de un área distinta a pensamiento matemático se resuelve
   await expect(
     page.getByText("Medidas de seguridad digital", { exact: true }),
   ).toBeVisible();
-  await expect(page.locator(".result-card")).toHaveCount(5);
-  await expect(page.getByText("Por reforzar", { exact: true })).toHaveCount(5);
+  await expect(page.locator(".result-card")).toHaveCount(14);
+  await expect(page.getByText("Por reforzar", { exact: true })).toHaveCount(14);
   await expect(page.getByText("pensamiento matemático", { exact: false })).toHaveCount(
     0,
   );
@@ -1367,6 +1373,15 @@ const simulator_coverage_correct_options = [
   "almacenamiento en la nube",
   "phishing",
   "cambiar su contraseña por una nueva y única, y habilitar la autenticación en dos factores",
+  "el entorno virtual que surge de la interconexión de redes y dispositivos digitales, donde ocurren la comunicación y el intercambio de información",
+  "tecnologías de la información, comunicación, conocimiento y aprendizaje digital",
+  "videoconferencia",
+  "ciberetnografía",
+  "=SUMA(A1:A5)",
+  "insertar tabla",
+  "insertar un gráfico",
+  "analizar",
+  "internet de las cosas",
   "a los purépechas",
   "a la Guerra de Castas",
   "a los criollos",
@@ -1448,7 +1463,7 @@ test("el simulacro identifica la cobertura mvp antes de iniciar y responde desde
   await expect(
     page.getByText("no es el examen oficial completo", { exact: false }),
   ).toBeVisible();
-  await expect(page.getByText("pregunta 1 de 62")).toBeVisible();
+  await expect(page.getByText("pregunta 1 de 71")).toBeVisible();
 
   const first_option = page.getByRole("radio", {
     name: "el peso de una mochila en kilogramos",
@@ -1466,7 +1481,7 @@ test("el simulacro identifica la cobertura mvp antes de iniciar y responde desde
 
   await page.getByRole("button", { name: "siguiente pregunta" }).click();
 
-  await expect(page.getByText("pregunta 2 de 62")).toBeVisible();
+  await expect(page.getByText("pregunta 2 de 71")).toBeVisible();
   await expect(page.getByText("correcto", { exact: false })).toHaveCount(0);
 });
 
@@ -1478,7 +1493,7 @@ test("completar el simulacro de cobertura con un error no-pm muestra el reporte 
   await complete_simulator_coverage(page, [servicios_digitales_index]);
 
   await expect(
-    page.getByRole("heading", { level: 2, name: "61 de 62 respuestas correctas" }),
+    page.getByRole("heading", { level: 2, name: "70 de 71 respuestas correctas" }),
   ).toBeVisible();
 
   const pm_area = page
@@ -1491,7 +1506,7 @@ test("completar el simulacro de cobertura con un error no-pm muestra el reporte 
     .getByText("Cultura digital", { exact: true })
     .locator("xpath=ancestor::article[1]");
 
-  await expect(cd_area.getByText("4 de 5 correctas", { exact: false })).toBeVisible();
+  await expect(cd_area.getByText("13 de 14 correctas", { exact: false })).toBeVisible();
 
   const mismatched_topic = cd_area
     .getByText("Tipos de servicios digitales", { exact: true })
@@ -1517,11 +1532,11 @@ test("completar el simulacro de cobertura con un error no-pm muestra el reporte 
 
   await page.goto("/simulacro");
 
-  await expect(page.getByText("pregunta 1 de 62")).toBeVisible();
+  await expect(page.getByText("pregunta 1 de 71")).toBeVisible();
 
   await page.reload();
 
-  await expect(page.getByText("pregunta 1 de 62")).toBeVisible();
+  await expect(page.getByText("pregunta 1 de 71")).toBeVisible();
 
   await page.goto("/ruta/cultura-digital/cd-2-1-ciudadania-digital");
 
@@ -1535,7 +1550,7 @@ test("el simulacro se puede responder en pantalla móvil", async ({ page }) => {
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
     "Valida tu preparación en las siete áreas",
   );
-  await expect(page.getByText("pregunta 1 de 62")).toBeVisible();
+  await expect(page.getByText("pregunta 1 de 71")).toBeVisible();
 
   await answer_simulator_question(
     page,
@@ -1543,7 +1558,7 @@ test("el simulacro se puede responder en pantalla móvil", async ({ page }) => {
     "siguiente pregunta",
   );
 
-  await expect(page.getByText("pregunta 2 de 62")).toBeVisible();
+  await expect(page.getByText("pregunta 2 de 71")).toBeVisible();
 });
 
 const ch_movimientos_correct_options = [
@@ -1821,6 +1836,204 @@ test("la práctica de un tema de una sola lección de conciencia histórica se p
   await answer_topic_question(page, "a los purépechas", "siguiente pregunta");
 
   await expect(page.getByText("pregunta 2 de 5")).toBeVisible();
+});
+
+test("la ruta de cultura digital muestra sus tres unidades listas", async ({
+  page,
+}) => {
+  await page.goto("/ruta/cultura-digital");
+
+  await expect(
+    page.getByRole("link", { name: "explorar ciudadanía digital" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", {
+      name: "explorar comunicación y colaboración a través de medios digitales",
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "explorar creatividad digital" }),
+  ).toBeVisible();
+});
+
+const cd_2_2_funcion_y_uso_correct_options = [
+  "videoconferencia",
+  "creación de sitios web",
+  "evaluación gamificada",
+  "porque la videoconferencia permite comunicarse en tiempo real, pero no editar de forma simultánea un documento compartido",
+  "1b, 2c, 3a",
+  "Drive",
+  "Prezi",
+  "Docs",
+  "Genially",
+  "1b, 2c, 3a",
+];
+
+test("completar las dos lecciones del tema partido cultura digital habilita su práctica de diez preguntas con enlaces exactos por lección, persiste tras recargar y no afecta otras áreas", async ({
+  page,
+}) => {
+  await page.goto("/ruta/cultura-digital/cd-2-2-comunicacion-y-colaboracion-digital");
+
+  const ciberespacio_topic = page
+    .getByRole("heading", { name: "Definición del ciberespacio" })
+    .locator("xpath=ancestor::article");
+  const ticcad_topic = page
+    .getByRole("heading", { name: "Definición de las tecnologías" })
+    .locator("xpath=ancestor::article");
+  const funcion_y_uso_topic = page
+    .getByRole("heading", { name: "Función y uso de herramientas digitales" })
+    .locator("xpath=ancestor::article");
+
+  await expect(
+    ciberespacio_topic.getByText("disponible", { exact: true }),
+  ).toBeVisible();
+  await expect(ticcad_topic.getByText("bloqueado", { exact: true })).toBeVisible();
+  await expect(
+    funcion_y_uso_topic.getByText("bloqueado", { exact: true }),
+  ).toBeVisible();
+
+  await page.goto("/leccion/cd-ciberespacio-01");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Ciberespacio");
+  await page.getByRole("button", { name: "marcar lección como completada" }).click();
+  await expect(page.getByRole("button", { name: "lección completada" })).toBeDisabled();
+
+  await page.goto("/leccion/cd-ticcad-01");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("TICCAD");
+  await page.getByRole("button", { name: "marcar lección como completada" }).click();
+  await expect(page.getByRole("button", { name: "lección completada" })).toBeDisabled();
+
+  await page.goto("/ruta/cultura-digital/cd-2-2-comunicacion-y-colaboracion-digital");
+
+  await expect(
+    funcion_y_uso_topic.getByText("bloqueado", { exact: true }),
+  ).toBeVisible();
+
+  await page.goto("/leccion/cd-funciones-de-herramientas-digitales-01");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Funciones de herramientas digitales",
+  );
+  await page.getByRole("button", { name: "marcar lección como completada" }).click();
+  await expect(page.getByRole("button", { name: "lección completada" })).toBeDisabled();
+
+  await page.goto("/ruta/cultura-digital/cd-2-2-comunicacion-y-colaboracion-digital");
+
+  await expect(
+    funcion_y_uso_topic.getByText("en progreso", { exact: true }),
+  ).toBeVisible();
+
+  await page.goto("/leccion/cd-uso-de-herramientas-digitales-02");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Selección de herramientas digitales",
+  );
+  await expect(
+    page.getByRole("link", {
+      name: "repasa cd-funciones-de-herramientas-digitales-01",
+    }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "marcar lección como completada" }).click();
+  await expect(page.getByRole("button", { name: "lección completada" })).toBeDisabled();
+
+  await page.goto("/practica/cd-2-2-3-funcion-y-uso-de-herramientas-digitales");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Función y uso de herramientas digitales",
+  );
+  await expect(
+    page.getByText("responde las 10 preguntas de este tema", { exact: false }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "repasar funciones de herramientas digitales" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "repasar selección de herramientas digitales" }),
+  ).toBeVisible();
+  await expect(page.getByText("pregunta 1 de 10")).toBeVisible();
+
+  for (const [index, option_label] of cd_2_2_funcion_y_uso_correct_options.entries()) {
+    const is_last_question = index === cd_2_2_funcion_y_uso_correct_options.length - 1;
+
+    await answer_topic_question(
+      page,
+      option_label,
+      is_last_question ? "ver resultados" : "siguiente pregunta",
+    );
+  }
+
+  await expect(
+    page.getByRole("heading", { level: 2, name: "10 de 10 respuestas correctas" }),
+  ).toBeVisible();
+
+  const results = page
+    .getByRole("list", { name: "resultado por pregunta" })
+    .getByRole("listitem");
+
+  await expect(results).toHaveCount(10);
+  await expect(
+    results
+      .nth(0)
+      .getByRole("link", { name: "repasar funciones de herramientas digitales" }),
+  ).toBeVisible();
+  await expect(
+    results
+      .nth(4)
+      .getByRole("link", { name: "repasar funciones de herramientas digitales" }),
+  ).toBeVisible();
+  await expect(
+    results
+      .nth(5)
+      .getByRole("link", { name: "repasar selección de herramientas digitales" }),
+  ).toBeVisible();
+  await expect(
+    results
+      .nth(9)
+      .getByRole("link", { name: "repasar selección de herramientas digitales" }),
+  ).toBeVisible();
+
+  await expect(
+    page.getByRole("link", { name: "volver a funciones de herramientas digitales" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "volver a selección de herramientas digitales" }),
+  ).toBeVisible();
+
+  await page
+    .getByRole("link", { name: "volver a selección de herramientas digitales" })
+    .click();
+
+  await expect(page).toHaveURL("/leccion/cd-uso-de-herramientas-digitales-02");
+
+  await page.goto("/ruta/cultura-digital/cd-2-2-comunicacion-y-colaboracion-digital");
+
+  await expect(
+    funcion_y_uso_topic.getByText("dominado", { exact: true }),
+  ).toBeVisible();
+
+  await page.reload();
+
+  await expect(
+    funcion_y_uso_topic.getByText("dominado", { exact: true }),
+  ).toBeVisible();
+
+  await page.goto("/ruta/pensamiento-matematico/pm-1-1-pensamiento-estadistico");
+
+  const pilot_topic = page
+    .getByRole("heading", { name: "tipos de variables" })
+    .locator("xpath=ancestor::article");
+
+  await expect(pilot_topic.getByText("disponible", { exact: true })).toBeVisible();
+  await expect(pilot_topic.getByText("sin intentos", { exact: false })).toBeVisible();
+
+  await page.goto("/ruta/cultura-digital/cd-2-1-ciudadania-digital");
+
+  const cultura_digital_topic = page
+    .getByRole("heading", { name: "Elementos de la identidad digital" })
+    .locator("xpath=ancestor::article");
+
+  await expect(
+    cultura_digital_topic.getByText("disponible", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    cultura_digital_topic.getByText("sin intentos", { exact: false }),
+  ).toBeVisible();
 });
 
 const hu_fmc_correct_options = [

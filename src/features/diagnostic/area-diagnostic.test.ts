@@ -33,10 +33,10 @@ describe("get_area_diagnostic", () => {
     );
   });
 
-  it("resuelve una pregunta por cada uno de los cinco temas de cultura digital", async () => {
+  it("resuelve una pregunta por cada uno de los catorce temas de cultura digital", async () => {
     const items = await get_area_diagnostic("cultura-digital");
 
-    expect(items).toHaveLength(5);
+    expect(items).toHaveLength(14);
     items?.forEach((item) => {
       expect(item.question.use_cases).toContain("diagnostic");
       expect(item.question.topic_id).toBe(item.topic.id);

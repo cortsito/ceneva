@@ -66,6 +66,18 @@ export const available_units: available_unit[] = [
     questions: cultura_digital_questions,
   },
   {
+    area_id: "cultura-digital",
+    unit_id: "cd-2-2-comunicacion-y-colaboracion-digital",
+    area: cultura_digital,
+    questions: cultura_digital_questions,
+  },
+  {
+    area_id: "cultura-digital",
+    unit_id: "cd-2-3-creatividad-digital",
+    area: cultura_digital,
+    questions: cultura_digital_questions,
+  },
+  {
     area_id: "conciencia-historica",
     unit_id: "ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales",
     area: conciencia_historica,

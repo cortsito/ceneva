@@ -112,14 +112,23 @@ async function read_lesson_frontmatter(
 }
 
 describe("cultura digital question bank — cd-2-1-ciudadania-digital", () => {
-  it("has exactly twenty-five records", () => {
-    expect(cultura_digital_questions).toHaveLength(25);
+  it("has exactly twenty-five records for its own five topics", () => {
+    const cd_2_1_ids = new Set(Object.values(cd_2_1_reserved_ids).flat());
+    const cd_2_1_questions = cultura_digital_questions.filter((question) =>
+      cd_2_1_ids.has(question.id),
+    );
+
+    expect(cd_2_1_questions).toHaveLength(25);
   });
 
   it("has exactly the five reserved ids for each documented topic, no extra records", () => {
-    const grouped = group_questions_by_topic(cultura_digital_questions);
+    const cd_2_1_topic_ids = new Set(Object.keys(cd_2_1_reserved_ids));
+    const cd_2_1_questions = cultura_digital_questions.filter((question) =>
+      cd_2_1_topic_ids.has(question.topic_id),
+    );
+    const grouped = group_questions_by_topic(cd_2_1_questions);
 
-    expect(new Set(grouped.keys())).toEqual(new Set(Object.keys(cd_2_1_reserved_ids)));
+    expect(new Set(grouped.keys())).toEqual(cd_2_1_topic_ids);
 
     for (const [topic_id, expected_ids] of Object.entries(cd_2_1_reserved_ids)) {
       const actual_ids = (grouped.get(topic_id) ?? []).map((question) => question.id);
@@ -170,6 +179,133 @@ describe("cultura digital question bank — cd-2-1-ciudadania-digital", () => {
     );
 
     expect(has_relation_or_ordering).toBe(true);
+  });
+});
+
+const cd_2_2_reserved_ids: Record<string, string[]> = {
+  "cd-ciberespacio-01": [
+    "cd-ce-001",
+    "cd-ce-002",
+    "cd-ce-003",
+    "cd-ce-004",
+    "cd-ce-005",
+  ],
+  "cd-ticcad-01": ["cd-tc-001", "cd-tc-002", "cd-tc-003", "cd-tc-004", "cd-tc-005"],
+  "cd-funciones-de-herramientas-digitales-01": [
+    "cd-fh-001",
+    "cd-fh-002",
+    "cd-fh-003",
+    "cd-fh-004",
+    "cd-fh-005",
+  ],
+  "cd-uso-de-herramientas-digitales-02": [
+    "cd-uh-001",
+    "cd-uh-002",
+    "cd-uh-003",
+    "cd-uh-004",
+    "cd-uh-005",
+  ],
+  "cd-metodos-de-investigacion-digital-01": [
+    "cd-mi-001",
+    "cd-mi-002",
+    "cd-mi-003",
+    "cd-mi-004",
+    "cd-mi-005",
+  ],
+};
+
+const cd_2_2_lesson_directory = path.join(
+  process.cwd(),
+  "content",
+  "lessons",
+  "cultura-digital",
+  "cd-2-2-comunicacion-y-colaboracion-digital",
+);
+
+async function read_cd_2_2_lesson_frontmatter(
+  lesson_id: string,
+): Promise<{ topic_id: string; question_ids: string[] }> {
+  const file_path = path.join(cd_2_2_lesson_directory, `${lesson_id}.md`);
+  const raw = await readFile(file_path, "utf-8");
+  const { data } = matter(raw);
+
+  return {
+    topic_id: data["topic-id"],
+    question_ids: data["question-ids"],
+  };
+}
+
+describe("cultura digital question bank — cd-2-2-comunicacion-y-colaboracion-digital", () => {
+  it("has exactly twenty-five records for its own five lessons", () => {
+    const by_id = new Map(
+      cultura_digital_questions.map((question) => [question.id, question]),
+    );
+    const all_expected_ids = Object.values(cd_2_2_reserved_ids).flat();
+
+    const resolved = all_expected_ids.map((id) => by_id.get(id));
+    expect(resolved.every((question) => question !== undefined)).toBe(true);
+    expect(all_expected_ids).toHaveLength(25);
+  });
+
+  it("has exactly the reserved ids for each lesson, five per lesson, matching lesson frontmatter", async () => {
+    const by_id = new Map(
+      cultura_digital_questions.map((question) => [question.id, question]),
+    );
+
+    for (const [lesson_id, expected_ids] of Object.entries(cd_2_2_reserved_ids)) {
+      const lesson = await read_cd_2_2_lesson_frontmatter(lesson_id);
+
+      expect(new Set(lesson.question_ids)).toEqual(new Set(expected_ids));
+
+      const lesson_questions = expected_ids.map((id) => by_id.get(id));
+      expect(lesson_questions.every((question) => question !== undefined)).toBe(true);
+
+      for (const question of lesson_questions) {
+        expect(question?.topic_id).toBe(lesson.topic_id);
+      }
+    }
+  });
+
+  it("gives topic cd-2-2-3 exactly ten questions, split across its two declaring lessons", () => {
+    const grouped = group_questions_by_topic(cultura_digital_questions);
+    const topic_2_2_3 =
+      grouped.get("cd-2-2-3-funcion-y-uso-de-herramientas-digitales") ?? [];
+
+    const expected_ids = new Set([
+      ...cd_2_2_reserved_ids["cd-funciones-de-herramientas-digitales-01"],
+      ...cd_2_2_reserved_ids["cd-uso-de-herramientas-digitales-02"],
+    ]);
+
+    expect(topic_2_2_3).toHaveLength(10);
+    expect(new Set(topic_2_2_3.map((question) => question.id))).toEqual(expected_ids);
+  });
+
+  it("has no structurally invalid question in the full cultura digital bank", () => {
+    const errors = cultura_digital_questions.flatMap(find_invalid_options);
+    expect(errors).toEqual([]);
+  });
+
+  it("shares no id with the pensamiento matemático bank", () => {
+    expect(
+      find_duplicate_ids(cultura_digital_questions, pensamiento_matematico_questions),
+    ).toEqual([]);
+  });
+
+  it("includes at least one relation question per lesson", () => {
+    const grouped = group_questions_by_topic(
+      cultura_digital_questions.filter((question) =>
+        Object.values(cd_2_2_reserved_ids).flat().includes(question.id),
+      ),
+    );
+
+    for (const [, questions] of grouped) {
+      const has_relation = questions.some(
+        (question) =>
+          question.options.every((option) => /^\d[a-z,\s\d]*$/.test(option)) &&
+          question.options.some((option) => /[a-z]/.test(option)),
+      );
+      expect(has_relation).toBe(true);
+    }
   });
 });
 
