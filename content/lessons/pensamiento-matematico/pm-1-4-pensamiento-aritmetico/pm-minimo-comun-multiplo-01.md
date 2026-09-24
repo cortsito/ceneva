@@ -3,8 +3,8 @@ id: pm-minimo-comun-multiplo-01
 area-id: pensamiento-matematico
 unit-id: pm-1-4-pensamiento-aritmetico
 topic-id: pm-1-4-1-minimo-comun-multiplo
-title: mínimo común múltiplo
-objective: calcular el mínimo común múltiplo de números enteros.
+title: Mínimo común múltiplo
+objective: Calcular el mínimo común múltiplo de números enteros.
 estimated-minutes: 10
 prerequisites: []
 question-ids:
@@ -19,51 +19,51 @@ source:
   code: 1.4.1
 ---
 
-# mínimo común múltiplo
+# Mínimo común múltiplo
 
-## objetivo
+## Objetivo
 
-calcular el menor número positivo que es múltiplo de dos o más números enteros.
+Calcular el menor número positivo que es múltiplo de dos o más números enteros.
 
-## explicación
+## Explicación
 
-un múltiplo de un número se obtiene al multiplicarlo por un entero. el mínimo común múltiplo, o mcm, es el menor múltiplo positivo que comparten dos o más números.
+Un múltiplo de un número se obtiene al multiplicarlo por un entero. El mínimo común múltiplo, o MCM, es el menor múltiplo positivo que comparten dos o más números.
 
-puedes encontrarlo con factorización prima:
+Puedes encontrarlo con factorización prima:
 
-1. descompón cada número en factores primos.
-2. toma todos los factores que aparecen.
-3. para cada factor, usa la mayor potencia observada.
-4. multiplica los factores elegidos.
+1. Descompón cada número en factores primos.
+2. Toma todos los factores que aparecen.
+3. Para cada factor, usa la mayor potencia observada.
+4. Multiplica los factores elegidos.
 
-el mcm es útil para encontrar cuándo coinciden ciclos o para convertir fracciones a un denominador común.
+El MCM es útil para encontrar cuándo coinciden ciclos o para convertir fracciones a un denominador común.
 
-## ejemplo resuelto
+## Ejemplo resuelto
 
-calcula el mcm de `12` y `18`.
+Calcula el MCM de `12` y `18`.
 
 1. `12 = 2² × 3`.
 2. `18 = 2 × 3²`.
-3. toma la mayor potencia de cada primo: `2²` y `3²`.
+3. Toma la mayor potencia de cada primo: `2²` y `3²`.
 4. `2² × 3² = 4 × 9 = 36`.
 
-el mínimo común múltiplo es `36`.
+El mínimo común múltiplo es `36`.
 
-## error frecuente
+## Error frecuente
 
-no multipliques siempre los números completos. `12 × 18 = 216` es un múltiplo común, pero no el menor. usa solo las potencias necesarias de cada factor primo.
+No multipliques siempre los números completos. `12 × 18 = 216` es un múltiplo común, pero no el menor. Usa solo las potencias necesarias de cada factor primo.
 
-## práctica guiada
+## Práctica guiada
 
-1. intenta primero: calcula el mcm de `6` y `8`.
-   respuesta: `6 = 2 × 3` y `8 = 2³`; el mcm es `2³ × 3 = 24`.
-2. intenta primero: una alarma suena cada `4` minutos y otra cada `6`. si suenan juntas ahora, ¿en cuántos minutos volverán a coincidir?
-   respuesta: en `12` minutos, porque `mcm(4, 6) = 12`.
+1. Intenta primero: calcula el MCM de `6` y `8`.
+   Respuesta: `6 = 2 × 3` y `8 = 2³`; el MCM es `2³ × 3 = 24`.
+2. Intenta primero: una alarma suena cada `4` minutos y otra cada `6`. Si suenan juntas ahora, ¿en cuántos minutos volverán a coincidir?
+   Respuesta: en `12` minutos, porque `mcm(4, 6) = 12`.
 
-## comprobación
+## Comprobación
 
-esta lección tiene cinco reactivos en `question-ids`. sus enunciados, opciones, respuestas y explicaciones están disponibles en `content/questions/pensamiento-matematico.ts`.
+Esta lección tiene cinco reactivos en `question-ids`. Sus enunciados, opciones, respuestas y explicaciones están disponibles en `content/questions/pensamiento-matematico.ts`.
 
-## cierre
+## Cierre
 
-ya puedes calcular el mcm mediante factores primos. elige la mayor potencia de cada factor para obtener el primer múltiplo que todos comparten.
+Ya puedes calcular el MCM mediante factores primos. Elige la mayor potencia de cada factor para obtener el primer múltiplo que todos comparten.

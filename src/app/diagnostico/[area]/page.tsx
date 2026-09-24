@@ -2,9 +2,8 @@ import { notFound } from "next/navigation";
 
 import { get_area_diagnostic } from "@/features/diagnostic/area-diagnostic";
 import { DiagnosticView } from "@/features/diagnostic/diagnostic-view";
-import { get_available_unit_for_area } from "@/features/curriculum/available-curriculum";
-import { get_unit_lessons } from "@/features/lesson/unit-lessons";
-import { create_pilot_topic_progress_definitions } from "@/features/progress/pilot-progress";
+import { get_available_units_for_area } from "@/features/curriculum/available-curriculum";
+import { get_area_topic_definitions } from "@/features/progress/global-topic-definitions";
 
 type area_diagnostic_page_props = {
   params: Promise<{ area: string }>;
@@ -16,29 +15,24 @@ export default async function AreaDiagnosticPage({
   params,
 }: area_diagnostic_page_props) {
   const { area } = await params;
-  const resolved = get_available_unit_for_area(area);
+  const units = get_available_units_for_area(area);
 
-  if (!resolved) {
+  if (units.length === 0) {
     notFound();
   }
 
   const items = await get_area_diagnostic(area);
+  const area_definitions = await get_area_topic_definitions(area);
 
-  if (!items) {
+  if (!items || !area_definitions) {
     notFound();
   }
 
-  const lessons = await get_unit_lessons(area, resolved.unit.id);
-  const topic_definitions = create_pilot_topic_progress_definitions(
-    resolved.unit,
-    lessons,
-  );
-
   return (
     <DiagnosticView
-      area_title={resolved.area.title}
+      area_title={units[0].area.title}
       items={items}
-      topic_definitions={topic_definitions}
+      topic_definitions={area_definitions.topic_definitions}
     />
   );
 }

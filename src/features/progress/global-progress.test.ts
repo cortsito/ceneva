@@ -1,8 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { get_available_unit } from "@/features/curriculum/available-curriculum";
 import { available_units } from "@/features/curriculum/available-units";
-import { get_unit_lessons } from "@/features/lesson/unit-lessons";
 import { create_empty_learner_progress } from "@/lib/storage/progress-repository";
 
 import {
@@ -11,24 +9,19 @@ import {
   type area_progress,
   type area_topic_definitions,
 } from "./global-progress";
-import { get_global_topic_definitions } from "./global-topic-definitions";
 import {
-  complete_lesson,
-  create_pilot_topic_progress_definitions,
-  record_attempt,
-} from "./pilot-progress";
+  get_area_topic_definitions,
+  get_global_topic_definitions,
+} from "./global-topic-definitions";
+import { complete_lesson, record_attempt } from "./pilot-progress";
 import { calculate_pilot_summary } from "./pilot-summary";
 
-function create_area(
-  area_id: string,
-  unit_id: string,
-  topic_ids: string[],
-): area_topic_definitions {
+const unique_area_count = new Set(available_units.map((entry) => entry.area_id)).size;
+
+function create_area(area_id: string, topic_ids: string[]): area_topic_definitions {
   return {
     area_id,
-    unit_id,
     area_title: `área ${area_id}`,
-    unit_title: `unidad ${unit_id}`,
     topic_definitions: topic_ids.map((topic_id) => ({
       id: topic_id,
       title: `tema ${topic_id}`,
@@ -67,33 +60,36 @@ function dominate(
 }
 
 describe("get_global_topic_definitions", () => {
-  it("cubre exactamente las siete entradas de available_units, en su orden", async () => {
+  it("cubre exactamente las áreas únicas de available_units, en su orden de primera aparición", async () => {
     const areas = await get_global_topic_definitions();
+    const expected_order = [...new Set(available_units.map((unit) => unit.area_id))];
 
-    expect(areas).toHaveLength(available_units.length);
-    expect(areas.map((area) => [area.area_id, area.unit_id])).toEqual(
-      available_units.map((unit) => [unit.area_id, unit.unit_id]),
-    );
+    expect(areas).toHaveLength(unique_area_count);
+    expect(areas.map((area) => area.area_id)).toEqual(expected_order);
   });
 
-  it("reproduce el cálculo existente de pensamiento matemático", async () => {
-    const [pm_entry] = available_units;
-    const resolved = get_available_unit(pm_entry.area_id, pm_entry.unit_id)!;
-    const lessons = await get_unit_lessons(pm_entry.area_id, pm_entry.unit_id);
-    const expected = create_pilot_topic_progress_definitions(resolved.unit, lessons);
-
+  it("agrega los temas de las seis unidades listas de pensamiento matemático en una sola entrada de área", async () => {
     const areas = await get_global_topic_definitions();
     const pm_area = areas.find((area) => area.area_id === "pensamiento-matematico");
+    const expected = await get_area_topic_definitions("pensamiento-matematico");
 
-    expect(pm_area?.topic_definitions).toEqual(expected);
+    expect(pm_area?.topic_definitions).toEqual(expected?.topic_definitions);
+    expect(pm_area?.topic_definitions.length).toBe(30);
+  });
+
+  it("mantiene una unidad de área sin cambios para un área de una sola unidad", async () => {
+    const areas = await get_global_topic_definitions();
+    const cd_area = areas.find((area) => area.area_id === "cultura-digital");
+
+    expect(cd_area?.topic_definitions).toHaveLength(5);
   });
 });
 
 describe("calculate_global_progress", () => {
   it("calcula el progreso de cada área de forma independiente, sin depender de pensamiento matemático", () => {
     const areas = [
-      create_area("area-a", "unit-a", ["a-1", "a-2"]),
-      create_area("area-b", "unit-b", ["b-1"]),
+      create_area("area-a", ["a-1", "a-2"]),
+      create_area("area-b", ["b-1"]),
     ];
     const progress = dominate(create_empty_learner_progress(), "a-1");
 
@@ -110,8 +106,8 @@ describe("calculate_global_progress", () => {
 
   it("conserva el orden de las áreas y de sus temas curriculares", () => {
     const areas = [
-      create_area("area-a", "unit-a", ["a-1", "a-2"]),
-      create_area("area-b", "unit-b", ["b-1", "b-2"]),
+      create_area("area-a", ["a-1", "a-2"]),
+      create_area("area-b", ["b-1", "b-2"]),
     ];
 
     const result = calculate_global_progress(areas, create_empty_learner_progress());
@@ -126,10 +122,7 @@ describe("calculate_global_progress", () => {
 
 describe("get_global_next_action", () => {
   it("con pm dominado y otra área intacta, recomienda la primera acción elegible de la otra área", () => {
-    const areas = [
-      create_area("area-a", "unit-a", ["a-1"]),
-      create_area("area-b", "unit-b", ["b-1"]),
-    ];
+    const areas = [create_area("area-a", ["a-1"]), create_area("area-b", ["b-1"])];
     const progress = dominate(create_empty_learner_progress(), "a-1");
     const global_progress = calculate_global_progress(areas, progress);
 
@@ -150,12 +143,10 @@ describe("get_global_next_action", () => {
   it("nunca recomienda un tema bloqueado", () => {
     const blocked_area: area_progress = {
       area_id: "area-a",
-      unit_id: "unit-a",
       area_title: "área a",
-      unit_title: "unidad a",
       topics: [
         {
-          definition: create_area("area-a", "unit-a", ["a-1"]).topic_definitions[0],
+          definition: create_area("area-a", ["a-1"]).topic_definitions[0],
           status: "bloqueado",
           completed_lesson_count: 0,
           attempt_count: 0,
@@ -172,7 +163,7 @@ describe("get_global_next_action", () => {
         pending_review_count: 0,
       },
     };
-    const available_area = create_area("area-b", "unit-b", ["b-1"]);
+    const available_area = create_area("area-b", ["b-1"]);
     const global_progress = calculate_global_progress(
       [available_area],
       create_empty_learner_progress(),
@@ -184,10 +175,7 @@ describe("get_global_next_action", () => {
   });
 
   it("solo devuelve completed cuando todas las áreas están dominadas", () => {
-    const areas = [
-      create_area("area-a", "unit-a", ["a-1"]),
-      create_area("area-b", "unit-b", ["b-1"]),
-    ];
+    const areas = [create_area("area-a", ["a-1"]), create_area("area-b", ["b-1"])];
     let progress = dominate(create_empty_learner_progress(), "a-1");
     progress = dominate(progress, "b-1");
     const global_progress = calculate_global_progress(areas, progress);
@@ -209,7 +197,7 @@ describe("/progreso composition over the seven real areas", () => {
       create_empty_learner_progress(),
     );
 
-    expect(area_progress).toHaveLength(available_units.length);
+    expect(area_progress).toHaveLength(unique_area_count);
 
     const summary = calculate_pilot_summary(
       area_progress.flatMap((area) => area.topics),

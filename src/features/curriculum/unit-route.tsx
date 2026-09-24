@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { get_unit_lessons } from "@/features/lesson/unit-lessons";
 import { create_pilot_topic_progress_definitions } from "@/features/progress/pilot-progress";
@@ -24,6 +26,12 @@ export async function UnitRoute({ area_id, unit_id }: unit_route_props) {
   return (
     <section className="page-shell flex max-w-5xl flex-col gap-10">
       <header className="space-y-4">
+        <Link
+          className="text-sm font-medium text-accent underline decoration-accent/40 underline-offset-4 transition-colors hover:text-accent-strong"
+          href={`/ruta/${area_id}`}
+        >
+          Volver a las unidades de {area.title}
+        </Link>
         <Eyebrow>
           {area.title} · {unit.source.code}
         </Eyebrow>

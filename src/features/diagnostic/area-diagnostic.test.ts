@@ -3,29 +3,34 @@ import { describe, expect, it } from "vitest";
 import { get_area_diagnostic } from "./area-diagnostic";
 
 describe("get_area_diagnostic", () => {
-  it("resuelve exactamente las cuatro preguntas de pensamiento matemático, en orden curricular", async () => {
+  it("resuelve una pregunta por cada uno de los treinta temas de las seis unidades de pensamiento matemático, en orden curricular", async () => {
     const items = await get_area_diagnostic("pensamiento-matematico");
 
     expect(items).toBeDefined();
-    expect(items).toHaveLength(4);
-    expect(items?.map((item) => item.question.id)).toEqual([
+    expect(items).toHaveLength(30);
+    // primeros cuatro temas: la unidad pm-1-1, sin cambios frente al contrato original del piloto.
+    expect(items?.slice(0, 4).map((item) => item.question.id)).toEqual([
       "pm-tv-001",
       "pm-tm-001",
       "pm-mtc-001",
       "pm-md-003",
     ]);
-    expect(items?.map((item) => item.topic.id)).toEqual([
+    expect(items?.slice(0, 4).map((item) => item.topic.id)).toEqual([
       "pm-1-1-1-tipos-de-variables",
       "pm-1-1-2-tipos-de-muestra",
       "pm-1-1-3-medidas-de-tendencia-central",
       "pm-1-1-4-medidas-de-dispersion",
     ]);
-    expect(items?.map((item) => item.lesson.id)).toEqual([
+    expect(items?.slice(0, 4).map((item) => item.lesson.id)).toEqual([
       "pm-tipos-de-variables-01",
       "pm-tipos-de-muestra-01",
       "pm-medidas-de-tendencia-central-01",
       "pm-medidas-de-dispersion-01",
     ]);
+    // último tema: la unidad pm-1-6, confirmando que las seis unidades están cubiertas en orden.
+    expect(items?.at(-1)?.topic.id).toBe(
+      "pm-1-6-6-aplicacion-de-la-derivada-en-optimizacion",
+    );
   });
 
   it("resuelve una pregunta por cada uno de los cinco temas de cultura digital", async () => {

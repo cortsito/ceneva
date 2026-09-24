@@ -8,19 +8,29 @@ const base_routes = [
   "/diagnostico/cultura-digital",
   "/ruta",
   "/ruta/pensamiento-matematico",
+  "/ruta/pensamiento-matematico/pm-1-1-pensamiento-estadistico",
+  "/ruta/pensamiento-matematico/pm-1-6-pensamiento-variacional",
   "/ruta/cultura-digital",
+  "/ruta/cultura-digital/cd-2-1-ciudadania-digital",
   "/ruta/conciencia-historica",
+  "/ruta/conciencia-historica/ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales",
   "/ruta/humanidades",
+  "/ruta/humanidades/hu-4-1-fundamentos-del-pensamiento-filosofico",
   "/leccion/pm-tipos-de-variables-01",
+  "/leccion/pm-limites-de-funciones-cuadraticas-01",
   "/leccion/cd-identidad-digital-01",
   "/leccion/ch-conquista-de-pueblos-originarios-01",
   "/leccion/hu-filosofia-mito-y-ciencia-01",
   "/ruta/ciencias-naturales-experimentales-y-tecnologia",
+  "/ruta/ciencias-naturales-experimentales-y-tecnologia/cn-5-1-materia-y-sus-interacciones",
   "/leccion/cn-tipos-de-enlaces-01",
   "/ruta/lengua-y-comunicacion",
+  "/ruta/lengua-y-comunicacion/lc-6-1-estrategias-de-comprension-lectora",
   "/leccion/lc-titulo-del-texto-expositivo-01",
   "/ruta/ciencias-sociales",
+  "/ruta/ciencias-sociales/cs-7-1-organizacion-economica",
   "/leccion/cs-necesidades-materiales-01",
+  "/practica/pm-1-6-3-limite-de-una-funcion-de-una-variable-real",
   "/practica",
   "/practica/pm-1-1-1-tipos-de-variables",
   "/practica/cd-2-1-1-elementos-de-la-identidad-digital",
@@ -149,6 +159,15 @@ test("la ruta piloto abre una lección markdown real", async ({ page }) => {
 
   await expect(page).toHaveURL("/ruta/pensamiento-matematico");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Unidades listas de Pensamiento matemático.",
+  );
+
+  await page.getByRole("link", { name: "explorar pensamiento estadístico" }).click();
+
+  await expect(page).toHaveURL(
+    "/ruta/pensamiento-matematico/pm-1-1-pensamiento-estadistico",
+  );
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "Pensamiento estadístico",
   );
 
@@ -169,8 +188,132 @@ test("la ruta piloto abre una lección markdown real", async ({ page }) => {
   await expect(page.getByText("content/questions", { exact: false })).toHaveCount(0);
 });
 
-test("una lección ajena al piloto responde con not found", async ({ page }) => {
-  await page.goto("/leccion/pm-probabilidad-simple-01");
+test("/ruta muestra el conteo de unidades listas de cada área", async ({ page }) => {
+  await page.goto("/ruta");
+
+  const pm_area = page
+    .getByRole("heading", { name: "pensamiento matemático" })
+    .locator("xpath=ancestor::article");
+
+  await expect(pm_area.getByText("6 unidades listas")).toBeVisible();
+
+  const cd_area = page
+    .getByRole("heading", { name: "cultura digital" })
+    .locator("xpath=ancestor::article");
+
+  await expect(cd_area.getByText("1 unidad lista")).toBeVisible();
+});
+
+test("/ruta/pensamiento-matematico lista sus seis unidades listas en orden curricular", async ({
+  page,
+}) => {
+  await page.goto("/ruta/pensamiento-matematico");
+
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Unidades listas de Pensamiento matemático.",
+  );
+
+  const unit_headings = await page.getByRole("heading", { level: 2 }).allTextContents();
+
+  expect(unit_headings).toEqual([
+    "Pensamiento estadístico",
+    "Pensamiento probabilístico",
+    "Pensamiento algebraico",
+    "Pensamiento aritmético",
+    "Pensamiento geométrico",
+    "Pensamiento variacional",
+  ]);
+});
+
+test("un tema de una unidad recién registrada de pensamiento matemático (pm-1-2) completa lección y práctica, queda dominado, persiste tras recargar y no afecta pm-1-1 ni otra área", async ({
+  page,
+}) => {
+  await page.goto("/ruta/pensamiento-matematico/pm-1-2-pensamiento-probabilistico");
+
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Pensamiento probabilístico",
+  );
+
+  const conteo_topic = page
+    .getByRole("heading", { name: "técnicas de conteo" })
+    .locator("xpath=ancestor::article");
+
+  await expect(conteo_topic.getByText("disponible", { exact: true })).toBeVisible();
+
+  await conteo_topic
+    .getByRole("link", { name: "estudiar combinaciones y permutaciones" })
+    .click();
+
+  await expect(page).toHaveURL("/leccion/pm-tecnicas-de-conteo-01");
+
+  await page.getByRole("button", { name: "marcar lección como completada" }).click();
+  await expect(page.getByRole("button", { name: "lección completada" })).toBeDisabled();
+
+  await page.goto("/practica/pm-1-2-1-tecnicas-de-conteo");
+
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Técnicas de conteo",
+  );
+
+  const conteo_correct_options = [
+    "12",
+    "6",
+    "c(5, 2) = 10, porque solo importa quiénes integran la comisión",
+    "1c, 2a, 3b",
+    "2, 3, 4, 1",
+  ];
+
+  for (const [index, option_label] of conteo_correct_options.entries()) {
+    const is_last_question = index === conteo_correct_options.length - 1;
+
+    await answer_topic_question(
+      page,
+      option_label,
+      is_last_question ? "ver resultados" : "siguiente pregunta",
+    );
+  }
+
+  await expect(
+    page.getByRole("heading", { level: 2, name: "5 de 5 respuestas correctas" }),
+  ).toBeVisible();
+
+  await page.goto("/ruta/pensamiento-matematico/pm-1-2-pensamiento-probabilistico");
+
+  const dominated_conteo_topic = page
+    .getByRole("heading", { name: "técnicas de conteo" })
+    .locator("xpath=ancestor::article");
+
+  await expect(
+    dominated_conteo_topic.getByText("dominado", { exact: true }),
+  ).toBeVisible();
+
+  await page.reload();
+
+  await expect(
+    dominated_conteo_topic.getByText("dominado", { exact: true }),
+  ).toBeVisible();
+
+  await page.goto("/ruta/pensamiento-matematico/pm-1-1-pensamiento-estadistico");
+
+  const pm_1_1_topic = page
+    .getByRole("heading", { name: "tipos de variables" })
+    .locator("xpath=ancestor::article");
+
+  await expect(pm_1_1_topic.getByText("disponible", { exact: true })).toBeVisible();
+  await expect(pm_1_1_topic.getByText("sin intentos", { exact: false })).toBeVisible();
+
+  await page.goto("/ruta/cultura-digital/cd-2-1-ciudadania-digital");
+
+  const cd_topic = page
+    .getByRole("heading", { name: "Elementos de la identidad digital" })
+    .locator("xpath=ancestor::article");
+
+  await expect(cd_topic.getByText("disponible", { exact: true })).toBeVisible();
+  await expect(cd_topic.getByText("sin intentos", { exact: false })).toBeVisible();
+});
+
+test("una lección inexistente responde con not found", async ({ page }) => {
+  await page.goto("/leccion/pm-leccion-inexistente-01");
 
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "No encontramos esta página.",
@@ -227,7 +370,7 @@ test("el avance del piloto persiste después de recargar", async ({ page }) => {
 
   await expect(page.getByRole("button", { name: "lección completada" })).toBeDisabled();
 
-  await page.goto("/ruta/pensamiento-matematico");
+  await page.goto("/ruta/pensamiento-matematico/pm-1-1-pensamiento-estadistico");
 
   const route_topic = page
     .getByRole("heading", { name: "tipos de variables" })
@@ -244,7 +387,7 @@ test("el avance del piloto persiste después de recargar", async ({ page }) => {
     .getByText("temas dominados", { exact: true })
     .locator("xpath=following-sibling::*[1]");
 
-  await expect(dominated_stat).toHaveText("1/4");
+  await expect(dominated_stat).toHaveText("1/30");
 });
 
 test("storage malformado no impide renderizar la ruta piloto", async ({ page }) => {
@@ -252,7 +395,7 @@ test("storage malformado no impide renderizar la ruta piloto", async ({ page }) 
     window.localStorage.setItem("ceneva.learner-progress", "{");
   });
 
-  await page.goto("/ruta/pensamiento-matematico");
+  await page.goto("/ruta/pensamiento-matematico/pm-1-1-pensamiento-estadistico");
 
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "Pensamiento estadístico",
@@ -304,6 +447,13 @@ test("el flujo completo de cultura digital persiste tras recargar y no afecta el
 
   await expect(page).toHaveURL("/ruta/cultura-digital");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Unidades listas de Cultura digital.",
+  );
+
+  await page.getByRole("link", { name: "explorar ciudadanía digital" }).click();
+
+  await expect(page).toHaveURL("/ruta/cultura-digital/cd-2-1-ciudadania-digital");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "Ciudadanía digital",
   );
 
@@ -349,7 +499,7 @@ test("el flujo completo de cultura digital persiste tras recargar y no afecta el
 
   await expect(page).toHaveURL("/leccion/cd-identidad-digital-01");
 
-  await page.goto("/ruta/cultura-digital");
+  await page.goto("/ruta/cultura-digital/cd-2-1-ciudadania-digital");
 
   const identidad_topic = page
     .getByRole("heading", { name: "Elementos de la identidad digital" })
@@ -361,7 +511,7 @@ test("el flujo completo de cultura digital persiste tras recargar y no afecta el
 
   await expect(identidad_topic.getByText("dominado", { exact: true })).toBeVisible();
 
-  await page.goto("/ruta/pensamiento-matematico");
+  await page.goto("/ruta/pensamiento-matematico/pm-1-1-pensamiento-estadistico");
 
   const pilot_topic = page
     .getByRole("heading", { name: "tipos de variables" })
@@ -474,7 +624,7 @@ test("los intentos de la práctica por tema persisten después de recargar", asy
 }) => {
   await complete_tipos_de_muestra_practice(page);
 
-  await page.goto("/ruta/pensamiento-matematico");
+  await page.goto("/ruta/pensamiento-matematico/pm-1-1-pensamiento-estadistico");
 
   const topic_card = page
     .getByRole("heading", { name: "Tipos de muestra" })
@@ -608,14 +758,14 @@ test("inicio y progreso recomiendan practicar tras completar la lección de un t
     .getByText("lecciones completadas", { exact: true })
     .locator("xpath=following-sibling::*[1]");
 
-  await expect(lessons_stat).toHaveText("1/4");
+  await expect(lessons_stat).toHaveText("1/34");
   await expect(
     pm_area_block.getByRole("link", { name: "practicar tipos de variables" }),
   ).toBeVisible();
 
   await page.reload();
 
-  await expect(lessons_stat).toHaveText("1/4");
+  await expect(lessons_stat).toHaveText("1/34");
   await expect(
     pm_area_block.getByRole("link", { name: "practicar tipos de variables" }),
   ).toBeVisible();
@@ -628,39 +778,238 @@ test("inicio y progreso recomiendan practicar tras completar la lección de un t
   ).toBeVisible();
 });
 
+// pensamiento matemático ahora tiene treinta temas en seis unidades (antes cuatro en
+// una sola unidad); dominar el área por completo requiere completar sus 34 lecciones y
+// acertar los cinco (o diez, en sus cuatro temas de dos lecciones) reactivos propios de
+// cada tema, no solo los de pm-1-1.
+const pm_all_lesson_ids = [
+  "pm-area-de-triangulos-y-trapecios-01",
+  "pm-area-en-el-plano-cartesiano-01",
+  "pm-derivadas-de-funciones-algebraicas-01",
+  "pm-derivadas-de-funciones-polinomiales-01",
+  "pm-derivadas-de-funciones-trascendentes-02",
+  "pm-ecuaciones-cuadraticas-una-incognita-01",
+  "pm-ecuaciones-lineales-una-incognita-01",
+  "pm-expresiones-algebraicas-01",
+  "pm-factorizacion-de-polinomios-01",
+  "pm-graficas-de-funciones-01",
+  "pm-graficas-de-funciones-02",
+  "pm-interes-compuesto-01",
+  "pm-interes-compuesto-02",
+  "pm-interes-simple-01",
+  "pm-intervalos-y-desigualdades-01",
+  "pm-limites-de-funciones-cuadraticas-01",
+  "pm-maximo-comun-divisor-01",
+  "pm-medidas-de-dispersion-01",
+  "pm-medidas-de-tendencia-central-01",
+  "pm-minimo-comun-multiplo-01",
+  "pm-optimizacion-con-derivadas-01",
+  "pm-porcentajes-01",
+  "pm-probabilidad-condicional-01",
+  "pm-probabilidad-simple-01",
+  "pm-productos-notables-de-binomios-01",
+  "pm-productos-notables-de-binomios-02",
+  "pm-proporcionalidad-directa-e-inversa-01",
+  "pm-razones-aritmeticas-y-geometricas-01",
+  "pm-semejanza-de-triangulos-01",
+  "pm-sistemas-de-ecuaciones-lineales-01",
+  "pm-tecnicas-de-conteo-01",
+  "pm-teorema-de-pitagoras-01",
+  "pm-tipos-de-muestra-01",
+  "pm-tipos-de-variables-01",
+];
+
+const pm_all_question_ids = [
+  "pm-md-001",
+  "pm-md-002",
+  "pm-md-003",
+  "pm-md-004",
+  "pm-md-005",
+  "pm-mtc-001",
+  "pm-mtc-002",
+  "pm-mtc-003",
+  "pm-mtc-004",
+  "pm-mtc-005",
+  "pm-tm-001",
+  "pm-tm-002",
+  "pm-tm-003",
+  "pm-tm-004",
+  "pm-tm-005",
+  "pm-tv-001",
+  "pm-tv-002",
+  "pm-tv-003",
+  "pm-tv-004",
+  "pm-tv-005",
+  "pm-pc-001",
+  "pm-pc-002",
+  "pm-pc-003",
+  "pm-pc-004",
+  "pm-pc-005",
+  "pm-ps-001",
+  "pm-ps-002",
+  "pm-ps-003",
+  "pm-ps-004",
+  "pm-ps-005",
+  "pm-tc-001",
+  "pm-tc-002",
+  "pm-tc-003",
+  "pm-tc-004",
+  "pm-tc-005",
+  "pm-ec-001",
+  "pm-ec-002",
+  "pm-ec-003",
+  "pm-ec-004",
+  "pm-ec-005",
+  "pm-el-001",
+  "pm-el-002",
+  "pm-el-003",
+  "pm-el-004",
+  "pm-el-005",
+  "pm-ea-001",
+  "pm-ea-002",
+  "pm-ea-003",
+  "pm-ea-004",
+  "pm-ea-005",
+  "pm-fp-001",
+  "pm-fp-002",
+  "pm-fp-003",
+  "pm-fp-004",
+  "pm-fp-005",
+  "pm-icm-001",
+  "pm-icm-002",
+  "pm-icm-003",
+  "pm-icm-004",
+  "pm-icm-005",
+  "pm-ict-001",
+  "pm-ict-002",
+  "pm-ict-003",
+  "pm-ict-004",
+  "pm-ict-005",
+  "pm-is-001",
+  "pm-is-002",
+  "pm-is-003",
+  "pm-is-004",
+  "pm-is-005",
+  "pm-pnb-001",
+  "pm-pnb-002",
+  "pm-pnb-003",
+  "pm-pnb-004",
+  "pm-pnb-005",
+  "pm-ofc-001",
+  "pm-ofc-002",
+  "pm-ofc-003",
+  "pm-ofc-004",
+  "pm-ofc-005",
+  "pm-sel-001",
+  "pm-sel-002",
+  "pm-sel-003",
+  "pm-sel-004",
+  "pm-sel-005",
+  "pm-mcd-001",
+  "pm-mcd-002",
+  "pm-mcd-003",
+  "pm-mcd-004",
+  "pm-mcd-005",
+  "pm-mcm-001",
+  "pm-mcm-002",
+  "pm-mcm-003",
+  "pm-mcm-004",
+  "pm-mcm-005",
+  "pm-pm-001",
+  "pm-pm-002",
+  "pm-pm-003",
+  "pm-pm-004",
+  "pm-pm-005",
+  "pm-pdi-001",
+  "pm-pdi-002",
+  "pm-pdi-003",
+  "pm-pdi-004",
+  "pm-pdi-005",
+  "pm-rag-001",
+  "pm-rag-002",
+  "pm-rag-003",
+  "pm-rag-004",
+  "pm-rag-005",
+  "pm-at-001",
+  "pm-at-002",
+  "pm-at-003",
+  "pm-at-004",
+  "pm-at-005",
+  "pm-apc-001",
+  "pm-apc-002",
+  "pm-apc-003",
+  "pm-apc-004",
+  "pm-apc-005",
+  "pm-st-001",
+  "pm-st-002",
+  "pm-st-003",
+  "pm-st-004",
+  "pm-st-005",
+  "pm-pt-001",
+  "pm-pt-002",
+  "pm-pt-003",
+  "pm-pt-004",
+  "pm-pt-005",
+  "pm-dfa-001",
+  "pm-dfa-002",
+  "pm-dfa-003",
+  "pm-dfa-004",
+  "pm-dfa-005",
+  "pm-dfp-001",
+  "pm-dfp-002",
+  "pm-dfp-003",
+  "pm-dfp-004",
+  "pm-dfp-005",
+  "pm-dft-001",
+  "pm-dft-002",
+  "pm-dft-003",
+  "pm-dft-004",
+  "pm-dft-005",
+  "pm-gfcd-001",
+  "pm-gfcd-002",
+  "pm-gfcd-003",
+  "pm-gfcd-004",
+  "pm-gfcd-005",
+  "pm-gfec-001",
+  "pm-gfec-002",
+  "pm-gfec-003",
+  "pm-gfec-004",
+  "pm-gfec-005",
+  "pm-id-001",
+  "pm-id-002",
+  "pm-id-003",
+  "pm-id-004",
+  "pm-id-005",
+  "pm-lfc-001",
+  "pm-lfc-002",
+  "pm-lfc-003",
+  "pm-lfc-004",
+  "pm-lfc-005",
+  "pm-od-001",
+  "pm-od-002",
+  "pm-od-003",
+  "pm-od-004",
+  "pm-od-005",
+];
+
 test("el inicio no declara completed con pensamiento matemático dominado si otra área sigue intacta", async ({
   page,
 }) => {
-  const pm_lesson_ids = [
-    "pm-tipos-de-variables-01",
-    "pm-tipos-de-muestra-01",
-    "pm-medidas-de-tendencia-central-01",
-    "pm-medidas-de-dispersion-01",
-  ];
-  const pm_question_id_groups = [
-    ["pm-tv-001", "pm-tv-002", "pm-tv-003", "pm-tv-004", "pm-tv-005"],
-    ["pm-tm-001", "pm-tm-002", "pm-tm-003", "pm-tm-004", "pm-tm-005"],
-    ["pm-mtc-001", "pm-mtc-002", "pm-mtc-003", "pm-mtc-004", "pm-mtc-005"],
-    ["pm-md-001", "pm-md-002", "pm-md-003", "pm-md-004", "pm-md-005"],
-  ];
-
   await page.addInitScript(
     ({
       lesson_ids,
-      question_id_groups,
+      question_ids,
     }: {
       lesson_ids: string[];
-      question_id_groups: string[][];
+      question_ids: string[];
     }) => {
-      const attempts = question_id_groups.flatMap((question_ids) =>
-        question_ids.map((question_id, index) => ({
-          question_id,
-          selected_option_index: 0,
-          is_correct: true,
-          created_at: `2026-09-18T00:00:0${index}.000Z`,
-          mode: "practice",
-        })),
-      );
+      const attempts = question_ids.map((question_id, index) => ({
+        question_id,
+        selected_option_index: 0,
+        is_correct: true,
+        created_at: `2026-09-18T${String(Math.floor(index / 60)).padStart(2, "0")}:${String(index % 60).padStart(2, "0")}:00.000Z`,
+        mode: "practice",
+      }));
 
       window.localStorage.setItem(
         "ceneva.learner-progress",
@@ -672,7 +1021,7 @@ test("el inicio no declara completed con pensamiento matemático dominado si otr
         }),
       );
     },
-    { lesson_ids: pm_lesson_ids, question_id_groups: pm_question_id_groups },
+    { lesson_ids: pm_all_lesson_ids, question_ids: pm_all_question_ids },
   );
 
   await page.goto("/");
@@ -741,7 +1090,7 @@ test("el progreso de un área no-pm se refleja en /progreso tras recargar", asyn
     pm_area_block
       .getByText("temas dominados", { exact: true })
       .locator("xpath=following-sibling::*[1]"),
-  ).toHaveText("0/4");
+  ).toHaveText("0/30");
 
   await page.reload();
 
@@ -753,6 +1102,32 @@ const diagnostic_correct_options = [
   "sistemático",
   "`8.5`",
   "el conjunto b, porque sus datos se alejan más de la media",
+  "12",
+  "3/5",
+  "6/12",
+  "150 + 12x",
+  "(x + 2)(x + 3)",
+  "x² + 6x + 9",
+  "x = 5",
+  "x = 2 y x = 3",
+  "x = 6, y = 4",
+  "$100",
+  "$1,210",
+  "24",
+  "12",
+  "16",
+  "$105",
+  "$160",
+  "30 cm²",
+  "12 cm",
+  "10 cm",
+  "6 u²",
+  "(3, ∞)",
+  "disminuye",
+  "7",
+  "6x",
+  "-1/x²",
+  "16",
 ];
 
 async function answer_diagnostic_question(
@@ -842,7 +1217,7 @@ test("el diagnóstico responde desde el teclado y no revela resultados hasta ter
 }) => {
   await page.goto("/diagnostico/pensamiento-matematico");
 
-  await expect(page.getByText("pregunta 1 de 4")).toBeVisible();
+  await expect(page.getByText("pregunta 1 de 30")).toBeVisible();
 
   const first_option = page.getByRole("radio", {
     name: "el peso de una mochila en kilogramos",
@@ -859,7 +1234,7 @@ test("el diagnóstico responde desde el teclado y no revela resultados hasta ter
   ).toBeChecked();
   await page.getByRole("button", { name: "siguiente pregunta" }).click();
 
-  await expect(page.getByText("pregunta 2 de 4")).toBeVisible();
+  await expect(page.getByText("pregunta 2 de 30")).toBeVisible();
   await expect(page.getByText("correcto", { exact: false })).toHaveCount(0);
 });
 
@@ -869,12 +1244,12 @@ test("completar el diagnóstico muestra resultados explicados por tema y recomie
   await complete_pilot_diagnostic(page);
 
   await expect(
-    page.getByRole("heading", { level: 2, name: "4 de 4 respuestas correctas" }),
+    page.getByRole("heading", { level: 2, name: "30 de 30 respuestas correctas" }),
   ).toBeVisible();
-  await expect(page.getByText("Acierto", { exact: true })).toHaveCount(4);
+  await expect(page.getByText("Acierto", { exact: true })).toHaveCount(30);
   await expect(page.getByText("Tipos de variables", { exact: true })).toBeVisible();
   await expect(page.getByText("Medidas de dispersión", { exact: true })).toBeVisible();
-  await expect(page.getByText("Por qué", { exact: true })).toHaveCount(4);
+  await expect(page.getByText("Por qué", { exact: true })).toHaveCount(30);
   await expect(
     page.getByText("empieza por tipos de variables.", { exact: false }),
   ).toBeVisible();
@@ -906,7 +1281,7 @@ test("una respuesta incorrecta del diagnóstico recomienda el tema correspondien
   }
 
   await expect(
-    page.getByRole("heading", { level: 2, name: "3 de 4 respuestas correctas" }),
+    page.getByRole("heading", { level: 2, name: "29 de 30 respuestas correctas" }),
   ).toBeVisible();
   const failed_result = page
     .getByText("Por reforzar", { exact: true })
@@ -934,7 +1309,7 @@ test("los intentos del diagnóstico persisten como historial y recargar reinicia
 }) => {
   await complete_pilot_diagnostic(page);
 
-  await page.goto("/ruta/pensamiento-matematico");
+  await page.goto("/ruta/pensamiento-matematico/pm-1-1-pensamiento-estadistico");
 
   const topic_card = page
     .getByRole("heading", { name: "tipos de variables" })
@@ -945,13 +1320,13 @@ test("los intentos del diagnóstico persisten como historial y recargar reinicia
 
   await page.goto("/diagnostico/pensamiento-matematico");
 
-  await expect(page.getByText("pregunta 1 de 4")).toBeVisible();
+  await expect(page.getByText("pregunta 1 de 30")).toBeVisible();
 
   await page.reload();
 
-  await expect(page.getByText("pregunta 1 de 4")).toBeVisible();
+  await expect(page.getByText("pregunta 1 de 30")).toBeVisible();
 
-  await page.goto("/ruta/pensamiento-matematico");
+  await page.goto("/ruta/pensamiento-matematico/pm-1-1-pensamiento-estadistico");
 
   await expect(topic_card.getByText("1 intentos", { exact: false })).toBeVisible();
 });
@@ -961,6 +1336,32 @@ const simulator_coverage_correct_options = [
   "sistemático",
   "`8.5`",
   "`8 / 3`",
+  "12",
+  "3/5",
+  "6/12",
+  "150 + 12x",
+  "(x + 2)(x + 3)",
+  "x² + 6x + 9",
+  "x = 5",
+  "x = 2 y x = 3",
+  "x = 6, y = 4",
+  "$100",
+  "$1,210",
+  "24",
+  "12",
+  "16",
+  "$105",
+  "$160",
+  "30 cm²",
+  "12 cm",
+  "10 cm",
+  "6 u²",
+  "(3, ∞)",
+  "disminuye",
+  "7",
+  "6x",
+  "-1/x²",
+  "16",
   "su historial de comentarios, reacciones y publicaciones en distintos servicios en línea",
   "freeware",
   "almacenamiento en la nube",
@@ -1047,7 +1448,7 @@ test("el simulacro identifica la cobertura mvp antes de iniciar y responde desde
   await expect(
     page.getByText("no es el examen oficial completo", { exact: false }),
   ).toBeVisible();
-  await expect(page.getByText("pregunta 1 de 36")).toBeVisible();
+  await expect(page.getByText("pregunta 1 de 62")).toBeVisible();
 
   const first_option = page.getByRole("radio", {
     name: "el peso de una mochila en kilogramos",
@@ -1065,26 +1466,26 @@ test("el simulacro identifica la cobertura mvp antes de iniciar y responde desde
 
   await page.getByRole("button", { name: "siguiente pregunta" }).click();
 
-  await expect(page.getByText("pregunta 2 de 36")).toBeVisible();
+  await expect(page.getByText("pregunta 2 de 62")).toBeVisible();
   await expect(page.getByText("correcto", { exact: false })).toHaveCount(0);
 });
 
 test("completar el simulacro de cobertura con un error no-pm muestra el reporte agrupado por área y tema, enlaza el error a su lección, y los intentos persisten tras recargar", async ({
   page,
 }) => {
-  const servicios_digitales_index = 6;
+  const servicios_digitales_index = 32;
 
   await complete_simulator_coverage(page, [servicios_digitales_index]);
 
   await expect(
-    page.getByRole("heading", { level: 2, name: "35 de 36 respuestas correctas" }),
+    page.getByRole("heading", { level: 2, name: "61 de 62 respuestas correctas" }),
   ).toBeVisible();
 
   const pm_area = page
     .getByText("Pensamiento matemático", { exact: true })
     .locator("xpath=ancestor::article[1]");
 
-  await expect(pm_area.getByText("4 de 4 correctas", { exact: false })).toBeVisible();
+  await expect(pm_area.getByText("30 de 30 correctas", { exact: false })).toBeVisible();
 
   const cd_area = page
     .getByText("Cultura digital", { exact: true })
@@ -1106,7 +1507,7 @@ test("completar el simulacro de cobertura con un error no-pm muestra el reporte 
 
   await expect(page).toHaveURL("/leccion/cd-servicios-digitales-01");
 
-  await page.goto("/ruta/cultura-digital");
+  await page.goto("/ruta/cultura-digital/cd-2-1-ciudadania-digital");
 
   const topic_card = page
     .getByRole("heading", { name: "tipos de servicios digitales" })
@@ -1116,13 +1517,13 @@ test("completar el simulacro de cobertura con un error no-pm muestra el reporte 
 
   await page.goto("/simulacro");
 
-  await expect(page.getByText("pregunta 1 de 36")).toBeVisible();
+  await expect(page.getByText("pregunta 1 de 62")).toBeVisible();
 
   await page.reload();
 
-  await expect(page.getByText("pregunta 1 de 36")).toBeVisible();
+  await expect(page.getByText("pregunta 1 de 62")).toBeVisible();
 
-  await page.goto("/ruta/cultura-digital");
+  await page.goto("/ruta/cultura-digital/cd-2-1-ciudadania-digital");
 
   await expect(topic_card.getByText("1 intentos", { exact: false })).toBeVisible();
 });
@@ -1134,7 +1535,7 @@ test("el simulacro se puede responder en pantalla móvil", async ({ page }) => {
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
     "Valida tu preparación en las siete áreas",
   );
-  await expect(page.getByText("pregunta 1 de 36")).toBeVisible();
+  await expect(page.getByText("pregunta 1 de 62")).toBeVisible();
 
   await answer_simulator_question(
     page,
@@ -1142,7 +1543,7 @@ test("el simulacro se puede responder en pantalla móvil", async ({ page }) => {
     "siguiente pregunta",
   );
 
-  await expect(page.getByText("pregunta 2 de 36")).toBeVisible();
+  await expect(page.getByText("pregunta 2 de 62")).toBeVisible();
 });
 
 const ch_movimientos_correct_options = [
@@ -1166,6 +1567,19 @@ test("la ruta de conciencia histórica muestra sus cinco temas y el tema partido
   await page.getByRole("link", { name: "explorar conciencia histórica" }).click();
 
   await expect(page).toHaveURL("/ruta/conciencia-historica");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Unidades listas de Conciencia histórica.",
+  );
+
+  await page
+    .getByRole("link", {
+      name: "explorar perspectivas del méxico antiguo y virreinal en los contextos globales",
+    })
+    .click();
+
+  await expect(page).toHaveURL(
+    "/ruta/conciencia-historica/ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales",
+  );
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "Perspectivas del México antiguo y virreinal en los contextos globales",
   );
@@ -1217,7 +1631,9 @@ test("completar ambas lecciones del tema partido conciencia histórica habilita 
   await page.getByRole("button", { name: "marcar lección como completada" }).click();
   await expect(page.getByRole("button", { name: "lección completada" })).toBeDisabled();
 
-  await page.goto("/ruta/conciencia-historica");
+  await page.goto(
+    "/ruta/conciencia-historica/ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales",
+  );
 
   const movimientos_topic = page
     .getByRole("heading", {
@@ -1319,7 +1735,9 @@ test("completar ambas lecciones del tema partido conciencia histórica habilita 
     "/leccion/ch-impacto-cultural-de-resistencias-originarias-02",
   );
 
-  await page.goto("/ruta/conciencia-historica");
+  await page.goto(
+    "/ruta/conciencia-historica/ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales",
+  );
 
   const dominated_topic = page
     .getByRole("heading", {
@@ -1333,7 +1751,7 @@ test("completar ambas lecciones del tema partido conciencia histórica habilita 
 
   await expect(dominated_topic.getByText("dominado", { exact: true })).toBeVisible();
 
-  await page.goto("/ruta/pensamiento-matematico");
+  await page.goto("/ruta/pensamiento-matematico/pm-1-1-pensamiento-estadistico");
 
   const pilot_topic = page
     .getByRole("heading", { name: "tipos de variables" })
@@ -1342,7 +1760,7 @@ test("completar ambas lecciones del tema partido conciencia histórica habilita 
   await expect(pilot_topic.getByText("disponible", { exact: true })).toBeVisible();
   await expect(pilot_topic.getByText("sin intentos", { exact: false })).toBeVisible();
 
-  await page.goto("/ruta/cultura-digital");
+  await page.goto("/ruta/cultura-digital/cd-2-1-ciudadania-digital");
 
   const cultura_digital_topic = page
     .getByRole("heading", { name: "Elementos de la identidad digital" })
@@ -1422,6 +1840,17 @@ test("la ruta de humanidades muestra sus cuatro temas, con los tres dependientes
 
   await expect(page).toHaveURL("/ruta/humanidades");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Unidades listas de Humanidades.",
+  );
+
+  await page
+    .getByRole("link", { name: "explorar fundamentos del pensamiento filosófico" })
+    .click();
+
+  await expect(page).toHaveURL(
+    "/ruta/humanidades/hu-4-1-fundamentos-del-pensamiento-filosofico",
+  );
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "Fundamentos del pensamiento filosófico",
   );
 
@@ -1463,7 +1892,7 @@ test("completar la lección base de humanidades desbloquea una lección dependie
     page.getByRole("link", { name: "repasa hu-filosofia-mito-y-ciencia-01" }),
   ).toBeVisible();
 
-  await page.goto("/ruta/humanidades");
+  await page.goto("/ruta/humanidades/hu-4-1-fundamentos-del-pensamiento-filosofico");
 
   const dependent_topic = page
     .getByRole("heading", { name: "Pensamiento crítico" })
@@ -1517,7 +1946,7 @@ test("completar la lección base de humanidades desbloquea una lección dependie
 
   await expect(page).toHaveURL("/leccion/hu-filosofia-mito-y-ciencia-01");
 
-  await page.goto("/ruta/humanidades");
+  await page.goto("/ruta/humanidades/hu-4-1-fundamentos-del-pensamiento-filosofico");
 
   const dominated_topic = page
     .getByRole("heading", { name: "Filosofía, mito y ciencia" })
@@ -1529,7 +1958,7 @@ test("completar la lección base de humanidades desbloquea una lección dependie
 
   await expect(dominated_topic.getByText("dominado", { exact: true })).toBeVisible();
 
-  await page.goto("/ruta/pensamiento-matematico");
+  await page.goto("/ruta/pensamiento-matematico/pm-1-1-pensamiento-estadistico");
 
   const pilot_topic = page
     .getByRole("heading", { name: "tipos de variables" })
@@ -1538,7 +1967,7 @@ test("completar la lección base de humanidades desbloquea una lección dependie
   await expect(pilot_topic.getByText("disponible", { exact: true })).toBeVisible();
   await expect(pilot_topic.getByText("sin intentos", { exact: false })).toBeVisible();
 
-  await page.goto("/ruta/cultura-digital");
+  await page.goto("/ruta/cultura-digital/cd-2-1-ciudadania-digital");
 
   const cultura_digital_topic = page
     .getByRole("heading", { name: "Elementos de la identidad digital" })
@@ -1551,7 +1980,9 @@ test("completar la lección base de humanidades desbloquea una lección dependie
     cultura_digital_topic.getByText("sin intentos", { exact: false }),
   ).toBeVisible();
 
-  await page.goto("/ruta/conciencia-historica");
+  await page.goto(
+    "/ruta/conciencia-historica/ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales",
+  );
 
   const conciencia_historica_topic = page
     .getByRole("heading", {
@@ -1606,6 +2037,17 @@ test("la ruta de ciencias naturales muestra sus cinco temas, con conservación d
 
   await expect(page).toHaveURL("/ruta/ciencias-naturales-experimentales-y-tecnologia");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Unidades listas de Ciencias naturales, experimentales y tecnología.",
+  );
+
+  await page
+    .getByRole("link", { name: "explorar la materia y sus interacciones" })
+    .click();
+
+  await expect(page).toHaveURL(
+    "/ruta/ciencias-naturales-experimentales-y-tecnologia/cn-5-1-materia-y-sus-interacciones",
+  );
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "La materia y sus interacciones",
   );
 
@@ -1650,7 +2092,9 @@ test("completar la lección de enlaces químicos desbloquea conservación de la 
     page.getByRole("link", { name: "repasa cn-tipos-de-enlaces-01" }),
   ).toBeVisible();
 
-  await page.goto("/ruta/ciencias-naturales-experimentales-y-tecnologia");
+  await page.goto(
+    "/ruta/ciencias-naturales-experimentales-y-tecnologia/cn-5-1-materia-y-sus-interacciones",
+  );
 
   const conservation_topic = page
     .getByRole("heading", { name: "ley de la conservación de la materia" })
@@ -1703,7 +2147,9 @@ test("completar la lección de enlaces químicos desbloquea conservación de la 
 
   await expect(page).toHaveURL("/leccion/cn-tipos-de-enlaces-01");
 
-  await page.goto("/ruta/ciencias-naturales-experimentales-y-tecnologia");
+  await page.goto(
+    "/ruta/ciencias-naturales-experimentales-y-tecnologia/cn-5-1-materia-y-sus-interacciones",
+  );
 
   const dominated_topic = page
     .getByRole("heading", { name: "tipos de enlaces iónico, covalente y metálico" })
@@ -1715,7 +2161,7 @@ test("completar la lección de enlaces químicos desbloquea conservación de la 
 
   await expect(dominated_topic.getByText("dominado", { exact: true })).toBeVisible();
 
-  await page.goto("/ruta/pensamiento-matematico");
+  await page.goto("/ruta/pensamiento-matematico/pm-1-1-pensamiento-estadistico");
 
   const pilot_topic = page
     .getByRole("heading", { name: "tipos de variables" })
@@ -1724,7 +2170,7 @@ test("completar la lección de enlaces químicos desbloquea conservación de la 
   await expect(pilot_topic.getByText("disponible", { exact: true })).toBeVisible();
   await expect(pilot_topic.getByText("sin intentos", { exact: false })).toBeVisible();
 
-  await page.goto("/ruta/cultura-digital");
+  await page.goto("/ruta/cultura-digital/cd-2-1-ciudadania-digital");
 
   const cultura_digital_topic = page
     .getByRole("heading", { name: "Elementos de la identidad digital" })
@@ -1737,7 +2183,9 @@ test("completar la lección de enlaces químicos desbloquea conservación de la 
     cultura_digital_topic.getByText("sin intentos", { exact: false }),
   ).toBeVisible();
 
-  await page.goto("/ruta/conciencia-historica");
+  await page.goto(
+    "/ruta/conciencia-historica/ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales",
+  );
 
   const conciencia_historica_topic = page
     .getByRole("heading", {
@@ -1752,7 +2200,7 @@ test("completar la lección de enlaces químicos desbloquea conservación de la 
     conciencia_historica_topic.getByText("sin intentos", { exact: false }),
   ).toBeVisible();
 
-  await page.goto("/ruta/humanidades");
+  await page.goto("/ruta/humanidades/hu-4-1-fundamentos-del-pensamiento-filosofico");
 
   const humanidades_topic = page
     .getByRole("heading", { name: "Filosofía, mito y ciencia" })
@@ -1798,6 +2246,17 @@ test("la ruta de lengua y comunicación muestra sus cuatro temas disponibles des
   await page.getByRole("link", { name: "explorar lengua y comunicación" }).click();
 
   await expect(page).toHaveURL("/ruta/lengua-y-comunicacion");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Unidades listas de Lengua y comunicación.",
+  );
+
+  await page
+    .getByRole("link", { name: "explorar estrategias de comprensión lectora" })
+    .click();
+
+  await expect(page).toHaveURL(
+    "/ruta/lengua-y-comunicacion/lc-6-1-estrategias-de-comprension-lectora",
+  );
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "Estrategias de comprensión lectora",
   );
@@ -1872,7 +2331,9 @@ test("completar la lección de jerarquía en mapas conceptuales habilita su prá
 
   await expect(page).toHaveURL("/leccion/lc-jerarquia-en-mapas-conceptuales-01");
 
-  await page.goto("/ruta/lengua-y-comunicacion");
+  await page.goto(
+    "/ruta/lengua-y-comunicacion/lc-6-1-estrategias-de-comprension-lectora",
+  );
 
   const dominated_topic = page
     .getByRole("heading", { name: "Jerarquía de la información en mapas conceptuales" })
@@ -1884,7 +2345,7 @@ test("completar la lección de jerarquía en mapas conceptuales habilita su prá
 
   await expect(dominated_topic.getByText("dominado", { exact: true })).toBeVisible();
 
-  await page.goto("/ruta/pensamiento-matematico");
+  await page.goto("/ruta/pensamiento-matematico/pm-1-1-pensamiento-estadistico");
 
   const pilot_topic = page
     .getByRole("heading", { name: "tipos de variables" })
@@ -1893,7 +2354,7 @@ test("completar la lección de jerarquía en mapas conceptuales habilita su prá
   await expect(pilot_topic.getByText("disponible", { exact: true })).toBeVisible();
   await expect(pilot_topic.getByText("sin intentos", { exact: false })).toBeVisible();
 
-  await page.goto("/ruta/cultura-digital");
+  await page.goto("/ruta/cultura-digital/cd-2-1-ciudadania-digital");
 
   const cultura_digital_topic = page
     .getByRole("heading", { name: "Elementos de la identidad digital" })
@@ -1906,7 +2367,9 @@ test("completar la lección de jerarquía en mapas conceptuales habilita su prá
     cultura_digital_topic.getByText("sin intentos", { exact: false }),
   ).toBeVisible();
 
-  await page.goto("/ruta/conciencia-historica");
+  await page.goto(
+    "/ruta/conciencia-historica/ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales",
+  );
 
   const conciencia_historica_topic = page
     .getByRole("heading", {
@@ -1921,7 +2384,7 @@ test("completar la lección de jerarquía en mapas conceptuales habilita su prá
     conciencia_historica_topic.getByText("sin intentos", { exact: false }),
   ).toBeVisible();
 
-  await page.goto("/ruta/humanidades");
+  await page.goto("/ruta/humanidades/hu-4-1-fundamentos-del-pensamiento-filosofico");
 
   const humanidades_topic = page
     .getByRole("heading", { name: "Filosofía, mito y ciencia" })
@@ -1934,7 +2397,9 @@ test("completar la lección de jerarquía en mapas conceptuales habilita su prá
     humanidades_topic.getByText("sin intentos", { exact: false }),
   ).toBeVisible();
 
-  await page.goto("/ruta/ciencias-naturales-experimentales-y-tecnologia");
+  await page.goto(
+    "/ruta/ciencias-naturales-experimentales-y-tecnologia/cn-5-1-materia-y-sus-interacciones",
+  );
 
   const ciencias_naturales_topic = page
     .getByRole("heading", { name: "tipos de enlaces iónico, covalente y metálico" })
@@ -2007,6 +2472,13 @@ test("la ruta de ciencias sociales muestra sus nueve temas, con necesidades, fac
 
   await expect(page).toHaveURL("/ruta/ciencias-sociales");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Unidades listas de Ciencias sociales.",
+  );
+
+  await page.getByRole("link", { name: "explorar organización económica" }).click();
+
+  await expect(page).toHaveURL("/ruta/ciencias-sociales/cs-7-1-organizacion-economica");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "Organización económica",
   );
 
@@ -2051,7 +2523,7 @@ test("completar la cadena interna de ciencias sociales desbloquea sectores, dist
   }
 
   async function expect_topic_status(topic_title: string, status: string) {
-    await page.goto("/ruta/ciencias-sociales");
+    await page.goto("/ruta/ciencias-sociales/cs-7-1-organizacion-economica");
     const topic = page
       .getByRole("heading", { name: topic_title })
       .locator("xpath=ancestor::article");
@@ -2133,7 +2605,7 @@ test("completar la cadena interna de ciencias sociales desbloquea sectores, dist
 
   await expect(page).toHaveURL("/leccion/cs-factores-de-produccion-01");
 
-  await page.goto("/ruta/ciencias-sociales");
+  await page.goto("/ruta/ciencias-sociales/cs-7-1-organizacion-economica");
 
   const dominated_topic = page
     .getByRole("heading", { name: "Factores de los procesos de producción" })
@@ -2145,7 +2617,7 @@ test("completar la cadena interna de ciencias sociales desbloquea sectores, dist
 
   await expect(dominated_topic.getByText("dominado", { exact: true })).toBeVisible();
 
-  await page.goto("/ruta/pensamiento-matematico");
+  await page.goto("/ruta/pensamiento-matematico/pm-1-1-pensamiento-estadistico");
 
   const pilot_topic = page
     .getByRole("heading", { name: "tipos de variables" })
@@ -2154,7 +2626,7 @@ test("completar la cadena interna de ciencias sociales desbloquea sectores, dist
   await expect(pilot_topic.getByText("disponible", { exact: true })).toBeVisible();
   await expect(pilot_topic.getByText("sin intentos", { exact: false })).toBeVisible();
 
-  await page.goto("/ruta/cultura-digital");
+  await page.goto("/ruta/cultura-digital/cd-2-1-ciudadania-digital");
 
   const cultura_digital_topic = page
     .getByRole("heading", { name: "Elementos de la identidad digital" })
@@ -2167,7 +2639,9 @@ test("completar la cadena interna de ciencias sociales desbloquea sectores, dist
     cultura_digital_topic.getByText("sin intentos", { exact: false }),
   ).toBeVisible();
 
-  await page.goto("/ruta/lengua-y-comunicacion");
+  await page.goto(
+    "/ruta/lengua-y-comunicacion/lc-6-1-estrategias-de-comprension-lectora",
+  );
 
   const lengua_y_comunicacion_topic = page
     .getByRole("heading", { name: "título del texto expositivo" })

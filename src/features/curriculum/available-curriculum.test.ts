@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   get_available_unit,
-  get_available_unit_for_area,
+  get_available_units_for_area,
   get_unit_questions,
 } from "./available-curriculum";
 
@@ -200,34 +200,55 @@ describe("get_available_unit", () => {
   });
 });
 
-describe("get_available_unit_for_area", () => {
-  it("resuelve la única unidad lista de un área disponible", () => {
-    expect(get_available_unit_for_area("pensamiento-matematico")?.unit.id).toBe(
-      "pm-1-1-pensamiento-estadistico",
-    );
-    expect(get_available_unit_for_area("cultura-digital")?.unit.id).toBe(
-      "cd-2-1-ciudadania-digital",
-    );
-    expect(get_available_unit_for_area("conciencia-historica")?.unit.id).toBe(
-      "ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales",
-    );
-    expect(get_available_unit_for_area("humanidades")?.unit.id).toBe(
-      "hu-4-1-fundamentos-del-pensamiento-filosofico",
-    );
+describe("get_available_units_for_area", () => {
+  it("resuelve las seis unidades listas de pensamiento matemático, en orden curricular", () => {
     expect(
-      get_available_unit_for_area("ciencias-naturales-experimentales-y-tecnologia")
-        ?.unit.id,
-    ).toBe("cn-5-1-materia-y-sus-interacciones");
-    expect(get_available_unit_for_area("lengua-y-comunicacion")?.unit.id).toBe(
-      "lc-6-1-estrategias-de-comprension-lectora",
-    );
-    expect(get_available_unit_for_area("ciencias-sociales")?.unit.id).toBe(
-      "cs-7-1-organizacion-economica",
-    );
+      get_available_units_for_area("pensamiento-matematico").map(
+        (resolved) => resolved.unit.id,
+      ),
+    ).toEqual([
+      "pm-1-1-pensamiento-estadistico",
+      "pm-1-2-pensamiento-probabilistico",
+      "pm-1-3-pensamiento-algebraico",
+      "pm-1-4-pensamiento-aritmetico",
+      "pm-1-5-pensamiento-geometrico",
+      "pm-1-6-pensamiento-variacional",
+    ]);
+  });
+
+  it("resuelve la única unidad lista de un área con una sola unidad", () => {
+    expect(
+      get_available_units_for_area("cultura-digital").map(
+        (resolved) => resolved.unit.id,
+      ),
+    ).toEqual(["cd-2-1-ciudadania-digital"]);
+    expect(
+      get_available_units_for_area("conciencia-historica").map(
+        (resolved) => resolved.unit.id,
+      ),
+    ).toEqual(["ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales"]);
+    expect(
+      get_available_units_for_area("humanidades").map((resolved) => resolved.unit.id),
+    ).toEqual(["hu-4-1-fundamentos-del-pensamiento-filosofico"]);
+    expect(
+      get_available_units_for_area(
+        "ciencias-naturales-experimentales-y-tecnologia",
+      ).map((resolved) => resolved.unit.id),
+    ).toEqual(["cn-5-1-materia-y-sus-interacciones"]);
+    expect(
+      get_available_units_for_area("lengua-y-comunicacion").map(
+        (resolved) => resolved.unit.id,
+      ),
+    ).toEqual(["lc-6-1-estrategias-de-comprension-lectora"]);
+    expect(
+      get_available_units_for_area("ciencias-sociales").map(
+        (resolved) => resolved.unit.id,
+      ),
+    ).toEqual(["cs-7-1-organizacion-economica"]);
   });
 
   it("no resuelve un área sin unidades de contenido listas", () => {
-    expect(get_available_unit_for_area("ciencias-naturales")).toBeUndefined();
+    expect(get_available_units_for_area("ciencias-naturales")).toEqual([]);
   });
 });
 

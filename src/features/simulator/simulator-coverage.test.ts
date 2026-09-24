@@ -2,10 +2,20 @@ import { describe, expect, it } from "vitest";
 
 import type { question } from "@content/questions/types";
 
+import { get_available_unit } from "@/features/curriculum/available-curriculum";
+import { available_units } from "@/features/curriculum/available-units";
+
 import {
   get_simulator_coverage,
   validate_simulator_question,
 } from "./simulator-coverage";
+
+function expected_area_id_sequence(): string[] {
+  return available_units.flatMap((entry) => {
+    const resolved = get_available_unit(entry.area_id, entry.unit_id);
+    return resolved ? Array(resolved.unit.topics.length).fill(entry.area_id) : [];
+  });
+}
 
 function create_question(overrides: Partial<question> = {}): question {
   return {
@@ -24,36 +34,31 @@ function create_question(overrides: Partial<question> = {}): question {
 }
 
 describe("get_simulator_coverage", () => {
-  it("resuelve exactamente 36 preguntas, una por tema, agrupadas por área en el orden de available_units", async () => {
+  it("resuelve una pregunta por cada tema de cada unidad registrada, agrupadas por área en el orden de available_units", async () => {
     const items = await get_simulator_coverage();
+    const expected_sequence = expected_area_id_sequence();
 
-    expect(items).toHaveLength(36);
-    expect(items.map((item) => item.area.id)).toEqual([
-      ...Array(4).fill("pensamiento-matematico"),
-      ...Array(5).fill("cultura-digital"),
-      ...Array(5).fill("conciencia-historica"),
-      ...Array(4).fill("humanidades"),
-      ...Array(5).fill("ciencias-naturales-experimentales-y-tecnologia"),
-      ...Array(4).fill("lengua-y-comunicacion"),
-      ...Array(9).fill("ciencias-sociales"),
-    ]);
+    expect(items).toHaveLength(expected_sequence.length);
+    expect(items.map((item) => item.area.id)).toEqual(expected_sequence);
   });
 
-  it("mantiene el orden curricular de temas dentro de cada área", async () => {
+  it("mantiene el orden curricular de temas dentro de cada área, incluyendo las seis unidades de pensamiento matemático", async () => {
     const items = await get_simulator_coverage();
     const pm_topics = items
       .filter((item) => item.area.id === "pensamiento-matematico")
       .map((item) => item.topic.id);
 
-    expect(pm_topics).toEqual([
+    expect(pm_topics.slice(0, 4)).toEqual([
       "pm-1-1-1-tipos-de-variables",
       "pm-1-1-2-tipos-de-muestra",
       "pm-1-1-3-medidas-de-tendencia-central",
       "pm-1-1-4-medidas-de-dispersion",
     ]);
+    expect(pm_topics).toHaveLength(30);
+    expect(pm_topics.at(-1)).toBe("pm-1-6-6-aplicacion-de-la-derivada-en-optimizacion");
   });
 
-  it("pm sigue presente con sus cuatro temas, y ninguna área queda omitida", async () => {
+  it("ninguna área queda omitida, y pensamiento matemático cubre sus treinta temas", async () => {
     const items = await get_simulator_coverage();
     const area_ids = new Set(items.map((item) => item.area.id));
 
@@ -70,7 +75,7 @@ describe("get_simulator_coverage", () => {
     );
     expect(
       items.filter((item) => item.area.id === "pensamiento-matematico"),
-    ).toHaveLength(4);
+    ).toHaveLength(30);
   });
 
   it("cada pregunta pertenece a su tema, está etiquetada para simulacro, tiene tres opciones distintas y explicación", async () => {

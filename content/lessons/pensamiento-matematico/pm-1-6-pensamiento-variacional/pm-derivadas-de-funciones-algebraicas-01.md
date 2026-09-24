@@ -3,8 +3,8 @@ id: pm-derivadas-de-funciones-algebraicas-01
 area-id: pensamiento-matematico
 unit-id: pm-1-6-pensamiento-variacional
 topic-id: pm-1-6-5-derivadas-de-funciones-algebraicas-y-trascendentes
-title: derivadas de funciones algebraicas
-objective: calcular la derivada de una función algebraica no polinomial.
+title: Derivadas de funciones algebraicas
+objective: Calcular la derivada de una función algebraica no polinomial.
 estimated-minutes: 12
 prerequisites:
   - pm-derivadas-de-funciones-polinomiales-01
@@ -20,48 +20,48 @@ source:
   code: 1.6.5
 ---
 
-# derivadas de funciones algebraicas
+# Derivadas de funciones algebraicas
 
-## objetivo
+## Objetivo
 
-calcular derivadas de funciones con raíces o variables en el denominador.
+Calcular derivadas de funciones con raíces o variables en el denominador.
 
-## explicación
+## Explicación
 
-algunas funciones algebraicas no son polinomios porque contienen raíces o variables en el denominador. para derivarlas, primero reescríbelas con exponentes:
+Algunas funciones algebraicas no son polinomios porque contienen raíces o variables en el denominador. Para derivarlas, primero reescríbelas con exponentes:
 
 - `raíz de x = x¹ᐟ²`.
 - `1 / x = x⁻¹`.
 
-después aplica la misma regla de potencia: multiplica por el exponente y resta uno. así, la derivada de `raíz de x` es `1 / (2 raíz de x)` y la de `1 / x` es `-1 / x²`.
+Después aplica la misma regla de potencia: multiplica por el exponente y resta uno. Así, la derivada de `raíz de x` es `1 / (2 raíz de x)` y la de `1 / x` es `-1 / x²`.
 
-reescribir antes de derivar evita errores de signo y permite usar una sola regla.
+Reescribir antes de derivar evita errores de signo y permite usar una sola regla.
 
-## ejemplo resuelto
+## Ejemplo resuelto
 
-deriva `f(x) = 2 / x + raíz de x`.
+Deriva `f(x) = 2 / x + raíz de x`.
 
-1. reescribe: `f(x) = 2x⁻¹ + x¹ᐟ²`.
-2. deriva el primer término: `-2x⁻² = -2 / x²`.
-3. deriva el segundo: `(1 / 2)x⁻¹ᐟ² = 1 / (2 raíz de x)`.
+1. Reescribe: `f(x) = 2x⁻¹ + x¹ᐟ²`.
+2. Deriva el primer término: `-2x⁻² = -2 / x²`.
+3. Deriva el segundo: `(1 / 2)x⁻¹ᐟ² = 1 / (2 raíz de x)`.
 
-por lo tanto, `f'(x) = -2 / x² + 1 / (2 raíz de x)`.
+Por lo tanto, `f'(x) = -2 / x² + 1 / (2 raíz de x)`.
 
-## error frecuente
+## Error frecuente
 
-no olvides el signo negativo de un exponente negativo. la derivada de `1 / x` no es `1 / x²`; al derivar `x⁻¹`, el coeficiente es `-1`.
+No olvides el signo negativo de un exponente negativo. La derivada de `1 / x` no es `1 / x²`; al derivar `x⁻¹`, el coeficiente es `-1`.
 
-## práctica guiada
+## Práctica guiada
 
-1. intenta primero: deriva `g(x) = 1 / x`.
-   respuesta: `g'(x) = -1 / x²`, porque `1 / x = x⁻¹`.
-2. intenta primero: deriva `h(x) = raíz de x`.
-   respuesta: `h'(x) = 1 / (2 raíz de x)`, porque `raíz de x = x¹ᐟ²`.
+1. Intenta primero: deriva `g(x) = 1 / x`.
+   Respuesta: `g'(x) = -1 / x²`, porque `1 / x = x⁻¹`.
+2. Intenta primero: deriva `h(x) = raíz de x`.
+   Respuesta: `h'(x) = 1 / (2 raíz de x)`, porque `raíz de x = x¹ᐟ²`.
 
-## comprobación
+## Comprobación
 
-esta lección tiene cinco reactivos en `question-ids`. sus enunciados, opciones, respuestas y explicaciones están disponibles en `content/questions/pensamiento-matematico.ts`.
+Esta lección tiene cinco reactivos en `question-ids`. Sus enunciados, opciones, respuestas y explicaciones están disponibles en `content/questions/pensamiento-matematico.ts`.
 
-## cierre
+## Cierre
 
-ya puedes derivar funciones algebraicas no polinomiales al reescribir raíces y cocientes como potencias. revisa en especial el signo de los exponentes negativos.
+Ya puedes derivar funciones algebraicas no polinomiales al reescribir raíces y cocientes como potencias. Revisa en especial el signo de los exponentes negativos.

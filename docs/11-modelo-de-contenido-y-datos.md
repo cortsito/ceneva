@@ -49,6 +49,7 @@ el cuerpo markdown usa bloques sencillos: explicación, ejemplo, error frecuente
 type question = {
   id: string
   topic_id: string
+  stimulus?: string
   prompt: string
   options: string[]
   correct_option_index: number
@@ -59,6 +60,8 @@ type question = {
   use_cases: ('diagnostic' | 'practice' | 'review' | 'simulator')[]
 }
 ```
+
+`stimulus` es opcional y contiene una lectura, cita, caso o datos base que deben distinguirse visualmente de la consigna. cuando no hay material previo que analizar, se omite. `prompt` conserva siempre la pregunta o instrucción que la persona debe responder; no se mezcla con un texto base extenso.
 
 `options` tiene siempre exactamente tres elementos distintos: una respuesta correcta y dos distractores. este es el formato oficial del examen (`docs/guiaoficial.pdf`, apartado 5, «formato de reactivos»); no se usan cuatro opciones ni etiquetas duplicadas. los reactivos oficiales tienen cuatro variantes de forma —cuestionamiento directo, jerarquización, completamiento y relación de elementos— pero todas se resuelven eligiendo una de tres opciones; en jerarquización o relación de elementos, cada opción describe una secuencia o asociación completa (por ejemplo, `1a, 2b, 3c`), no un solo valor.
 

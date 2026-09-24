@@ -9,17 +9,13 @@ import { calculate_pilot_summary, type pilot_summary } from "./pilot-summary";
 
 export type area_topic_definitions = {
   area_id: string;
-  unit_id: string;
   area_title: string;
-  unit_title: string;
   topic_definitions: pilot_topic_progress_definition[];
 };
 
 export type area_progress = {
   area_id: string;
-  unit_id: string;
   area_title: string;
-  unit_title: string;
   topics: topic_progress[];
   summary: pilot_summary;
 };
@@ -35,9 +31,7 @@ export function calculate_global_progress(
 
     return {
       area_id: entry.area_id,
-      unit_id: entry.unit_id,
       area_title: entry.area_title,
-      unit_title: entry.unit_title,
       topics,
       summary: calculate_pilot_summary(topics, 0),
     };
@@ -49,7 +43,6 @@ export type global_next_action =
       kind: "lesson";
       area_id: string;
       area_title: string;
-      unit_id: string;
       topic_id: string;
       lesson_id: string;
       href: string;
@@ -59,7 +52,6 @@ export type global_next_action =
       kind: "practice";
       area_id: string;
       area_title: string;
-      unit_id: string;
       topic_id: string;
       href: string;
       label: string;
@@ -88,7 +80,6 @@ export function get_global_next_action(
         kind: "lesson",
         area_id: area.area_id,
         area_title: area.area_title,
-        unit_id: area.unit_id,
         topic_id: target_topic.definition.id,
         lesson_id: incomplete_lesson.id,
         href: `/leccion/${incomplete_lesson.id}`,
@@ -100,7 +91,6 @@ export function get_global_next_action(
       kind: "practice",
       area_id: area.area_id,
       area_title: area.area_title,
-      unit_id: area.unit_id,
       topic_id: target_topic.definition.id,
       href: `/practica/${target_topic.definition.id}`,
       label: `practicar ${target_topic.definition.title}`,

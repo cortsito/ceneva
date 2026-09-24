@@ -3,8 +3,8 @@ id: pm-area-de-triangulos-y-trapecios-01
 area-id: pensamiento-matematico
 unit-id: pm-1-5-pensamiento-geometrico
 topic-id: pm-1-5-1-area-de-figuras-geometricas-simples
-title: áreas de figuras simples
-objective: calcular el área de triángulos y trapecios.
+title: Áreas de figuras simples
+objective: Calcular el área de triángulos y trapecios.
 estimated-minutes: 12
 prerequisites: []
 question-ids:
@@ -19,46 +19,46 @@ source:
   code: 1.5.1
 ---
 
-# áreas de figuras simples
+# Áreas de figuras simples
 
-## objetivo
+## Objetivo
 
-calcular el área de un triángulo o trapecio a partir de sus bases y altura.
+Calcular el área de un triángulo o trapecio a partir de sus bases y altura.
 
-## explicación
+## Explicación
 
-el área mide la superficie interior de una figura y se expresa en unidades cuadradas.
+El área mide la superficie interior de una figura y se expresa en unidades cuadradas.
 
-- para un triángulo: `área = base × altura / 2`.
-- para un trapecio: `área = (base mayor + base menor) × altura / 2`.
+- Para un triángulo: `área = base × altura / 2`.
+- Para un trapecio: `área = (base mayor + base menor) × altura / 2`.
 
-la altura es la distancia perpendicular entre la base y el vértice opuesto en un triángulo, o entre las dos bases paralelas en un trapecio. no uses un lado inclinado como altura si no es perpendicular a la base.
+La altura es la distancia perpendicular entre la base y el vértice opuesto en un triángulo, o entre las dos bases paralelas en un trapecio. No uses un lado inclinado como altura si no es perpendicular a la base.
 
-## ejemplo resuelto
+## Ejemplo resuelto
 
-un trapecio tiene base mayor de `10` cm, base menor de `6` cm y altura de `4` cm. calcula su área.
+Un trapecio tiene base mayor de `10` cm, base menor de `6` cm y altura de `4` cm. Calcula su área.
 
-1. suma las bases: `10 + 6 = 16`.
-2. multiplica por la altura: `16 × 4 = 64`.
-3. divide entre dos: `64 / 2 = 32`.
+1. Suma las bases: `10 + 6 = 16`.
+2. Multiplica por la altura: `16 × 4 = 64`.
+3. Divide entre dos: `64 / 2 = 32`.
 
-el área del trapecio es `32 cm²`.
+El área del trapecio es `32 cm²`.
 
-## error frecuente
+## Error frecuente
 
-no promedies las bases y olvides multiplicar por la altura. en un trapecio, la suma o promedio de las bases solo es una parte de la fórmula; la altura determina la superficie final.
+No promedies las bases y olvides multiplicar por la altura. En un trapecio, la suma o promedio de las bases solo es una parte de la fórmula; la altura determina la superficie final.
 
-## práctica guiada
+## Práctica guiada
 
-1. intenta primero: calcula el área de un triángulo con base de `12` cm y altura de `5` cm.
-   respuesta: `12 × 5 / 2 = 30`. el área es `30 cm²`.
-2. intenta primero: un trapecio tiene bases de `8` m y `14` m, con altura de `3` m. calcula el área.
-   respuesta: `(8 + 14) × 3 / 2 = 33`. el área es `33 m²`.
+1. Intenta primero: calcula el área de un triángulo con base de `12` cm y altura de `5` cm.
+   Respuesta: `12 × 5 / 2 = 30`. El área es `30 cm²`.
+2. Intenta primero: un trapecio tiene bases de `8` m y `14` m, con altura de `3` m. Calcula el área.
+   Respuesta: `(8 + 14) × 3 / 2 = 33`. El área es `33 m²`.
 
-## comprobación
+## Comprobación
 
-esta lección tiene cinco reactivos en `question-ids`. sus enunciados, opciones, respuestas y explicaciones están disponibles en `content/questions/pensamiento-matematico.ts`.
+Esta lección tiene cinco reactivos en `question-ids`. Sus enunciados, opciones, respuestas y explicaciones están disponibles en `content/questions/pensamiento-matematico.ts`.
 
-## cierre
+## Cierre
 
-ya puedes calcular áreas de triángulos y trapecios. identifica las bases paralelas y una altura perpendicular antes de sustituir los datos.
+Ya puedes calcular áreas de triángulos y trapecios. Identifica las bases paralelas y una altura perpendicular antes de sustituir los datos.

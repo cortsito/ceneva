@@ -3,8 +3,8 @@ id: pm-area-en-el-plano-cartesiano-01
 area-id: pensamiento-matematico
 unit-id: pm-1-5-pensamiento-geometrico
 topic-id: pm-1-5-4-area-de-figuras-en-el-plano-cartesiano
-title: áreas en el plano cartesiano
-objective: calcular el área de cuadrados y triángulos rectángulos en el plano cartesiano.
+title: Áreas en el plano cartesiano
+objective: Calcular el área de cuadrados y triángulos rectángulos en el plano cartesiano.
 estimated-minutes: 14
 prerequisites:
   - pm-area-de-triangulos-y-trapecios-01
@@ -20,43 +20,43 @@ source:
   code: 1.5.4
 ---
 
-# áreas en el plano cartesiano
+# Áreas en el plano cartesiano
 
-## objetivo
+## Objetivo
 
-calcular el área de cuadrados y triángulos rectángulos a partir de sus coordenadas.
+Calcular el área de cuadrados y triángulos rectángulos a partir de sus coordenadas.
 
-## explicación
+## Explicación
 
-en el plano cartesiano, la distancia horizontal entre dos puntos con la misma coordenada `y` se obtiene restando sus coordenadas `x`. la distancia vertical entre dos puntos con la misma coordenada `x` se obtiene restando sus coordenadas `y`.
+En el plano cartesiano, la distancia horizontal entre dos puntos con la misma coordenada `y` se obtiene restando sus coordenadas `x`. La distancia vertical entre dos puntos con la misma coordenada `x` se obtiene restando sus coordenadas `y`.
 
-para un cuadrado con lados paralelos a los ejes, calcula la longitud de un lado y elévala al cuadrado. para un triángulo rectángulo con catetos paralelos a los ejes, calcula base y altura con las diferencias de coordenadas y usa `base × altura / 2`.
+Para un cuadrado con lados paralelos a los ejes, calcula la longitud de un lado y elévala al cuadrado. Para un triángulo rectángulo con catetos paralelos a los ejes, calcula base y altura con las diferencias de coordenadas y usa `base × altura / 2`.
 
-usa valores absolutos al restar para que las longitudes sean positivas.
+Usa valores absolutos al restar para que las longitudes sean positivas.
 
-## ejemplo resuelto
+## Ejemplo resuelto
 
-un cuadrado tiene vértices en `(1, 1)`, `(5, 1)`, `(5, 5)` y `(1, 5)`. calcula su área.
+Un cuadrado tiene vértices en `(1, 1)`, `(5, 1)`, `(5, 5)` y `(1, 5)`. Calcula su área.
 
-1. la longitud horizontal es `5 - 1 = 4` unidades.
-2. la longitud vertical también es `5 - 1 = 4` unidades.
-3. el área es `4 × 4 = 16` unidades cuadradas.
+1. La longitud horizontal es `5 - 1 = 4` unidades.
+2. La longitud vertical también es `5 - 1 = 4` unidades.
+3. El área es `4 × 4 = 16` unidades cuadradas.
 
-## error frecuente
+## Error frecuente
 
-no multipliques directamente las coordenadas de un punto. las coordenadas indican posiciones; primero debes obtener las longitudes de base y altura mediante sus diferencias.
+No multipliques directamente las coordenadas de un punto. Las coordenadas indican posiciones; primero debes obtener las longitudes de base y altura mediante sus diferencias.
 
-## práctica guiada
+## Práctica guiada
 
-1. intenta primero: un triángulo rectángulo tiene vértices `(0, 0)`, `(6, 0)` y `(0, 4)`. calcula su área.
-   respuesta: la base mide `6` y la altura `4`; `6 × 4 / 2 = 12` unidades cuadradas.
-2. intenta primero: un cuadrado tiene un lado desde `x = -2` hasta `x = 3`. ¿cuánto mide ese lado?
-   respuesta: `|3 - (-2)| = 5` unidades. la resta de un número negativo equivale a sumar.
+1. Intenta primero: un triángulo rectángulo tiene vértices `(0, 0)`, `(6, 0)` y `(0, 4)`. Calcula su área.
+   Respuesta: la base mide `6` y la altura `4`; `6 × 4 / 2 = 12` unidades cuadradas.
+2. Intenta primero: un cuadrado tiene un lado desde `x = -2` hasta `x = 3`. ¿Cuánto mide ese lado?
+   Respuesta: `|3 - (-2)| = 5` unidades. La resta de un número negativo equivale a sumar.
 
-## comprobación
+## Comprobación
 
-esta lección tiene cinco reactivos en `question-ids`. sus enunciados, opciones, respuestas y explicaciones están disponibles en `content/questions/pensamiento-matematico.ts`.
+Esta lección tiene cinco reactivos en `question-ids`. Sus enunciados, opciones, respuestas y explicaciones están disponibles en `content/questions/pensamiento-matematico.ts`.
 
-## cierre
+## Cierre
 
-ya puedes transformar coordenadas en longitudes y después aplicar la fórmula de área adecuada. resta coordenadas correspondientes antes de operar con la figura.
+Ya puedes transformar coordenadas en longitudes y después aplicar la fórmula de área adecuada. Resta coordenadas correspondientes antes de operar con la figura.

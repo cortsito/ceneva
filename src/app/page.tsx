@@ -58,7 +58,7 @@ export default async function HomePage() {
               </p>
             </div>
             <div className="p-5">
-              <p className="text-3xl font-extrabold tracking-tight text-ink">185</p>
+              <p className="text-3xl font-extrabold tracking-tight text-ink">335</p>
               <p className="mt-1 text-xs font-semibold text-ink-muted">
                 reactivos explicados
               </p>

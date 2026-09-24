@@ -45,4 +45,4 @@ debe incluir respuesta correcta, explicación, tema relacionado y acción siguie
 
 ## simulacro
 
-el mvp usa un único simulacro de cobertura: una pregunta `simulator` por cada tema de las siete unidades disponibles, en orden de área y currículo. actualmente son 36 preguntas. debe llamarse explícitamente «simulacro de cobertura mvp» y aclarar que no representa el examen oficial completo. el reporte agrupa errores por área y tema y permite ir directamente a estudiar o practicar ese contenido.
+el mvp usa un único simulacro de cobertura: una pregunta `simulator` por cada tema de las unidades disponibles, en orden de área y currículo. actualmente son 62 preguntas, tras registrarse las seis unidades de pensamiento matemático. debe llamarse explícitamente «simulacro de cobertura mvp» y aclarar que no representa el examen oficial completo. el reporte agrupa errores por área y tema y permite ir directamente a estudiar o practicar ese contenido.

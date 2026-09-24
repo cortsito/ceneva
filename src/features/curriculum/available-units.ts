@@ -30,6 +30,36 @@ export const available_units: available_unit[] = [
     questions: pensamiento_matematico_questions,
   },
   {
+    area_id: "pensamiento-matematico",
+    unit_id: "pm-1-2-pensamiento-probabilistico",
+    area: pensamiento_matematico,
+    questions: pensamiento_matematico_questions,
+  },
+  {
+    area_id: "pensamiento-matematico",
+    unit_id: "pm-1-3-pensamiento-algebraico",
+    area: pensamiento_matematico,
+    questions: pensamiento_matematico_questions,
+  },
+  {
+    area_id: "pensamiento-matematico",
+    unit_id: "pm-1-4-pensamiento-aritmetico",
+    area: pensamiento_matematico,
+    questions: pensamiento_matematico_questions,
+  },
+  {
+    area_id: "pensamiento-matematico",
+    unit_id: "pm-1-5-pensamiento-geometrico",
+    area: pensamiento_matematico,
+    questions: pensamiento_matematico_questions,
+  },
+  {
+    area_id: "pensamiento-matematico",
+    unit_id: "pm-1-6-pensamiento-variacional",
+    area: pensamiento_matematico,
+    questions: pensamiento_matematico_questions,
+  },
+  {
     area_id: "cultura-digital",
     unit_id: "cd-2-1-ciudadania-digital",
     area: cultura_digital,
