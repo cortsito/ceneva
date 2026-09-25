@@ -38,28 +38,28 @@ export function GlobalProgressSummary({
   );
 
   return (
-    <div className="surface-panel overflow-hidden">
-      <dl className="grid grid-cols-2 divide-x divide-y divide-line sm:grid-cols-4 sm:divide-y-0">
-        <div className="p-5 sm:p-6">
+    <div className="progress-summary">
+      <dl className="progress-summary__metrics">
+        <div>
           <Stat
             label="temas dominados"
             value={`${summary.dominated_topics}/${summary.total_topics}`}
           />
         </div>
-        <div className="p-5 sm:p-6">
+        <div>
           <Stat
             label="lecciones completadas"
             value={`${summary.completed_lessons}/${summary.total_lessons}`}
           />
         </div>
-        <div className="p-5 sm:p-6">
+        <div>
           <Stat label="precisión" value={format_accuracy(summary.accuracy)} />
         </div>
-        <div className="p-5 sm:p-6">
+        <div>
           <Stat label="repaso pendiente" value={summary.pending_review_count} />
         </div>
       </dl>
-      <div className="border-t border-line bg-accent-soft p-5 sm:p-6">
+      <div className="progress-summary__action">
         <GlobalNextActionCta
           next_action={next_action}
           pending_review_count={pending_review_count}

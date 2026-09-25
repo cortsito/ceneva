@@ -8,9 +8,9 @@ las referencias editoriales de readymag se interpretan, no se copian: una grilla
 
 ## principios
 
-1. **tipografía antes que decoración.** títulos y aprendizaje usan una serif editorial con contraste; navegación, controles y texto funcional usan una sans serif limpia. los datos técnicos usan monoespaciada solo cuando ayuda a leer ids, códigos o resultados.
+1. **tipografía antes que decoración.** interfaz, títulos y aprendizaje usan instrument sans variable, alojada localmente bajo licencia sil ofl. el ancho y peso variables producen contraste sin mezclar familias. los datos técnicos usan monoespaciada solo cuando ayuda a leer ids, códigos o resultados.
 2. **grilla con ritmo.** las pantallas parten de una grilla de doce columnas en escritorio y una columna en móvil. la asimetría se reserva para titulares, índices, llamadas a la acción y bloques de progreso; no rompe el orden de lectura.
-3. **superficies, no tarjetas infinitas.** un borde fino, una esquina característica y bloques de color suave sustituyen sombras repetidas. una tarjeta solo existe cuando agrupa una decisión o una acción real.
+3. **retícula, no tarjetas infinitas.** las páginas se organizan mediante doce columnas, líneas continuas y alineaciones compartidas. una superficie cerrada solo existe cuando agrupa una decisión, una pregunta o una acción real.
 4. **teal como señal.** el teal se conserva para acciones, progreso y enlaces. no se usa como relleno constante ni como sustituto de jerarquía tipográfica.
 5. **modo de lectura.** fondo cálido claro, tinta profunda y líneas discretas en modo claro; fondo azul-negro, superficies elevadas y teal luminoso en modo oscuro. ambos modos deben conservar contraste aa.
 6. **mayúsculas con intención.** toda interfaz visible usa ortografía y capitalización convencionales en español. títulos y textos de estudio mantienen mayúsculas, nombres propios, siglas y puntuación correctos. las etiquetas pequeñas pueden usar versalitas o mayúsculas breves mediante estilo, nunca para párrafos o preguntas.
@@ -23,11 +23,10 @@ las pantallas usan tokens semánticos definidos en `globals.css`, no combinacion
 - `--canvas`, `--surface`, `--surface-raised`, `--ink`, `--ink-muted`, `--line`.
 - `--accent`, `--accent-strong`, `--accent-soft`, `--accent-contrast`.
 - `--success`, `--warning`, `--danger` y sus superficies suaves.
-- `--display-font`: `iowan old style`, `palatino linotype`, `book antiqua`, `georgia`, serif.
-- `--body-font`: `ui-sans-serif`, `system-ui`, sans-serif.
+- `--display-font` y `--body-font`: `instrument sans`, con fallbacks de sistema.
 - `--mono-font`: `ui-monospace`, `sfmono-regular`, `consolas`, monospace.
 
-el uso de fuentes del sistema evita una dependencia de red y da al titular una voz editorial en los sistemas donde la serif está disponible. no se agrega una fuente remota sin una decisión explícita sobre rendimiento, licencia y fallback.
+instrument sans se sirve desde `src/assets/fonts/` y no crea una dependencia de red. su archivo de licencia ofl se conserva junto a la fuente. la jerarquía depende de escala, peso, ancho, espacio y alineación; no de mezclar una serif decorativa con la interfaz.
 
 ## modo de color
 
@@ -43,26 +42,26 @@ el uso de fuentes del sistema evita una dependencia de red y da al titular una v
 
 - encabezado compacto y pegajoso: marca tipográfica, navegación mínima y selector de tema.
 - en móvil, el encabezado cerrado ocupa una sola fila: marca, tema y menú. la navegación se muestra en un panel desplegable de dos columnas; nunca se distribuye en varias filas dentro del encabezado.
-- en escritorio, la navegación se agrupa como un control central compacto y el descriptor largo solo aparece cuando existe espacio suficiente.
+- en escritorio, la navegación se integra en una barra plana y usa una línea inferior para la sección activa; el descriptor largo solo aparece cuando existe espacio suficiente.
 - pie sobrio con divisor editorial, sin una segunda barra de navegación pesada.
 - ancho de lectura estrecho para lecciones; ancho de composición mayor para ruta, inicio y progreso.
 
 ### inicio y navegación
 
-- inicio como portada editorial: índice vertical, titular grande, resumen breve, dos acciones y una pieza de progreso útil.
+- inicio como portada editorial: composición de siete y cinco columnas, titular expresivo pero moderado, resumen breve, dos acciones y una pieza de progreso útil sobre un gradiente ambiental teal.
 - ruta y progreso como índices: cada área o tema usa número, estado, métrica y acción; no una cuadrícula de tarjetas idénticas.
 - repaso, diagnóstico y simulacro conservan su propósito, pero introducen contexto de área, contador y divisores de sección.
 
 ### aprendizaje
 
-- lección: encabezado con código, título, objetivo y metadatos; cuerpo con medida tipográfica de lectura, intertítulos serif y llamadas puntuales.
+- lección: encabezado con código, título, objetivo, estado de avance y metadatos; cuerpo con medida tipográfica de lectura, pesos tipográficos diferenciados y llamadas puntuales.
 - práctica, diagnóstico y simulacro: panel de pregunta contrastado, progreso lineal visible y opciones identificadas con letras. selección, acierto y error cambian borde, fondo, marcador y texto; ningún estado depende solo del color.
 - en móvil, los controles usan toda la anchura disponible y mantienen una altura táctil mínima. el encabezado permanece en una sola fila y la pregunta conserva una columna de lectura sin desbordamiento horizontal.
 - resultados: errores, explicación y siguiente acción se organizan por jerarquía editorial, no por alertas genéricas.
 
 ## revisión integral de interfaz · 2026-09-22
 
-la segunda revisión visual sustituye el primer resultado del rediseño editorial sin cambiar su intención. el sistema conserva la serif editorial, el teal y la grilla, pero corrige densidad, contraste y consistencia:
+la segunda revisión visual sustituye el primer resultado del rediseño editorial sin cambiar su intención. el sistema conserva el teal y la grilla, pero corrige densidad, contraste y consistencia:
 
 - la paleta clara usa un canvas cálido, superficies blancas y tinta azul-negra; la paleta oscura usa canvas `#090e13`, superficies `#111920`/`#17232c`, tinta `#f5f7f4` y texto secundario `#bec9cd`.
 - se añaden `surface-soft`, `ink-subtle` y `line-strong` para evitar usar texto tenue o bordes ambiguos en contextos que requieren más contraste.
@@ -97,6 +96,26 @@ el rediseño corrige inmediatamente el chrome de la aplicación: navegación, bo
 - no se agregan ilustraciones generativas, fotos de stock, glassmorphism, gradientes decorativos constantes ni 3d.
 - no se cambia la arquitectura de contenido, progreso, rutas o persistencia.
 - no se sacrifica contraste, teclado, responsive o tiempos de carga por la estética.
+
+## revisión de retícula · 2026-09-25
+
+la dirección anterior resolvió contraste, modo oscuro y claridad pedagógica, pero todavía dependía demasiado de paneles redondeados, serif de sistema y bloques centrados. la revisión `docs/tasks/2026-09-25-task_redeseno-reticula-editorial.md` mantiene esas mejoras funcionales y sustituye su composición visual:
+
+- el ancho máximo pasa a `78rem` y las páginas de navegación comparten una retícula de doce columnas.
+- los índices usan filas alineadas por número, título, estado, métricas y acción; los divisores sustituyen la mayor parte de las tarjetas.
+- los radios principales se reducen a `4–10px`; las sombras se reservan para controles flotantes y menús.
+- la identidad conserva el teal y añade gradientes ambientales teal/cyan/salvia que nunca codifican datos.
+- el movimiento se limita a entrada de vista, aparición escalonada de filas, progreso y feedback, siempre con reducción de movimiento.
+- las evaluaciones conservan sus superficies completas porque agrupan una decisión real, pero adoptan los mismos radios, reglas y densidad del resto del sistema.
+
+## corrección de interacción y rendimiento · 2026-09-25
+
+- la comprobación dentro de una lección registra una sola respuesta por reactivo. después de elegir, todas sus opciones quedan bloqueadas y el resultado no puede reescribirse cambiando de opción.
+- una lección comunica su estado junto a los metadatos del encabezado y vuelve a confirmarlo al cierre. al completarla, ambas vistas se sincronizan en la misma pestaña y usan texto, borde, icono y color de éxito.
+- el cierre completado es una confirmación estática, no un botón deshabilitado. los botones deshabilitados que sí permanezcan en otros flujos conservan contraste legible en ambos temas.
+- las etiquetas de acción visibles usan capitalización convencional, incluidos `Continuar` y `Practicar`.
+- el pie elimina el enlace provisional de recursos y presenta corshex.com, linkedin y ko-fi como enlaces externos diferenciados. en móvil ocupa el alto necesario y mantiene cada destino en una fila táctil legible.
+- los candidatos de repaso cargan cada unidad una sola vez y después resuelven sus temas en memoria. las definiciones independientes se leen en paralelo y las transiciones de ruta muestran una señal mínima de carga.
 
 ## definición de hecho
 

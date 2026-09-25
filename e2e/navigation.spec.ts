@@ -80,6 +80,34 @@ test("la navegación global lleva a mi ruta", async ({ page }) => {
   );
 });
 
+test("el footer presenta los enlaces de corshex en una columna legible en móvil", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+
+  const website_link = page.getByRole("link", { name: /corshex\.com/i });
+  const linkedin_link = page.getByRole("link", { name: /linkedin/i });
+  const coffee_link = page.getByRole("link", { name: /invítame un café/i });
+
+  await expect(website_link).toHaveAttribute("href", "https://corshex.com");
+  await expect(linkedin_link).toHaveAttribute(
+    "href",
+    "https://www.linkedin.com/in/corshex",
+  );
+  await expect(coffee_link).toHaveAttribute("href", "https://ko-fi.com/corshex");
+
+  const website_box = await website_link.boundingBox();
+  const linkedin_box = await linkedin_link.boundingBox();
+  const coffee_box = await coffee_link.boundingBox();
+
+  expect(website_box).not.toBeNull();
+  expect(linkedin_box).not.toBeNull();
+  expect(coffee_box).not.toBeNull();
+  expect(linkedin_box?.y).toBeGreaterThan(website_box?.y ?? 0);
+  expect(coffee_box?.y).toBeGreaterThan(linkedin_box?.y ?? 0);
+});
+
 test("el encabezado móvil permanece en una fila y abre la navegación bajo demanda", async ({
   page,
 }) => {
@@ -272,7 +300,9 @@ test("un tema de una unidad recién registrada de pensamiento matemático (pm-1-
   await expect(page).toHaveURL("/leccion/pm-tecnicas-de-conteo-01");
 
   await page.getByRole("button", { name: "marcar lección como completada" }).click();
-  await expect(page.getByRole("button", { name: "lección completada" })).toBeDisabled();
+  await expect(
+    page.getByRole("status").filter({ hasText: "Lección completada" }).first(),
+  ).toBeVisible();
 
   await page.goto("/practica/pm-1-2-1-tecnicas-de-conteo");
 
@@ -367,6 +397,12 @@ test("la comprobación responde desde el teclado con feedback explicado", async 
   await expect(page.getByRole("status").first()).toContainText(
     "El número de llamadas se obtiene contando unidades completas.",
   );
+  await expect(first_option).toBeDisabled();
+  await expect(
+    page.getByRole("radio", {
+      name: "el número de llamadas recibidas en un día",
+    }),
+  ).toBeDisabled();
 });
 
 test("el avance del piloto persiste después de recargar", async ({ page }) => {
@@ -389,11 +425,17 @@ test("el avance del piloto persiste después de recargar", async ({ page }) => {
   }
 
   await completion_button.click();
-  await expect(page.getByRole("button", { name: "lección completada" })).toBeDisabled();
+  await expect(page.locator(".lesson-status")).toHaveText("Lección completada");
+  await expect(
+    page.getByRole("status").filter({ hasText: "Lección completada" }).first(),
+  ).toBeVisible();
 
   await page.reload();
 
-  await expect(page.getByRole("button", { name: "lección completada" })).toBeDisabled();
+  await expect(page.locator(".lesson-status")).toHaveText("Lección completada");
+  await expect(
+    page.getByRole("status").filter({ hasText: "Lección completada" }).first(),
+  ).toBeVisible();
 
   await page.goto("/ruta/pensamiento-matematico/pm-1-1-pensamiento-estadistico");
 
@@ -494,7 +536,9 @@ test("el flujo completo de cultura digital persiste tras recargar y no afecta el
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Identidad digital");
 
   await page.getByRole("button", { name: "marcar lección como completada" }).click();
-  await expect(page.getByRole("button", { name: "lección completada" })).toBeDisabled();
+  await expect(
+    page.getByRole("status").filter({ hasText: "Lección completada" }).first(),
+  ).toBeVisible();
 
   await page.goto("/practica/cd-2-1-1-elementos-de-la-identidad-digital");
 
@@ -1761,7 +1805,9 @@ test("completar ambas lecciones del tema partido conciencia histórica habilita 
     "Conquista de pueblos originarios",
   );
   await page.getByRole("button", { name: "marcar lección como completada" }).click();
-  await expect(page.getByRole("button", { name: "lección completada" })).toBeDisabled();
+  await expect(
+    page.getByRole("status").filter({ hasText: "Lección completada" }).first(),
+  ).toBeVisible();
 
   await page.goto("/leccion/ch-resistencias-de-pueblos-originarios-01");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
@@ -1771,7 +1817,9 @@ test("completar ambas lecciones del tema partido conciencia histórica habilita 
     page.getByRole("link", { name: "repasa conquista de pueblos originarios" }),
   ).toBeVisible();
   await page.getByRole("button", { name: "marcar lección como completada" }).click();
-  await expect(page.getByRole("button", { name: "lección completada" })).toBeDisabled();
+  await expect(
+    page.getByRole("status").filter({ hasText: "Lección completada" }).first(),
+  ).toBeVisible();
 
   await page.goto(
     "/ruta/conciencia-historica/ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales",
@@ -1797,7 +1845,9 @@ test("completar ambas lecciones del tema partido conciencia histórica habilita 
     }),
   ).toBeVisible();
   await page.getByRole("button", { name: "marcar lección como completada" }).click();
-  await expect(page.getByRole("button", { name: "lección completada" })).toBeDisabled();
+  await expect(
+    page.getByRole("status").filter({ hasText: "Lección completada" }).first(),
+  ).toBeVisible();
 
   await page.goto(
     "/practica/ch-3-1-2-movimientos-de-resistencia-de-pueblos-originarios",
@@ -2025,12 +2075,16 @@ test("completar las dos lecciones del tema partido cultura digital habilita su p
   await page.goto("/leccion/cd-ciberespacio-01");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Ciberespacio");
   await page.getByRole("button", { name: "marcar lección como completada" }).click();
-  await expect(page.getByRole("button", { name: "lección completada" })).toBeDisabled();
+  await expect(
+    page.getByRole("status").filter({ hasText: "Lección completada" }).first(),
+  ).toBeVisible();
 
   await page.goto("/leccion/cd-ticcad-01");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("TICCAD");
   await page.getByRole("button", { name: "marcar lección como completada" }).click();
-  await expect(page.getByRole("button", { name: "lección completada" })).toBeDisabled();
+  await expect(
+    page.getByRole("status").filter({ hasText: "Lección completada" }).first(),
+  ).toBeVisible();
 
   await page.goto("/ruta/cultura-digital/cd-2-2-comunicacion-y-colaboracion-digital");
 
@@ -2043,7 +2097,9 @@ test("completar las dos lecciones del tema partido cultura digital habilita su p
     "Funciones de herramientas digitales",
   );
   await page.getByRole("button", { name: "marcar lección como completada" }).click();
-  await expect(page.getByRole("button", { name: "lección completada" })).toBeDisabled();
+  await expect(
+    page.getByRole("status").filter({ hasText: "Lección completada" }).first(),
+  ).toBeVisible();
 
   await page.goto("/ruta/cultura-digital/cd-2-2-comunicacion-y-colaboracion-digital");
 
@@ -2061,7 +2117,9 @@ test("completar las dos lecciones del tema partido cultura digital habilita su p
     }),
   ).toBeVisible();
   await page.getByRole("button", { name: "marcar lección como completada" }).click();
-  await expect(page.getByRole("button", { name: "lección completada" })).toBeDisabled();
+  await expect(
+    page.getByRole("status").filter({ hasText: "Lección completada" }).first(),
+  ).toBeVisible();
 
   await page.goto("/practica/cd-2-2-3-funcion-y-uso-de-herramientas-digitales");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
@@ -2225,7 +2283,9 @@ test("completar la lección base de humanidades desbloquea una lección dependie
   );
   await expect(page.getByText("antes de continuar")).toHaveCount(0);
   await page.getByRole("button", { name: "marcar lección como completada" }).click();
-  await expect(page.getByRole("button", { name: "lección completada" })).toBeDisabled();
+  await expect(
+    page.getByRole("status").filter({ hasText: "Lección completada" }).first(),
+  ).toBeVisible();
 
   await page.goto("/leccion/hu-pensamiento-critico-01");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
@@ -2425,7 +2485,9 @@ test("completar la lección de enlaces químicos desbloquea conservación de la 
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Enlaces químicos");
   await expect(page.getByText("antes de continuar")).toHaveCount(0);
   await page.getByRole("button", { name: "marcar lección como completada" }).click();
-  await expect(page.getByRole("button", { name: "lección completada" })).toBeDisabled();
+  await expect(
+    page.getByRole("status").filter({ hasText: "Lección completada" }).first(),
+  ).toBeVisible();
 
   await page.goto("/leccion/cn-conservacion-de-la-materia-01");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
@@ -2627,7 +2689,9 @@ test("completar la lección de jerarquía en mapas conceptuales habilita su prá
   );
   await expect(page.getByText("antes de continuar")).toHaveCount(0);
   await page.getByRole("button", { name: "marcar lección como completada" }).click();
-  await expect(page.getByRole("button", { name: "lección completada" })).toBeDisabled();
+  await expect(
+    page.getByRole("status").filter({ hasText: "Lección completada" }).first(),
+  ).toBeVisible();
 
   await page.goto("/practica/lc-6-1-3-jerarquia-de-informacion-en-mapas-conceptuales");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
@@ -2861,8 +2925,8 @@ test("completar la cadena interna de ciencias sociales desbloquea sectores, dist
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(title);
     await page.getByRole("button", { name: "marcar lección como completada" }).click();
     await expect(
-      page.getByRole("button", { name: "lección completada" }),
-    ).toBeDisabled();
+      page.getByRole("status").filter({ hasText: "Lección completada" }).first(),
+    ).toBeVisible();
   }
 
   async function expect_topic_status(topic_title: string, status: string) {
@@ -3035,7 +3099,9 @@ test("completar la lección de conceptos del lenguaje algorítmico desbloquea pa
   );
   await expect(page.getByText("antes de continuar")).toHaveCount(0);
   await page.getByRole("button", { name: "marcar lección como completada" }).click();
-  await expect(page.getByRole("button", { name: "lección completada" })).toBeDisabled();
+  await expect(
+    page.getByRole("status").filter({ hasText: "Lección completada" }).first(),
+  ).toBeVisible();
 
   await page.goto("/leccion/cd-pasos-de-un-algoritmo-01");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
@@ -3125,7 +3191,9 @@ test("completar la lección de categorías estéticas y practicar su tema lo lle
   );
   await expect(page.getByText("antes de continuar")).toHaveCount(0);
   await page.getByRole("button", { name: "marcar lección como completada" }).click();
-  await expect(page.getByRole("button", { name: "lección completada" })).toBeDisabled();
+  await expect(
+    page.getByRole("status").filter({ hasText: "Lección completada" }).first(),
+  ).toBeVisible();
 
   await page.goto(
     "/ruta/humanidades/hu-4-6-reflexiones-sobre-el-arte-y-la-sensibilidad",

@@ -36,26 +36,33 @@ export function LessonSession({
         questions={questions}
       />
       {children}
-      <section className="surface-panel mt-10 p-5 sm:p-6">
+      <section className="lesson-completion-panel mt-10">
         <h3 className="font-display text-xl font-semibold tracking-tight text-ink">
           Termina esta lección
         </h3>
-        <p className="mt-3 leading-7 text-ink-muted">
-          Marca la lección como completada cuando hayas revisado la comprobación.
-        </p>
-        <button
-          className="button-primary mt-5 sm:w-auto"
-          disabled={!is_hydrated || is_completed}
-          onClick={() => mark_lesson_completed(lesson_id)}
-          type="button"
-        >
-          {is_completed ? "Lección completada" : "Marcar lección como completada"}
-        </button>
         {is_completed ? (
-          <p className="mt-3 text-sm font-medium text-accent" role="status">
-            Guardamos esta lección en tu avance local.
-          </p>
-        ) : null}
+          <div className="lesson-completion-confirmation" role="status">
+            <span aria-hidden="true">✓</span>
+            <div>
+              <p>Lección completada</p>
+              <p>Este avance está guardado en tu dispositivo.</p>
+            </div>
+          </div>
+        ) : (
+          <>
+            <p className="mt-3 leading-7 text-ink-muted">
+              Marca la lección como completada cuando hayas revisado la comprobación.
+            </p>
+            <button
+              className="button-primary mt-5 sm:w-auto"
+              disabled={!is_hydrated}
+              onClick={() => mark_lesson_completed(lesson_id)}
+              type="button"
+            >
+              Marcar lección como completada
+            </button>
+          </>
+        )}
       </section>
     </div>
   );

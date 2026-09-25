@@ -1,9 +1,13 @@
 import type { question } from "@content/questions/types";
 
-import { get_available_unit } from "@/features/curriculum/available-curriculum";
+import {
+  get_available_unit,
+  get_unit_questions,
+} from "@/features/curriculum/available-curriculum";
 import { available_units } from "@/features/curriculum/available-units";
+import { get_unit_lessons } from "@/features/lesson/unit-lessons";
 
-import { get_topic_content } from "./unit-topic-content";
+import { resolve_topic_questions } from "./unit-topic-content";
 
 export type pilot_review_candidate = {
   question: question;
@@ -21,16 +25,22 @@ export async function get_pilot_review_candidates(): Promise<pilot_review_candid
       continue;
     }
 
+    const lessons = await get_unit_lessons(area_id, unit_id);
+    const questions = get_unit_questions(area_id, unit_id) ?? [];
+    const questions_by_id = new Map(
+      questions.map((question) => [question.id, question]),
+    );
+
     for (const topic of resolved.unit.topics) {
-      const content = await get_topic_content(area_id, unit_id, topic.id);
-
-      if (!content) {
-        continue;
-      }
-
-      content.questions.forEach(({ question, lesson }) => {
-        candidates.push({ question, topic: content.topic, lesson });
-      });
+      resolve_topic_questions(topic.lesson_ids, lessons, questions_by_id).forEach(
+        ({ question, lesson }) => {
+          candidates.push({
+            question,
+            topic: { id: topic.id, title: topic.title, code: topic.source.code },
+            lesson,
+          });
+        },
+      );
     }
   }
 

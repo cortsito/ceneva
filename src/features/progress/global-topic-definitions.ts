@@ -17,12 +17,14 @@ export async function get_area_topic_definitions(
     return undefined;
   }
 
-  const topic_definitions: pilot_topic_progress_definition[] = [];
-
-  for (const { unit } of units) {
-    const lessons = await get_unit_lessons(area_id, unit.id);
-    topic_definitions.push(...create_pilot_topic_progress_definitions(unit, lessons));
-  }
+  const definitions_by_unit = await Promise.all(
+    units.map(async ({ unit }) => {
+      const lessons = await get_unit_lessons(area_id, unit.id);
+      return create_pilot_topic_progress_definitions(unit, lessons);
+    }),
+  );
+  const topic_definitions: pilot_topic_progress_definition[] =
+    definitions_by_unit.flat();
 
   return {
     area_id,
@@ -34,22 +36,10 @@ export async function get_area_topic_definitions(
 export async function get_global_topic_definitions(): Promise<
   area_topic_definitions[]
 > {
-  const results: area_topic_definitions[] = [];
-  const seen_area_ids = new Set<string>();
+  const area_ids = Array.from(new Set(available_units.map(({ area_id }) => area_id)));
+  const results = await Promise.all(area_ids.map(get_area_topic_definitions));
 
-  for (const { area_id } of available_units) {
-    if (seen_area_ids.has(area_id)) {
-      continue;
-    }
-
-    seen_area_ids.add(area_id);
-
-    const entry = await get_area_topic_definitions(area_id);
-
-    if (entry) {
-      results.push(entry);
-    }
-  }
-
-  return results;
+  return results.filter(
+    (entry): entry is area_topic_definitions => entry !== undefined,
+  );
 }

@@ -57,7 +57,7 @@ export function AreaProgressBlocks({ areas }: area_progress_blocks_props) {
               </Link>
             }
           >
-            <dl className="grid grid-cols-1 gap-4 rounded-xl bg-surface-raised p-4 sm:grid-cols-3">
+            <dl className="area-metrics">
               <Stat
                 label="temas dominados"
                 value={`${summary.dominated_topics}/${summary.total_topics}`}

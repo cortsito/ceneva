@@ -20,14 +20,14 @@ export default async function AreaPage({ params }: area_page_props) {
   const area_title = units[0].area.title;
 
   return (
-    <section className="page-shell flex max-w-5xl flex-col gap-10">
-      <div className="space-y-4">
+    <section className="page-shell flex flex-col gap-10">
+      <header className="index-page-header">
         <Eyebrow>{area_title}</Eyebrow>
         <h1 className="page-heading">Unidades listas de {area_title}.</h1>
         <p className="page-intro">
           Elige una unidad para ver sus temas y avanzar en tu ruta.
         </p>
-      </div>
+      </header>
       <IndexList aria_label={`unidades de ${area_title}`}>
         {units.map((resolved, index) => (
           <IndexItem

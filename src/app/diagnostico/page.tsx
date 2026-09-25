@@ -41,8 +41,8 @@ export default function DiagnosticSelectorPage() {
   const areas = get_ready_areas();
 
   return (
-    <section className="page-shell flex max-w-5xl flex-col gap-10">
-      <div className="space-y-4">
+    <section className="page-shell flex flex-col gap-10">
+      <header className="index-page-header">
         <Eyebrow>Diagnóstico</Eyebrow>
         <h1 className="page-heading">Elige un área para empezar.</h1>
         <p className="page-intro">
@@ -50,7 +50,7 @@ export default function DiagnosticSelectorPage() {
           que su duración varía según cuánto contenido tenga esa área. No verás si
           acertaste hasta terminar, y al final tendrás una recomendación para esa área.
         </p>
-      </div>
+      </header>
       <IndexList aria_label="áreas disponibles para diagnóstico">
         {areas.map((area, index) => (
           <IndexItem

@@ -24,8 +24,8 @@ export async function UnitRoute({ area_id, unit_id }: unit_route_props) {
   const topics = create_pilot_topic_progress_definitions(unit, lessons);
 
   return (
-    <section className="page-shell flex max-w-5xl flex-col gap-10">
-      <header className="space-y-4">
+    <section className="page-shell flex flex-col gap-10">
+      <header className="index-page-header">
         <Link
           className="text-sm font-medium text-accent underline decoration-accent/40 underline-offset-4 transition-colors hover:text-accent-strong"
           href={`/ruta/${area_id}`}

@@ -91,7 +91,7 @@ describe("get_pilot_next_action", () => {
     expect(get_pilot_next_action(topics, [])).toEqual({
       kind: "lesson",
       href: "/leccion/l1",
-      label: "continuar lección t1",
+      label: "Continuar lección t1",
     });
   });
 
@@ -107,7 +107,7 @@ describe("get_pilot_next_action", () => {
     expect(get_pilot_next_action(topics, ["l1"])).toEqual({
       kind: "practice",
       href: "/practica/t1",
-      label: "practicar tema t1",
+      label: "Practicar tema t1",
     });
   });
 
@@ -124,7 +124,7 @@ describe("get_pilot_next_action", () => {
     expect(get_pilot_next_action(topics, [])).toEqual({
       kind: "lesson",
       href: "/leccion/l3",
-      label: "continuar lección t3",
+      label: "Continuar lección t3",
     });
   });
 

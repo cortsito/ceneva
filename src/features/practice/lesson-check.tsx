@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import {
   AnswerOption,
@@ -32,8 +32,14 @@ export function LessonCheck({
   on_answer,
 }: lesson_check_props) {
   const [answers, set_answers] = useState<answers_by_question_id>({});
+  const answered_question_ids = useRef(new Set<string>());
 
   function select_answer(question: question, option_index: number) {
+    if (answered_question_ids.current.has(question.id)) {
+      return;
+    }
+
+    answered_question_ids.current.add(question.id);
     set_answers((current_answers) => ({
       ...current_answers,
       [question.id]: option_index,
@@ -51,8 +57,8 @@ export function LessonCheck({
         Comprueba lo que aprendiste
       </h2>
       <p className="mt-2 leading-7 text-ink-muted">
-        Responde cinco preguntas. Verás una explicación inmediata y puedes cambiar tu
-        respuesta durante esta sesión.
+        Responde cinco preguntas. Cada respuesta se registra una sola vez y muestra una
+        explicación inmediata.
       </p>
       <ol className="mt-7 space-y-8" aria-label="preguntas de comprobación">
         {questions.map((question, question_index) => {
@@ -65,7 +71,7 @@ export function LessonCheck({
             <li key={question.id}>
               <QuestionProgress current={question_index + 1} total={questions.length} />
               <QuestionFrame
-                disabled={!is_ready}
+                disabled={!is_ready || has_answer}
                 prompt={question.prompt}
                 stimulus={question.stimulus}
               >
@@ -123,7 +129,7 @@ export function LessonCheck({
                   <p className="mt-3 text-sm leading-6 font-medium">
                     {is_correct
                       ? "Continúa con la siguiente pregunta."
-                      : "Revisa la explicación y elige otra opción si quieres intentarlo de nuevo."}
+                      : "Revisa la explicación antes de continuar con la siguiente pregunta."}
                   </p>
                 </FeedbackPanel>
               ) : null}

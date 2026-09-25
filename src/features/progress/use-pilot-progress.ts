@@ -17,6 +17,8 @@ type practice_answer = {
   is_correct: boolean;
 };
 
+const progress_updated_event = "ceneva:progress-updated";
+
 export function usePilotProgress() {
   const repository_ref = useRef<progress_repository | null>(null);
   const progress_ref = useRef<learner_progress>(create_empty_learner_progress());
@@ -28,6 +30,17 @@ export function usePilotProgress() {
   useEffect(() => {
     const repository = create_browser_progress_repository();
     const restored_progress = repository.read();
+    function synchronize_progress(event: Event) {
+      if (!(event instanceof CustomEvent)) {
+        return;
+      }
+
+      const next_progress = event.detail as learner_progress;
+      progress_ref.current = next_progress;
+      set_progress(next_progress);
+    }
+
+    window.addEventListener(progress_updated_event, synchronize_progress);
     const timeout_id = window.setTimeout(() => {
       progress_ref.current = restored_progress;
       set_progress(restored_progress);
@@ -36,13 +49,21 @@ export function usePilotProgress() {
 
     repository_ref.current = repository;
 
-    return () => window.clearTimeout(timeout_id);
+    return () => {
+      window.clearTimeout(timeout_id);
+      window.removeEventListener(progress_updated_event, synchronize_progress);
+    };
   }, []);
 
   function persist_progress(next_progress: learner_progress) {
     progress_ref.current = next_progress;
     repository_ref.current?.write(next_progress);
     set_progress(next_progress);
+    window.dispatchEvent(
+      new CustomEvent<learner_progress>(progress_updated_event, {
+        detail: next_progress,
+      }),
+    );
   }
 
   function record_practice_answer(answer: practice_answer) {

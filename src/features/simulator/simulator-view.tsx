@@ -18,7 +18,7 @@ export function SimulatorView({ items }: simulator_view_props) {
           disponibles, una a la vez. No verás si acertaste hasta terminar; al final
           tendrás un reporte agrupado por área y tema con enlace directo a cada lección.
         </p>
-        <p className="mt-1 rounded-xl border border-line bg-surface p-4 text-sm leading-6 text-ink-muted">
+        <p className="activity-note">
           Esta cobertura MVP no es el examen oficial completo ni lo sustituye: cubre las
           unidades disponibles hoy, no la totalidad de reactivos del Acuerdo 286.
         </p>

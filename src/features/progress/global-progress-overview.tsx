@@ -6,12 +6,14 @@ import { GlobalProgressSummary } from "./global-progress-summary";
 import { get_global_topic_definitions } from "./global-topic-definitions";
 
 export async function GlobalProgressOverview() {
-  const areas = await get_global_topic_definitions();
-  const review_candidates = await get_pilot_review_candidates();
+  const [areas, review_candidates] = await Promise.all([
+    get_global_topic_definitions(),
+    get_pilot_review_candidates(),
+  ]);
 
   return (
-    <section className="page-shell flex max-w-5xl flex-col gap-10">
-      <header className="space-y-4">
+    <section className="page-shell flex flex-col gap-10">
+      <header className="index-page-header">
         <Eyebrow>Progreso</Eyebrow>
         <h1 className="page-heading">Tu avance en las siete áreas</h1>
         <p className="page-intro">

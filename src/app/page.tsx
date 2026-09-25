@@ -12,21 +12,21 @@ const study_promises = [
 ];
 
 export default async function HomePage() {
-  const areas = await get_global_topic_definitions();
-  const review_candidates = await get_pilot_review_candidates();
+  const [areas, review_candidates] = await Promise.all([
+    get_global_topic_definitions(),
+    get_pilot_review_candidates(),
+  ]);
 
   return (
-    <section className="page-shell">
-      <div className="grid gap-10 lg:grid-cols-12 lg:gap-6">
-        <div className="flex flex-col items-start gap-7 lg:col-span-8 lg:pr-10">
-          <div className="flex items-center gap-3">
+    <section className="page-shell home-page">
+      <div className="home-hero">
+        <div className="home-hero__copy">
+          <div className="home-hero__meta">
             <Eyebrow>Acuerdo 286</Eyebrow>
-            <span className="h-px w-10 bg-line" />
-            <span className="text-[0.7rem] font-bold tracking-[0.14em] text-ink-subtle uppercase">
-              Edición 01
-            </span>
+            <span aria-hidden="true" className="home-hero__rule" />
+            <span className="home-hero__edition">Edición 01</span>
           </div>
-          <div className="space-y-6">
+          <div className="home-hero__message">
             <h1 className="page-heading page-heading--display">
               Estudia con una ruta, no solo con un simulador.
             </h1>
@@ -35,7 +35,7 @@ export default async function HomePage() {
               práctica para acreditar el bachillerato.
             </p>
           </div>
-          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+          <div className="home-hero__actions">
             <Link className="button-primary" href="/onboarding">
               Comenzar mi preparación
             </Link>
@@ -45,37 +45,28 @@ export default async function HomePage() {
           </div>
         </div>
 
-        <aside className="surface-panel overflow-hidden lg:col-span-4">
-          <div className="border-b border-line bg-accent-soft p-5 sm:p-6">
+        <aside className="home-dashboard">
+          <div className="home-dashboard__next">
             <Eyebrow>Tu próxima acción</Eyebrow>
             <GlobalHomeGuidance areas={areas} review_candidates={review_candidates} />
           </div>
-          <div className="grid grid-cols-2 divide-x divide-line border-b border-line">
-            <div className="p-5">
-              <p className="text-3xl font-extrabold tracking-tight text-ink">7</p>
-              <p className="mt-1 text-xs font-semibold text-ink-muted">
-                áreas de estudio
-              </p>
+          <div className="home-dashboard__metrics">
+            <div>
+              <p className="home-dashboard__metric">7</p>
+              <p className="home-dashboard__metric-label">áreas de estudio</p>
             </div>
-            <div className="p-5">
-              <p className="text-3xl font-extrabold tracking-tight text-ink">335</p>
-              <p className="mt-1 text-xs font-semibold text-ink-muted">
-                reactivos explicados
-              </p>
+            <div>
+              <p className="home-dashboard__metric">{review_candidates.length}</p>
+              <p className="home-dashboard__metric-label">reactivos explicados</p>
             </div>
           </div>
-          <div className="p-5 sm:p-6">
+          <div className="home-dashboard__promises">
             <Eyebrow>Lo que encontrarás</Eyebrow>
-            <ol className="mt-3 divide-y divide-line">
+            <ol>
               {study_promises.map((promise, index) => (
-                <li className="grid grid-cols-[1.5rem_1fr] gap-3 py-3" key={promise}>
-                  <span
-                    aria-hidden="true"
-                    className="font-mono text-xs font-bold text-accent"
-                  >
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <span className="text-sm leading-6 text-ink-muted">{promise}</span>
+                <li key={promise}>
+                  <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                  <span>{promise}</span>
                 </li>
               ))}
             </ol>

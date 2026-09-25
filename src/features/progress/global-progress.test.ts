@@ -135,7 +135,7 @@ describe("get_global_next_action", () => {
       kind: "lesson",
       area_id: "area-b",
       href: "/leccion/b-1-leccion",
-      label: "continuar lección b-1",
+      label: "Continuar lección b-1",
     });
     expect(next_action.kind).not.toBe("completed");
   });

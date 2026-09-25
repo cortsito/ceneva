@@ -46,12 +46,12 @@ export function PilotTopicProgressList({
             status={
               is_hydrated ? (
                 <span
-                  className={`w-fit shrink-0 rounded-full border px-3 py-1 text-xs font-bold ${status_styles[topic_progress.status]}`}
+                  className={`status-badge ${status_styles[topic_progress.status]}`}
                 >
                   {topic_progress.status}
                 </span>
               ) : (
-                <span className="w-fit shrink-0 rounded-full border border-line bg-surface-raised px-3 py-1 text-xs font-bold text-ink-muted">
+                <span className="status-badge border-line bg-surface-raised text-ink-muted">
                   Cargando avance
                 </span>
               )

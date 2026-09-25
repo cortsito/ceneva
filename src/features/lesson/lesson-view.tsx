@@ -4,6 +4,7 @@ import ReactMarkdown, { type Components } from "react-markdown";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { get_available_unit } from "@/features/curriculum/available-curriculum";
 import { get_lesson_questions_for_unit } from "@/features/practice/unit-topic-content";
+import { LessonCompletionStatus } from "@/features/progress/lesson-completion-status";
 import { LessonSession } from "@/features/progress/lesson-session";
 
 import { get_available_lesson, type lesson } from "./unit-lessons";
@@ -184,11 +185,15 @@ export async function LessonView({ lesson }: lesson_view_props) {
           <p className="lesson-objective__label">Al terminar podrás</p>
           <p>{lesson.objective}</p>
         </div>
-        <p className="w-fit rounded-full border border-line bg-surface px-3 py-1.5 text-xs font-semibold text-ink-muted">
-          {lesson.estimated_minutes} minutos · guía oficial, página {lesson.source.page}
-        </p>
+        <div className="lesson-status-row">
+          <p className="lesson-meta">
+            {lesson.estimated_minutes} minutos · guía oficial, página{" "}
+            {lesson.source.page}
+          </p>
+          <LessonCompletionStatus lesson_id={lesson.id} />
+        </div>
         {lesson.prerequisites.length > 0 ? (
-          <div className="surface-panel p-4">
+          <div className="lesson-prerequisite">
             <p className="text-sm font-semibold text-ink">Antes de continuar</p>
             <ul className="mt-2 space-y-2">
               {prerequisite_lessons.map((prerequisite) => (

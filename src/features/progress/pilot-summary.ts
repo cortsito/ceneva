@@ -62,13 +62,13 @@ export function get_pilot_next_action(
     return {
       kind: "lesson",
       href: `/leccion/${incomplete_lesson.id}`,
-      label: `continuar ${incomplete_lesson.title}`,
+      label: `Continuar ${incomplete_lesson.title}`,
     };
   }
 
   return {
     kind: "practice",
     href: `/practica/${target_topic.definition.id}`,
-    label: `practicar ${target_topic.definition.title}`,
+    label: `Practicar ${target_topic.definition.title}`,
   };
 }

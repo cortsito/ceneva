@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import { primary_navigation } from "@/lib/navigation";
 
@@ -27,35 +28,41 @@ function MenuIcon({ is_open }: { is_open: boolean }) {
 
 export function MobileNavigation() {
   const [is_open, set_is_open] = useState(false);
+  const pathname = usePathname();
 
   return (
-    <div className="md:hidden">
+    <div className="mobile-navigation">
       <button
         aria-controls="mobile-navigation"
         aria-expanded={is_open}
         aria-label={is_open ? "Cerrar menú" : "Abrir menú"}
-        className="grid size-10 place-items-center rounded-xl border border-line bg-surface-raised text-ink transition-colors hover:border-accent hover:bg-accent-soft"
+        className="mobile-navigation__toggle"
         onClick={() => set_is_open((current) => !current)}
         type="button"
       >
         <MenuIcon is_open={is_open} />
       </button>
       {is_open ? (
-        <div
-          className="absolute top-full right-0 left-0 border-b border-line bg-surface p-3 shadow-[var(--shadow-md)]"
-          id="mobile-navigation"
-        >
+        <div className="mobile-navigation__panel" id="mobile-navigation">
           <nav aria-label="Navegación móvil">
-            <ul className="grid grid-cols-2 gap-2">
+            <ul className="mobile-navigation__list">
               {primary_navigation.map((item, index) => (
                 <li
                   className={
-                    index === primary_navigation.length - 1 ? "col-span-2" : ""
+                    index === primary_navigation.length - 1
+                      ? "mobile-navigation__item--wide"
+                      : ""
                   }
                   key={item.href}
                 >
                   <Link
-                    className="flex min-h-12 items-center justify-between rounded-xl border border-line bg-surface-raised px-4 text-sm font-semibold text-ink transition-colors hover:border-accent hover:bg-accent-soft"
+                    aria-current={
+                      pathname === item.href ||
+                      (item.href !== "/" && pathname.startsWith(`${item.href}/`))
+                        ? "page"
+                        : undefined
+                    }
+                    className="mobile-navigation__link"
                     href={item.href}
                     onClick={() => set_is_open(false)}
                   >

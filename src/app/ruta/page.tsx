@@ -43,14 +43,14 @@ export default function RoutePage() {
 
   return (
     <section className="page-shell flex flex-col gap-10">
-      <div className="space-y-4">
+      <header className="index-page-header">
         <Eyebrow>Mi ruta</Eyebrow>
         <h1 className="page-heading">Una ruta de estudio, tema por tema.</h1>
         <p className="page-intro">
-          Estas áreas ya tienen contenido listo. Las demás se habilitarán conforme
-          tengan su contenido completo.
+          Recorre las siete áreas del acuerdo 286 y avanza unidad por unidad con una
+          secuencia visible.
         </p>
-      </div>
+      </header>
       <IndexList aria_label="áreas de estudio disponibles">
         {areas.map((area, index) => (
           <IndexItem

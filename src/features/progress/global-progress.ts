@@ -83,7 +83,7 @@ export function get_global_next_action(
         topic_id: target_topic.definition.id,
         lesson_id: incomplete_lesson.id,
         href: `/leccion/${incomplete_lesson.id}`,
-        label: `continuar ${incomplete_lesson.title}`,
+        label: `Continuar ${incomplete_lesson.title}`,
       };
     }
 
@@ -93,7 +93,7 @@ export function get_global_next_action(
       area_title: area.area_title,
       topic_id: target_topic.definition.id,
       href: `/practica/${target_topic.definition.id}`,
-      label: `practicar ${target_topic.definition.title}`,
+      label: `Practicar ${target_topic.definition.title}`,
     };
   }
 

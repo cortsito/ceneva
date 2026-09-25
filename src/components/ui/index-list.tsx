@@ -5,10 +5,7 @@ type index_list_props = {
 
 export function IndexList({ aria_label, children }: index_list_props) {
   return (
-    <ol
-      aria-label={aria_label}
-      className="divide-y divide-line overflow-hidden rounded-2xl border border-line bg-surface shadow-[var(--shadow-sm)]"
-    >
+    <ol aria-label={aria_label} className="index-list">
       {children}
     </ol>
   );
@@ -31,27 +28,16 @@ export function IndexItem({
 }: index_item_props) {
   return (
     <li>
-      <article className="p-5 sm:p-7">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between sm:gap-8">
-          <div className="flex gap-4 sm:gap-6">
-            <span
-              aria-hidden="true"
-              className="pt-0.5 font-mono text-sm font-bold text-ink-subtle sm:text-base"
-            >
-              {String(index).padStart(2, "0")}
-            </span>
-            <div className="space-y-1">
-              <p className="text-[0.68rem] font-extrabold tracking-[0.16em] text-accent uppercase">
-                {eyebrow}
-              </p>
-              <h2 className="font-display text-2xl font-semibold tracking-[-0.025em] text-ink sm:text-3xl">
-                {title}
-              </h2>
-            </div>
-          </div>
-          {status}
+      <article className="index-item">
+        <span aria-hidden="true" className="index-item__number">
+          {String(index).padStart(2, "0")}
+        </span>
+        <div className="index-item__heading">
+          <p className="index-item__eyebrow">{eyebrow}</p>
+          <h2 className="index-item__title">{title}</h2>
         </div>
-        {children ? <div className="mt-5 space-y-4 sm:ml-11">{children}</div> : null}
+        {status ? <div className="index-item__status">{status}</div> : null}
+        {children ? <div className="index-item__content">{children}</div> : null}
       </article>
     </li>
   );
