@@ -1412,6 +1412,22 @@ const simulator_coverage_correct_options = [
   "a los criollos",
   "virreinal, porque se construyó durante la colonia como sede del poder virreinal",
   "transmisión comunitaria",
+  "externa y política",
+  "Sentimientos de la Nación",
+  "la separación entre la Iglesia y el Estado",
+  "la primera intervención francesa",
+  "el ludismo",
+  "el despojo de tierras comunales y su concentración en haciendas",
+  "«orden y progreso»",
+  "el magonismo",
+  "carrancistas y constitucionalistas",
+  "el Artículo 27",
+  "político",
+  "el Escuadrón 201",
+  "la crisis de la deuda externa",
+  "cultural y tecnológico",
+  "el Partido Acción Nacional",
+  "la caricatura política",
   "pensamiento mítico",
   "sí, porque evalúa la evidencia y la fuente antes de aceptar la afirmación",
   "sí, porque asume su libertad para decidir y su responsabilidad sobre el resultado",
@@ -1437,10 +1453,64 @@ const simulator_coverage_correct_options = [
   "sí, porque cada elemento tiene el mismo número de átomos en ambos lados: 1 calcio, 1 carbono y 3 oxígenos",
   "68 °F",
   "0.00899 N",
+  "400 nm a 700 nm",
+  "12,000 cal",
+  "eólica",
+  "50 J",
+  "la ley cero",
+  "dióxido de carbono",
+  "sabana",
+  "consumidor primario",
+  "dióxido de azufre",
+  "600 unidades",
+  "servicio de aprovisionamiento",
+  "desertificación",
+  "18 g/mol",
+  "síntesis",
+  "fisión",
+  "elástico",
+  "20 kg·m/s",
+  "microondas",
+  "29.4 m/s",
+  "cloroplasto",
+  "tejido",
+  "el citoplasma",
+  "combina el material genético de dos progenitores mediante gametos",
+  "metacéntrico",
+  "3 : 1",
+  "selección natural",
+  "evolución divergente",
   "importancia de las abejas para la producción de alimentos",
   "relación causal",
   "animal",
   "resumen",
+  "el miedo a la escasez puede convertirse en una prisión, incluso con abundancia",
+  "el descubrimiento de que los reportes de seguridad fueron falsificados durante años",
+  "caracterización indirecta, porque se infiere de su acción de escuchar con atención una historia repetida",
+  "narrador protagonista, porque narra en primera persona los hechos que él mismo vive",
+  "el ámbito temporal, porque sitúa la historia en una época",
+  "tiempo lineal, porque los hechos se narran en el mismo orden en que ocurrieron",
+  "consulta de fuentes",
+  "fuente primaria",
+  "es aguda y lleva tilde",
+  "punto",
+  "una mesa",
+  "el que presenta el tema o la idea central",
+  "oye, ya llegué, te veo en un rato",
+  "planeación",
+  "pregunta detonadora",
+  "argumento",
+  "función del diálogo",
+  "She walks to school every day.",
+  "She visited her grandmother last weekend.",
+  "I will help you with that.",
+  "I have finished my homework.",
+  "The train had left when I arrived at the station.",
+  "Whose backpack is this?",
+  "This city is bigger than that one.",
+  "You should see a doctor.",
+  "If I could fly, I would travel everywhere.",
+  "The building was built in 1990.",
   "porque su ausencia prolongada pone en riesgo su supervivencia",
   "tierra",
   "sector primario",
@@ -1458,6 +1528,14 @@ const simulator_coverage_correct_options = [
   "la autodeterminación de los pueblos, porque el país A decide por sí mismo su propio sistema, sin que otro estado se lo imponga",
   "la UNESCO, porque la preservación del patrimonio cultural es parte de su mandato en educación, ciencia y cultura",
   "como área periférica, porque se especializa en la extracción de materia prima sin procesar y depende tecnológicamente de otras regiones",
+  "a un grupo social, porque interactúan de manera estable entre sí y comparten un objetivo común",
+  "de desarrollo comunitario, porque describe una condición de infraestructura disponible para toda la localidad, no la situación de una persona u hogar particular",
+  "de bienestar, porque describe la situación económica de un hogar particular",
+  "una discriminación, porque describe un trato desigual concreto que niega una oportunidad, basado en un estereotipo",
+  "el derecho a la protección contra la explotación, porque se le somete a trabajo que pone en riesgo su desarrollo y le impide asistir a la escuela",
+  "a la crisis económica de 1982, cuya consecuencia reconocida es esa pérdida generalizada del poder adquisitivo",
+  "un desplazamiento forzado, porque el criterio decisivo es la ausencia de una decisión voluntaria",
+  "al movimiento feminista, porque su enfoque es cuestionar la desigualdad de género y exigir las mismas oportunidades",
 ];
 
 async function answer_simulator_question(
@@ -1512,7 +1590,7 @@ test("el simulacro identifica la cobertura mvp antes de iniciar y responde desde
   await expect(
     page.getByText("no es el examen oficial completo", { exact: false }),
   ).toBeVisible();
-  await expect(page.getByText("pregunta 1 de 99")).toBeVisible();
+  await expect(page.getByText("pregunta 1 de 177")).toBeVisible();
 
   const first_option = page.getByRole("radio", {
     name: "el peso de una mochila en kilogramos",
@@ -1530,7 +1608,7 @@ test("el simulacro identifica la cobertura mvp antes de iniciar y responde desde
 
   await page.getByRole("button", { name: "siguiente pregunta" }).click();
 
-  await expect(page.getByText("pregunta 2 de 99")).toBeVisible();
+  await expect(page.getByText("pregunta 2 de 177")).toBeVisible();
   await expect(page.getByText("correcto", { exact: false })).toHaveCount(0);
 });
 
@@ -1542,7 +1620,7 @@ test("completar el simulacro de cobertura con un error no-pm muestra el reporte 
   await complete_simulator_coverage(page, [servicios_digitales_index]);
 
   await expect(
-    page.getByRole("heading", { level: 2, name: "98 de 99 respuestas correctas" }),
+    page.getByRole("heading", { level: 2, name: "176 de 177 respuestas correctas" }),
   ).toBeVisible();
 
   const pm_area = page
@@ -1581,11 +1659,11 @@ test("completar el simulacro de cobertura con un error no-pm muestra el reporte 
 
   await page.goto("/simulacro");
 
-  await expect(page.getByText("pregunta 1 de 99")).toBeVisible();
+  await expect(page.getByText("pregunta 1 de 177")).toBeVisible();
 
   await page.reload();
 
-  await expect(page.getByText("pregunta 1 de 99")).toBeVisible();
+  await expect(page.getByText("pregunta 1 de 177")).toBeVisible();
 
   await page.goto("/ruta/cultura-digital/cd-2-1-ciudadania-digital");
 
@@ -1599,7 +1677,7 @@ test("el simulacro se puede responder en pantalla móvil", async ({ page }) => {
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
     "Valida tu preparación en las siete áreas",
   );
-  await expect(page.getByText("pregunta 1 de 99")).toBeVisible();
+  await expect(page.getByText("pregunta 1 de 177")).toBeVisible();
 
   await answer_simulator_question(
     page,
@@ -1607,7 +1685,7 @@ test("el simulacro se puede responder en pantalla móvil", async ({ page }) => {
     "siguiente pregunta",
   );
 
-  await expect(page.getByText("pregunta 2 de 99")).toBeVisible();
+  await expect(page.getByText("pregunta 2 de 177")).toBeVisible();
 });
 
 const ch_movimientos_correct_options = [
@@ -1690,7 +1768,7 @@ test("completar ambas lecciones del tema partido conciencia histórica habilita 
     "Resistencias de pueblos originarios",
   );
   await expect(
-    page.getByRole("link", { name: "repasa ch-conquista-de-pueblos-originarios-01" }),
+    page.getByRole("link", { name: "repasa conquista de pueblos originarios" }),
   ).toBeVisible();
   await page.getByRole("button", { name: "marcar lección como completada" }).click();
   await expect(page.getByRole("button", { name: "lección completada" })).toBeDisabled();
@@ -1715,7 +1793,7 @@ test("completar ambas lecciones del tema partido conciencia histórica habilita 
   );
   await expect(
     page.getByRole("link", {
-      name: "repasa ch-resistencias-de-pueblos-originarios-01",
+      name: "repasa resistencias de pueblos originarios",
     }),
   ).toBeVisible();
   await page.getByRole("button", { name: "marcar lección como completada" }).click();
@@ -1979,7 +2057,7 @@ test("completar las dos lecciones del tema partido cultura digital habilita su p
   );
   await expect(
     page.getByRole("link", {
-      name: "repasa cd-funciones-de-herramientas-digitales-01",
+      name: "repasa funciones de herramientas digitales",
     }),
   ).toBeVisible();
   await page.getByRole("button", { name: "marcar lección como completada" }).click();
@@ -2154,7 +2232,7 @@ test("completar la lección base de humanidades desbloquea una lección dependie
     "Pensamiento crítico",
   );
   await expect(
-    page.getByRole("link", { name: "repasa hu-filosofia-mito-y-ciencia-01" }),
+    page.getByRole("link", { name: "repasa filosofía, mito y ciencia" }),
   ).toBeVisible();
 
   await page.goto("/ruta/humanidades/hu-4-1-fundamentos-del-pensamiento-filosofico");
@@ -2354,7 +2432,7 @@ test("completar la lección de enlaces químicos desbloquea conservación de la 
     "Conservación de la materia",
   );
   await expect(
-    page.getByRole("link", { name: "repasa cn-tipos-de-enlaces-01" }),
+    page.getByRole("link", { name: "repasa enlaces químicos" }),
   ).toBeVisible();
 
   await page.goto(
@@ -2964,7 +3042,7 @@ test("completar la lección de conceptos del lenguaje algorítmico desbloquea pa
     "Pasos de un algoritmo",
   );
   await expect(
-    page.getByRole("link", { name: "repasa cd-conceptos-del-lenguaje-algoritmico-01" }),
+    page.getByRole("link", { name: "repasa conceptos del lenguaje algorítmico" }),
   ).toBeVisible();
 
   await page.goto("/ruta/cultura-digital/cd-2-4-pensamiento-algoritmico");

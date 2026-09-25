@@ -6,7 +6,7 @@ import { get_available_unit } from "@/features/curriculum/available-curriculum";
 import { get_lesson_questions_for_unit } from "@/features/practice/unit-topic-content";
 import { LessonSession } from "@/features/progress/lesson-session";
 
-import type { lesson } from "./unit-lessons";
+import { get_available_lesson, type lesson } from "./unit-lessons";
 
 type lesson_view_props = {
   lesson: lesson;
@@ -147,10 +147,16 @@ function LessonSection({ section }: { section: lesson_section }) {
   );
 }
 
-export function LessonView({ lesson }: lesson_view_props) {
+export async function LessonView({ lesson }: lesson_view_props) {
   const questions = get_lesson_questions_for_unit(lesson);
   const sections = parse_lesson_sections(lesson.body);
   const resolved_unit = get_available_unit(lesson.area_id, lesson.unit_id);
+  const prerequisite_lessons = await Promise.all(
+    lesson.prerequisites.map(async (prerequisite_id) => ({
+      id: prerequisite_id,
+      title: (await get_available_lesson(prerequisite_id))?.title ?? prerequisite_id,
+    })),
+  );
   const content_sections = sections.filter(
     (section) =>
       section.kind !== "objective" &&
@@ -185,13 +191,13 @@ export function LessonView({ lesson }: lesson_view_props) {
           <div className="surface-panel p-4">
             <p className="text-sm font-semibold text-ink">Antes de continuar</p>
             <ul className="mt-2 space-y-2">
-              {lesson.prerequisites.map((prerequisite_id) => (
-                <li key={prerequisite_id}>
+              {prerequisite_lessons.map((prerequisite) => (
+                <li key={prerequisite.id}>
                   <Link
                     className="button-quiet text-sm"
-                    href={`/leccion/${prerequisite_id}`}
+                    href={`/leccion/${prerequisite.id}`}
                   >
-                    Repasa {prerequisite_id}
+                    Repasa {prerequisite.title}
                   </Link>
                 </li>
               ))}

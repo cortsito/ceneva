@@ -125,6 +125,100 @@ describe("get_unit_lessons", () => {
     ]);
   });
 
+  it("carga las once lecciones de la unidad de conciencia histórica ch-3-2, con su tema partido en dos y su cadena de prerrequisitos", async () => {
+    const lessons = await get_unit_lessons(
+      "conciencia-historica",
+      "ch-3-2-mexico-durante-el-expansionismo-capitalista",
+    );
+
+    expect(lessons).toHaveLength(11);
+    expect(lessons.map((lesson) => lesson.id).sort()).toEqual(
+      [
+        "ch-causas-de-la-independencia-01",
+        "ch-proyectos-de-emancipacion-01",
+        "ch-liberalismo-mexicano-01",
+        "ch-instituciones-y-leyes-del-liberalismo-02",
+        "ch-intervenciones-extranjeras-del-siglo-xix-01",
+        "ch-movimientos-sociales-del-siglo-xix-01",
+        "ch-enajenacion-de-bienes-comunales-01",
+        "ch-caracteristicas-del-porfiriato-01",
+        "ch-oposicion-al-porfiriato-01",
+        "ch-facciones-de-la-revolucion-mexicana-01",
+        "ch-derechos-originados-en-la-revolucion-01",
+      ].sort(),
+    );
+
+    const liberalismo = lessons.find(
+      (lesson) => lesson.id === "ch-liberalismo-mexicano-01",
+    );
+    const instituciones = lessons.find(
+      (lesson) => lesson.id === "ch-instituciones-y-leyes-del-liberalismo-02",
+    );
+
+    expect(liberalismo?.topic_id).toBe(instituciones?.topic_id);
+    expect(liberalismo?.prerequisites).toEqual(["ch-proyectos-de-emancipacion-01"]);
+    expect(instituciones?.prerequisites).toEqual(["ch-liberalismo-mexicano-01"]);
+
+    const causas = lessons.find(
+      (lesson) => lesson.id === "ch-causas-de-la-independencia-01",
+    );
+    const movimientos_sociales = lessons.find(
+      (lesson) => lesson.id === "ch-movimientos-sociales-del-siglo-xix-01",
+    );
+    const derechos = lessons.find(
+      (lesson) => lesson.id === "ch-derechos-originados-en-la-revolucion-01",
+    );
+
+    expect(causas?.prerequisites).toEqual([]);
+    expect(movimientos_sociales?.prerequisites).toEqual([]);
+    expect(derechos?.prerequisites).toEqual([
+      "ch-facciones-de-la-revolucion-mexicana-01",
+    ]);
+  });
+
+  it("carga las seis lecciones de la unidad de conciencia histórica ch-3-3, que completa el área", async () => {
+    const lessons = await get_unit_lessons(
+      "conciencia-historica",
+      "ch-3-3-realidad-actual-en-perspectiva-historica",
+    );
+
+    expect(lessons).toHaveLength(6);
+    expect(lessons.map((lesson) => lesson.id).sort()).toEqual(
+      [
+        "ch-consolidacion-del-presidencialismo-01",
+        "ch-mexico-en-eventos-internacionales-01",
+        "ch-causas-del-neoliberalismo-01",
+        "ch-globalizacion-en-la-vida-cotidiana-01",
+        "ch-causas-de-la-alternancia-politica-01",
+        "ch-impacto-social-de-los-medios-01",
+      ].sort(),
+    );
+
+    const consolidacion = lessons.find(
+      (lesson) => lesson.id === "ch-consolidacion-del-presidencialismo-01",
+    );
+    const neoliberalismo = lessons.find(
+      (lesson) => lesson.id === "ch-causas-del-neoliberalismo-01",
+    );
+    const alternancia = lessons.find(
+      (lesson) => lesson.id === "ch-causas-de-la-alternancia-politica-01",
+    );
+    const eventos = lessons.find(
+      (lesson) => lesson.id === "ch-mexico-en-eventos-internacionales-01",
+    );
+
+    expect(consolidacion?.prerequisites).toEqual([
+      "ch-derechos-originados-en-la-revolucion-01",
+    ]);
+    expect(neoliberalismo?.prerequisites).toEqual([
+      "ch-consolidacion-del-presidencialismo-01",
+    ]);
+    expect(alternancia?.prerequisites).toEqual([
+      "ch-consolidacion-del-presidencialismo-01",
+    ]);
+    expect(eventos?.prerequisites).toEqual([]);
+  });
+
   it("carga las cuatro lecciones de la unidad de humanidades, con su prerrequisito real", async () => {
     const lessons = await get_unit_lessons(
       "humanidades",
@@ -317,15 +411,223 @@ describe("get_unit_lessons", () => {
       prerequisites: ["cn-tipos-de-enlaces-01"],
       question_ids: ["cn-cm-001", "cn-cm-002", "cn-cm-003", "cn-cm-004", "cn-cm-005"],
     });
+  });
 
-    for (const no_prerequisite_id of [
-      "cn-estados-de-agregacion-01",
-      "cn-conversion-de-temperatura-01",
-      "cn-ley-de-coulomb-01",
-    ]) {
-      const lesson = lessons.find((item) => item.id === no_prerequisite_id);
-      expect(lesson?.prerequisites).toEqual([]);
-    }
+  it("carga las cinco lecciones de la unidad de ciencias naturales cn-5-2, con el calor específico dependiendo de la conversión de temperatura de cn-5-1", async () => {
+    const lessons = await get_unit_lessons(
+      "ciencias-naturales-experimentales-y-tecnologia",
+      "cn-5-2-conservacion-de-la-energia-y-sus-interacciones",
+    );
+
+    expect(lessons).toHaveLength(5);
+    expect(lessons.map((lesson) => lesson.id).sort()).toEqual(
+      [
+        "cn-luz-visible-01",
+        "cn-calor-especifico-01",
+        "cn-tipos-de-energia-01",
+        "cn-energia-cinetica-y-potencial-01",
+        "cn-leyes-de-la-termodinamica-01",
+      ].sort(),
+    );
+
+    const specific_heat = lessons.find(
+      (lesson) => lesson.id === "cn-calor-especifico-01",
+    );
+    const thermodynamics = lessons.find(
+      (lesson) => lesson.id === "cn-leyes-de-la-termodinamica-01",
+    );
+    const light = lessons.find((lesson) => lesson.id === "cn-luz-visible-01");
+    const energy_types = lessons.find(
+      (lesson) => lesson.id === "cn-tipos-de-energia-01",
+    );
+    const kinetic_and_potential = lessons.find(
+      (lesson) => lesson.id === "cn-energia-cinetica-y-potencial-01",
+    );
+
+    expect(specific_heat?.prerequisites).toEqual(["cn-conversion-de-temperatura-01"]);
+    expect(thermodynamics?.prerequisites).toEqual(["cn-calor-especifico-01"]);
+    expect(light?.prerequisites).toEqual([]);
+    expect(energy_types?.prerequisites).toEqual([]);
+    expect(kinetic_and_potential?.prerequisites).toEqual(["cn-tipos-de-energia-01"]);
+  });
+
+  it("carga las siete lecciones de la unidad de ciencias naturales cn-5-3, con su cadena interna de prerrequisitos", async () => {
+    const lessons = await get_unit_lessons(
+      "ciencias-naturales-experimentales-y-tecnologia",
+      "cn-5-3-ecosistemas-interacciones-energia-y-dinamica",
+    );
+
+    expect(lessons).toHaveLength(7);
+    expect(lessons.map((lesson) => lesson.id).sort()).toEqual(
+      [
+        "cn-fotosintesis-01",
+        "cn-biomas-01",
+        "cn-redes-troficas-01",
+        "cn-ciclos-biogeoquimicos-01",
+        "cn-productividad-en-ecosistemas-01",
+        "cn-servicios-ambientales-01",
+        "cn-desequilibrio-ecologico-01",
+      ].sort(),
+    );
+
+    const photosynthesis = lessons.find((lesson) => lesson.id === "cn-fotosintesis-01");
+    const biomes = lessons.find((lesson) => lesson.id === "cn-biomas-01");
+    const food_webs = lessons.find((lesson) => lesson.id === "cn-redes-troficas-01");
+    const biogeochemical_cycles = lessons.find(
+      (lesson) => lesson.id === "cn-ciclos-biogeoquimicos-01",
+    );
+    const ecosystem_productivity = lessons.find(
+      (lesson) => lesson.id === "cn-productividad-en-ecosistemas-01",
+    );
+    const environmental_services = lessons.find(
+      (lesson) => lesson.id === "cn-servicios-ambientales-01",
+    );
+    const ecological_imbalance = lessons.find(
+      (lesson) => lesson.id === "cn-desequilibrio-ecologico-01",
+    );
+
+    expect(photosynthesis?.prerequisites).toEqual([]);
+    expect(biomes?.prerequisites).toEqual([]);
+    expect(food_webs?.prerequisites).toEqual(["cn-fotosintesis-01"]);
+    expect(biogeochemical_cycles?.prerequisites).toEqual([]);
+    expect(ecosystem_productivity?.prerequisites).toEqual(["cn-redes-troficas-01"]);
+    expect(environmental_services?.prerequisites).toEqual([]);
+    expect(ecological_imbalance?.prerequisites).toEqual([
+      "cn-servicios-ambientales-01",
+    ]);
+  });
+
+  it("carga las tres lecciones de la unidad de ciencias naturales cn-5-4, con prerrequisitos reales de cn-5-1", async () => {
+    const lessons = await get_unit_lessons(
+      "ciencias-naturales-experimentales-y-tecnologia",
+      "cn-5-4-reacciones-quimicas-y-conservacion-de-la-materia",
+    );
+
+    expect(lessons).toHaveLength(3);
+    expect(lessons.map((lesson) => lesson.id).sort()).toEqual(
+      [
+        "cn-masa-molar-01",
+        "cn-reacciones-quimicas-01",
+        "cn-reacciones-nucleares-01",
+      ].sort(),
+    );
+
+    const molar_mass = lessons.find((lesson) => lesson.id === "cn-masa-molar-01");
+    const chemical_reactions = lessons.find(
+      (lesson) => lesson.id === "cn-reacciones-quimicas-01",
+    );
+    const nuclear_reactions = lessons.find(
+      (lesson) => lesson.id === "cn-reacciones-nucleares-01",
+    );
+
+    expect(molar_mass?.prerequisites).toEqual(["cn-tipos-de-enlaces-01"]);
+    expect(chemical_reactions?.prerequisites).toEqual([
+      "cn-conservacion-de-la-materia-01",
+    ]);
+    expect(nuclear_reactions?.prerequisites).toEqual([]);
+  });
+
+  it("carga las cuatro lecciones de la unidad de ciencias naturales cn-5-5, con ondas electromagnéticas dependiendo de luz visible de cn-5-2", async () => {
+    const lessons = await get_unit_lessons(
+      "ciencias-naturales-experimentales-y-tecnologia",
+      "cn-5-5-energia-en-los-procesos-de-la-vida-diaria",
+    );
+
+    expect(lessons).toHaveLength(4);
+    expect(lessons.map((lesson) => lesson.id).sort()).toEqual(
+      [
+        "cn-choques-elasticos-e-inelasticos-01",
+        "cn-momento-lineal-01",
+        "cn-ondas-electromagneticas-01",
+        "cn-caida-libre-01",
+      ].sort(),
+    );
+
+    const collisions = lessons.find(
+      (lesson) => lesson.id === "cn-choques-elasticos-e-inelasticos-01",
+    );
+    const linear_momentum = lessons.find(
+      (lesson) => lesson.id === "cn-momento-lineal-01",
+    );
+    const electromagnetic_waves = lessons.find(
+      (lesson) => lesson.id === "cn-ondas-electromagneticas-01",
+    );
+    const free_fall = lessons.find((lesson) => lesson.id === "cn-caida-libre-01");
+
+    expect(collisions?.prerequisites).toEqual([]);
+    expect(linear_momentum?.prerequisites).toEqual([]);
+    expect(electromagnetic_waves?.prerequisites).toEqual(["cn-luz-visible-01"]);
+    expect(free_fall?.prerequisites).toEqual([]);
+  });
+
+  it("carga las tres lecciones de la unidad de ciencias naturales cn-5-6, con respiración celular dependiendo de organelos celulares", async () => {
+    const lessons = await get_unit_lessons(
+      "ciencias-naturales-experimentales-y-tecnologia",
+      "cn-5-6-organismos-estructura-y-procesos",
+    );
+
+    expect(lessons).toHaveLength(3);
+    expect(lessons.map((lesson) => lesson.id).sort()).toEqual(
+      [
+        "cn-organelos-celulares-01",
+        "cn-niveles-de-organizacion-biologica-01",
+        "cn-respiracion-celular-01",
+      ].sort(),
+    );
+
+    const organelles = lessons.find(
+      (lesson) => lesson.id === "cn-organelos-celulares-01",
+    );
+    const biological_organization = lessons.find(
+      (lesson) => lesson.id === "cn-niveles-de-organizacion-biologica-01",
+    );
+    const cellular_respiration = lessons.find(
+      (lesson) => lesson.id === "cn-respiracion-celular-01",
+    );
+
+    expect(organelles?.prerequisites).toEqual([]);
+    expect(biological_organization?.prerequisites).toEqual([]);
+    expect(cellular_respiration?.prerequisites).toEqual(["cn-organelos-celulares-01"]);
+  });
+
+  it("carga las cinco lecciones de la unidad de ciencias naturales cn-5-7, que completa el área", async () => {
+    const lessons = await get_unit_lessons(
+      "ciencias-naturales-experimentales-y-tecnologia",
+      "cn-5-7-herencia-y-evolucion-biologica",
+    );
+
+    expect(lessons).toHaveLength(5);
+    expect(lessons.map((lesson) => lesson.id).sort()).toEqual(
+      [
+        "cn-reproduccion-sexual-y-asexual-01",
+        "cn-tipos-de-cromosomas-01",
+        "cn-cuadros-de-punnett-01",
+        "cn-teorias-evolutivas-01",
+        "cn-consecuencias-de-la-evolucion-01",
+      ].sort(),
+    );
+
+    const reproduction = lessons.find(
+      (lesson) => lesson.id === "cn-reproduccion-sexual-y-asexual-01",
+    );
+    const chromosome_types = lessons.find(
+      (lesson) => lesson.id === "cn-tipos-de-cromosomas-01",
+    );
+    const punnett_squares = lessons.find(
+      (lesson) => lesson.id === "cn-cuadros-de-punnett-01",
+    );
+    const evolutionary_theories = lessons.find(
+      (lesson) => lesson.id === "cn-teorias-evolutivas-01",
+    );
+    const evolution_consequences = lessons.find(
+      (lesson) => lesson.id === "cn-consecuencias-de-la-evolucion-01",
+    );
+
+    expect(reproduction?.prerequisites).toEqual([]);
+    expect(chromosome_types?.prerequisites).toEqual([]);
+    expect(punnett_squares?.prerequisites).toEqual(["cn-tipos-de-cromosomas-01"]);
+    expect(evolutionary_theories?.prerequisites).toEqual([]);
+    expect(evolution_consequences?.prerequisites).toEqual(["cn-teorias-evolutivas-01"]);
   });
 
   it("carga las cuatro lecciones de la unidad de lengua y comunicación, todas sin prerrequisito", async () => {
@@ -366,6 +668,158 @@ describe("get_unit_lessons", () => {
       ],
       source: { guide: "docs/guiaoficial.pdf", page: 17, code: "6.1.3" },
     });
+  });
+
+  it("carga las seis lecciones de la unidad de lengua y comunicación lc-6-2, con trama dependiendo de tema central", async () => {
+    const lessons = await get_unit_lessons(
+      "lengua-y-comunicacion",
+      "lc-6-2-recursos-del-analisis-literario",
+    );
+
+    expect(lessons).toHaveLength(6);
+    expect(lessons.map((lesson) => lesson.id).sort()).toEqual(
+      [
+        "lc-tema-central-del-texto-narrativo-01",
+        "lc-trama-del-texto-narrativo-01",
+        "lc-personajes-del-texto-narrativo-01",
+        "lc-narrador-del-texto-narrativo-01",
+        "lc-ambito-de-la-narracion-01",
+        "lc-tiempo-narrativo-01",
+      ].sort(),
+    );
+
+    const central_theme = lessons.find(
+      (lesson) => lesson.id === "lc-tema-central-del-texto-narrativo-01",
+    );
+    const plot = lessons.find(
+      (lesson) => lesson.id === "lc-trama-del-texto-narrativo-01",
+    );
+    const characters = lessons.find(
+      (lesson) => lesson.id === "lc-personajes-del-texto-narrativo-01",
+    );
+    const narrator = lessons.find(
+      (lesson) => lesson.id === "lc-narrador-del-texto-narrativo-01",
+    );
+    const setting = lessons.find(
+      (lesson) => lesson.id === "lc-ambito-de-la-narracion-01",
+    );
+    const time = lessons.find((lesson) => lesson.id === "lc-tiempo-narrativo-01");
+
+    expect(central_theme?.prerequisites).toEqual([]);
+    expect(plot?.prerequisites).toEqual(["lc-tema-central-del-texto-narrativo-01"]);
+    expect(characters?.prerequisites).toEqual([]);
+    expect(narrator?.prerequisites).toEqual([]);
+    expect(setting?.prerequisites).toEqual([]);
+    expect(time?.prerequisites).toEqual([]);
+  });
+
+  it("carga las siete lecciones de la unidad de lengua y comunicación lc-6-3, ninguna con prerrequisito", async () => {
+    const lessons = await get_unit_lessons(
+      "lengua-y-comunicacion",
+      "lc-6-3-procesos-de-composicion-de-textos",
+    );
+
+    expect(lessons).toHaveLength(7);
+    expect(lessons.map((lesson) => lesson.id).sort()).toEqual(
+      [
+        "lc-composicion-de-un-ensayo-01",
+        "lc-tipos-de-fuentes-de-informacion-01",
+        "lc-reglas-de-acentuacion-01",
+        "lc-reglas-de-puntuacion-01",
+        "lc-unidades-sintacticas-01",
+        "lc-coherencia-textual-01",
+        "lc-adecuacion-textual-01",
+      ].sort(),
+    );
+
+    for (const lesson of lessons) {
+      expect(lesson.prerequisites).toEqual([]);
+    }
+  });
+
+  it("carga las cuatro lecciones de la unidad de lengua y comunicación lc-6-4, con su cadena de prerrequisitos lineal", async () => {
+    const lessons = await get_unit_lessons(
+      "lengua-y-comunicacion",
+      "lc-6-4-formas-orales-de-la-comunicacion",
+    );
+
+    expect(lessons).toHaveLength(4);
+    expect(lessons.map((lesson) => lesson.id).sort()).toEqual(
+      [
+        "lc-elementos-de-la-exposicion-oral-01",
+        "lc-caracteristicas-del-dialogo-01",
+        "lc-elementos-del-debate-01",
+        "lc-funciones-del-dialogo-y-debate-01",
+      ].sort(),
+    );
+
+    const exposition = lessons.find(
+      (lesson) => lesson.id === "lc-elementos-de-la-exposicion-oral-01",
+    );
+    const dialogue = lessons.find(
+      (lesson) => lesson.id === "lc-caracteristicas-del-dialogo-01",
+    );
+    const debate = lessons.find((lesson) => lesson.id === "lc-elementos-del-debate-01");
+    const functions = lessons.find(
+      (lesson) => lesson.id === "lc-funciones-del-dialogo-y-debate-01",
+    );
+
+    expect(exposition?.prerequisites).toEqual([]);
+    expect(dialogue?.prerequisites).toEqual([]);
+    expect(debate?.prerequisites).toEqual(["lc-caracteristicas-del-dialogo-01"]);
+    expect(functions?.prerequisites).toEqual(["lc-elementos-del-debate-01"]);
+  });
+
+  it("carga las diez lecciones de la unidad de lengua y comunicación lc-6-5, con su grafo de prerrequisitos real", async () => {
+    const lessons = await get_unit_lessons(
+      "lengua-y-comunicacion",
+      "lc-6-5-estructura-gramatical-del-ingles",
+    );
+
+    expect(lessons).toHaveLength(10);
+    expect(lessons.map((lesson) => lesson.id).sort()).toEqual(
+      [
+        "lc-tiempo-presente-en-ingles-01",
+        "lc-tiempo-pasado-en-ingles-01",
+        "lc-tiempo-futuro-en-ingles-01",
+        "lc-presente-perfecto-en-ingles-01",
+        "lc-pasado-perfecto-en-ingles-01",
+        "lc-preguntas-wh-en-ingles-01",
+        "lc-comparaciones-en-ingles-01",
+        "lc-verbos-modales-en-ingles-01",
+        "lc-estructuras-condicionales-en-ingles-01",
+        "lc-voz-pasiva-en-ingles-01",
+      ].sort(),
+    );
+
+    const by_id = new Map(lessons.map((lesson) => [lesson.id, lesson]));
+
+    expect(by_id.get("lc-tiempo-presente-en-ingles-01")?.prerequisites).toEqual([]);
+    expect(by_id.get("lc-tiempo-pasado-en-ingles-01")?.prerequisites).toEqual([
+      "lc-tiempo-presente-en-ingles-01",
+    ]);
+    expect(by_id.get("lc-tiempo-futuro-en-ingles-01")?.prerequisites).toEqual([
+      "lc-tiempo-presente-en-ingles-01",
+    ]);
+    expect(by_id.get("lc-presente-perfecto-en-ingles-01")?.prerequisites).toEqual([
+      "lc-tiempo-presente-en-ingles-01",
+    ]);
+    expect(by_id.get("lc-pasado-perfecto-en-ingles-01")?.prerequisites).toEqual([
+      "lc-tiempo-pasado-en-ingles-01",
+    ]);
+    expect(by_id.get("lc-preguntas-wh-en-ingles-01")?.prerequisites).toEqual([
+      "lc-tiempo-presente-en-ingles-01",
+    ]);
+    expect(by_id.get("lc-comparaciones-en-ingles-01")?.prerequisites).toEqual([]);
+    expect(by_id.get("lc-verbos-modales-en-ingles-01")?.prerequisites).toEqual([
+      "lc-tiempo-presente-en-ingles-01",
+    ]);
+    expect(
+      by_id.get("lc-estructuras-condicionales-en-ingles-01")?.prerequisites,
+    ).toEqual(["lc-tiempo-presente-en-ingles-01"]);
+    expect(by_id.get("lc-voz-pasiva-en-ingles-01")?.prerequisites).toEqual([
+      "lc-tiempo-pasado-en-ingles-01",
+    ]);
   });
 
   it("carga las nueve lecciones de la unidad de ciencias sociales, con su grafo de prerrequisitos real", async () => {
@@ -482,6 +936,62 @@ describe("get_unit_lessons", () => {
     });
   });
 
+  it("carga las ocho lecciones de la unidad cs-7-3 de ciencias sociales, que completa el área, con su grafo de prerrequisitos real", async () => {
+    const lessons = await get_unit_lessons(
+      "ciencias-sociales",
+      "cs-7-3-problemas-sociologicos",
+    );
+
+    expect(lessons).toHaveLength(8);
+    expect(lessons.map((lesson) => lesson.id).sort()).toEqual(
+      [
+        "cs-organizacion-social-01",
+        "cs-indicadores-de-desarrollo-comunitario-01",
+        "cs-indicadores-de-bienestar-01",
+        "cs-segregacion-social-01",
+        "cs-derechos-de-ninas-ninos-y-adolescentes-01",
+        "cs-crisis-sociales-economicas-y-ambientales-01",
+        "cs-tipos-de-migraciones-01",
+        "cs-movimientos-sociales-antisistema-01",
+      ].sort(),
+    );
+
+    const by_id = new Map(lessons.map((lesson) => [lesson.id, lesson]));
+
+    for (const no_prerequisite_id of [
+      "cs-organizacion-social-01",
+      "cs-derechos-de-ninas-ninos-y-adolescentes-01",
+      "cs-crisis-sociales-economicas-y-ambientales-01",
+      "cs-tipos-de-migraciones-01",
+      "cs-movimientos-sociales-antisistema-01",
+    ]) {
+      expect(by_id.get(no_prerequisite_id)?.prerequisites).toEqual([]);
+    }
+
+    for (const dependent_id of [
+      "cs-indicadores-de-desarrollo-comunitario-01",
+      "cs-indicadores-de-bienestar-01",
+      "cs-segregacion-social-01",
+    ]) {
+      expect(by_id.get(dependent_id)?.prerequisites).toEqual([
+        "cs-organizacion-social-01",
+      ]);
+    }
+
+    expect(by_id.get("cs-organizacion-social-01")).toMatchObject({
+      area_id: "ciencias-sociales",
+      unit_id: "cs-7-3-problemas-sociologicos",
+      topic_id: "cs-7-3-1-tipos-de-organizacion-social",
+      question_ids: [
+        "cs-tos-001",
+        "cs-tos-002",
+        "cs-tos-003",
+        "cs-tos-004",
+        "cs-tos-005",
+      ],
+    });
+  });
+
   it("no expone lecciones ajenas a una unidad registrada", async () => {
     await expect(
       get_unit_lesson(
@@ -501,10 +1011,10 @@ describe("get_unit_lessons", () => {
 
   it("no resuelve lecciones de una unidad no registrada", async () => {
     expect(
-      get_unit_lesson_ids("ciencias-sociales", "cs-7-3-problemas-sociologicos"),
+      get_unit_lesson_ids("lengua-y-comunicacion", "lc-6-6-unidad-inexistente"),
     ).toEqual([]);
     await expect(
-      get_unit_lessons("ciencias-sociales", "cs-7-3-problemas-sociologicos"),
+      get_unit_lessons("lengua-y-comunicacion", "lc-6-6-unidad-inexistente"),
     ).resolves.toEqual([]);
   });
 });
@@ -612,17 +1122,10 @@ describe("get_available_lesson", () => {
   it("no resuelve una lección inexistente ni una de una unidad no registrada", async () => {
     await expect(get_available_lesson("leccion-inexistente")).resolves.toBeUndefined();
     await expect(
-      get_available_lesson("ch-causas-de-la-independencia-01"),
+      get_available_lesson("lc-leccion-de-una-unidad-inexistente-01"),
     ).resolves.toBeUndefined();
     await expect(
-      get_available_lesson("cs-organizacion-social-01"),
-    ).resolves.toBeUndefined();
-    await expect(get_available_lesson("cn-luz-visible-01")).resolves.toBeUndefined();
-    await expect(
-      get_available_lesson("lc-fuentes-primarias-y-secundarias-01"),
-    ).resolves.toBeUndefined();
-    await expect(
-      get_available_lesson("cs-tipos-de-migraciones-01"),
+      get_available_lesson("otra-leccion-inexistente"),
     ).resolves.toBeUndefined();
   });
 });

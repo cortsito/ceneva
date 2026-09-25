@@ -363,9 +363,10 @@ const ch_3_1_lesson_directory = path.join(
 );
 
 async function read_ch_lesson_frontmatter(
+  lesson_directory: string,
   lesson_id: string,
 ): Promise<{ topic_id: string; question_ids: string[] }> {
-  const file_path = path.join(ch_3_1_lesson_directory, `${lesson_id}.md`);
+  const file_path = path.join(lesson_directory, `${lesson_id}.md`);
   const raw = await readFile(file_path, "utf-8");
   const { data } = matter(raw);
 
@@ -376,22 +377,27 @@ async function read_ch_lesson_frontmatter(
 }
 
 describe("conciencia histórica question bank — ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales", () => {
-  it("has exactly thirty records", () => {
-    expect(conciencia_historica_questions).toHaveLength(30);
-  });
-
-  it("has exactly the reserved ids for each lesson, five per lesson, no extra records", async () => {
+  it("has exactly thirty records for its own six lessons", () => {
     const by_id = new Map(
       conciencia_historica_questions.map((question) => [question.id, question]),
     );
     const all_expected_ids = Object.values(ch_3_1_reserved_ids).flat();
 
-    expect(
-      new Set(conciencia_historica_questions.map((question) => question.id)),
-    ).toEqual(new Set(all_expected_ids));
+    const resolved = all_expected_ids.map((id) => by_id.get(id));
+    expect(resolved.every((question) => question !== undefined)).toBe(true);
+    expect(all_expected_ids).toHaveLength(30);
+  });
+
+  it("has exactly the reserved ids for each lesson, five per lesson, matching lesson frontmatter", async () => {
+    const by_id = new Map(
+      conciencia_historica_questions.map((question) => [question.id, question]),
+    );
 
     for (const [lesson_id, expected_ids] of Object.entries(ch_3_1_reserved_ids)) {
-      const lesson = await read_ch_lesson_frontmatter(lesson_id);
+      const lesson = await read_ch_lesson_frontmatter(
+        ch_3_1_lesson_directory,
+        lesson_id,
+      );
 
       expect(new Set(lesson.question_ids)).toEqual(new Set(expected_ids));
 
@@ -418,7 +424,7 @@ describe("conciencia histórica question bank — ch-3-1-mexico-antiguo-y-virrei
     expect(new Set(topic_3_1_2.map((question) => question.id))).toEqual(expected_ids);
   });
 
-  it("has no structurally invalid question — options, answer, explanation, common error, source", () => {
+  it("has no structurally invalid question in the full conciencia histórica bank", () => {
     const errors = conciencia_historica_questions.flatMap(find_invalid_options);
     expect(errors).toEqual([]);
   });
@@ -434,7 +440,11 @@ describe("conciencia histórica question bank — ch-3-1-mexico-antiguo-y-virrei
   });
 
   it("every question traces to its topic's guide code on page 13", () => {
-    for (const question of conciencia_historica_questions) {
+    const ch_3_1_ids = new Set(Object.values(ch_3_1_reserved_ids).flat());
+
+    for (const question of conciencia_historica_questions.filter((question) =>
+      ch_3_1_ids.has(question.id),
+    )) {
       const code = question.topic_id
         .match(/^ch-(\d-\d-\d)-/)?.[1]
         ?.replaceAll("-", ".");
@@ -444,7 +454,11 @@ describe("conciencia histórica question bank — ch-3-1-mexico-antiguo-y-virrei
   });
 
   it("includes at least one relation and one ordering question", () => {
-    const relation_or_ordering = conciencia_historica_questions.filter((question) =>
+    const ch_3_1_ids = new Set(Object.values(ch_3_1_reserved_ids).flat());
+    const own_questions = conciencia_historica_questions.filter((question) =>
+      ch_3_1_ids.has(question.id),
+    );
+    const relation_or_ordering = own_questions.filter((question) =>
       question.options.every((option) => /^\d[a-z,\s\d]*$/.test(option)),
     );
     const has_ordering = relation_or_ordering.some((question) =>
@@ -456,6 +470,378 @@ describe("conciencia histórica question bank — ch-3-1-mexico-antiguo-y-virrei
 
     expect(has_ordering).toBe(true);
     expect(has_relation).toBe(true);
+  });
+});
+
+const ch_3_2_reserved_ids: Record<string, string[]> = {
+  "ch-causas-de-la-independencia-01": [
+    "ch-cdi-001",
+    "ch-cdi-002",
+    "ch-cdi-003",
+    "ch-cdi-004",
+    "ch-cdi-005",
+  ],
+  "ch-proyectos-de-emancipacion-01": [
+    "ch-pde-001",
+    "ch-pde-002",
+    "ch-pde-003",
+    "ch-pde-004",
+    "ch-pde-005",
+  ],
+  "ch-liberalismo-mexicano-01": [
+    "ch-lbm-001",
+    "ch-lbm-002",
+    "ch-lbm-003",
+    "ch-lbm-004",
+    "ch-lbm-005",
+  ],
+  "ch-instituciones-y-leyes-del-liberalismo-02": [
+    "ch-ilb-001",
+    "ch-ilb-002",
+    "ch-ilb-003",
+    "ch-ilb-004",
+    "ch-ilb-005",
+  ],
+  "ch-intervenciones-extranjeras-del-siglo-xix-01": [
+    "ch-iex-001",
+    "ch-iex-002",
+    "ch-iex-003",
+    "ch-iex-004",
+    "ch-iex-005",
+  ],
+  "ch-movimientos-sociales-del-siglo-xix-01": [
+    "ch-msx-001",
+    "ch-msx-002",
+    "ch-msx-003",
+    "ch-msx-004",
+    "ch-msx-005",
+  ],
+  "ch-enajenacion-de-bienes-comunales-01": [
+    "ch-ebc-001",
+    "ch-ebc-002",
+    "ch-ebc-003",
+    "ch-ebc-004",
+    "ch-ebc-005",
+  ],
+  "ch-caracteristicas-del-porfiriato-01": [
+    "ch-cdp-001",
+    "ch-cdp-002",
+    "ch-cdp-003",
+    "ch-cdp-004",
+    "ch-cdp-005",
+  ],
+  "ch-oposicion-al-porfiriato-01": [
+    "ch-oap-001",
+    "ch-oap-002",
+    "ch-oap-003",
+    "ch-oap-004",
+    "ch-oap-005",
+  ],
+  "ch-facciones-de-la-revolucion-mexicana-01": [
+    "ch-frm-001",
+    "ch-frm-002",
+    "ch-frm-003",
+    "ch-frm-004",
+    "ch-frm-005",
+  ],
+  "ch-derechos-originados-en-la-revolucion-01": [
+    "ch-dor-001",
+    "ch-dor-002",
+    "ch-dor-003",
+    "ch-dor-004",
+    "ch-dor-005",
+  ],
+};
+
+const ch_3_2_lesson_directory = path.join(
+  process.cwd(),
+  "content",
+  "lessons",
+  "conciencia-historica",
+  "ch-3-2-mexico-durante-el-expansionismo-capitalista",
+);
+
+describe("conciencia histórica question bank — ch-3-2-mexico-durante-el-expansionismo-capitalista (calibración del área)", () => {
+  it("has exactly fifty-five records for its own eleven lessons", () => {
+    const by_id = new Map(
+      conciencia_historica_questions.map((question) => [question.id, question]),
+    );
+    const all_expected_ids = Object.values(ch_3_2_reserved_ids).flat();
+
+    const resolved = all_expected_ids.map((id) => by_id.get(id));
+    expect(resolved.every((question) => question !== undefined)).toBe(true);
+    expect(all_expected_ids).toHaveLength(55);
+  });
+
+  it("has exactly the reserved ids for each lesson, five per lesson, matching lesson frontmatter", async () => {
+    const by_id = new Map(
+      conciencia_historica_questions.map((question) => [question.id, question]),
+    );
+
+    for (const [lesson_id, expected_ids] of Object.entries(ch_3_2_reserved_ids)) {
+      const lesson = await read_ch_lesson_frontmatter(
+        ch_3_2_lesson_directory,
+        lesson_id,
+      );
+
+      expect(new Set(lesson.question_ids)).toEqual(new Set(expected_ids));
+
+      const lesson_questions = expected_ids.map((id) => by_id.get(id));
+      expect(lesson_questions.every((question) => question !== undefined)).toBe(true);
+
+      for (const question of lesson_questions) {
+        expect(question?.topic_id).toBe(lesson.topic_id);
+      }
+    }
+  });
+
+  it("gives topic ch-3-2-3 exactly ten questions, split across its two declaring lessons", () => {
+    const grouped = group_questions_by_topic(conciencia_historica_questions);
+    const topic_3_2_3 =
+      grouped.get("ch-3-2-3-caracteristicas-e-impacto-del-liberalismo-mexicano") ?? [];
+
+    const expected_ids = new Set([
+      ...ch_3_2_reserved_ids["ch-liberalismo-mexicano-01"],
+      ...ch_3_2_reserved_ids["ch-instituciones-y-leyes-del-liberalismo-02"],
+    ]);
+
+    expect(topic_3_2_3).toHaveLength(10);
+    expect(new Set(topic_3_2_3.map((question) => question.id))).toEqual(expected_ids);
+  });
+
+  it("has no structurally invalid question in the full conciencia histórica bank", () => {
+    const errors = conciencia_historica_questions.flatMap(find_invalid_options);
+    expect(errors).toEqual([]);
+  });
+
+  it("shares no id with the pensamiento matemático or cultura digital banks", () => {
+    expect(
+      find_duplicate_ids(
+        conciencia_historica_questions,
+        cultura_digital_questions,
+        pensamiento_matematico_questions,
+      ),
+    ).toEqual([]);
+  });
+
+  it("every question traces to its topic's guide code on page 13 or 14", () => {
+    const ch_3_2_ids = new Set(Object.values(ch_3_2_reserved_ids).flat());
+
+    for (const question of conciencia_historica_questions.filter((question) =>
+      ch_3_2_ids.has(question.id),
+    )) {
+      const code = question.topic_id
+        .match(/^ch-(\d-\d-\d\d?)-/)?.[1]
+        ?.replaceAll("-", ".");
+      expect(question.source_reference).toMatch(/página 1[34]/);
+      expect(question.source_reference).toContain(`código ${code}`);
+    }
+  });
+
+  it("includes at least one relation and one ordering question among its own records", () => {
+    const ch_3_2_ids = new Set(Object.values(ch_3_2_reserved_ids).flat());
+    const own_questions = conciencia_historica_questions.filter((question) =>
+      ch_3_2_ids.has(question.id),
+    );
+    const relation_or_ordering = own_questions.filter((question) =>
+      question.options.every((option) => /^\d[a-z,\s\d]*$/.test(option)),
+    );
+    const has_ordering = relation_or_ordering.some((question) =>
+      question.options.every((option) => /^[\d,\s]+$/.test(option)),
+    );
+    const has_relation = relation_or_ordering.some((question) =>
+      question.options.some((option) => /[a-z]/.test(option)),
+    );
+
+    expect(has_ordering).toBe(true);
+    expect(has_relation).toBe(true);
+  });
+
+  it("attributes the guide's page-32 zapatista sample calibration to ch-frm-003, within the convencionista option", () => {
+    const calibrated = conciencia_historica_questions.find(
+      (question) => question.id === "ch-frm-003",
+    );
+
+    expect(calibrated?.topic_id).toBe("ch-3-2-9-facciones-de-la-revolucion-mexicana");
+    expect(calibrated?.options[calibrated.correct_option_index]).toBe("convencionista");
+    expect(calibrated?.source_reference).toContain(
+      "calibración de profundidad: página 32",
+    );
+  });
+
+  it("does not introduce current or contested political facts in the porfiriato and opposition lessons", () => {
+    const ch_3_2_ids = new Set(Object.values(ch_3_2_reserved_ids).flat());
+    const own_questions = conciencia_historica_questions.filter((question) =>
+      ch_3_2_ids.has(question.id),
+    );
+    const contested_terms = /\b(202\d|actualidad|actual)\b/i;
+
+    for (const question of own_questions) {
+      expect(question.prompt).not.toMatch(contested_terms);
+      expect(question.explanation).not.toMatch(contested_terms);
+    }
+  });
+});
+
+const ch_3_3_reserved_ids: Record<string, string[]> = {
+  "ch-consolidacion-del-presidencialismo-01": [
+    "ch-cpr-001",
+    "ch-cpr-002",
+    "ch-cpr-003",
+    "ch-cpr-004",
+    "ch-cpr-005",
+  ],
+  "ch-mexico-en-eventos-internacionales-01": [
+    "ch-mei-001",
+    "ch-mei-002",
+    "ch-mei-003",
+    "ch-mei-004",
+    "ch-mei-005",
+  ],
+  "ch-causas-del-neoliberalismo-01": [
+    "ch-cnl-001",
+    "ch-cnl-002",
+    "ch-cnl-003",
+    "ch-cnl-004",
+    "ch-cnl-005",
+  ],
+  "ch-globalizacion-en-la-vida-cotidiana-01": [
+    "ch-glo-001",
+    "ch-glo-002",
+    "ch-glo-003",
+    "ch-glo-004",
+    "ch-glo-005",
+  ],
+  "ch-causas-de-la-alternancia-politica-01": [
+    "ch-cap-001",
+    "ch-cap-002",
+    "ch-cap-003",
+    "ch-cap-004",
+    "ch-cap-005",
+  ],
+  "ch-impacto-social-de-los-medios-01": [
+    "ch-ism-001",
+    "ch-ism-002",
+    "ch-ism-003",
+    "ch-ism-004",
+    "ch-ism-005",
+  ],
+};
+
+const ch_3_3_lesson_directory = path.join(
+  process.cwd(),
+  "content",
+  "lessons",
+  "conciencia-historica",
+  "ch-3-3-realidad-actual-en-perspectiva-historica",
+);
+
+describe("conciencia histórica question bank — ch-3-3-realidad-actual-en-perspectiva-historica (completa el área)", () => {
+  it("has exactly thirty records for its own six lessons", () => {
+    const by_id = new Map(
+      conciencia_historica_questions.map((question) => [question.id, question]),
+    );
+    const all_expected_ids = Object.values(ch_3_3_reserved_ids).flat();
+
+    const resolved = all_expected_ids.map((id) => by_id.get(id));
+    expect(resolved.every((question) => question !== undefined)).toBe(true);
+    expect(all_expected_ids).toHaveLength(30);
+  });
+
+  it("has exactly the reserved ids for each lesson, five per lesson, matching lesson frontmatter", async () => {
+    const by_id = new Map(
+      conciencia_historica_questions.map((question) => [question.id, question]),
+    );
+
+    for (const [lesson_id, expected_ids] of Object.entries(ch_3_3_reserved_ids)) {
+      const lesson = await read_ch_lesson_frontmatter(
+        ch_3_3_lesson_directory,
+        lesson_id,
+      );
+
+      expect(new Set(lesson.question_ids)).toEqual(new Set(expected_ids));
+
+      const lesson_questions = expected_ids.map((id) => by_id.get(id));
+      expect(lesson_questions.every((question) => question !== undefined)).toBe(true);
+
+      for (const question of lesson_questions) {
+        expect(question?.topic_id).toBe(lesson.topic_id);
+      }
+    }
+  });
+
+  it("has no structurally invalid question in the full conciencia histórica bank", () => {
+    const errors = conciencia_historica_questions.flatMap(find_invalid_options);
+    expect(errors).toEqual([]);
+  });
+
+  it("shares no id with the pensamiento matemático or cultura digital banks", () => {
+    expect(
+      find_duplicate_ids(
+        conciencia_historica_questions,
+        cultura_digital_questions,
+        pensamiento_matematico_questions,
+      ),
+    ).toEqual([]);
+  });
+
+  it("every question traces to its topic's guide code on page 14", () => {
+    const ch_3_3_ids = new Set(Object.values(ch_3_3_reserved_ids).flat());
+
+    for (const question of conciencia_historica_questions.filter((question) =>
+      ch_3_3_ids.has(question.id),
+    )) {
+      const code = question.topic_id
+        .match(/^ch-(\d-\d-\d)-/)?.[1]
+        ?.replaceAll("-", ".");
+      expect(question.source_reference).toContain("página 14");
+      expect(question.source_reference).toContain(`código ${code}`);
+    }
+  });
+
+  it("includes at least one relation and one ordering question among its own records", () => {
+    const ch_3_3_ids = new Set(Object.values(ch_3_3_reserved_ids).flat());
+    const own_questions = conciencia_historica_questions.filter((question) =>
+      ch_3_3_ids.has(question.id),
+    );
+    const relation_or_ordering = own_questions.filter((question) =>
+      question.options.every((option) => /^\d[a-z,\s\d]*$/.test(option)),
+    );
+    const has_ordering = relation_or_ordering.some((question) =>
+      question.options.every((option) => /^[\d,\s]+$/.test(option)),
+    );
+    const has_relation = relation_or_ordering.some((question) =>
+      question.options.some((option) => /[a-z]/.test(option)),
+    );
+
+    expect(has_ordering).toBe(true);
+    expect(has_relation).toBe(true);
+  });
+
+  it("does not introduce current or contested political facts in the neoliberalismo and alternancia lessons", () => {
+    const ch_3_3_ids = new Set(Object.values(ch_3_3_reserved_ids).flat());
+    const own_questions = conciencia_historica_questions.filter((question) =>
+      ch_3_3_ids.has(question.id),
+    );
+    const contested_terms = /\b(202\d|actualidad)\b/i;
+
+    for (const question of own_questions) {
+      expect(question.prompt).not.toMatch(contested_terms);
+      expect(question.explanation).not.toMatch(contested_terms);
+    }
+  });
+
+  it("confirms none of conciencia histórica's three official sample reactivos apply to this closing unit, since all three were already used", () => {
+    const ch_3_1_calibrated = conciencia_historica_questions.find(
+      (question) => question.id === "ch-oph-001",
+    );
+    const ch_3_2_calibrated_ids = ["ch-pde-001", "ch-frm-003"];
+
+    expect(ch_3_1_calibrated?.source_reference).toContain("calibración de profundidad");
+    for (const id of ch_3_2_calibrated_ids) {
+      const question = conciencia_historica_questions.find((q) => q.id === id);
+      expect(question?.source_reference).toContain("calibración de profundidad");
+    }
   });
 });
 
@@ -1303,11 +1689,17 @@ async function read_cn_lesson_frontmatter(
 }
 
 describe("ciencias naturales question bank — cn-5-1-materia-y-sus-interacciones", () => {
-  it("has exactly twenty-five records", () => {
-    expect(ciencias_naturales_experimentales_y_tecnologia_questions).toHaveLength(25);
+  it("has exactly twenty-five records for its own five lessons", () => {
+    const cn_5_1_ids = new Set(Object.values(cn_5_1_reserved_ids).flat());
+    const cn_5_1_questions =
+      ciencias_naturales_experimentales_y_tecnologia_questions.filter((question) =>
+        cn_5_1_ids.has(question.id),
+      );
+
+    expect(cn_5_1_questions).toHaveLength(25);
   });
 
-  it("has exactly the reserved ids for each lesson, five per lesson, no extra records", async () => {
+  it("has exactly the reserved ids for each lesson, five per lesson, matching lesson frontmatter", async () => {
     const by_id = new Map(
       ciencias_naturales_experimentales_y_tecnologia_questions.map((question) => [
         question.id,
@@ -1318,9 +1710,9 @@ describe("ciencias naturales question bank — cn-5-1-materia-y-sus-interaccione
 
     expect(
       new Set(
-        ciencias_naturales_experimentales_y_tecnologia_questions.map(
-          (question) => question.id,
-        ),
+        ciencias_naturales_experimentales_y_tecnologia_questions
+          .filter((question) => question.topic_id.startsWith("cn-5-1-"))
+          .map((question) => question.id),
       ),
     ).toEqual(new Set(all_expected_ids));
 
@@ -1359,7 +1751,11 @@ describe("ciencias naturales question bank — cn-5-1-materia-y-sus-interaccione
   });
 
   it("every question traces to its topic's guide code on page 15", () => {
+    const cn_5_1_ids = new Set(Object.values(cn_5_1_reserved_ids).flat());
+
     for (const question of ciencias_naturales_experimentales_y_tecnologia_questions) {
+      if (!cn_5_1_ids.has(question.id)) continue;
+
       const code = question.topic_id
         .match(/^cn-(\d-\d-\d)-/)?.[1]
         ?.replaceAll("-", ".");
@@ -1402,6 +1798,1085 @@ describe("ciencias naturales question bank — cn-5-1-materia-y-sus-interaccione
       expect(new Set(question.options).size).toBe(question.options.length);
       expect(question.explanation).toMatch(/[0-9]/);
     }
+  });
+});
+
+const cn_5_2_reserved_ids: Record<string, string[]> = {
+  "cn-luz-visible-01": [
+    "cn-lv-001",
+    "cn-lv-002",
+    "cn-lv-003",
+    "cn-lv-004",
+    "cn-lv-005",
+  ],
+  "cn-calor-especifico-01": [
+    "cn-ce-001",
+    "cn-ce-002",
+    "cn-ce-003",
+    "cn-ce-004",
+    "cn-ce-005",
+  ],
+  "cn-tipos-de-energia-01": [
+    "cn-te-001",
+    "cn-te-002",
+    "cn-te-003",
+    "cn-te-004",
+    "cn-te-005",
+  ],
+  "cn-energia-cinetica-y-potencial-01": [
+    "cn-ecp-001",
+    "cn-ecp-002",
+    "cn-ecp-003",
+    "cn-ecp-004",
+    "cn-ecp-005",
+  ],
+  "cn-leyes-de-la-termodinamica-01": [
+    "cn-lt-001",
+    "cn-lt-002",
+    "cn-lt-003",
+    "cn-lt-004",
+    "cn-lt-005",
+  ],
+};
+
+const cn_5_2_lesson_directory = path.join(
+  process.cwd(),
+  "content",
+  "lessons",
+  "ciencias-naturales-experimentales-y-tecnologia",
+  "cn-5-2-conservacion-de-la-energia-y-sus-interacciones",
+);
+
+async function read_cn_5_2_lesson_frontmatter(
+  lesson_id: string,
+): Promise<{ topic_id: string; question_ids: string[] }> {
+  const file_path = path.join(cn_5_2_lesson_directory, `${lesson_id}.md`);
+  const raw = await readFile(file_path, "utf-8");
+  const { data } = matter(raw);
+
+  return {
+    topic_id: data["topic-id"],
+    question_ids: data["question-ids"],
+  };
+}
+
+describe("ciencias naturales question bank — cn-5-2-conservacion-de-la-energia-y-sus-interacciones (calibración del área)", () => {
+  it("has exactly twenty-five records for its own five lessons", () => {
+    const by_id = new Map(
+      ciencias_naturales_experimentales_y_tecnologia_questions.map((question) => [
+        question.id,
+        question,
+      ]),
+    );
+    const all_expected_ids = Object.values(cn_5_2_reserved_ids).flat();
+
+    const resolved = all_expected_ids.map((id) => by_id.get(id));
+    expect(resolved.every((question) => question !== undefined)).toBe(true);
+    expect(all_expected_ids).toHaveLength(25);
+  });
+
+  it("has exactly the reserved ids for each lesson, five per lesson, matching lesson frontmatter", async () => {
+    const by_id = new Map(
+      ciencias_naturales_experimentales_y_tecnologia_questions.map((question) => [
+        question.id,
+        question,
+      ]),
+    );
+
+    for (const [lesson_id, expected_ids] of Object.entries(cn_5_2_reserved_ids)) {
+      const lesson = await read_cn_5_2_lesson_frontmatter(lesson_id);
+
+      expect(new Set(lesson.question_ids)).toEqual(new Set(expected_ids));
+
+      const lesson_questions = expected_ids.map((id) => by_id.get(id));
+      expect(lesson_questions.every((question) => question !== undefined)).toBe(true);
+
+      for (const question of lesson_questions) {
+        expect(question?.topic_id).toBe(lesson.topic_id);
+      }
+    }
+  });
+
+  it("has no structurally invalid question in the full ciencias naturales bank", () => {
+    const errors =
+      ciencias_naturales_experimentales_y_tecnologia_questions.flatMap(
+        find_invalid_options,
+      );
+    expect(errors).toEqual([]);
+  });
+
+  it("shares no id with the pensamiento matemático, cultura digital, conciencia histórica or humanidades banks", () => {
+    expect(
+      find_duplicate_ids(
+        ciencias_naturales_experimentales_y_tecnologia_questions,
+        humanidades_questions,
+        conciencia_historica_questions,
+        cultura_digital_questions,
+        pensamiento_matematico_questions,
+      ),
+    ).toEqual([]);
+  });
+
+  it("every question traces to its topic's guide code on page 16", () => {
+    const cn_5_2_ids = new Set(Object.values(cn_5_2_reserved_ids).flat());
+
+    for (const question of ciencias_naturales_experimentales_y_tecnologia_questions) {
+      if (!cn_5_2_ids.has(question.id)) continue;
+
+      const code = question.topic_id
+        .match(/^cn-(\d-\d-\d)-/)?.[1]
+        ?.replaceAll("-", ".");
+      expect(question.source_reference).toContain("página 16");
+      expect(question.source_reference).toContain(`código ${code}`);
+    }
+  });
+
+  it("gives every calculation question a determinate, unit-labeled correct answer", () => {
+    const calculation_ids = new Set([
+      "cn-ce-001",
+      "cn-ce-002",
+      "cn-ce-003",
+      "cn-ce-004",
+      "cn-ecp-001",
+      "cn-ecp-002",
+      "cn-ecp-003",
+    ]);
+
+    for (const question of ciencias_naturales_experimentales_y_tecnologia_questions) {
+      if (!calculation_ids.has(question.id)) continue;
+
+      expect(new Set(question.options).size).toBe(question.options.length);
+      expect(question.explanation).toMatch(/[0-9]/);
+    }
+  });
+
+  it("calibrates the ley cero reactivo against the guide's page 35 sample, with an original scenario", () => {
+    const ley_cero = ciencias_naturales_experimentales_y_tecnologia_questions.find(
+      (question) => question.id === "cn-lt-001",
+    );
+
+    expect(ley_cero?.source_reference).toContain(
+      "calibración de profundidad: página 35",
+    );
+    expect(ley_cero?.options[ley_cero.correct_option_index]).toBe("la ley cero");
+  });
+
+  it("has each lesson's opening diagnostic question answer away from index 0, varied across lessons", () => {
+    const opening_ids = [
+      "cn-lv-001",
+      "cn-ce-001",
+      "cn-te-001",
+      "cn-ecp-001",
+      "cn-lt-001",
+    ];
+    const by_id = new Map(
+      ciencias_naturales_experimentales_y_tecnologia_questions.map((question) => [
+        question.id,
+        question,
+      ]),
+    );
+    const indexes = opening_ids.map((id) => by_id.get(id)?.correct_option_index);
+
+    expect(indexes.every((index) => index !== 0)).toBe(true);
+    expect(new Set(indexes).size).toBeGreaterThan(1);
+  });
+});
+
+const cn_5_3_reserved_ids: Record<string, string[]> = {
+  "cn-fotosintesis-01": [
+    "cn-fts-001",
+    "cn-fts-002",
+    "cn-fts-003",
+    "cn-fts-004",
+    "cn-fts-005",
+  ],
+  "cn-biomas-01": [
+    "cn-bio-001",
+    "cn-bio-002",
+    "cn-bio-003",
+    "cn-bio-004",
+    "cn-bio-005",
+  ],
+  "cn-redes-troficas-01": [
+    "cn-rtr-001",
+    "cn-rtr-002",
+    "cn-rtr-003",
+    "cn-rtr-004",
+    "cn-rtr-005",
+  ],
+  "cn-ciclos-biogeoquimicos-01": [
+    "cn-cbg-001",
+    "cn-cbg-002",
+    "cn-cbg-003",
+    "cn-cbg-004",
+    "cn-cbg-005",
+  ],
+  "cn-productividad-en-ecosistemas-01": [
+    "cn-pec-001",
+    "cn-pec-002",
+    "cn-pec-003",
+    "cn-pec-004",
+    "cn-pec-005",
+  ],
+  "cn-servicios-ambientales-01": [
+    "cn-sam-001",
+    "cn-sam-002",
+    "cn-sam-003",
+    "cn-sam-004",
+    "cn-sam-005",
+  ],
+  "cn-desequilibrio-ecologico-01": [
+    "cn-deq-001",
+    "cn-deq-002",
+    "cn-deq-003",
+    "cn-deq-004",
+    "cn-deq-005",
+  ],
+};
+
+const cn_5_3_lesson_directory = path.join(
+  process.cwd(),
+  "content",
+  "lessons",
+  "ciencias-naturales-experimentales-y-tecnologia",
+  "cn-5-3-ecosistemas-interacciones-energia-y-dinamica",
+);
+
+async function read_cn_5_3_lesson_frontmatter(
+  lesson_id: string,
+): Promise<{ topic_id: string; question_ids: string[] }> {
+  const file_path = path.join(cn_5_3_lesson_directory, `${lesson_id}.md`);
+  const raw = await readFile(file_path, "utf-8");
+  const { data } = matter(raw);
+
+  return {
+    topic_id: data["topic-id"],
+    question_ids: data["question-ids"],
+  };
+}
+
+describe("ciencias naturales question bank — cn-5-3-ecosistemas-interacciones-energia-y-dinamica", () => {
+  it("has exactly thirty-five records for its own seven lessons", () => {
+    const by_id = new Map(
+      ciencias_naturales_experimentales_y_tecnologia_questions.map((question) => [
+        question.id,
+        question,
+      ]),
+    );
+    const all_expected_ids = Object.values(cn_5_3_reserved_ids).flat();
+
+    const resolved = all_expected_ids.map((id) => by_id.get(id));
+    expect(resolved.every((question) => question !== undefined)).toBe(true);
+    expect(all_expected_ids).toHaveLength(35);
+  });
+
+  it("has exactly the reserved ids for each lesson, five per lesson, matching lesson frontmatter", async () => {
+    const by_id = new Map(
+      ciencias_naturales_experimentales_y_tecnologia_questions.map((question) => [
+        question.id,
+        question,
+      ]),
+    );
+
+    for (const [lesson_id, expected_ids] of Object.entries(cn_5_3_reserved_ids)) {
+      const lesson = await read_cn_5_3_lesson_frontmatter(lesson_id);
+
+      expect(new Set(lesson.question_ids)).toEqual(new Set(expected_ids));
+
+      const lesson_questions = expected_ids.map((id) => by_id.get(id));
+      expect(lesson_questions.every((question) => question !== undefined)).toBe(true);
+
+      for (const question of lesson_questions) {
+        expect(question?.topic_id).toBe(lesson.topic_id);
+      }
+    }
+  });
+
+  it("has no structurally invalid question in the full ciencias naturales bank", () => {
+    const errors =
+      ciencias_naturales_experimentales_y_tecnologia_questions.flatMap(
+        find_invalid_options,
+      );
+    expect(errors).toEqual([]);
+  });
+
+  it("shares no id with the pensamiento matemático, cultura digital, conciencia histórica or humanidades banks", () => {
+    expect(
+      find_duplicate_ids(
+        ciencias_naturales_experimentales_y_tecnologia_questions,
+        humanidades_questions,
+        conciencia_historica_questions,
+        cultura_digital_questions,
+        pensamiento_matematico_questions,
+      ),
+    ).toEqual([]);
+  });
+
+  it("every question traces to its topic's guide code on page 16", () => {
+    const cn_5_3_ids = new Set(Object.values(cn_5_3_reserved_ids).flat());
+
+    for (const question of ciencias_naturales_experimentales_y_tecnologia_questions) {
+      if (!cn_5_3_ids.has(question.id)) continue;
+
+      const code = question.topic_id
+        .match(/^cn-(\d-\d-\d)-/)?.[1]
+        ?.replaceAll("-", ".");
+      expect(question.source_reference).toContain("página 16");
+      expect(question.source_reference).toContain(`código ${code}`);
+    }
+  });
+
+  it("includes at least one relation and one ordering question", () => {
+    const cn_5_3_ids = new Set(Object.values(cn_5_3_reserved_ids).flat());
+    const cn_5_3_questions =
+      ciencias_naturales_experimentales_y_tecnologia_questions.filter((question) =>
+        cn_5_3_ids.has(question.id),
+      );
+    const relation_or_ordering = cn_5_3_questions.filter((question) =>
+      question.options.every((option) => /^\d[a-z,\s\d]*$/.test(option)),
+    );
+    const has_ordering = relation_or_ordering.some((question) =>
+      question.options.every((option) => /^[\d,\s]+$/.test(option)),
+    );
+    const has_relation = relation_or_ordering.some((question) =>
+      question.options.some((option) => /[a-z]/.test(option)),
+    );
+
+    expect(has_ordering).toBe(true);
+    expect(has_relation).toBe(true);
+  });
+
+  it("gives every calculation question a determinate, unit-labeled correct answer", () => {
+    const calculation_ids = new Set(["cn-pec-001", "cn-pec-003"]);
+
+    for (const question of ciencias_naturales_experimentales_y_tecnologia_questions) {
+      if (!calculation_ids.has(question.id)) continue;
+
+      expect(new Set(question.options).size).toBe(question.options.length);
+      expect(question.explanation).toMatch(/[0-9]/);
+    }
+  });
+
+  it("has each lesson's opening diagnostic question answer away from index 0, varied across lessons", () => {
+    const opening_ids = [
+      "cn-fts-001",
+      "cn-bio-001",
+      "cn-rtr-001",
+      "cn-cbg-001",
+      "cn-pec-001",
+      "cn-sam-001",
+      "cn-deq-001",
+    ];
+    const by_id = new Map(
+      ciencias_naturales_experimentales_y_tecnologia_questions.map((question) => [
+        question.id,
+        question,
+      ]),
+    );
+    const indexes = opening_ids.map((id) => by_id.get(id)?.correct_option_index);
+
+    expect(indexes.every((index) => index !== 0)).toBe(true);
+    expect(new Set(indexes).size).toBeGreaterThan(1);
+  });
+});
+
+const cn_5_4_reserved_ids: Record<string, string[]> = {
+  "cn-masa-molar-01": ["cn-mm-001", "cn-mm-002", "cn-mm-003", "cn-mm-004", "cn-mm-005"],
+  "cn-reacciones-quimicas-01": [
+    "cn-trq-001",
+    "cn-trq-002",
+    "cn-trq-003",
+    "cn-trq-004",
+    "cn-trq-005",
+  ],
+  "cn-reacciones-nucleares-01": [
+    "cn-rnu-001",
+    "cn-rnu-002",
+    "cn-rnu-003",
+    "cn-rnu-004",
+    "cn-rnu-005",
+  ],
+};
+
+const cn_5_4_lesson_directory = path.join(
+  process.cwd(),
+  "content",
+  "lessons",
+  "ciencias-naturales-experimentales-y-tecnologia",
+  "cn-5-4-reacciones-quimicas-y-conservacion-de-la-materia",
+);
+
+async function read_cn_5_4_lesson_frontmatter(
+  lesson_id: string,
+): Promise<{ topic_id: string; question_ids: string[] }> {
+  const file_path = path.join(cn_5_4_lesson_directory, `${lesson_id}.md`);
+  const raw = await readFile(file_path, "utf-8");
+  const { data } = matter(raw);
+
+  return {
+    topic_id: data["topic-id"],
+    question_ids: data["question-ids"],
+  };
+}
+
+describe("ciencias naturales question bank — cn-5-4-reacciones-quimicas-y-conservacion-de-la-materia", () => {
+  it("has exactly fifteen records for its own three lessons", () => {
+    const by_id = new Map(
+      ciencias_naturales_experimentales_y_tecnologia_questions.map((question) => [
+        question.id,
+        question,
+      ]),
+    );
+    const all_expected_ids = Object.values(cn_5_4_reserved_ids).flat();
+
+    const resolved = all_expected_ids.map((id) => by_id.get(id));
+    expect(resolved.every((question) => question !== undefined)).toBe(true);
+    expect(all_expected_ids).toHaveLength(15);
+  });
+
+  it("has exactly the reserved ids for each lesson, five per lesson, matching lesson frontmatter", async () => {
+    const by_id = new Map(
+      ciencias_naturales_experimentales_y_tecnologia_questions.map((question) => [
+        question.id,
+        question,
+      ]),
+    );
+
+    for (const [lesson_id, expected_ids] of Object.entries(cn_5_4_reserved_ids)) {
+      const lesson = await read_cn_5_4_lesson_frontmatter(lesson_id);
+
+      expect(new Set(lesson.question_ids)).toEqual(new Set(expected_ids));
+
+      const lesson_questions = expected_ids.map((id) => by_id.get(id));
+      expect(lesson_questions.every((question) => question !== undefined)).toBe(true);
+
+      for (const question of lesson_questions) {
+        expect(question?.topic_id).toBe(lesson.topic_id);
+      }
+    }
+  });
+
+  it("has no structurally invalid question in the full ciencias naturales bank", () => {
+    const errors =
+      ciencias_naturales_experimentales_y_tecnologia_questions.flatMap(
+        find_invalid_options,
+      );
+    expect(errors).toEqual([]);
+  });
+
+  it("shares no id with the pensamiento matemático, cultura digital, conciencia histórica or humanidades banks", () => {
+    expect(
+      find_duplicate_ids(
+        ciencias_naturales_experimentales_y_tecnologia_questions,
+        humanidades_questions,
+        conciencia_historica_questions,
+        cultura_digital_questions,
+        pensamiento_matematico_questions,
+      ),
+    ).toEqual([]);
+  });
+
+  it("every question traces to its topic's guide code on page 16", () => {
+    const cn_5_4_ids = new Set(Object.values(cn_5_4_reserved_ids).flat());
+
+    for (const question of ciencias_naturales_experimentales_y_tecnologia_questions) {
+      if (!cn_5_4_ids.has(question.id)) continue;
+
+      const code = question.topic_id
+        .match(/^cn-(\d-\d-\d)-/)?.[1]
+        ?.replaceAll("-", ".");
+      expect(question.source_reference).toContain("página 16");
+      expect(question.source_reference).toContain(`código ${code}`);
+    }
+  });
+
+  it("includes at least one relation question", () => {
+    const cn_5_4_ids = new Set(Object.values(cn_5_4_reserved_ids).flat());
+    const cn_5_4_questions =
+      ciencias_naturales_experimentales_y_tecnologia_questions.filter((question) =>
+        cn_5_4_ids.has(question.id),
+      );
+    const has_relation = cn_5_4_questions.some(
+      (question) =>
+        question.options.every((option) => /^\d[a-z,\s\d]*$/.test(option)) &&
+        question.options.some((option) => /[a-z]/.test(option)),
+    );
+
+    expect(has_relation).toBe(true);
+  });
+
+  it("includes at least one ordering question", () => {
+    const cn_5_4_ids = new Set(Object.values(cn_5_4_reserved_ids).flat());
+    const cn_5_4_questions =
+      ciencias_naturales_experimentales_y_tecnologia_questions.filter((question) =>
+        cn_5_4_ids.has(question.id),
+      );
+    const has_ordering = cn_5_4_questions.some((question) =>
+      question.options.every((option) => /^[\d,\s]+$/.test(option)),
+    );
+
+    expect(has_ordering).toBe(true);
+  });
+
+  it("gives every calculation question a determinate, unit-labeled correct answer", () => {
+    const calculation_ids = new Set(["cn-mm-001", "cn-mm-002", "cn-mm-003"]);
+
+    for (const question of ciencias_naturales_experimentales_y_tecnologia_questions) {
+      if (!calculation_ids.has(question.id)) continue;
+
+      expect(new Set(question.options).size).toBe(question.options.length);
+      expect(question.explanation).toMatch(/[0-9]/);
+    }
+  });
+
+  it("has each lesson's opening diagnostic question answer away from index 0, varied across lessons", () => {
+    const opening_ids = ["cn-mm-001", "cn-trq-001", "cn-rnu-001"];
+    const by_id = new Map(
+      ciencias_naturales_experimentales_y_tecnologia_questions.map((question) => [
+        question.id,
+        question,
+      ]),
+    );
+    const indexes = opening_ids.map((id) => by_id.get(id)?.correct_option_index);
+
+    expect(indexes.every((index) => index !== 0)).toBe(true);
+    expect(new Set(indexes).size).toBeGreaterThan(1);
+  });
+});
+
+const cn_5_5_reserved_ids: Record<string, string[]> = {
+  "cn-choques-elasticos-e-inelasticos-01": [
+    "cn-choq-001",
+    "cn-choq-002",
+    "cn-choq-003",
+    "cn-choq-004",
+    "cn-choq-005",
+  ],
+  "cn-momento-lineal-01": [
+    "cn-mli-001",
+    "cn-mli-002",
+    "cn-mli-003",
+    "cn-mli-004",
+    "cn-mli-005",
+  ],
+  "cn-ondas-electromagneticas-01": [
+    "cn-oem-001",
+    "cn-oem-002",
+    "cn-oem-003",
+    "cn-oem-004",
+    "cn-oem-005",
+  ],
+  "cn-caida-libre-01": [
+    "cn-cli-001",
+    "cn-cli-002",
+    "cn-cli-003",
+    "cn-cli-004",
+    "cn-cli-005",
+  ],
+};
+
+const cn_5_5_lesson_directory = path.join(
+  process.cwd(),
+  "content",
+  "lessons",
+  "ciencias-naturales-experimentales-y-tecnologia",
+  "cn-5-5-energia-en-los-procesos-de-la-vida-diaria",
+);
+
+async function read_cn_5_5_lesson_frontmatter(
+  lesson_id: string,
+): Promise<{ topic_id: string; question_ids: string[] }> {
+  const file_path = path.join(cn_5_5_lesson_directory, `${lesson_id}.md`);
+  const raw = await readFile(file_path, "utf-8");
+  const { data } = matter(raw);
+
+  return {
+    topic_id: data["topic-id"],
+    question_ids: data["question-ids"],
+  };
+}
+
+describe("ciencias naturales question bank — cn-5-5-energia-en-los-procesos-de-la-vida-diaria", () => {
+  it("has exactly twenty records for its own four lessons", () => {
+    const by_id = new Map(
+      ciencias_naturales_experimentales_y_tecnologia_questions.map((question) => [
+        question.id,
+        question,
+      ]),
+    );
+    const all_expected_ids = Object.values(cn_5_5_reserved_ids).flat();
+
+    const resolved = all_expected_ids.map((id) => by_id.get(id));
+    expect(resolved.every((question) => question !== undefined)).toBe(true);
+    expect(all_expected_ids).toHaveLength(20);
+  });
+
+  it("has exactly the reserved ids for each lesson, five per lesson, matching lesson frontmatter", async () => {
+    const by_id = new Map(
+      ciencias_naturales_experimentales_y_tecnologia_questions.map((question) => [
+        question.id,
+        question,
+      ]),
+    );
+
+    for (const [lesson_id, expected_ids] of Object.entries(cn_5_5_reserved_ids)) {
+      const lesson = await read_cn_5_5_lesson_frontmatter(lesson_id);
+
+      expect(new Set(lesson.question_ids)).toEqual(new Set(expected_ids));
+
+      const lesson_questions = expected_ids.map((id) => by_id.get(id));
+      expect(lesson_questions.every((question) => question !== undefined)).toBe(true);
+
+      for (const question of lesson_questions) {
+        expect(question?.topic_id).toBe(lesson.topic_id);
+      }
+    }
+  });
+
+  it("has no structurally invalid question in the full ciencias naturales bank", () => {
+    const errors =
+      ciencias_naturales_experimentales_y_tecnologia_questions.flatMap(
+        find_invalid_options,
+      );
+    expect(errors).toEqual([]);
+  });
+
+  it("shares no id with the pensamiento matemático, cultura digital, conciencia histórica or humanidades banks", () => {
+    expect(
+      find_duplicate_ids(
+        ciencias_naturales_experimentales_y_tecnologia_questions,
+        humanidades_questions,
+        conciencia_historica_questions,
+        cultura_digital_questions,
+        pensamiento_matematico_questions,
+      ),
+    ).toEqual([]);
+  });
+
+  it("every question traces to its topic's guide code on page 16", () => {
+    const cn_5_5_ids = new Set(Object.values(cn_5_5_reserved_ids).flat());
+
+    for (const question of ciencias_naturales_experimentales_y_tecnologia_questions) {
+      if (!cn_5_5_ids.has(question.id)) continue;
+
+      const code = question.topic_id
+        .match(/^cn-(\d-\d-\d)-/)?.[1]
+        ?.replaceAll("-", ".");
+      expect(question.source_reference).toContain("página 16");
+      expect(question.source_reference).toContain(`código ${code}`);
+    }
+  });
+
+  it("includes at least one relation question", () => {
+    const cn_5_5_ids = new Set(Object.values(cn_5_5_reserved_ids).flat());
+    const cn_5_5_questions =
+      ciencias_naturales_experimentales_y_tecnologia_questions.filter((question) =>
+        cn_5_5_ids.has(question.id),
+      );
+    const has_relation = cn_5_5_questions.some(
+      (question) =>
+        question.options.every((option) => /^\d[a-z,\s\d]*$/.test(option)) &&
+        question.options.some((option) => /[a-z]/.test(option)),
+    );
+
+    expect(has_relation).toBe(true);
+  });
+
+  it("includes at least one ordering question", () => {
+    const cn_5_5_ids = new Set(Object.values(cn_5_5_reserved_ids).flat());
+    const cn_5_5_questions =
+      ciencias_naturales_experimentales_y_tecnologia_questions.filter((question) =>
+        cn_5_5_ids.has(question.id),
+      );
+    const has_ordering = cn_5_5_questions.some((question) =>
+      question.options.every((option) => /^[\d,\s]+$/.test(option)),
+    );
+
+    expect(has_ordering).toBe(true);
+  });
+
+  it("gives every calculation question a determinate, unit-labeled correct answer", () => {
+    const calculation_ids = new Set([
+      "cn-mli-001",
+      "cn-mli-002",
+      "cn-mli-003",
+      "cn-cli-001",
+      "cn-cli-003",
+    ]);
+
+    for (const question of ciencias_naturales_experimentales_y_tecnologia_questions) {
+      if (!calculation_ids.has(question.id)) continue;
+
+      expect(new Set(question.options).size).toBe(question.options.length);
+      expect(question.explanation).toMatch(/[0-9]/);
+    }
+  });
+
+  it("has each lesson's opening diagnostic question answer away from index 0, varied across lessons", () => {
+    const opening_ids = ["cn-choq-001", "cn-mli-001", "cn-oem-001", "cn-cli-001"];
+    const by_id = new Map(
+      ciencias_naturales_experimentales_y_tecnologia_questions.map((question) => [
+        question.id,
+        question,
+      ]),
+    );
+    const indexes = opening_ids.map((id) => by_id.get(id)?.correct_option_index);
+
+    expect(indexes.every((index) => index !== 0)).toBe(true);
+    expect(new Set(indexes).size).toBeGreaterThan(1);
+  });
+});
+
+const cn_5_6_reserved_ids: Record<string, string[]> = {
+  "cn-organelos-celulares-01": [
+    "cn-org-001",
+    "cn-org-002",
+    "cn-org-003",
+    "cn-org-004",
+    "cn-org-005",
+  ],
+  "cn-niveles-de-organizacion-biologica-01": [
+    "cn-nob-001",
+    "cn-nob-002",
+    "cn-nob-003",
+    "cn-nob-004",
+    "cn-nob-005",
+  ],
+  "cn-respiracion-celular-01": [
+    "cn-rec-001",
+    "cn-rec-002",
+    "cn-rec-003",
+    "cn-rec-004",
+    "cn-rec-005",
+  ],
+};
+
+const cn_5_6_lesson_directory = path.join(
+  process.cwd(),
+  "content",
+  "lessons",
+  "ciencias-naturales-experimentales-y-tecnologia",
+  "cn-5-6-organismos-estructura-y-procesos",
+);
+
+async function read_cn_5_6_lesson_frontmatter(
+  lesson_id: string,
+): Promise<{ topic_id: string; question_ids: string[] }> {
+  const file_path = path.join(cn_5_6_lesson_directory, `${lesson_id}.md`);
+  const raw = await readFile(file_path, "utf-8");
+  const { data } = matter(raw);
+
+  return {
+    topic_id: data["topic-id"],
+    question_ids: data["question-ids"],
+  };
+}
+
+describe("ciencias naturales question bank — cn-5-6-organismos-estructura-y-procesos", () => {
+  it("has exactly fifteen records for its own three lessons", () => {
+    const by_id = new Map(
+      ciencias_naturales_experimentales_y_tecnologia_questions.map((question) => [
+        question.id,
+        question,
+      ]),
+    );
+    const all_expected_ids = Object.values(cn_5_6_reserved_ids).flat();
+
+    const resolved = all_expected_ids.map((id) => by_id.get(id));
+    expect(resolved.every((question) => question !== undefined)).toBe(true);
+    expect(all_expected_ids).toHaveLength(15);
+  });
+
+  it("has exactly the reserved ids for each lesson, five per lesson, matching lesson frontmatter", async () => {
+    const by_id = new Map(
+      ciencias_naturales_experimentales_y_tecnologia_questions.map((question) => [
+        question.id,
+        question,
+      ]),
+    );
+
+    for (const [lesson_id, expected_ids] of Object.entries(cn_5_6_reserved_ids)) {
+      const lesson = await read_cn_5_6_lesson_frontmatter(lesson_id);
+
+      expect(new Set(lesson.question_ids)).toEqual(new Set(expected_ids));
+
+      const lesson_questions = expected_ids.map((id) => by_id.get(id));
+      expect(lesson_questions.every((question) => question !== undefined)).toBe(true);
+
+      for (const question of lesson_questions) {
+        expect(question?.topic_id).toBe(lesson.topic_id);
+      }
+    }
+  });
+
+  it("has no structurally invalid question in the full ciencias naturales bank", () => {
+    const errors =
+      ciencias_naturales_experimentales_y_tecnologia_questions.flatMap(
+        find_invalid_options,
+      );
+    expect(errors).toEqual([]);
+  });
+
+  it("shares no id with the pensamiento matemático, cultura digital, conciencia histórica or humanidades banks", () => {
+    expect(
+      find_duplicate_ids(
+        ciencias_naturales_experimentales_y_tecnologia_questions,
+        humanidades_questions,
+        conciencia_historica_questions,
+        cultura_digital_questions,
+        pensamiento_matematico_questions,
+      ),
+    ).toEqual([]);
+  });
+
+  it("every question traces to its topic's guide code on page 16", () => {
+    const cn_5_6_ids = new Set(Object.values(cn_5_6_reserved_ids).flat());
+
+    for (const question of ciencias_naturales_experimentales_y_tecnologia_questions) {
+      if (!cn_5_6_ids.has(question.id)) continue;
+
+      const code = question.topic_id
+        .match(/^cn-(\d-\d-\d)-/)?.[1]
+        ?.replaceAll("-", ".");
+      expect(question.source_reference).toContain("página 16");
+      expect(question.source_reference).toContain(`código ${code}`);
+    }
+  });
+
+  it("includes at least one relation question", () => {
+    const cn_5_6_ids = new Set(Object.values(cn_5_6_reserved_ids).flat());
+    const cn_5_6_questions =
+      ciencias_naturales_experimentales_y_tecnologia_questions.filter((question) =>
+        cn_5_6_ids.has(question.id),
+      );
+    const has_relation = cn_5_6_questions.some(
+      (question) =>
+        question.options.every((option) => /^\d[a-z,\s\d]*$/.test(option)) &&
+        question.options.some((option) => /[a-z]/.test(option)),
+    );
+
+    expect(has_relation).toBe(true);
+  });
+
+  it("includes at least one ordering question", () => {
+    const cn_5_6_ids = new Set(Object.values(cn_5_6_reserved_ids).flat());
+    const cn_5_6_questions =
+      ciencias_naturales_experimentales_y_tecnologia_questions.filter((question) =>
+        cn_5_6_ids.has(question.id),
+      );
+    const has_ordering = cn_5_6_questions.some((question) =>
+      question.options.every((option) => /^[\d,\s]+$/.test(option)),
+    );
+
+    expect(has_ordering).toBe(true);
+  });
+
+  it("calibrates the acetil-CoA reactivo against the guide's page 36 sample, with an original stage", () => {
+    const acetyl_coa = ciencias_naturales_experimentales_y_tecnologia_questions.find(
+      (question) => question.id === "cn-rec-003",
+    );
+
+    expect(acetyl_coa?.source_reference).toContain(
+      "calibración de profundidad: página 36",
+    );
+    expect(acetyl_coa?.options[acetyl_coa.correct_option_index]).toBe("acetil-CoA");
+  });
+
+  it("has each lesson's opening diagnostic question answer away from index 0, varied across lessons", () => {
+    const opening_ids = ["cn-org-001", "cn-nob-001", "cn-rec-001"];
+    const by_id = new Map(
+      ciencias_naturales_experimentales_y_tecnologia_questions.map((question) => [
+        question.id,
+        question,
+      ]),
+    );
+    const indexes = opening_ids.map((id) => by_id.get(id)?.correct_option_index);
+
+    expect(indexes.every((index) => index !== 0)).toBe(true);
+    expect(new Set(indexes).size).toBeGreaterThan(1);
+  });
+});
+
+const cn_5_7_reserved_ids: Record<string, string[]> = {
+  "cn-reproduccion-sexual-y-asexual-01": [
+    "cn-rsa-001",
+    "cn-rsa-002",
+    "cn-rsa-003",
+    "cn-rsa-004",
+    "cn-rsa-005",
+  ],
+  "cn-tipos-de-cromosomas-01": [
+    "cn-toc-001",
+    "cn-toc-002",
+    "cn-toc-003",
+    "cn-toc-004",
+    "cn-toc-005",
+  ],
+  "cn-cuadros-de-punnett-01": [
+    "cn-cdp-001",
+    "cn-cdp-002",
+    "cn-cdp-003",
+    "cn-cdp-004",
+    "cn-cdp-005",
+  ],
+  "cn-teorias-evolutivas-01": [
+    "cn-tev-001",
+    "cn-tev-002",
+    "cn-tev-003",
+    "cn-tev-004",
+    "cn-tev-005",
+  ],
+  "cn-consecuencias-de-la-evolucion-01": [
+    "cn-cev-001",
+    "cn-cev-002",
+    "cn-cev-003",
+    "cn-cev-004",
+    "cn-cev-005",
+  ],
+};
+
+const cn_5_7_lesson_directory = path.join(
+  process.cwd(),
+  "content",
+  "lessons",
+  "ciencias-naturales-experimentales-y-tecnologia",
+  "cn-5-7-herencia-y-evolucion-biologica",
+);
+
+async function read_cn_5_7_lesson_frontmatter(
+  lesson_id: string,
+): Promise<{ topic_id: string; question_ids: string[] }> {
+  const file_path = path.join(cn_5_7_lesson_directory, `${lesson_id}.md`);
+  const raw = await readFile(file_path, "utf-8");
+  const { data } = matter(raw);
+
+  return {
+    topic_id: data["topic-id"],
+    question_ids: data["question-ids"],
+  };
+}
+
+describe("ciencias naturales question bank — cn-5-7-herencia-y-evolucion-biologica (completa el área)", () => {
+  it("has exactly twenty-five records for its own five lessons", () => {
+    const by_id = new Map(
+      ciencias_naturales_experimentales_y_tecnologia_questions.map((question) => [
+        question.id,
+        question,
+      ]),
+    );
+    const all_expected_ids = Object.values(cn_5_7_reserved_ids).flat();
+
+    const resolved = all_expected_ids.map((id) => by_id.get(id));
+    expect(resolved.every((question) => question !== undefined)).toBe(true);
+    expect(all_expected_ids).toHaveLength(25);
+  });
+
+  it("has exactly the reserved ids for each lesson, five per lesson, matching lesson frontmatter", async () => {
+    const by_id = new Map(
+      ciencias_naturales_experimentales_y_tecnologia_questions.map((question) => [
+        question.id,
+        question,
+      ]),
+    );
+
+    for (const [lesson_id, expected_ids] of Object.entries(cn_5_7_reserved_ids)) {
+      const lesson = await read_cn_5_7_lesson_frontmatter(lesson_id);
+
+      expect(new Set(lesson.question_ids)).toEqual(new Set(expected_ids));
+
+      const lesson_questions = expected_ids.map((id) => by_id.get(id));
+      expect(lesson_questions.every((question) => question !== undefined)).toBe(true);
+
+      for (const question of lesson_questions) {
+        expect(question?.topic_id).toBe(lesson.topic_id);
+      }
+    }
+  });
+
+  it("has no structurally invalid question in the full ciencias naturales bank", () => {
+    const errors =
+      ciencias_naturales_experimentales_y_tecnologia_questions.flatMap(
+        find_invalid_options,
+      );
+    expect(errors).toEqual([]);
+  });
+
+  it("has exactly one hundred sixty records total, across the area's seven units", () => {
+    expect(ciencias_naturales_experimentales_y_tecnologia_questions).toHaveLength(160);
+  });
+
+  it("shares no id with the pensamiento matemático, cultura digital, conciencia histórica or humanidades banks", () => {
+    expect(
+      find_duplicate_ids(
+        ciencias_naturales_experimentales_y_tecnologia_questions,
+        humanidades_questions,
+        conciencia_historica_questions,
+        cultura_digital_questions,
+        pensamiento_matematico_questions,
+      ),
+    ).toEqual([]);
+  });
+
+  it("every question traces to its topic's guide code on page 17", () => {
+    const cn_5_7_ids = new Set(Object.values(cn_5_7_reserved_ids).flat());
+
+    for (const question of ciencias_naturales_experimentales_y_tecnologia_questions) {
+      if (!cn_5_7_ids.has(question.id)) continue;
+
+      const code = question.topic_id
+        .match(/^cn-(\d-\d-\d)-/)?.[1]
+        ?.replaceAll("-", ".");
+      expect(question.source_reference).toContain("página 17");
+      expect(question.source_reference).toContain(`código ${code}`);
+    }
+  });
+
+  it("includes at least one relation question", () => {
+    const cn_5_7_ids = new Set(Object.values(cn_5_7_reserved_ids).flat());
+    const cn_5_7_questions =
+      ciencias_naturales_experimentales_y_tecnologia_questions.filter((question) =>
+        cn_5_7_ids.has(question.id),
+      );
+    const has_relation = cn_5_7_questions.some(
+      (question) =>
+        question.options.every((option) => /^\d[a-z,\s\d]*$/.test(option)) &&
+        question.options.some((option) => /[a-z]/.test(option)),
+    );
+
+    expect(has_relation).toBe(true);
+  });
+
+  it("includes at least one ordering question", () => {
+    const cn_5_7_ids = new Set(Object.values(cn_5_7_reserved_ids).flat());
+    const cn_5_7_questions =
+      ciencias_naturales_experimentales_y_tecnologia_questions.filter((question) =>
+        cn_5_7_ids.has(question.id),
+      );
+    const has_ordering = cn_5_7_questions.some((question) =>
+      question.options.every((option) => /^[\d,\s]+$/.test(option)),
+    );
+
+    expect(has_ordering).toBe(true);
+  });
+
+  it("has each lesson's opening diagnostic question answer away from index 0, varied across lessons", () => {
+    const opening_ids = [
+      "cn-rsa-001",
+      "cn-toc-001",
+      "cn-cdp-001",
+      "cn-tev-001",
+      "cn-cev-001",
+    ];
+    const by_id = new Map(
+      ciencias_naturales_experimentales_y_tecnologia_questions.map((question) => [
+        question.id,
+        question,
+      ]),
+    );
+    const indexes = opening_ids.map((id) => by_id.get(id)?.correct_option_index);
+
+    expect(indexes.every((index) => index !== 0)).toBe(true);
+    expect(new Set(indexes).size).toBeGreaterThan(1);
   });
 });
 
@@ -1458,18 +2933,27 @@ async function read_lc_lesson_frontmatter(
 }
 
 describe("lengua y comunicación question bank — lc-6-1-estrategias-de-comprension-lectora", () => {
-  it("has exactly twenty records", () => {
-    expect(lengua_y_comunicacion_questions).toHaveLength(20);
+  it("has exactly twenty records for its own four lessons", () => {
+    const lc_6_1_ids = new Set(Object.values(lc_6_1_reserved_ids).flat());
+    const lc_6_1_questions = lengua_y_comunicacion_questions.filter((question) =>
+      lc_6_1_ids.has(question.id),
+    );
+
+    expect(lc_6_1_questions).toHaveLength(20);
   });
 
-  it("has exactly the reserved ids for each lesson, five per lesson, no extra records", async () => {
+  it("has exactly the reserved ids for each lesson, five per lesson, matching lesson frontmatter", async () => {
     const by_id = new Map(
       lengua_y_comunicacion_questions.map((question) => [question.id, question]),
     );
     const all_expected_ids = Object.values(lc_6_1_reserved_ids).flat();
 
     expect(
-      new Set(lengua_y_comunicacion_questions.map((question) => question.id)),
+      new Set(
+        lengua_y_comunicacion_questions
+          .filter((question) => question.topic_id.startsWith("lc-6-1-"))
+          .map((question) => question.id),
+      ),
     ).toEqual(new Set(all_expected_ids));
 
     for (const [lesson_id, expected_ids] of Object.entries(lc_6_1_reserved_ids)) {
@@ -1505,7 +2989,11 @@ describe("lengua y comunicación question bank — lc-6-1-estrategias-de-compren
   });
 
   it("every question traces to its topic's guide code on page 17", () => {
+    const lc_6_1_ids = new Set(Object.values(lc_6_1_reserved_ids).flat());
+
     for (const question of lengua_y_comunicacion_questions) {
+      if (!lc_6_1_ids.has(question.id)) continue;
+
       const code = question.topic_id
         .match(/^lc-(\d-\d-\d)-/)?.[1]
         ?.replaceAll("-", ".");
@@ -1527,7 +3015,11 @@ describe("lengua y comunicación question bank — lc-6-1-estrategias-de-compren
   });
 
   it("includes at least one relation question per lesson", () => {
-    const grouped = group_questions_by_topic(lengua_y_comunicacion_questions);
+    const grouped = group_questions_by_topic(
+      lengua_y_comunicacion_questions.filter((question) =>
+        question.topic_id.startsWith("lc-6-1-"),
+      ),
+    );
 
     for (const [, questions] of grouped) {
       const has_relation = questions.some(
@@ -1536,6 +3028,763 @@ describe("lengua y comunicación question bank — lc-6-1-estrategias-de-compren
           question.options.some((option) => /[a-z]/.test(option)),
       );
       expect(has_relation).toBe(true);
+    }
+  });
+});
+
+const lc_6_2_reserved_ids: Record<string, string[]> = {
+  "lc-tema-central-del-texto-narrativo-01": [
+    "lc-tcn-001",
+    "lc-tcn-002",
+    "lc-tcn-003",
+    "lc-tcn-004",
+    "lc-tcn-005",
+  ],
+  "lc-trama-del-texto-narrativo-01": [
+    "lc-trn-001",
+    "lc-trn-002",
+    "lc-trn-003",
+    "lc-trn-004",
+    "lc-trn-005",
+  ],
+  "lc-personajes-del-texto-narrativo-01": [
+    "lc-pnj-001",
+    "lc-pnj-002",
+    "lc-pnj-003",
+    "lc-pnj-004",
+    "lc-pnj-005",
+  ],
+  "lc-narrador-del-texto-narrativo-01": [
+    "lc-nar-001",
+    "lc-nar-002",
+    "lc-nar-003",
+    "lc-nar-004",
+    "lc-nar-005",
+  ],
+  "lc-ambito-de-la-narracion-01": [
+    "lc-amb-001",
+    "lc-amb-002",
+    "lc-amb-003",
+    "lc-amb-004",
+    "lc-amb-005",
+  ],
+  "lc-tiempo-narrativo-01": [
+    "lc-tpn-001",
+    "lc-tpn-002",
+    "lc-tpn-003",
+    "lc-tpn-004",
+    "lc-tpn-005",
+  ],
+};
+
+const lc_6_2_lesson_directory = path.join(
+  process.cwd(),
+  "content",
+  "lessons",
+  "lengua-y-comunicacion",
+  "lc-6-2-recursos-del-analisis-literario",
+);
+
+async function read_lc_6_2_lesson_frontmatter(
+  lesson_id: string,
+): Promise<{ topic_id: string; question_ids: string[] }> {
+  const file_path = path.join(lc_6_2_lesson_directory, `${lesson_id}.md`);
+  const raw = await readFile(file_path, "utf-8");
+  const { data } = matter(raw);
+
+  return {
+    topic_id: data["topic-id"],
+    question_ids: data["question-ids"],
+  };
+}
+
+describe("lengua y comunicación question bank — lc-6-2-recursos-del-analisis-literario (calibración del área)", () => {
+  it("has exactly thirty records for its own six lessons", () => {
+    const lc_6_2_ids = new Set(Object.values(lc_6_2_reserved_ids).flat());
+    const lc_6_2_questions = lengua_y_comunicacion_questions.filter((question) =>
+      lc_6_2_ids.has(question.id),
+    );
+
+    expect(lc_6_2_questions).toHaveLength(30);
+  });
+
+  it("has exactly the reserved ids for each lesson, five per lesson, matching lesson frontmatter", async () => {
+    const by_id = new Map(
+      lengua_y_comunicacion_questions.map((question) => [question.id, question]),
+    );
+    const all_expected_ids = Object.values(lc_6_2_reserved_ids).flat();
+
+    expect(
+      new Set(
+        lengua_y_comunicacion_questions
+          .filter((question) => question.topic_id.startsWith("lc-6-2-"))
+          .map((question) => question.id),
+      ),
+    ).toEqual(new Set(all_expected_ids));
+
+    for (const [lesson_id, expected_ids] of Object.entries(lc_6_2_reserved_ids)) {
+      const lesson = await read_lc_6_2_lesson_frontmatter(lesson_id);
+
+      expect(new Set(lesson.question_ids)).toEqual(new Set(expected_ids));
+
+      const lesson_questions = expected_ids.map((id) => by_id.get(id));
+      expect(lesson_questions.every((question) => question !== undefined)).toBe(true);
+
+      for (const question of lesson_questions) {
+        expect(question?.topic_id).toBe(lesson.topic_id);
+      }
+    }
+  });
+
+  it("has no structurally invalid question in the full lengua y comunicación bank", () => {
+    const errors = lengua_y_comunicacion_questions.flatMap(find_invalid_options);
+    expect(errors).toEqual([]);
+  });
+
+  it("shares no id with the pensamiento matemático, cultura digital, conciencia histórica, humanidades or ciencias naturales banks", () => {
+    expect(
+      find_duplicate_ids(
+        lengua_y_comunicacion_questions,
+        ciencias_naturales_experimentales_y_tecnologia_questions,
+        humanidades_questions,
+        conciencia_historica_questions,
+        cultura_digital_questions,
+        pensamiento_matematico_questions,
+      ),
+    ).toEqual([]);
+  });
+
+  it("every question traces to its topic's guide code on page 17", () => {
+    const lc_6_2_ids = new Set(Object.values(lc_6_2_reserved_ids).flat());
+
+    for (const question of lengua_y_comunicacion_questions) {
+      if (!lc_6_2_ids.has(question.id)) continue;
+
+      const code = question.topic_id
+        .match(/^lc-(\d-\d-\d)-/)?.[1]
+        ?.replaceAll("-", ".");
+      expect(question.source_reference).toContain("página 17");
+      expect(question.source_reference).toContain(`código ${code}`);
+    }
+  });
+
+  it("includes at least one relation question per lesson", () => {
+    const lc_6_2_ids = new Set(Object.values(lc_6_2_reserved_ids).flat());
+    const grouped = group_questions_by_topic(
+      lengua_y_comunicacion_questions.filter((question) => lc_6_2_ids.has(question.id)),
+    );
+
+    for (const [, questions] of grouped) {
+      const has_relation = questions.some(
+        (question) =>
+          question.options.every((option) => /^\d[a-z,\s\d]*$/.test(option)) &&
+          question.options.some((option) => /[a-z]/.test(option)),
+      );
+      expect(has_relation).toBe(true);
+    }
+  });
+
+  it("has each lesson's opening diagnostic question answer away from index 0, varied across lessons", () => {
+    const opening_ids = [
+      "lc-tcn-001",
+      "lc-trn-001",
+      "lc-pnj-001",
+      "lc-nar-001",
+      "lc-amb-001",
+      "lc-tpn-001",
+    ];
+    const by_id = new Map(
+      lengua_y_comunicacion_questions.map((question) => [question.id, question]),
+    );
+    const indexes = opening_ids.map((id) => by_id.get(id)?.correct_option_index);
+
+    expect(indexes.every((index) => index !== 0)).toBe(true);
+    expect(new Set(indexes).size).toBeGreaterThan(1);
+  });
+
+  it("none of the area's three official sample reactivos apply to this unit, confirmed against pages 37 and 38", () => {
+    const lc_6_2_ids = new Set(Object.values(lc_6_2_reserved_ids).flat());
+    const lc_6_2_questions = lengua_y_comunicacion_questions.filter((question) =>
+      lc_6_2_ids.has(question.id),
+    );
+
+    expect(
+      lc_6_2_questions.some((question) =>
+        question.source_reference?.includes("calibración"),
+      ),
+    ).toBe(false);
+  });
+});
+
+const lc_6_3_reserved_ids: Record<string, string[]> = {
+  "lc-composicion-de-un-ensayo-01": [
+    "lc-cde-001",
+    "lc-cde-002",
+    "lc-cde-003",
+    "lc-cde-004",
+    "lc-cde-005",
+  ],
+  "lc-tipos-de-fuentes-de-informacion-01": [
+    "lc-tfi-001",
+    "lc-tfi-002",
+    "lc-tfi-003",
+    "lc-tfi-004",
+    "lc-tfi-005",
+  ],
+  "lc-reglas-de-acentuacion-01": [
+    "lc-rac-001",
+    "lc-rac-002",
+    "lc-rac-003",
+    "lc-rac-004",
+    "lc-rac-005",
+  ],
+  "lc-reglas-de-puntuacion-01": [
+    "lc-rpu-001",
+    "lc-rpu-002",
+    "lc-rpu-003",
+    "lc-rpu-004",
+    "lc-rpu-005",
+  ],
+  "lc-unidades-sintacticas-01": [
+    "lc-uds-001",
+    "lc-uds-002",
+    "lc-uds-003",
+    "lc-uds-004",
+    "lc-uds-005",
+  ],
+  "lc-coherencia-textual-01": [
+    "lc-cht-001",
+    "lc-cht-002",
+    "lc-cht-003",
+    "lc-cht-004",
+    "lc-cht-005",
+  ],
+  "lc-adecuacion-textual-01": [
+    "lc-adt-001",
+    "lc-adt-002",
+    "lc-adt-003",
+    "lc-adt-004",
+    "lc-adt-005",
+  ],
+};
+
+const lc_6_3_lesson_directory = path.join(
+  process.cwd(),
+  "content",
+  "lessons",
+  "lengua-y-comunicacion",
+  "lc-6-3-procesos-de-composicion-de-textos",
+);
+
+async function read_lc_6_3_lesson_frontmatter(
+  lesson_id: string,
+): Promise<{ topic_id: string; question_ids: string[] }> {
+  const file_path = path.join(lc_6_3_lesson_directory, `${lesson_id}.md`);
+  const raw = await readFile(file_path, "utf-8");
+  const { data } = matter(raw);
+
+  return {
+    topic_id: data["topic-id"],
+    question_ids: data["question-ids"],
+  };
+}
+
+describe("lengua y comunicación question bank — lc-6-3-procesos-de-composicion-de-textos", () => {
+  it("has exactly thirty-five records for its own seven lessons", () => {
+    const lc_6_3_ids = new Set(Object.values(lc_6_3_reserved_ids).flat());
+    const lc_6_3_questions = lengua_y_comunicacion_questions.filter((question) =>
+      lc_6_3_ids.has(question.id),
+    );
+
+    expect(lc_6_3_questions).toHaveLength(35);
+  });
+
+  it("has exactly the reserved ids for each lesson, five per lesson, matching lesson frontmatter", async () => {
+    const by_id = new Map(
+      lengua_y_comunicacion_questions.map((question) => [question.id, question]),
+    );
+    const all_expected_ids = Object.values(lc_6_3_reserved_ids).flat();
+
+    expect(
+      new Set(
+        lengua_y_comunicacion_questions
+          .filter((question) => question.topic_id.startsWith("lc-6-3-"))
+          .map((question) => question.id),
+      ),
+    ).toEqual(new Set(all_expected_ids));
+
+    for (const [lesson_id, expected_ids] of Object.entries(lc_6_3_reserved_ids)) {
+      const lesson = await read_lc_6_3_lesson_frontmatter(lesson_id);
+
+      expect(new Set(lesson.question_ids)).toEqual(new Set(expected_ids));
+
+      const lesson_questions = expected_ids.map((id) => by_id.get(id));
+      expect(lesson_questions.every((question) => question !== undefined)).toBe(true);
+
+      for (const question of lesson_questions) {
+        expect(question?.topic_id).toBe(lesson.topic_id);
+      }
+    }
+  });
+
+  it("has no structurally invalid question in the full lengua y comunicación bank", () => {
+    const errors = lengua_y_comunicacion_questions.flatMap(find_invalid_options);
+    expect(errors).toEqual([]);
+  });
+
+  it("shares no id with the pensamiento matemático, cultura digital, conciencia histórica, humanidades or ciencias naturales banks", () => {
+    expect(
+      find_duplicate_ids(
+        lengua_y_comunicacion_questions,
+        ciencias_naturales_experimentales_y_tecnologia_questions,
+        humanidades_questions,
+        conciencia_historica_questions,
+        cultura_digital_questions,
+        pensamiento_matematico_questions,
+      ),
+    ).toEqual([]);
+  });
+
+  it("every question traces to its topic's guide code, on page 17 for 6.3.1–6.3.3 and page 18 for 6.3.4–6.3.7", () => {
+    const lc_6_3_ids = new Set(Object.values(lc_6_3_reserved_ids).flat());
+
+    for (const question of lengua_y_comunicacion_questions) {
+      if (!lc_6_3_ids.has(question.id)) continue;
+
+      const code = question.topic_id
+        .match(/^lc-(\d-\d-\d)-/)?.[1]
+        ?.replaceAll("-", ".");
+      const expected_page = ["6.3.1", "6.3.2", "6.3.3"].includes(code ?? "")
+        ? "17"
+        : "18";
+      expect(question.source_reference).toContain(`página ${expected_page}`);
+      expect(question.source_reference).toContain(`código ${code}`);
+    }
+  });
+
+  it("includes at least one relation or ordering question per lesson", () => {
+    const lc_6_3_ids = new Set(Object.values(lc_6_3_reserved_ids).flat());
+    const grouped = group_questions_by_topic(
+      lengua_y_comunicacion_questions.filter((question) => lc_6_3_ids.has(question.id)),
+    );
+
+    for (const [, questions] of grouped) {
+      const has_relation_or_ordering = questions.some((question) =>
+        question.options.every((option) => /^\d[a-z,\s\d]*$/.test(option)),
+      );
+      expect(has_relation_or_ordering).toBe(true);
+    }
+  });
+
+  it("has each lesson's opening diagnostic question answer away from index 0, varied across lessons", () => {
+    const opening_ids = [
+      "lc-cde-001",
+      "lc-tfi-001",
+      "lc-rac-001",
+      "lc-rpu-001",
+      "lc-uds-001",
+      "lc-cht-001",
+      "lc-adt-001",
+    ];
+    const by_id = new Map(
+      lengua_y_comunicacion_questions.map((question) => [question.id, question]),
+    );
+    const indexes = opening_ids.map((id) => by_id.get(id)?.correct_option_index);
+
+    expect(indexes.every((index) => index !== 0)).toBe(true);
+    expect(new Set(indexes).size).toBeGreaterThan(1);
+  });
+
+  it("calibrates all three of the area's official sample reactivos, one per applicable lesson", () => {
+    const by_id = new Map(
+      lengua_y_comunicacion_questions.map((question) => [question.id, question]),
+    );
+
+    const sources = by_id.get("lc-tfi-005");
+    const punctuation = by_id.get("lc-rpu-005");
+    const coherence = by_id.get("lc-cht-005");
+
+    expect(sources?.source_reference).toContain(
+      "calibración de profundidad: página 37",
+    );
+    expect(punctuation?.source_reference).toContain(
+      "calibración de profundidad: página 38",
+    );
+    expect(coherence?.source_reference).toContain(
+      "calibración de profundidad: página 38",
+    );
+  });
+});
+
+const lc_6_4_reserved_ids: Record<string, string[]> = {
+  "lc-elementos-de-la-exposicion-oral-01": [
+    "lc-eeo-001",
+    "lc-eeo-002",
+    "lc-eeo-003",
+    "lc-eeo-004",
+    "lc-eeo-005",
+  ],
+  "lc-caracteristicas-del-dialogo-01": [
+    "lc-cdi-001",
+    "lc-cdi-002",
+    "lc-cdi-003",
+    "lc-cdi-004",
+    "lc-cdi-005",
+  ],
+  "lc-elementos-del-debate-01": [
+    "lc-edb-001",
+    "lc-edb-002",
+    "lc-edb-003",
+    "lc-edb-004",
+    "lc-edb-005",
+  ],
+  "lc-funciones-del-dialogo-y-debate-01": [
+    "lc-fdd-001",
+    "lc-fdd-002",
+    "lc-fdd-003",
+    "lc-fdd-004",
+    "lc-fdd-005",
+  ],
+};
+
+const lc_6_4_lesson_directory = path.join(
+  process.cwd(),
+  "content",
+  "lessons",
+  "lengua-y-comunicacion",
+  "lc-6-4-formas-orales-de-la-comunicacion",
+);
+
+async function read_lc_6_4_lesson_frontmatter(
+  lesson_id: string,
+): Promise<{ topic_id: string; question_ids: string[] }> {
+  const file_path = path.join(lc_6_4_lesson_directory, `${lesson_id}.md`);
+  const raw = await readFile(file_path, "utf-8");
+  const { data } = matter(raw);
+
+  return {
+    topic_id: data["topic-id"],
+    question_ids: data["question-ids"],
+  };
+}
+
+describe("lengua y comunicación question bank — lc-6-4-formas-orales-de-la-comunicacion", () => {
+  it("has exactly twenty records for its own four lessons", () => {
+    const lc_6_4_ids = new Set(Object.values(lc_6_4_reserved_ids).flat());
+    const lc_6_4_questions = lengua_y_comunicacion_questions.filter((question) =>
+      lc_6_4_ids.has(question.id),
+    );
+
+    expect(lc_6_4_questions).toHaveLength(20);
+  });
+
+  it("has exactly the reserved ids for each lesson, five per lesson, matching lesson frontmatter", async () => {
+    const by_id = new Map(
+      lengua_y_comunicacion_questions.map((question) => [question.id, question]),
+    );
+    const all_expected_ids = Object.values(lc_6_4_reserved_ids).flat();
+
+    expect(
+      new Set(
+        lengua_y_comunicacion_questions
+          .filter((question) => question.topic_id.startsWith("lc-6-4-"))
+          .map((question) => question.id),
+      ),
+    ).toEqual(new Set(all_expected_ids));
+
+    for (const [lesson_id, expected_ids] of Object.entries(lc_6_4_reserved_ids)) {
+      const lesson = await read_lc_6_4_lesson_frontmatter(lesson_id);
+
+      expect(new Set(lesson.question_ids)).toEqual(new Set(expected_ids));
+
+      const lesson_questions = expected_ids.map((id) => by_id.get(id));
+      expect(lesson_questions.every((question) => question !== undefined)).toBe(true);
+
+      for (const question of lesson_questions) {
+        expect(question?.topic_id).toBe(lesson.topic_id);
+      }
+    }
+  });
+
+  it("has no structurally invalid question in the full lengua y comunicación bank", () => {
+    const errors = lengua_y_comunicacion_questions.flatMap(find_invalid_options);
+    expect(errors).toEqual([]);
+  });
+
+  it("shares no id with the pensamiento matemático, cultura digital, conciencia histórica, humanidades or ciencias naturales banks", () => {
+    expect(
+      find_duplicate_ids(
+        lengua_y_comunicacion_questions,
+        ciencias_naturales_experimentales_y_tecnologia_questions,
+        humanidades_questions,
+        conciencia_historica_questions,
+        cultura_digital_questions,
+        pensamiento_matematico_questions,
+      ),
+    ).toEqual([]);
+  });
+
+  it("every question traces to its topic's guide code on page 18", () => {
+    const lc_6_4_ids = new Set(Object.values(lc_6_4_reserved_ids).flat());
+
+    for (const question of lengua_y_comunicacion_questions) {
+      if (!lc_6_4_ids.has(question.id)) continue;
+
+      const code = question.topic_id
+        .match(/^lc-(\d-\d-\d)-/)?.[1]
+        ?.replaceAll("-", ".");
+      expect(question.source_reference).toContain("página 18");
+      expect(question.source_reference).toContain(`código ${code}`);
+    }
+  });
+
+  it("includes at least one relation or ordering question per lesson", () => {
+    const lc_6_4_ids = new Set(Object.values(lc_6_4_reserved_ids).flat());
+    const grouped = group_questions_by_topic(
+      lengua_y_comunicacion_questions.filter((question) => lc_6_4_ids.has(question.id)),
+    );
+
+    for (const [, questions] of grouped) {
+      const has_relation_or_ordering = questions.some((question) =>
+        question.options.every((option) => /^\d[a-z,\s\d]*$/.test(option)),
+      );
+      expect(has_relation_or_ordering).toBe(true);
+    }
+  });
+
+  it("has each lesson's opening diagnostic question answer away from index 0, varied across lessons", () => {
+    const opening_ids = ["lc-eeo-001", "lc-cdi-001", "lc-edb-001", "lc-fdd-001"];
+    const by_id = new Map(
+      lengua_y_comunicacion_questions.map((question) => [question.id, question]),
+    );
+    const indexes = opening_ids.map((id) => by_id.get(id)?.correct_option_index);
+
+    expect(indexes.every((index) => index !== 0)).toBe(true);
+    expect(new Set(indexes).size).toBeGreaterThan(1);
+  });
+
+  it("carries no calibration note, since none of the area's three official sample reactivos apply to this unit", () => {
+    const lc_6_4_ids = new Set(Object.values(lc_6_4_reserved_ids).flat());
+
+    for (const question of lengua_y_comunicacion_questions) {
+      if (!lc_6_4_ids.has(question.id)) continue;
+
+      expect(question.source_reference?.includes("calibración")).toBe(false);
+    }
+  });
+});
+
+const lc_6_5_reserved_ids: Record<string, string[]> = {
+  "lc-tiempo-presente-en-ingles-01": [
+    "lc-tpi-001",
+    "lc-tpi-002",
+    "lc-tpi-003",
+    "lc-tpi-004",
+    "lc-tpi-005",
+  ],
+  "lc-tiempo-pasado-en-ingles-01": [
+    "lc-tpa-001",
+    "lc-tpa-002",
+    "lc-tpa-003",
+    "lc-tpa-004",
+    "lc-tpa-005",
+  ],
+  "lc-tiempo-futuro-en-ingles-01": [
+    "lc-tfu-001",
+    "lc-tfu-002",
+    "lc-tfu-003",
+    "lc-tfu-004",
+    "lc-tfu-005",
+  ],
+  "lc-presente-perfecto-en-ingles-01": [
+    "lc-ppf-001",
+    "lc-ppf-002",
+    "lc-ppf-003",
+    "lc-ppf-004",
+    "lc-ppf-005",
+  ],
+  "lc-pasado-perfecto-en-ingles-01": [
+    "lc-psp-001",
+    "lc-psp-002",
+    "lc-psp-003",
+    "lc-psp-004",
+    "lc-psp-005",
+  ],
+  "lc-preguntas-wh-en-ingles-01": [
+    "lc-pwh-001",
+    "lc-pwh-002",
+    "lc-pwh-003",
+    "lc-pwh-004",
+    "lc-pwh-005",
+  ],
+  "lc-comparaciones-en-ingles-01": [
+    "lc-rdc-001",
+    "lc-rdc-002",
+    "lc-rdc-003",
+    "lc-rdc-004",
+    "lc-rdc-005",
+  ],
+  "lc-verbos-modales-en-ingles-01": [
+    "lc-vbm-001",
+    "lc-vbm-002",
+    "lc-vbm-003",
+    "lc-vbm-004",
+    "lc-vbm-005",
+  ],
+  "lc-estructuras-condicionales-en-ingles-01": [
+    "lc-cnd-001",
+    "lc-cnd-002",
+    "lc-cnd-003",
+    "lc-cnd-004",
+    "lc-cnd-005",
+  ],
+  "lc-voz-pasiva-en-ingles-01": [
+    "lc-vzp-001",
+    "lc-vzp-002",
+    "lc-vzp-003",
+    "lc-vzp-004",
+    "lc-vzp-005",
+  ],
+};
+
+const lc_6_5_lesson_directory = path.join(
+  process.cwd(),
+  "content",
+  "lessons",
+  "lengua-y-comunicacion",
+  "lc-6-5-estructura-gramatical-del-ingles",
+);
+
+async function read_lc_6_5_lesson_frontmatter(
+  lesson_id: string,
+): Promise<{ topic_id: string; question_ids: string[] }> {
+  const file_path = path.join(lc_6_5_lesson_directory, `${lesson_id}.md`);
+  const raw = await readFile(file_path, "utf-8");
+  const { data } = matter(raw);
+
+  return {
+    topic_id: data["topic-id"],
+    question_ids: data["question-ids"],
+  };
+}
+
+describe("lengua y comunicación question bank — lc-6-5-estructura-gramatical-del-ingles", () => {
+  it("has exactly fifty records for its own ten lessons", () => {
+    const lc_6_5_ids = new Set(Object.values(lc_6_5_reserved_ids).flat());
+    const lc_6_5_questions = lengua_y_comunicacion_questions.filter((question) =>
+      lc_6_5_ids.has(question.id),
+    );
+
+    expect(lc_6_5_questions).toHaveLength(50);
+  });
+
+  it("has exactly the reserved ids for each lesson, five per lesson, matching lesson frontmatter", async () => {
+    const by_id = new Map(
+      lengua_y_comunicacion_questions.map((question) => [question.id, question]),
+    );
+    const all_expected_ids = Object.values(lc_6_5_reserved_ids).flat();
+
+    expect(
+      new Set(
+        lengua_y_comunicacion_questions
+          .filter((question) => question.topic_id.startsWith("lc-6-5-"))
+          .map((question) => question.id),
+      ),
+    ).toEqual(new Set(all_expected_ids));
+
+    for (const [lesson_id, expected_ids] of Object.entries(lc_6_5_reserved_ids)) {
+      const lesson = await read_lc_6_5_lesson_frontmatter(lesson_id);
+
+      expect(new Set(lesson.question_ids)).toEqual(new Set(expected_ids));
+
+      const lesson_questions = expected_ids.map((id) => by_id.get(id));
+      expect(lesson_questions.every((question) => question !== undefined)).toBe(true);
+
+      for (const question of lesson_questions) {
+        expect(question?.topic_id).toBe(lesson.topic_id);
+      }
+    }
+  });
+
+  it("has no structurally invalid question in the full lengua y comunicación bank", () => {
+    const errors = lengua_y_comunicacion_questions.flatMap(find_invalid_options);
+    expect(errors).toEqual([]);
+  });
+
+  it("has exactly one hundred fifty-five records total, across the area's five units", () => {
+    expect(lengua_y_comunicacion_questions).toHaveLength(155);
+  });
+
+  it("shares no id with the pensamiento matemático, cultura digital, conciencia histórica, humanidades or ciencias naturales banks", () => {
+    expect(
+      find_duplicate_ids(
+        lengua_y_comunicacion_questions,
+        ciencias_naturales_experimentales_y_tecnologia_questions,
+        humanidades_questions,
+        conciencia_historica_questions,
+        cultura_digital_questions,
+        pensamiento_matematico_questions,
+      ),
+    ).toEqual([]);
+  });
+
+  it("every question traces to its topic's guide code on page 18", () => {
+    const lc_6_5_ids = new Set(Object.values(lc_6_5_reserved_ids).flat());
+
+    for (const question of lengua_y_comunicacion_questions) {
+      if (!lc_6_5_ids.has(question.id)) continue;
+
+      const code = question.topic_id
+        .match(/^lc-(\d-\d-(?:\d+))-/)?.[1]
+        ?.replaceAll("-", ".");
+      expect(question.source_reference).toContain("página 18");
+      expect(question.source_reference).toContain(`código ${code}`);
+    }
+  });
+
+  it("includes at least one relation or ordering question per lesson", () => {
+    const lc_6_5_ids = new Set(Object.values(lc_6_5_reserved_ids).flat());
+    const grouped = group_questions_by_topic(
+      lengua_y_comunicacion_questions.filter((question) => lc_6_5_ids.has(question.id)),
+    );
+
+    for (const [, questions] of grouped) {
+      const has_relation_or_ordering = questions.some((question) =>
+        question.options.every((option) => /^\d[a-z,\s\d]*$/.test(option)),
+      );
+      expect(has_relation_or_ordering).toBe(true);
+    }
+  });
+
+  it("has each lesson's opening diagnostic question answer away from index 0, varied across lessons", () => {
+    const opening_ids = [
+      "lc-tpi-001",
+      "lc-tpa-001",
+      "lc-tfu-001",
+      "lc-ppf-001",
+      "lc-psp-001",
+      "lc-pwh-001",
+      "lc-rdc-001",
+      "lc-vbm-001",
+      "lc-cnd-001",
+      "lc-vzp-001",
+    ];
+    const by_id = new Map(
+      lengua_y_comunicacion_questions.map((question) => [question.id, question]),
+    );
+    const indexes = opening_ids.map((id) => by_id.get(id)?.correct_option_index);
+
+    expect(indexes.every((index) => index !== 0)).toBe(true);
+    expect(new Set(indexes).size).toBeGreaterThan(1);
+  });
+
+  it("carries no calibration note, since none of the area's three official sample reactivos apply to this unit", () => {
+    const lc_6_5_ids = new Set(Object.values(lc_6_5_reserved_ids).flat());
+
+    for (const question of lengua_y_comunicacion_questions) {
+      if (!lc_6_5_ids.has(question.id)) continue;
+
+      expect(question.source_reference?.includes("calibración")).toBe(false);
     }
   });
 });
@@ -1920,5 +4169,219 @@ describe("ciencias sociales question bank — cs-7-2-perspectivas-politicas", ()
         question.prompt.toLowerCase().includes("cenapred"),
       ),
     ).toBe(false);
+  });
+});
+
+const cs_7_3_reserved_ids: Record<string, string[]> = {
+  "cs-organizacion-social-01": [
+    "cs-tos-001",
+    "cs-tos-002",
+    "cs-tos-003",
+    "cs-tos-004",
+    "cs-tos-005",
+  ],
+  "cs-indicadores-de-desarrollo-comunitario-01": [
+    "cs-idc-001",
+    "cs-idc-002",
+    "cs-idc-003",
+    "cs-idc-004",
+    "cs-idc-005",
+  ],
+  "cs-indicadores-de-bienestar-01": [
+    "cs-idb-001",
+    "cs-idb-002",
+    "cs-idb-003",
+    "cs-idb-004",
+    "cs-idb-005",
+  ],
+  "cs-segregacion-social-01": [
+    "cs-seg-001",
+    "cs-seg-002",
+    "cs-seg-003",
+    "cs-seg-004",
+    "cs-seg-005",
+  ],
+  "cs-derechos-de-ninas-ninos-y-adolescentes-01": [
+    "cs-dnna-001",
+    "cs-dnna-002",
+    "cs-dnna-003",
+    "cs-dnna-004",
+    "cs-dnna-005",
+  ],
+  "cs-crisis-sociales-economicas-y-ambientales-01": [
+    "cs-cse-001",
+    "cs-cse-002",
+    "cs-cse-003",
+    "cs-cse-004",
+    "cs-cse-005",
+  ],
+  "cs-tipos-de-migraciones-01": [
+    "cs-mig-001",
+    "cs-mig-002",
+    "cs-mig-003",
+    "cs-mig-004",
+    "cs-mig-005",
+  ],
+  "cs-movimientos-sociales-antisistema-01": [
+    "cs-msa-001",
+    "cs-msa-002",
+    "cs-msa-003",
+    "cs-msa-004",
+    "cs-msa-005",
+  ],
+};
+
+const cs_7_3_lesson_directory = path.join(
+  process.cwd(),
+  "content",
+  "lessons",
+  "ciencias-sociales",
+  "cs-7-3-problemas-sociologicos",
+);
+
+async function read_cs_7_3_lesson_frontmatter(
+  lesson_id: string,
+): Promise<{ topic_id: string; question_ids: string[] }> {
+  const file_path = path.join(cs_7_3_lesson_directory, `${lesson_id}.md`);
+  const raw = await readFile(file_path, "utf-8");
+  const { data } = matter(raw);
+
+  return {
+    topic_id: data["topic-id"],
+    question_ids: data["question-ids"],
+  };
+}
+
+describe("ciencias sociales question bank — cs-7-3-problemas-sociologicos (completa el área)", () => {
+  it("has exactly forty records for its own eight lessons", () => {
+    const by_id = new Map(
+      ciencias_sociales_questions.map((question) => [question.id, question]),
+    );
+    const all_expected_ids = Object.values(cs_7_3_reserved_ids).flat();
+
+    const resolved = all_expected_ids.map((id) => by_id.get(id));
+    expect(resolved.every((question) => question !== undefined)).toBe(true);
+    expect(all_expected_ids).toHaveLength(40);
+  });
+
+  it("has exactly the reserved ids for each lesson, five per lesson, matching lesson frontmatter", async () => {
+    const by_id = new Map(
+      ciencias_sociales_questions.map((question) => [question.id, question]),
+    );
+
+    for (const [lesson_id, expected_ids] of Object.entries(cs_7_3_reserved_ids)) {
+      const lesson = await read_cs_7_3_lesson_frontmatter(lesson_id);
+
+      expect(new Set(lesson.question_ids)).toEqual(new Set(expected_ids));
+
+      const lesson_questions = expected_ids.map((id) => by_id.get(id));
+      expect(lesson_questions.every((question) => question !== undefined)).toBe(true);
+
+      for (const question of lesson_questions) {
+        expect(question?.topic_id).toBe(lesson.topic_id);
+      }
+    }
+  });
+
+  it("has no structurally invalid question in the full ciencias sociales bank", () => {
+    const errors = ciencias_sociales_questions.flatMap(find_invalid_options);
+    expect(errors).toEqual([]);
+  });
+
+  it("has exactly one hundred twenty-five records total, across the area's three units", () => {
+    expect(ciencias_sociales_questions).toHaveLength(125);
+  });
+
+  it("shares no id with the pensamiento matemático, cultura digital, conciencia histórica, humanidades, ciencias naturales or lengua y comunicación banks", () => {
+    expect(
+      find_duplicate_ids(
+        ciencias_sociales_questions,
+        lengua_y_comunicacion_questions,
+        ciencias_naturales_experimentales_y_tecnologia_questions,
+        humanidades_questions,
+        conciencia_historica_questions,
+        cultura_digital_questions,
+        pensamiento_matematico_questions,
+      ),
+    ).toEqual([]);
+  });
+
+  it("every question traces to its topic's guide code on page 20", () => {
+    const cs_7_3_ids = new Set(Object.values(cs_7_3_reserved_ids).flat());
+
+    for (const question of ciencias_sociales_questions.filter((question) =>
+      cs_7_3_ids.has(question.id),
+    )) {
+      const code = question.topic_id
+        .match(/^cs-(\d-\d-\d)-/)?.[1]
+        ?.replaceAll("-", ".");
+      expect(question.source_reference).toContain("página 20");
+      expect(question.source_reference).toContain(`código ${code}`);
+    }
+  });
+
+  it("includes a jerarquización question ordering the estereotipo-discriminación-exclusión sequence", () => {
+    const grouped = group_questions_by_topic(ciencias_sociales_questions);
+    const seg_questions =
+      grouped.get("cs-7-3-4-factores-que-propician-la-segregacion-social") ?? [];
+
+    const has_ordering = seg_questions.some((question) =>
+      question.options.every((option) => /^\d[\d,\s]*$/.test(option)),
+    );
+
+    expect(has_ordering).toBe(true);
+  });
+
+  it("includes at least one relation question in every cs-7-3 lesson except segregación social, which uses jerarquización instead", () => {
+    const grouped = group_questions_by_topic(
+      ciencias_sociales_questions.filter((question) =>
+        Object.values(cs_7_3_reserved_ids).flat().includes(question.id),
+      ),
+    );
+
+    for (const [topic_id, questions] of grouped) {
+      if (topic_id === "cs-7-3-4-factores-que-propician-la-segregacion-social") {
+        continue;
+      }
+
+      const has_relation = questions.some(
+        (question) =>
+          question.options.every((option) => /^\d[a-z,\s\d]*$/.test(option)) &&
+          question.options.some((option) => /[a-z]/.test(option)),
+      );
+      expect(has_relation).toBe(true);
+    }
+  });
+
+  it("calibrates the tipos de organización social lesson against the guide's own página 44 sample, using the topic's own four categories instead of copying the sample's wording", () => {
+    const grouped = group_questions_by_topic(ciencias_sociales_questions);
+    const tos_questions = grouped.get("cs-7-3-1-tipos-de-organizacion-social") ?? [];
+
+    expect(tos_questions).toHaveLength(5);
+    expect(
+      tos_questions.every((question) =>
+        ["clase social", "grupo social", "comunidad", "institución"].some(
+          (category) =>
+            question.prompt.toLowerCase().includes(category) ||
+            question.options.some((option) => option.toLowerCase().includes(category)),
+        ),
+      ),
+    ).toBe(true);
+  });
+
+  it("does not introduce current political facts in the crisis and movements lessons", () => {
+    const grouped = group_questions_by_topic(ciencias_sociales_questions);
+    const cse_questions =
+      grouped.get(
+        "cs-7-3-6-consecuencias-de-crisis-sociales-economicas-y-ambientales",
+      ) ?? [];
+    const msa_questions =
+      grouped.get("cs-7-3-8-movimientos-sociales-antisistema") ?? [];
+
+    for (const question of [...cse_questions, ...msa_questions]) {
+      expect(question.prompt.toLowerCase()).not.toMatch(
+        /202\d|actual(mente)?|hoy en día/,
+      );
+    }
   });
 });

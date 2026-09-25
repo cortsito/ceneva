@@ -840,7 +840,7 @@ export const pensamiento_matematico_questions: question[] = [
   {
     id: 'pm-sel-004',
     topic_id: 'pm-1-3-6-sistemas-de-ecuaciones-lineales-dos-incognitas',
-    prompt: 'Relaciona cada sistema con su solución.\n\n1. x + y = 5; x - y = 1\n2. x + y = 8; x - y = 4\n3. x + y = 9; x - y = 3\n\na. (4, 1)\nb. (6, 2)\nc. (6, 3)',
+    prompt: 'Relaciona cada sistema con su solución.\n\n1. x + y = 5; x - y = 3\n2. x + y = 8; x - y = 4\n3. x + y = 9; x - y = 3\n\na. (4, 1)\nb. (6, 2)\nc. (6, 3)',
     options: ['1a, 2b, 3c', '1b, 2a, 3c', '1a, 2c, 3b'],
     correct_option_index: 0,
     explanation: 'Al sumar cada par de ecuaciones se obtiene x y luego se recupera y por sustitución.',

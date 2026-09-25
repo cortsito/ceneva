@@ -1463,5 +1463,701 @@ export const ciencias_sociales_questions: question[] = [
     source_reference: 'Guía oficial, página 19, código 7.2.8.',
     difficulty: 'advanced',
     use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-tos-001',
+    topic_id: 'cs-7-3-1-tipos-de-organizacion-social',
+    prompt:
+      'Los integrantes de un club de ajedrez se reúnen cada semana, se conocen entre sí y coordinan juntos sus actividades. ¿A qué forma de organización social corresponde este club?',
+    options: [
+      'a una comunidad, porque todos comparten el mismo interés por el ajedrez',
+      'a un grupo social, porque interactúan de manera estable entre sí y comparten un objetivo común',
+      'a una clase social, porque todos ocupan una posición similar en la estructura económica'
+    ],
+    correct_option_index: 1,
+    explanation:
+      'Un grupo social se define por una interacción relativamente estable entre sus integrantes y un objetivo común, exactamente lo que describe este club de ajedrez.',
+    common_error:
+      'Confundir grupo social con comunidad por el simple hecho de compartir un interés, sin verificar si existe una interacción directa y estable entre sus integrantes.',
+    source_reference: 'Guía oficial, página 20, código 7.3.1.',
+    difficulty: 'basic',
+    use_cases: ['diagnostic', 'practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-tos-002',
+    topic_id: 'cs-7-3-1-tipos-de-organizacion-social',
+    prompt:
+      'Un conjunto estable y socialmente reconocido de normas, roles y prácticas que regula un ámbito de la vida social, como la escuela o el matrimonio, se llama _______.',
+    options: ['institución', 'grupo social', 'comunidad'],
+    correct_option_index: 0,
+    explanation:
+      'Una institución es un conjunto estable y socialmente reconocido de normas, roles y prácticas que regula un ámbito de la vida social, como la escuela o el matrimonio.',
+    common_error:
+      'Confundir institución con grupo social, cuando la institución es un conjunto de normas y roles reconocidos socialmente, no un conjunto de personas que interactúan directamente entre sí.',
+    source_reference: 'Guía oficial, página 20, código 7.3.1.',
+    difficulty: 'basic',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-tos-003',
+    topic_id: 'cs-7-3-1-tipos-de-organizacion-social',
+    prompt:
+      'Dos personas que trabajan en empresas distintas, sin conocerse ni haber interactuado nunca, tienen un nivel de ingreso y acceso a recursos similar. ¿Por qué esto no las convierte en un grupo social, aunque compartan una clase social?',
+    options: [
+      'porque un grupo social exige una interacción relativamente estable entre sus integrantes, y compartir una posición económica no implica esa interacción',
+      'porque en realidad dos personas con el mismo ingreso siempre pertenecen al mismo grupo social',
+      'porque la clase social y el grupo social son exactamente el mismo concepto con otro nombre'
+    ],
+    correct_option_index: 0,
+    explanation:
+      'Compartir una clase social significa ocupar una posición económica similar, sin que eso implique ninguna interacción directa; un grupo social, en cambio, exige esa interacción relativamente estable entre sus integrantes.',
+    common_error:
+      'Suponer que compartir una característica común, como el ingreso, basta para formar un grupo social, sin verificar si existe una interacción directa entre las personas.',
+    source_reference: 'Guía oficial, página 20, código 7.3.1.',
+    difficulty: 'intermediate',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-tos-004',
+    topic_id: 'cs-7-3-1-tipos-de-organizacion-social',
+    prompt:
+      'Los habitantes de un pueblo comparten el mismo idioma, las mismas costumbres y normas de convivencia, aunque no todos se conozcan entre sí personalmente. ¿Por qué esto corresponde a una comunidad y no a un grupo social?',
+    options: [
+      'porque una comunidad se define por compartir territorio, costumbres y forma de comunicarse, sin exigir que todos sus integrantes interactúen directamente entre sí, a diferencia de un grupo social',
+      'porque un pueblo nunca puede considerarse una comunidad si tiene más de cierto número de habitantes',
+      'porque comunidad y grupo social son sinónimos exactos en cualquier contexto'
+    ],
+    correct_option_index: 0,
+    explanation:
+      'Una comunidad comparte territorio, costumbres y forma de comunicarse sin que se exija una interacción directa entre todos sus integrantes, mientras que un grupo social sí exige esa interacción relativamente estable.',
+    common_error:
+      'Tratar comunidad y grupo social como sinónimos, sin distinguir que la comunidad no exige interacción directa entre todos sus integrantes.',
+    source_reference: 'Guía oficial, página 20, código 7.3.1.',
+    difficulty: 'intermediate',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-tos-005',
+    topic_id: 'cs-7-3-1-tipos-de-organizacion-social',
+    prompt:
+      'Relaciona cada situación con la forma de organización social que representa.\n\n1. Un equipo de trabajo que se reúne a diario y coordina directamente sus tareas\n2. Los habitantes de una colonia que comparten costumbres y forma de comunicarse, sin conocerse todos entre sí\n3. Un conjunto de personas con un nivel de ingreso similar, sin interactuar entre sí\n4. El conjunto de normas y roles reconocidos socialmente que regula la vida escolar\n\na. Clase social\nb. Grupo social\nc. Institución\nd. Comunidad',
+    options: ['1b, 2d, 3a, 4c', '1d, 2b, 3c, 4a', '1a, 2c, 3d, 4b'],
+    correct_option_index: 0,
+    explanation:
+      'El equipo de trabajo con interacción directa es un grupo social (b); los habitantes de la colonia que comparten costumbres son una comunidad (d); las personas con ingreso similar sin interactuar son una clase social (a); las normas que regulan la vida escolar son una institución (c).',
+    common_error:
+      'Confundir comunidad con grupo social al no distinguir si la situación exige o no una interacción directa entre todos sus integrantes.',
+    source_reference: 'Guía oficial, página 20, código 7.3.1.',
+    difficulty: 'advanced',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-idc-001',
+    topic_id: 'cs-7-3-2-indicadores-de-desarrollo-comunitario',
+    prompt:
+      'Un estudio mide qué porcentaje de las viviendas de una localidad cuenta con conexión a la red de agua potable. ¿Este estudio mide un indicador de bienestar o de desarrollo comunitario?',
+    options: [
+      'de bienestar, porque el agua potable es una necesidad vital para cualquier persona',
+      'de bienestar, porque describe la situación de cada persona de forma individual',
+      'de desarrollo comunitario, porque describe una condición de infraestructura disponible para toda la localidad, no la situación de una persona u hogar particular'
+    ],
+    correct_option_index: 2,
+    explanation:
+      'Medir la cobertura de agua potable de toda una localidad describe una condición colectiva de infraestructura, propia de un indicador de desarrollo comunitario, y no la situación particular de una persona u hogar.',
+    common_error:
+      'Clasificar un indicador según el tema del que trata (como el agua potable) en vez de según la unidad que mide: una localidad completa o una persona/hogar particular.',
+    source_reference: 'Guía oficial, página 20, código 7.3.2.',
+    difficulty: 'basic',
+    use_cases: ['diagnostic', 'practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-idc-002',
+    topic_id: 'cs-7-3-2-indicadores-de-desarrollo-comunitario',
+    prompt:
+      'Un indicador que mide condiciones colectivas de infraestructura y acceso a servicios disponibles para toda una localidad, sin describir la situación particular de una persona u hogar, es un indicador de _______.',
+    options: ['desarrollo comunitario', 'bienestar', 'clase social'],
+    correct_option_index: 0,
+    explanation:
+      'Un indicador de desarrollo comunitario mide condiciones colectivas de infraestructura disponibles para toda una localidad, sin describir la situación particular de una persona u hogar.',
+    common_error:
+      'Confundir desarrollo comunitario con bienestar, cuando este último mide la situación de una persona u hogar particular, no la infraestructura colectiva de una localidad.',
+    source_reference: 'Guía oficial, página 20, código 7.3.2.',
+    difficulty: 'basic',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-idc-003',
+    topic_id: 'cs-7-3-2-indicadores-de-desarrollo-comunitario',
+    prompt:
+      "Un estudio mide si una vivienda específica cuenta con conexión a la red eléctrica. Alguien afirma que esto es un indicador de desarrollo comunitario 'porque trata sobre infraestructura'. ¿Por qué esa afirmación es incorrecta?",
+    options: [
+      'porque describe la situación de una vivienda particular, no una condición colectiva de toda la localidad, así que es un indicador de bienestar, no de desarrollo comunitario',
+      'porque la electricidad nunca se considera parte de ningún tipo de indicador social',
+      'porque un indicador de desarrollo comunitario solo puede referirse a escuelas, nunca a servicios básicos'
+    ],
+    correct_option_index: 0,
+    explanation:
+      'El criterio de clasificación es la unidad que se mide, no el tema del indicador; medir una vivienda particular describe una situación de bienestar, aunque el tema (electricidad) también pueda medirse a nivel de infraestructura colectiva.',
+    common_error:
+      'Clasificar un indicador únicamente por el tema del que trata (infraestructura, servicios), sin verificar si describe una localidad completa o una persona/hogar particular.',
+    source_reference: 'Guía oficial, página 20, código 7.3.2.',
+    difficulty: 'intermediate',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-idc-004',
+    topic_id: 'cs-7-3-2-indicadores-de-desarrollo-comunitario',
+    prompt:
+      '¿Por qué medir qué porcentaje de las localidades de una región cuenta con al menos una escuela primaria cercana es un indicador de desarrollo comunitario y no de bienestar?',
+    options: [
+      'porque describe una condición de infraestructura disponible para localidades completas, no la situación educativa de una persona particular',
+      'porque cualquier indicador relacionado con la educación es automáticamente de desarrollo comunitario',
+      'porque el bienestar nunca puede relacionarse con el acceso a la educación'
+    ],
+    correct_option_index: 0,
+    explanation:
+      'Medir la disponibilidad de escuelas cercanas para localidades completas describe una condición colectiva de infraestructura, propia del desarrollo comunitario, y no la situación educativa de una persona particular.',
+    common_error:
+      'Suponer que el tema del indicador (educación) determina su tipo, en vez de verificar si describe una localidad completa o a una persona particular.',
+    source_reference: 'Guía oficial, página 20, código 7.3.2.',
+    difficulty: 'intermediate',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-idc-005',
+    topic_id: 'cs-7-3-2-indicadores-de-desarrollo-comunitario',
+    prompt:
+      'Relaciona cada indicador con el tipo al que corresponde.\n\n1. Porcentaje de calles pavimentadas en una localidad\n2. Ingreso mensual de un hogar específico\n3. Cobertura de drenaje en una localidad\n4. Años de escolaridad de una persona particular\n\na. Indicador de bienestar\nb. Indicador de desarrollo comunitario',
+    options: ['1b, 2a, 3b, 4a', '1a, 2b, 3a, 4b', '1b, 2b, 3a, 4a'],
+    correct_option_index: 0,
+    explanation:
+      'Las calles pavimentadas y el drenaje son condiciones de infraestructura de toda la localidad, así que son indicadores de desarrollo comunitario (b); el ingreso de un hogar y la escolaridad de una persona describen situaciones particulares, así que son indicadores de bienestar (a).',
+    common_error:
+      'Clasificar por el tema del indicador en vez de por la unidad que mide: una localidad completa o una persona/hogar particular.',
+    source_reference: 'Guía oficial, página 20, código 7.3.2.',
+    difficulty: 'advanced',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-idb-001',
+    topic_id: 'cs-7-3-3-indicadores-de-bienestar',
+    prompt:
+      'Un estudio mide si el ingreso de un hogar específico alcanza para cubrir una canasta básica de alimentos. ¿Este estudio mide un indicador de bienestar o de desarrollo comunitario?',
+    options: [
+      'de desarrollo comunitario, porque el ingreso siempre se mide a nivel de toda una localidad',
+      'de bienestar, porque describe la situación económica de un hogar particular',
+      'de desarrollo comunitario, porque la alimentación es una necesidad vital para toda la población'
+    ],
+    correct_option_index: 1,
+    explanation:
+      'Medir el ingreso de un hogar específico describe la situación económica de una unidad particular, propia de un indicador de bienestar, y no una condición colectiva de infraestructura de toda una localidad.',
+    common_error:
+      'Suponer que un indicador relacionado con una necesidad básica es automáticamente de desarrollo comunitario, sin verificar si describe a una persona/hogar particular o a una localidad completa.',
+    source_reference: 'Guía oficial, página 20, código 7.3.3.',
+    difficulty: 'basic',
+    use_cases: ['diagnostic', 'practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-idb-002',
+    topic_id: 'cs-7-3-3-indicadores-de-bienestar',
+    prompt:
+      'Un indicador que mide las condiciones de vida de una persona o un hogar particular —su ingreso, su alimentación, su nivel educativo— es un indicador de _______.',
+    options: ['bienestar', 'desarrollo comunitario', 'organización social'],
+    correct_option_index: 0,
+    explanation:
+      'Un indicador de bienestar mide las condiciones de vida de una persona o un hogar particular, como su ingreso, alimentación o nivel educativo.',
+    common_error:
+      'Confundir bienestar con desarrollo comunitario, cuando este último mide condiciones colectivas de infraestructura de toda una localidad, no la situación de una persona u hogar particular.',
+    source_reference: 'Guía oficial, página 20, código 7.3.3.',
+    difficulty: 'basic',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-idb-003',
+    topic_id: 'cs-7-3-3-indicadores-de-bienestar',
+    prompt:
+      "Un estudio mide qué porcentaje de las escuelas de una localidad cuenta con suministro eléctrico. Alguien afirma que esto es un indicador de bienestar 'porque se relaciona con la educación'. ¿Por qué esa afirmación es incorrecta?",
+    options: [
+      'porque describe una condición de infraestructura de toda la localidad, no la situación particular de una persona u hogar, así que es un indicador de desarrollo comunitario, no de bienestar',
+      'porque la electricidad nunca puede relacionarse con ningún indicador social',
+      'porque el bienestar solo puede medirse a través del ingreso, nunca de la educación'
+    ],
+    correct_option_index: 0,
+    explanation:
+      'El criterio de clasificación es la unidad que se mide, no el tema; medir la infraestructura eléctrica de las escuelas de toda una localidad es un indicador de desarrollo comunitario, no de bienestar.',
+    common_error:
+      'Clasificar un indicador únicamente por el tema del que trata (educación), sin verificar si describe una localidad completa o una persona/hogar particular.',
+    source_reference: 'Guía oficial, página 20, código 7.3.3.',
+    difficulty: 'intermediate',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-idb-004',
+    topic_id: 'cs-7-3-3-indicadores-de-bienestar',
+    prompt:
+      '¿Por qué medir cuántos años de escolaridad completó, en promedio, cada integrante adulto de un hogar específico es un indicador de bienestar y no de desarrollo comunitario?',
+    options: [
+      'porque describe una condición de las personas de un hogar particular, no la infraestructura educativa disponible para toda la localidad',
+      'porque cualquier indicador relacionado con la escolaridad es automáticamente de desarrollo comunitario',
+      'porque el desarrollo comunitario nunca puede relacionarse con la educación'
+    ],
+    correct_option_index: 0,
+    explanation:
+      'Medir la escolaridad de las personas de un hogar particular describe una condición de bienestar, mientras que medir la disponibilidad de escuelas para toda una localidad sería un indicador de desarrollo comunitario.',
+    common_error:
+      'Suponer que el tema del indicador (escolaridad) determina su tipo, en vez de verificar si describe a un hogar particular o a una localidad completa.',
+    source_reference: 'Guía oficial, página 20, código 7.3.3.',
+    difficulty: 'intermediate',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-idb-005',
+    topic_id: 'cs-7-3-3-indicadores-de-bienestar',
+    prompt:
+      'Relaciona cada indicador con el tipo al que corresponde.\n\n1. Nivel de ingreso de un hogar específico\n2. Porcentaje de escuelas de una localidad con acceso a internet\n3. Acceso individual de una persona a servicios de salud\n4. Cobertura de agua potable en una localidad\n\na. Indicador de desarrollo comunitario\nb. Indicador de bienestar',
+    options: ['1b, 2a, 3b, 4a', '1a, 2b, 3a, 4b', '1b, 2b, 3a, 4a'],
+    correct_option_index: 0,
+    explanation:
+      'El ingreso de un hogar y el acceso individual a servicios de salud describen situaciones particulares, así que son indicadores de bienestar (b); las escuelas con internet y la cobertura de agua potable son condiciones de infraestructura de toda la localidad, así que son indicadores de desarrollo comunitario (a).',
+    common_error:
+      'Clasificar por el tema del indicador en vez de por la unidad que mide: una persona/hogar particular o una localidad completa.',
+    source_reference: 'Guía oficial, página 20, código 7.3.3.',
+    difficulty: 'advanced',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-seg-001',
+    topic_id: 'cs-7-3-4-factores-que-propician-la-segregacion-social',
+    prompt:
+      'Una empresa rechaza automáticamente las solicitudes de empleo de personas mayores de cierta edad, basándose en la creencia de que no pueden aprender cosas nuevas. ¿Esto es un estereotipo, una discriminación o una exclusión?',
+    options: [
+      'un estereotipo, porque solo describe una creencia generalizada, sin ninguna acción concreta',
+      'una exclusión, porque describe el apartamiento sostenido del acceso a un espacio durante años',
+      'una discriminación, porque describe un trato desigual concreto que niega una oportunidad, basado en un estereotipo'
+    ],
+    correct_option_index: 2,
+    explanation:
+      'Rechazar automáticamente solicitudes de empleo por edad es un trato desigual concreto que niega una oportunidad, basado en un estereotipo: exactamente la definición de discriminación.',
+    common_error:
+      'Confundir un acto concreto de trato desigual con solo una creencia (estereotipo), sin notar que aquí ya se describe una acción específica que niega una oportunidad.',
+    source_reference: 'Guía oficial, página 20, código 7.3.4.',
+    difficulty: 'basic',
+    use_cases: ['diagnostic', 'practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-seg-002',
+    topic_id: 'cs-7-3-4-factores-que-propician-la-segregacion-social',
+    prompt:
+      'Una creencia generalizada y simplificada sobre las características de un grupo de personas, sin considerar la diversidad real dentro de ese grupo, se llama _______.',
+    options: ['estereotipo', 'discriminación', 'exclusión'],
+    correct_option_index: 0,
+    explanation:
+      'Un estereotipo es una creencia generalizada y simplificada sobre las características de un grupo de personas, sin considerar la diversidad real dentro de ese grupo.',
+    common_error:
+      'Confundir estereotipo con discriminación, cuando el estereotipo es solo la creencia y la discriminación es el trato desigual concreto basado en ella.',
+    source_reference: 'Guía oficial, página 20, código 7.3.4.',
+    difficulty: 'basic',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-seg-003',
+    topic_id: 'cs-7-3-4-factores-que-propician-la-segregacion-social',
+    prompt:
+      'Alguien sostiene, sin conocerlas, que todas las personas de cierto origen son iguales entre sí en su forma de ser. Sin embargo, esa persona nunca ha negado una oportunidad concreta a nadie por ese motivo. ¿Por qué esta situación es un estereotipo y no todavía una discriminación?',
+    options: [
+      'porque la discriminación exige un trato desigual concreto que niegue una oportunidad, y aquí solo se describe una creencia generalizada, sin esa acción concreta',
+      'porque un estereotipo y una discriminación son exactamente lo mismo, así que cualquiera de las dos sería correcta',
+      'porque solo puede haber discriminación si intervienen instituciones públicas'
+    ],
+    correct_option_index: 0,
+    explanation:
+      'Mientras la creencia generalizada no se traduzca en un trato desigual concreto que niegue una oportunidad, se trata solo de un estereotipo, no todavía de una discriminación.',
+    common_error:
+      'Tratar estereotipo y discriminación como sinónimos, sin verificar si la creencia ya se tradujo en un trato desigual concreto.',
+    source_reference: 'Guía oficial, página 20, código 7.3.4.',
+    difficulty: 'intermediate',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-seg-004',
+    topic_id: 'cs-7-3-4-factores-que-propician-la-segregacion-social',
+    prompt:
+      'Durante años, un grupo de personas de cierto origen no puede acceder a ciertos espacios recreativos de una ciudad porque se les ha negado sistemáticamente el ingreso. ¿Por qué esto corresponde a una exclusión y no solo a un acto aislado de discriminación?',
+    options: [
+      'porque describe un apartamiento sostenido en el tiempo del acceso a un espacio, resultado de la discriminación repetida, y no un solo acto aislado',
+      'porque exclusión y discriminación son exactamente el mismo concepto con otro nombre',
+      'porque solo puede haber exclusión si el espacio negado es un espacio público del estado'
+    ],
+    correct_option_index: 0,
+    explanation:
+      'La exclusión describe un apartamiento sostenido en el tiempo del acceso a espacios o recursos, resultado de la discriminación repetida, a diferencia de un acto aislado de discriminación.',
+    common_error:
+      'Confundir un acto aislado de discriminación con la exclusión, sin notar que esta última implica un apartamiento sostenido y repetido en el tiempo.',
+    source_reference: 'Guía oficial, página 20, código 7.3.4.',
+    difficulty: 'intermediate',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-seg-005',
+    topic_id: 'cs-7-3-4-factores-que-propician-la-segregacion-social',
+    prompt:
+      'Ordena la secuencia conceptual típica que describe cómo se propicia la segregación social, de la primera etapa a la última.\n\n1. Estereotipo (creencia generalizada sobre un grupo)\n2. Discriminación (trato desigual concreto basado en esa creencia)\n3. Exclusión (apartamiento sostenido del acceso a espacios o recursos)',
+    options: ['1, 2, 3', '2, 1, 3', '3, 1, 2'],
+    correct_option_index: 0,
+    explanation:
+      'La secuencia típica inicia con el estereotipo (la creencia), continúa con la discriminación (el trato desigual concreto basado en esa creencia) y termina en la exclusión (el apartamiento sostenido resultado de la discriminación repetida).',
+    common_error:
+      'Colocar la exclusión antes que la discriminación, sin reconocer que la exclusión es el resultado sostenido de la discriminación repetida, no su punto de partida.',
+    source_reference: 'Guía oficial, página 20, código 7.3.4.',
+    difficulty: 'advanced',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-dnna-001',
+    topic_id: 'cs-7-3-5-derechos-de-ninas-ninos-y-adolescentes',
+    prompt:
+      'Un niño de diez años trabaja jornadas largas en un taller en vez de asistir a la escuela, para contribuir al ingreso de su familia. ¿Qué derecho se vulnera principalmente en esta situación?',
+    options: [
+      'el derecho a la identidad, porque no cuenta con un nombre reconocido legalmente',
+      'el derecho a la protección contra la explotación, porque se le somete a trabajo que pone en riesgo su desarrollo y le impide asistir a la escuela',
+      'el derecho a la salud, porque no recibe atención médica'
+    ],
+    correct_option_index: 1,
+    explanation:
+      'Someter a un niño a trabajo que pone en riesgo su desarrollo y le impide asistir a la escuela vulnera específicamente el derecho a la protección contra la explotación.',
+    common_error:
+      'Identificar un derecho genérico ("algo está mal") en vez de ubicar exactamente cuál de los derechos reconocidos se vulnera en la situación descrita.',
+    source_reference: 'Guía oficial, página 20, código 7.3.5.',
+    difficulty: 'basic',
+    use_cases: ['diagnostic', 'practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-dnna-002',
+    topic_id: 'cs-7-3-5-derechos-de-ninas-ninos-y-adolescentes',
+    prompt:
+      'El derecho que garantiza que una niña, niño o adolescente cuente con un nombre, una nacionalidad y el reconocimiento de su filiación familiar es el derecho a la _______.',
+    options: ['identidad', 'educación', 'protección contra la violencia'],
+    correct_option_index: 0,
+    explanation:
+      'El derecho a la identidad garantiza que una niña, niño o adolescente cuente con un nombre, una nacionalidad y el reconocimiento de su filiación familiar.',
+    common_error:
+      'Confundir el derecho a la identidad con el derecho a la educación, dos derechos distintos que protegen aspectos diferentes del desarrollo de niñas, niños y adolescentes.',
+    source_reference: 'Guía oficial, página 20, código 7.3.5.',
+    difficulty: 'basic',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-dnna-003',
+    topic_id: 'cs-7-3-5-derechos-de-ninas-ninos-y-adolescentes',
+    prompt:
+      'Un bebé no es registrado ante ninguna autoridad, por lo que no cuenta con un acta de nacimiento ni un nombre reconocido legalmente. Alguien afirma que esto vulnera el derecho a la educación. ¿Por qué esa afirmación es incorrecta?',
+    options: [
+      'porque la situación describe la falta de un nombre y un registro legal, que corresponde específicamente al derecho a la identidad, no al derecho a la educación',
+      'porque no registrar a un bebé nunca vulnera ningún derecho',
+      'porque el derecho a la educación y el derecho a la identidad son exactamente el mismo derecho'
+    ],
+    correct_option_index: 0,
+    explanation:
+      'La falta de un nombre y un registro legal corresponde específicamente al derecho a la identidad, un derecho distinto del derecho a la educación.',
+    common_error:
+      'Asignar cualquier derecho a una situación sin verificar cuál de ellos se vulnera exactamente según lo que se describe.',
+    source_reference: 'Guía oficial, página 20, código 7.3.5.',
+    difficulty: 'intermediate',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-dnna-004',
+    topic_id: 'cs-7-3-5-derechos-de-ninas-ninos-y-adolescentes',
+    prompt:
+      'Un niño sufre golpes frecuentes por parte de un adulto responsable de su cuidado. ¿Por qué esto vulnera específicamente el derecho a la protección contra la violencia, y no el derecho a la protección contra la explotación?',
+    options: [
+      'porque la protección contra la explotación se refiere a no ser sometido a trabajo que ponga en riesgo el desarrollo, mientras que aquí se describe maltrato físico directo, que corresponde a la protección contra la violencia',
+      'porque ambos derechos son exactamente el mismo, así que cualquiera de los dos sería correcto',
+      'porque solo se vulnera un derecho cuando interviene una institución del estado'
+    ],
+    correct_option_index: 0,
+    explanation:
+      'El maltrato físico directo corresponde al derecho a la protección contra la violencia, distinto del derecho a la protección contra la explotación, que se refiere específicamente al trabajo que pone en riesgo el desarrollo.',
+    common_error:
+      'Confundir la protección contra la violencia con la protección contra la explotación, sin distinguir maltrato físico directo de trabajo que pone en riesgo el desarrollo.',
+    source_reference: 'Guía oficial, página 20, código 7.3.5.',
+    difficulty: 'intermediate',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-dnna-005',
+    topic_id: 'cs-7-3-5-derechos-de-ninas-ninos-y-adolescentes',
+    prompt:
+      'Relaciona cada situación con el derecho de niñas, niños o adolescentes que vulnera.\n\n1. Un adolescente sufre maltrato físico por parte de quien lo cuida\n2. Un niño trabaja en condiciones que ponen en riesgo su desarrollo, en vez de asistir a la escuela\n3. Una niña no recibe atención médica cuando la necesita\n4. Un adolescente no cuenta con un nombre ni una nacionalidad reconocidos legalmente\n\na. Derecho a la salud\nb. Derecho a la protección contra la violencia\nc. Derecho a la identidad\nd. Derecho a la protección contra la explotación',
+    options: ['1b, 2d, 3a, 4c', '1d, 2b, 3c, 4a', '1a, 2c, 3d, 4b'],
+    correct_option_index: 0,
+    explanation:
+      'El maltrato físico vulnera el derecho a la protección contra la violencia (b); el trabajo riesgoso vulnera el derecho a la protección contra la explotación (d); la falta de atención médica vulnera el derecho a la salud (a); la falta de nombre y nacionalidad vulnera el derecho a la identidad (c).',
+    common_error:
+      'Confundir la protección contra la violencia con la protección contra la explotación al no distinguir maltrato físico directo de trabajo riesgoso.',
+    source_reference: 'Guía oficial, página 20, código 7.3.5.',
+    difficulty: 'advanced',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-cse-001',
+    topic_id: 'cs-7-3-6-consecuencias-de-crisis-sociales-economicas-y-ambientales',
+    prompt:
+      'Un texto describe que, en 1982, una fuerte devaluación de la moneda y una crisis de deuda externa provocaron que gran parte de la población perdiera poder adquisitivo de forma generalizada. ¿A qué suceso corresponde este texto?',
+    options: [
+      'al movimiento estudiantil de 1968',
+      'al levantamiento del EZLN',
+      'a la crisis económica de 1982, cuya consecuencia reconocida es esa pérdida generalizada del poder adquisitivo'
+    ],
+    correct_option_index: 2,
+    explanation:
+      'La crisis económica de 1982, marcada por la devaluación de la moneda y la deuda externa, tuvo como consecuencia reconocida una pérdida generalizada del poder adquisitivo de la población.',
+    common_error:
+      'Confundir la crisis económica de 1982 con otros sucesos históricos del mismo periodo, sin identificar el tipo específico de consecuencia (económica) que la distingue.',
+    source_reference: 'Guía oficial, página 20, código 7.3.6.',
+    difficulty: 'basic',
+    use_cases: ['diagnostic', 'practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-cse-002',
+    topic_id: 'cs-7-3-6-consecuencias-de-crisis-sociales-economicas-y-ambientales',
+    prompt:
+      'El llamado a la insurrección armada contra la reelección del gobierno en turno a inicios del siglo XX, que catalizó el inicio de un movimiento armado de alcance nacional, se conoce como _______.',
+    options: ['Plan de San Luis', 'levantamiento del EZLN', 'movimiento estudiantil de 1968'],
+    correct_option_index: 0,
+    explanation:
+      'El Plan de San Luis fue el llamado a la insurrección armada contra la reelección del gobierno en turno a inicios del siglo XX, y catalizó el inicio de un movimiento armado de alcance nacional.',
+    common_error:
+      'Confundir el Plan de San Luis con el levantamiento del EZLN, dos sucesos armados de distinta época y con consecuencias reconocidas distintas.',
+    source_reference: 'Guía oficial, página 20, código 7.3.6.',
+    difficulty: 'basic',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-cse-003',
+    topic_id: 'cs-7-3-6-consecuencias-de-crisis-sociales-economicas-y-ambientales',
+    prompt:
+      'Un texto describe que, en 1994, un movimiento indígena armado en el sur del país exigió el reconocimiento de derechos y autonomía para los pueblos originarios. Alguien afirma que esto corresponde al movimiento estudiantil de 1968. ¿Por qué esa afirmación es incorrecta?',
+    options: [
+      'porque el movimiento estudiantil de 1968 tuvo como consecuencia un cuestionamiento al autoritarismo del sistema político, mientras que la descripción corresponde al levantamiento del EZLN, cuya consecuencia fue visibilizar las demandas de autonomía de los pueblos indígenas',
+      'porque el movimiento estudiantil de 1968 y el levantamiento del EZLN ocurrieron exactamente en el mismo año',
+      'porque ambos sucesos tuvieron exactamente la misma consecuencia social'
+    ],
+    correct_option_index: 0,
+    explanation:
+      'El movimiento estudiantil de 1968 y el levantamiento del EZLN tuvieron consecuencias reconocidas distintas: un cuestionamiento al autoritarismo político el primero, y la visibilización de las demandas indígenas de autonomía el segundo.',
+    common_error:
+      'Confundir sucesos históricos distintos por pertenecer ambos a la historia reciente de México, sin verificar el tipo específico de consecuencia que cada uno tuvo.',
+    source_reference: 'Guía oficial, página 20, código 7.3.6.',
+    difficulty: 'intermediate',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-cse-004',
+    topic_id: 'cs-7-3-6-consecuencias-de-crisis-sociales-economicas-y-ambientales',
+    prompt:
+      'Un texto describe que una movilización estudiantil que exigía mayores libertades democráticas terminó en una represión violenta, generando un cuestionamiento duradero al autoritarismo del sistema político de la época. ¿Por qué esto corresponde al movimiento estudiantil de 1968 y no a la crisis económica de 1982?',
+    options: [
+      'porque la consecuencia descrita es un cuestionamiento al sistema político, propia del movimiento estudiantil de 1968, mientras que la crisis de 1982 tuvo como consecuencia reconocida una pérdida de poder adquisitivo, no un cuestionamiento político',
+      'porque la crisis económica de 1982 y el movimiento estudiantil de 1968 tuvieron exactamente la misma consecuencia',
+      'porque solo puede haber represión violenta en un movimiento estudiantil, nunca en una crisis económica'
+    ],
+    correct_option_index: 0,
+    explanation:
+      'El cuestionamiento al autoritarismo del sistema político es la consecuencia reconocida del movimiento estudiantil de 1968, distinta de la pérdida de poder adquisitivo que caracteriza a la crisis económica de 1982.',
+    common_error:
+      'Agrupar distintos sucesos bajo una misma consecuencia genérica, sin distinguir si el efecto reconocido es político, económico o de otro tipo.',
+    source_reference: 'Guía oficial, página 20, código 7.3.6.',
+    difficulty: 'intermediate',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-cse-005',
+    topic_id: 'cs-7-3-6-consecuencias-de-crisis-sociales-economicas-y-ambientales',
+    prompt:
+      'Relaciona cada suceso con su consecuencia social reconocida.\n\n1. Plan de San Luis\n2. Crisis económica de 1982\n3. Movimiento estudiantil de 1968\n4. Levantamiento del EZLN\n\na. Cuestionamiento duradero al autoritarismo del sistema político\nb. Catalizó un movimiento armado de alcance nacional\nc. Visibilizó las demandas de autonomía de los pueblos indígenas\nd. Pérdida generalizada del poder adquisitivo de la población',
+    options: ['1b, 2d, 3a, 4c', '1d, 2b, 3c, 4a', '1a, 2c, 3d, 4b'],
+    correct_option_index: 0,
+    explanation:
+      'El Plan de San Luis catalizó un movimiento armado nacional (b); la crisis de 1982 produjo una pérdida de poder adquisitivo (d); el movimiento estudiantil de 1968 generó un cuestionamiento al autoritarismo político (a); el levantamiento del EZLN visibilizó las demandas indígenas de autonomía (c).',
+    common_error:
+      'Intercambiar las consecuencias de sucesos distintos por pertenecer todos a la historia reciente de México, sin verificar el tipo específico de efecto reconocido de cada uno.',
+    source_reference: 'Guía oficial, página 20, código 7.3.6.',
+    difficulty: 'advanced',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-mig-001',
+    topic_id: 'cs-7-3-7-tipos-de-migraciones',
+    prompt:
+      'Un grupo de familias abandona su comunidad de forma repentina debido a un desastre natural que destruyó sus viviendas, sin haber decidido mudarse por voluntad propia. ¿Qué tipo de migración es?',
+    options: [
+      'una migración estatal, porque necesariamente cambiaron de entidad federativa',
+      'un desplazamiento forzado, porque el criterio decisivo es la ausencia de una decisión voluntaria',
+      'una migración rural-urbana, porque cualquier desastre natural implica mudarse a una ciudad'
+    ],
+    correct_option_index: 1,
+    explanation:
+      'El criterio decisivo del desplazamiento forzado es la ausencia de una decisión voluntaria, motivada por una situación de violencia, conflicto o desastre, exactamente lo que describe esta situación.',
+    common_error:
+      'Clasificar la migración por el destino al que se dirigen las personas en vez de por si la decisión de migrar fue voluntaria o no.',
+    source_reference: 'Guía oficial, página 20, código 7.3.7.',
+    difficulty: 'basic',
+    use_cases: ['diagnostic', 'practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-mig-002',
+    topic_id: 'cs-7-3-7-tipos-de-migraciones',
+    prompt:
+      'El desplazamiento de personas desde zonas rurales hacia zonas urbanas, generalmente en busca de mejores oportunidades económicas o de acceso a servicios, se llama migración _______.',
+    options: ['rural-urbana', 'estatal', 'forzada'],
+    correct_option_index: 0,
+    explanation:
+      'La migración rural-urbana es el desplazamiento de personas desde zonas rurales hacia zonas urbanas, generalmente en busca de mejores oportunidades económicas o de acceso a servicios.',
+    common_error:
+      'Confundir la migración rural-urbana con la migración estatal, cuando la primera se clasifica por el tipo de zona y la segunda por el cambio de entidad federativa.',
+    source_reference: 'Guía oficial, página 20, código 7.3.7.',
+    difficulty: 'basic',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-mig-003',
+    topic_id: 'cs-7-3-7-tipos-de-migraciones',
+    prompt:
+      "Una persona se muda de una zona rural a una ciudad grande dentro del mismo estado, buscando mejores oportunidades de empleo, por decisión propia. Alguien afirma que esto es una migración estatal 'porque se mudó a una ciudad importante'. ¿Por qué esa afirmación es incorrecta?",
+    options: [
+      'porque el criterio de la migración estatal es el cambio de entidad federativa, y en este caso no cambió de entidad, así que es una migración rural-urbana',
+      'porque nunca puede considerarse migración si la persona permanece en el mismo estado',
+      'porque migración estatal y migración rural-urbana son exactamente el mismo concepto'
+    ],
+    correct_option_index: 0,
+    explanation:
+      'El criterio de la migración estatal es el cambio de entidad federativa; como en este caso no hubo ese cambio, la migración se clasifica por el cambio de tipo de zona, es decir, como rural-urbana.',
+    common_error:
+      'Suponer que mudarse a una ciudad importante siempre implica un cambio de entidad federativa, sin verificar si la persona permaneció en el mismo estado.',
+    source_reference: 'Guía oficial, página 20, código 7.3.7.',
+    difficulty: 'intermediate',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-mig-004',
+    topic_id: 'cs-7-3-7-tipos-de-migraciones',
+    prompt:
+      'Una persona se muda de su estado natal a otro estado del mismo país para tomar un nuevo empleo, por decisión propia, sin que exista ninguna situación de violencia o desastre de por medio. ¿Por qué esto es una migración estatal y no un desplazamiento forzado?',
+    options: [
+      'porque el criterio del desplazamiento forzado es la ausencia de una decisión voluntaria, y en este caso la persona decidió mudarse libremente por motivos laborales, cambiando de entidad federativa',
+      'porque cualquier migración entre estados es automáticamente un desplazamiento forzado',
+      'porque migración estatal y desplazamiento forzado son exactamente lo mismo'
+    ],
+    correct_option_index: 0,
+    explanation:
+      'El desplazamiento forzado exige la ausencia de una decisión voluntaria; como aquí la persona decidió libremente mudarse por motivos laborales y cambió de entidad federativa, se trata de una migración estatal.',
+    common_error:
+      'Clasificar como desplazamiento forzado cualquier migración entre estados, sin verificar si la decisión de migrar fue voluntaria o no.',
+    source_reference: 'Guía oficial, página 20, código 7.3.7.',
+    difficulty: 'intermediate',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-mig-005',
+    topic_id: 'cs-7-3-7-tipos-de-migraciones',
+    prompt:
+      'Relaciona cada situación con el tipo de migración que representa.\n\n1. Una familia huye de un conflicto violento que pone en riesgo su vida\n2. Una persona se muda a otro estado del país por un nuevo empleo, por decisión propia\n3. Una persona se muda de una zona rural a una ciudad dentro del mismo estado, buscando mejores oportunidades\n\na. Migración estatal\nb. Migración rural-urbana\nc. Desplazamiento forzado',
+    options: ['1c, 2a, 3b', '1a, 2c, 3b', '1b, 2a, 3c'],
+    correct_option_index: 0,
+    explanation:
+      'Huir de un conflicto violento sin decisión voluntaria es un desplazamiento forzado (c); mudarse a otro estado por decisión propia es una migración estatal (a); mudarse de zona rural a urbana dentro del mismo estado es una migración rural-urbana (b).',
+    common_error:
+      'Confundir migración estatal con migración rural-urbana al no distinguir si el criterio de clasificación es el cambio de entidad o el cambio de tipo de zona.',
+    source_reference: 'Guía oficial, página 20, código 7.3.7.',
+    difficulty: 'advanced',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-msa-001',
+    topic_id: 'cs-7-3-8-movimientos-sociales-antisistema',
+    prompt:
+      'Un texto describe un movimiento que cuestiona las normas sociales que asignan roles distintos a hombres y mujeres, exigiendo las mismas oportunidades para ambos géneros. ¿A qué movimiento corresponde?',
+    options: [
+      'al movimiento antiglobalización',
+      'al movimiento hippie',
+      'al movimiento feminista, porque su enfoque es cuestionar la desigualdad de género y exigir las mismas oportunidades'
+    ],
+    correct_option_index: 2,
+    explanation:
+      'El movimiento feminista busca la igualdad de derechos y oportunidades entre géneros, cuestionando las estructuras y normas sociales que producen desigualdad por razón de género.',
+    common_error:
+      'Confundir el movimiento feminista con otros movimientos antisistema por tratarse todos de movimientos que cuestionan el orden social, sin identificar el aspecto específico que cada uno cuestiona.',
+    source_reference: 'Guía oficial, página 20, código 7.3.8.',
+    difficulty: 'basic',
+    use_cases: ['diagnostic', 'practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-msa-002',
+    topic_id: 'cs-7-3-8-movimientos-sociales-antisistema',
+    prompt:
+      'El movimiento que, durante las décadas de 1960 y 1970, promovió el rechazo al consumismo y al conformismo social de su época, la vida comunitaria y la experimentación cultural, se conoce como movimiento _______.',
+    options: ['hippie', 'feminista', 'antiglobalización'],
+    correct_option_index: 0,
+    explanation:
+      'El movimiento hippie, en las décadas de 1960 y 1970, promovió el rechazo al consumismo y al conformismo social de su época, la vida comunitaria y la experimentación cultural.',
+    common_error:
+      'Confundir el movimiento hippie con el movimiento antiglobalización, dos movimientos de épocas y enfoques distintos.',
+    source_reference: 'Guía oficial, página 20, código 7.3.8.',
+    difficulty: 'basic',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-msa-003',
+    topic_id: 'cs-7-3-8-movimientos-sociales-antisistema',
+    prompt:
+      'Un texto describe un movimiento que cuestiona que las grandes corporaciones concentren cada vez más poder económico como resultado del libre comercio internacional sin regulación. Alguien afirma que esto corresponde al movimiento feminista. ¿Por qué esa afirmación es incorrecta?',
+    options: [
+      'porque el movimiento feminista cuestiona la desigualdad de género, mientras que la descripción corresponde al movimiento antiglobalización, que cuestiona los efectos de la integración económica mundial',
+      'porque el movimiento feminista y el movimiento antiglobalización son exactamente el mismo movimiento',
+      'porque solo el movimiento feminista puede cuestionar el poder de las corporaciones'
+    ],
+    correct_option_index: 0,
+    explanation:
+      'Cuestionar la concentración de poder de las grandes corporaciones y los efectos del libre comercio internacional corresponde específicamente al movimiento antiglobalización, no al movimiento feminista.',
+    common_error:
+      'Agrupar cualquier movimiento que cuestione "al sistema" bajo un mismo nombre, sin identificar el aspecto específico que cuestiona cada uno.',
+    source_reference: 'Guía oficial, página 20, código 7.3.8.',
+    difficulty: 'intermediate',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-msa-004',
+    topic_id: 'cs-7-3-8-movimientos-sociales-antisistema',
+    prompt:
+      'Un texto describe un movimiento de las décadas de 1960 y 1970 que promovía vivir en comunidades alejadas del consumismo, con normas de convivencia distintas a las convencionales de la época. ¿Por qué esto corresponde al movimiento hippie y no al movimiento antiglobalización?',
+    options: [
+      'porque el enfoque descrito es el rechazo al consumismo y al conformismo cultural de una época específica (los años sesenta y setenta), mientras que el movimiento antiglobalización cuestiona específicamente los efectos de la integración económica mundial',
+      'porque el movimiento hippie y el movimiento antiglobalización son exactamente el mismo movimiento con otro nombre',
+      'porque solo el movimiento antiglobalización pudo haber existido en esas décadas'
+    ],
+    correct_option_index: 0,
+    explanation:
+      'El rechazo al consumismo y al conformismo cultural de una época específica corresponde al movimiento hippie, distinto del movimiento antiglobalización, que cuestiona los efectos de la integración económica mundial.',
+    common_error:
+      'Confundir movimientos de épocas y enfoques distintos por compartir un rechazo general al orden social establecido.',
+    source_reference: 'Guía oficial, página 20, código 7.3.8.',
+    difficulty: 'intermediate',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-msa-005',
+    topic_id: 'cs-7-3-8-movimientos-sociales-antisistema',
+    prompt:
+      'Relaciona cada característica con el movimiento social que representa.\n\n1. Cuestiona la desigualdad de género y busca las mismas oportunidades para ambos géneros\n2. Cuestiona los efectos de la integración económica mundial y el poder de las grandes corporaciones\n3. Promueve el rechazo al consumismo y la vida comunitaria en las décadas de 1960 y 1970\n\na. Movimiento hippie\nb. Movimiento antiglobalización\nc. Movimiento feminista',
+    options: ['1c, 2b, 3a', '1a, 2c, 3b', '1b, 2a, 3c'],
+    correct_option_index: 0,
+    explanation:
+      'Cuestionar la desigualdad de género corresponde al movimiento feminista (c); cuestionar la integración económica mundial corresponde al movimiento antiglobalización (b); el rechazo al consumismo en los años sesenta y setenta corresponde al movimiento hippie (a).',
+    common_error:
+      'Confundir el movimiento antiglobalización con el movimiento hippie al no distinguir si el enfoque es económico o cultural/generacional.',
+    source_reference: 'Guía oficial, página 20, código 7.3.8.',
+    difficulty: 'advanced',
+    use_cases: ['practice', 'review', 'simulator']
   }
 ]

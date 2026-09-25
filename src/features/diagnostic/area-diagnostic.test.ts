@@ -60,7 +60,7 @@ describe("get_area_diagnostic", () => {
   it("selecciona la primera pregunta de diagnóstico de un tema con dos lecciones, atribuida a la lección correcta", async () => {
     const items = await get_area_diagnostic("conciencia-historica");
 
-    expect(items).toHaveLength(5);
+    expect(items).toHaveLength(21);
 
     const split_topic_item = items?.find(
       (item) =>

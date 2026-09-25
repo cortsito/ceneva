@@ -60,13 +60,160 @@ describe("get_available_unit", () => {
     ]);
   });
 
-  it("no resuelve una unidad de conciencia histórica todavía sin contenido listo", () => {
+  it("resuelve la unidad de conciencia histórica ch-3-2, incluyendo su tema dividido en dos lecciones", () => {
+    const resolved = get_available_unit(
+      "conciencia-historica",
+      "ch-3-2-mexico-durante-el-expansionismo-capitalista",
+    );
+
+    expect(resolved?.area.id).toBe("conciencia-historica");
+    expect(resolved?.unit.id).toBe(
+      "ch-3-2-mexico-durante-el-expansionismo-capitalista",
+    );
+    expect(resolved?.unit.topics.map((topic) => topic.id)).toEqual([
+      "ch-3-2-1-causas-internas-y-externas-de-la-independencia",
+      "ch-3-2-2-proyectos-de-emancipacion-del-siglo-xix",
+      "ch-3-2-3-caracteristicas-e-impacto-del-liberalismo-mexicano",
+      "ch-3-2-4-intervenciones-de-francia-y-estados-unidos-en-mexico",
+      "ch-3-2-5-movimientos-sociales-del-siglo-xix",
+      "ch-3-2-6-consecuencias-de-la-enajenacion-de-bienes-comunales",
+      "ch-3-2-7-caracteristicas-del-porfiriato",
+      "ch-3-2-8-movimientos-de-oposicion-al-porfiriato",
+      "ch-3-2-9-facciones-de-la-revolucion-mexicana",
+      "ch-3-2-10-impacto-de-la-revolucion-mexicana",
+    ]);
     expect(
-      get_available_unit(
-        "conciencia-historica",
-        "ch-3-2-mexico-durante-el-expansionismo-capitalista",
-      ),
-    ).toBeUndefined();
+      resolved?.unit.topics.find(
+        (topic) =>
+          topic.id === "ch-3-2-3-caracteristicas-e-impacto-del-liberalismo-mexicano",
+      )?.lesson_ids,
+    ).toEqual([
+      "ch-liberalismo-mexicano-01",
+      "ch-instituciones-y-leyes-del-liberalismo-02",
+    ]);
+  });
+
+  it("resuelve la unidad de conciencia histórica ch-3-3, que completa el área", () => {
+    const resolved = get_available_unit(
+      "conciencia-historica",
+      "ch-3-3-realidad-actual-en-perspectiva-historica",
+    );
+
+    expect(resolved?.area.id).toBe("conciencia-historica");
+    expect(resolved?.unit.id).toBe("ch-3-3-realidad-actual-en-perspectiva-historica");
+    expect(resolved?.unit.topics.map((topic) => topic.id)).toEqual([
+      "ch-3-3-1-factores-de-consolidacion-del-presidencialismo",
+      "ch-3-3-2-participacion-de-mexico-en-eventos-internacionales-del-siglo-xx",
+      "ch-3-3-3-causas-del-neoliberalismo-en-mexico",
+      "ch-3-3-4-globalizacion-en-la-actualidad",
+      "ch-3-3-5-causas-de-la-alternancia-politica",
+      "ch-3-3-6-impacto-social-de-los-medios-de-comunicacion-en-la-historia",
+    ]);
+  });
+
+  it("resuelve la unidad de ciencias naturales cn-5-2, con calor específico dependiendo de conversión de temperatura", () => {
+    const resolved = get_available_unit(
+      "ciencias-naturales-experimentales-y-tecnologia",
+      "cn-5-2-conservacion-de-la-energia-y-sus-interacciones",
+    );
+
+    expect(resolved?.area.id).toBe("ciencias-naturales-experimentales-y-tecnologia");
+    expect(resolved?.unit.id).toBe(
+      "cn-5-2-conservacion-de-la-energia-y-sus-interacciones",
+    );
+    expect(resolved?.unit.topics.map((topic) => topic.id)).toEqual([
+      "cn-5-2-1-caracteristicas-de-la-luz-visible",
+      "cn-5-2-2-calor-especifico",
+      "cn-5-2-3-caracteristicas-de-los-tipos-de-energia",
+      "cn-5-2-4-energia-cinetica-y-potencial",
+      "cn-5-2-5-leyes-de-la-termodinamica",
+    ]);
+  });
+
+  it("resuelve la unidad de ciencias naturales cn-5-3, con redes tróficas dependiendo de fotosíntesis", () => {
+    const resolved = get_available_unit(
+      "ciencias-naturales-experimentales-y-tecnologia",
+      "cn-5-3-ecosistemas-interacciones-energia-y-dinamica",
+    );
+
+    expect(resolved?.area.id).toBe("ciencias-naturales-experimentales-y-tecnologia");
+    expect(resolved?.unit.id).toBe(
+      "cn-5-3-ecosistemas-interacciones-energia-y-dinamica",
+    );
+    expect(resolved?.unit.topics.map((topic) => topic.id)).toEqual([
+      "cn-5-3-1-productos-y-reactivos-en-la-fotosintesis",
+      "cn-5-3-2-caracteristicas-de-los-biomas",
+      "cn-5-3-3-niveles-de-las-redes-troficas",
+      "cn-5-3-4-sustancias-en-ciclos-biogeoquimicos",
+      "cn-5-3-5-tipos-de-productividad-en-un-ecosistema",
+      "cn-5-3-6-tipos-de-servicios-ambientales",
+      "cn-5-3-7-consecuencias-del-desequilibrio-ecologico",
+    ]);
+  });
+
+  it("resuelve la unidad de ciencias naturales cn-5-4, con masa molar, reacciones químicas y nucleares", () => {
+    const resolved = get_available_unit(
+      "ciencias-naturales-experimentales-y-tecnologia",
+      "cn-5-4-reacciones-quimicas-y-conservacion-de-la-materia",
+    );
+
+    expect(resolved?.area.id).toBe("ciencias-naturales-experimentales-y-tecnologia");
+    expect(resolved?.unit.id).toBe(
+      "cn-5-4-reacciones-quimicas-y-conservacion-de-la-materia",
+    );
+    expect(resolved?.unit.topics.map((topic) => topic.id)).toEqual([
+      "cn-5-4-1-masa-molar-de-compuestos-quimicos",
+      "cn-5-4-2-tipos-de-reacciones-quimicas",
+      "cn-5-4-3-tipos-de-reacciones-nucleares",
+    ]);
+  });
+
+  it("resuelve la unidad de ciencias naturales cn-5-5, con ondas electromagnéticas dependiente de luz visible de cn-5-2", () => {
+    const resolved = get_available_unit(
+      "ciencias-naturales-experimentales-y-tecnologia",
+      "cn-5-5-energia-en-los-procesos-de-la-vida-diaria",
+    );
+
+    expect(resolved?.area.id).toBe("ciencias-naturales-experimentales-y-tecnologia");
+    expect(resolved?.unit.id).toBe("cn-5-5-energia-en-los-procesos-de-la-vida-diaria");
+    expect(resolved?.unit.topics.map((topic) => topic.id)).toEqual([
+      "cn-5-5-1-tipos-de-choques",
+      "cn-5-5-2-momento-lineal",
+      "cn-5-5-3-ondas-electromagneticas-en-dispositivos-cotidianos",
+      "cn-5-5-4-caida-libre",
+    ]);
+  });
+
+  it("resuelve la unidad de ciencias naturales cn-5-6, con respiración celular dependiendo de organelos celulares", () => {
+    const resolved = get_available_unit(
+      "ciencias-naturales-experimentales-y-tecnologia",
+      "cn-5-6-organismos-estructura-y-procesos",
+    );
+
+    expect(resolved?.area.id).toBe("ciencias-naturales-experimentales-y-tecnologia");
+    expect(resolved?.unit.id).toBe("cn-5-6-organismos-estructura-y-procesos");
+    expect(resolved?.unit.topics.map((topic) => topic.id)).toEqual([
+      "cn-5-6-1-organelos-celulares",
+      "cn-5-6-2-niveles-de-organizacion-biologica",
+      "cn-5-6-3-etapas-de-la-respiracion-celular",
+    ]);
+  });
+
+  it("resuelve la unidad de ciencias naturales cn-5-7, que completa el área", () => {
+    const resolved = get_available_unit(
+      "ciencias-naturales-experimentales-y-tecnologia",
+      "cn-5-7-herencia-y-evolucion-biologica",
+    );
+
+    expect(resolved?.area.id).toBe("ciencias-naturales-experimentales-y-tecnologia");
+    expect(resolved?.unit.id).toBe("cn-5-7-herencia-y-evolucion-biologica");
+    expect(resolved?.unit.topics.map((topic) => topic.id)).toEqual([
+      "cn-5-7-1-reproduccion-sexual-y-asexual",
+      "cn-5-7-2-tipos-de-cromosomas",
+      "cn-5-7-3-cuadros-de-punnett",
+      "cn-5-7-4-teorias-evolutivas",
+      "cn-5-7-5-consecuencias-de-la-evolucion",
+    ]);
   });
 
   it("resuelve la unidad de humanidades", () => {
@@ -186,15 +333,6 @@ describe("get_available_unit", () => {
     ]);
   });
 
-  it("no resuelve una unidad de ciencias naturales todavía sin contenido listo", () => {
-    expect(
-      get_available_unit(
-        "ciencias-naturales-experimentales-y-tecnologia",
-        "cn-5-2-conservacion-de-la-energia-y-sus-interacciones",
-      ),
-    ).toBeUndefined();
-  });
-
   it("resuelve la unidad de lengua y comunicación, con sus cuatro temas sin prerrequisito", () => {
     const resolved = get_available_unit(
       "lengua-y-comunicacion",
@@ -211,13 +349,83 @@ describe("get_available_unit", () => {
     ]);
   });
 
-  it("no resuelve una unidad de lengua y comunicación todavía sin contenido listo", () => {
-    expect(
-      get_available_unit(
-        "lengua-y-comunicacion",
-        "lc-6-2-recursos-del-analisis-literario",
-      ),
-    ).toBeUndefined();
+  it("resuelve la unidad lc-6-2 de lengua y comunicación, con la calibración editorial recién aplicada", () => {
+    const resolved = get_available_unit(
+      "lengua-y-comunicacion",
+      "lc-6-2-recursos-del-analisis-literario",
+    );
+
+    expect(resolved?.area.id).toBe("lengua-y-comunicacion");
+    expect(resolved?.unit.id).toBe("lc-6-2-recursos-del-analisis-literario");
+    expect(resolved?.unit.title).toBe("Recursos del análisis literario");
+    expect(resolved?.unit.topics.map((topic) => topic.id)).toEqual([
+      "lc-6-2-2-tema-central-del-texto-literario-narrativo",
+      "lc-6-2-3-trama-del-texto-literario-narrativo",
+      "lc-6-2-4-caracteristicas-y-acciones-de-personajes",
+      "lc-6-2-5-caracteristicas-del-narrador",
+      "lc-6-2-6-ambito-de-la-narracion",
+      "lc-6-2-7-tipos-de-tiempo-narrativo",
+    ]);
+  });
+
+  it("resuelve la unidad lc-6-3 de lengua y comunicación, con las tres muestras oficiales calibradas", () => {
+    const resolved = get_available_unit(
+      "lengua-y-comunicacion",
+      "lc-6-3-procesos-de-composicion-de-textos",
+    );
+
+    expect(resolved?.area.id).toBe("lengua-y-comunicacion");
+    expect(resolved?.unit.id).toBe("lc-6-3-procesos-de-composicion-de-textos");
+    expect(resolved?.unit.title).toBe("Procesos de composición de textos");
+    expect(resolved?.unit.topics.map((topic) => topic.id)).toEqual([
+      "lc-6-3-1-etapas-para-la-composicion-de-un-ensayo",
+      "lc-6-3-2-tipos-de-fuentes-de-informacion",
+      "lc-6-3-3-reglas-de-acentuacion",
+      "lc-6-3-4-reglas-de-puntuacion",
+      "lc-6-3-5-funcion-de-unidades-sintacticas",
+      "lc-6-3-6-coherencia-de-un-texto",
+      "lc-6-3-7-adecuacion-de-un-texto",
+    ]);
+  });
+
+  it("resuelve la unidad lc-6-4 de lengua y comunicación, sin muestras oficiales aplicables", () => {
+    const resolved = get_available_unit(
+      "lengua-y-comunicacion",
+      "lc-6-4-formas-orales-de-la-comunicacion",
+    );
+
+    expect(resolved?.area.id).toBe("lengua-y-comunicacion");
+    expect(resolved?.unit.id).toBe("lc-6-4-formas-orales-de-la-comunicacion");
+    expect(resolved?.unit.title).toBe("Formas orales de la comunicación");
+    expect(resolved?.unit.topics.map((topic) => topic.id)).toEqual([
+      "lc-6-4-1-elementos-de-la-exposicion-oral",
+      "lc-6-4-2-caracteristicas-del-dialogo",
+      "lc-6-4-3-elementos-del-debate",
+      "lc-6-4-4-funciones-de-formas-orales",
+    ]);
+  });
+
+  it("resuelve la unidad lc-6-5 de lengua y comunicación, que completa el área", () => {
+    const resolved = get_available_unit(
+      "lengua-y-comunicacion",
+      "lc-6-5-estructura-gramatical-del-ingles",
+    );
+
+    expect(resolved?.area.id).toBe("lengua-y-comunicacion");
+    expect(resolved?.unit.id).toBe("lc-6-5-estructura-gramatical-del-ingles");
+    expect(resolved?.unit.title).toBe("Estructura gramatical del idioma inglés");
+    expect(resolved?.unit.topics.map((topic) => topic.id)).toEqual([
+      "lc-6-5-1-tiempo-presente",
+      "lc-6-5-2-tiempo-pasado",
+      "lc-6-5-3-tiempo-futuro",
+      "lc-6-5-4-presente-perfecto",
+      "lc-6-5-5-pasado-perfecto",
+      "lc-6-5-6-preguntas-wh",
+      "lc-6-5-7-relaciones-de-comparacion",
+      "lc-6-5-8-verbos-modales",
+      "lc-6-5-9-estructuras-condicionales",
+      "lc-6-5-10-voz-pasiva",
+    ]);
   });
 
   it("resuelve la unidad de ciencias sociales, con su grafo de prerrequisitos interno", () => {
@@ -262,10 +470,25 @@ describe("get_available_unit", () => {
     ]);
   });
 
-  it("no resuelve una unidad de ciencias sociales todavía sin contenido listo", () => {
-    expect(
-      get_available_unit("ciencias-sociales", "cs-7-3-problemas-sociologicos"),
-    ).toBeUndefined();
+  it("resuelve la unidad cs-7-3 de ciencias sociales, que completa el área", () => {
+    const resolved = get_available_unit(
+      "ciencias-sociales",
+      "cs-7-3-problemas-sociologicos",
+    );
+
+    expect(resolved?.area.id).toBe("ciencias-sociales");
+    expect(resolved?.unit.id).toBe("cs-7-3-problemas-sociologicos");
+    expect(resolved?.unit.title).toBe("Problemas sociológicos");
+    expect(resolved?.unit.topics.map((topic) => topic.id)).toEqual([
+      "cs-7-3-1-tipos-de-organizacion-social",
+      "cs-7-3-2-indicadores-de-desarrollo-comunitario",
+      "cs-7-3-3-indicadores-de-bienestar",
+      "cs-7-3-4-factores-que-propician-la-segregacion-social",
+      "cs-7-3-5-derechos-de-ninas-ninos-y-adolescentes",
+      "cs-7-3-6-consecuencias-de-crisis-sociales-economicas-y-ambientales",
+      "cs-7-3-7-tipos-de-migraciones",
+      "cs-7-3-8-movimientos-sociales-antisistema",
+    ]);
   });
 
   it("no resuelve un área desconocida", () => {
@@ -276,10 +499,7 @@ describe("get_available_unit", () => {
 
   it("no resuelve una unidad no registrada aunque el área exista", () => {
     expect(
-      get_available_unit(
-        "conciencia-historica",
-        "ch-3-2-mexico-durante-el-expansionismo-capitalista",
-      ),
+      get_available_unit("lengua-y-comunicacion", "lc-6-6-unidad-inexistente"),
     ).toBeUndefined();
   });
 
@@ -335,30 +555,58 @@ describe("get_available_units_for_area", () => {
     ]);
   });
 
-  it("resuelve la única unidad lista de un área con una sola unidad", () => {
-    expect(
-      get_available_units_for_area("conciencia-historica").map(
-        (resolved) => resolved.unit.id,
-      ),
-    ).toEqual(["ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales"]);
-    expect(
-      get_available_units_for_area(
-        "ciencias-naturales-experimentales-y-tecnologia",
-      ).map((resolved) => resolved.unit.id),
-    ).toEqual(["cn-5-1-materia-y-sus-interacciones"]);
+  it("resuelve las cinco unidades listas de lengua y comunicación, en orden de registro", () => {
     expect(
       get_available_units_for_area("lengua-y-comunicacion").map(
         (resolved) => resolved.unit.id,
       ),
-    ).toEqual(["lc-6-1-estrategias-de-comprension-lectora"]);
+    ).toEqual([
+      "lc-6-1-estrategias-de-comprension-lectora",
+      "lc-6-2-recursos-del-analisis-literario",
+      "lc-6-3-procesos-de-composicion-de-textos",
+      "lc-6-4-formas-orales-de-la-comunicacion",
+      "lc-6-5-estructura-gramatical-del-ingles",
+    ]);
   });
 
-  it("resuelve las dos unidades listas de ciencias sociales, en orden de registro", () => {
+  it("resuelve las siete unidades listas de ciencias naturales, en orden de registro", () => {
+    expect(
+      get_available_units_for_area(
+        "ciencias-naturales-experimentales-y-tecnologia",
+      ).map((resolved) => resolved.unit.id),
+    ).toEqual([
+      "cn-5-1-materia-y-sus-interacciones",
+      "cn-5-2-conservacion-de-la-energia-y-sus-interacciones",
+      "cn-5-3-ecosistemas-interacciones-energia-y-dinamica",
+      "cn-5-4-reacciones-quimicas-y-conservacion-de-la-materia",
+      "cn-5-5-energia-en-los-procesos-de-la-vida-diaria",
+      "cn-5-6-organismos-estructura-y-procesos",
+      "cn-5-7-herencia-y-evolucion-biologica",
+    ]);
+  });
+
+  it("resuelve las tres unidades listas de conciencia histórica, en orden de registro", () => {
+    expect(
+      get_available_units_for_area("conciencia-historica").map(
+        (resolved) => resolved.unit.id,
+      ),
+    ).toEqual([
+      "ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales",
+      "ch-3-2-mexico-durante-el-expansionismo-capitalista",
+      "ch-3-3-realidad-actual-en-perspectiva-historica",
+    ]);
+  });
+
+  it("resuelve las tres unidades listas de ciencias sociales, en orden de registro", () => {
     expect(
       get_available_units_for_area("ciencias-sociales").map(
         (resolved) => resolved.unit.id,
       ),
-    ).toEqual(["cs-7-1-organizacion-economica", "cs-7-2-perspectivas-politicas"]);
+    ).toEqual([
+      "cs-7-1-organizacion-economica",
+      "cs-7-2-perspectivas-politicas",
+      "cs-7-3-problemas-sociologicos",
+    ]);
   });
 
   it("no resuelve un área sin unidades de contenido listas", () => {
@@ -391,11 +639,29 @@ describe("get_unit_questions", () => {
     ).toHaveLength(25);
   });
 
-  it("devuelve las treinta preguntas de la unidad de conciencia histórica", () => {
+  it("devuelve las treinta preguntas de la unidad de conciencia histórica ch-3-1", () => {
     expect(
       get_unit_questions(
         "conciencia-historica",
         "ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales",
+      ),
+    ).toHaveLength(30);
+  });
+
+  it("devuelve las cincuenta y cinco preguntas de la unidad de conciencia histórica ch-3-2", () => {
+    expect(
+      get_unit_questions(
+        "conciencia-historica",
+        "ch-3-2-mexico-durante-el-expansionismo-capitalista",
+      ),
+    ).toHaveLength(55);
+  });
+
+  it("devuelve las treinta preguntas de la unidad de conciencia histórica ch-3-3, que completa el área", () => {
+    expect(
+      get_unit_questions(
+        "conciencia-historica",
+        "ch-3-3-realidad-actual-en-perspectiva-historica",
       ),
     ).toHaveLength(30);
   });
@@ -418,7 +684,7 @@ describe("get_unit_questions", () => {
     ).toHaveLength(20);
   });
 
-  it("devuelve las veinticinco preguntas de la unidad de ciencias naturales", () => {
+  it("devuelve las veinticinco preguntas de la unidad de ciencias naturales cn-5-1", () => {
     expect(
       get_unit_questions(
         "ciencias-naturales-experimentales-y-tecnologia",
@@ -427,13 +693,103 @@ describe("get_unit_questions", () => {
     ).toHaveLength(25);
   });
 
-  it("devuelve las veinte preguntas de la unidad de lengua y comunicación", () => {
+  it("devuelve las veinticinco preguntas de la unidad de ciencias naturales cn-5-2", () => {
+    expect(
+      get_unit_questions(
+        "ciencias-naturales-experimentales-y-tecnologia",
+        "cn-5-2-conservacion-de-la-energia-y-sus-interacciones",
+      ),
+    ).toHaveLength(25);
+  });
+
+  it("devuelve las treinta y cinco preguntas de la unidad de ciencias naturales cn-5-3", () => {
+    expect(
+      get_unit_questions(
+        "ciencias-naturales-experimentales-y-tecnologia",
+        "cn-5-3-ecosistemas-interacciones-energia-y-dinamica",
+      ),
+    ).toHaveLength(35);
+  });
+
+  it("devuelve las quince preguntas de la unidad de ciencias naturales cn-5-4", () => {
+    expect(
+      get_unit_questions(
+        "ciencias-naturales-experimentales-y-tecnologia",
+        "cn-5-4-reacciones-quimicas-y-conservacion-de-la-materia",
+      ),
+    ).toHaveLength(15);
+  });
+
+  it("devuelve las veinte preguntas de la unidad de ciencias naturales cn-5-5", () => {
+    expect(
+      get_unit_questions(
+        "ciencias-naturales-experimentales-y-tecnologia",
+        "cn-5-5-energia-en-los-procesos-de-la-vida-diaria",
+      ),
+    ).toHaveLength(20);
+  });
+
+  it("devuelve las quince preguntas de la unidad de ciencias naturales cn-5-6", () => {
+    expect(
+      get_unit_questions(
+        "ciencias-naturales-experimentales-y-tecnologia",
+        "cn-5-6-organismos-estructura-y-procesos",
+      ),
+    ).toHaveLength(15);
+  });
+
+  it("devuelve las veinticinco preguntas de la unidad de ciencias naturales cn-5-7", () => {
+    expect(
+      get_unit_questions(
+        "ciencias-naturales-experimentales-y-tecnologia",
+        "cn-5-7-herencia-y-evolucion-biologica",
+      ),
+    ).toHaveLength(25);
+  });
+
+  it("devuelve las veinte preguntas de la unidad de lengua y comunicación lc-6-1", () => {
     expect(
       get_unit_questions(
         "lengua-y-comunicacion",
         "lc-6-1-estrategias-de-comprension-lectora",
       ),
     ).toHaveLength(20);
+  });
+
+  it("devuelve las treinta preguntas de la unidad de lengua y comunicación lc-6-2", () => {
+    expect(
+      get_unit_questions(
+        "lengua-y-comunicacion",
+        "lc-6-2-recursos-del-analisis-literario",
+      ),
+    ).toHaveLength(30);
+  });
+
+  it("devuelve las treinta y cinco preguntas de la unidad de lengua y comunicación lc-6-3", () => {
+    expect(
+      get_unit_questions(
+        "lengua-y-comunicacion",
+        "lc-6-3-procesos-de-composicion-de-textos",
+      ),
+    ).toHaveLength(35);
+  });
+
+  it("devuelve las veinte preguntas de la unidad de lengua y comunicación lc-6-4", () => {
+    expect(
+      get_unit_questions(
+        "lengua-y-comunicacion",
+        "lc-6-4-formas-orales-de-la-comunicacion",
+      ),
+    ).toHaveLength(20);
+  });
+
+  it("devuelve las cincuenta preguntas de la unidad de lengua y comunicación lc-6-5", () => {
+    expect(
+      get_unit_questions(
+        "lengua-y-comunicacion",
+        "lc-6-5-estructura-gramatical-del-ingles",
+      ),
+    ).toHaveLength(50);
   });
 
   it("devuelve las cuarenta y cinco preguntas de la unidad de ciencias sociales", () => {
@@ -445,6 +801,12 @@ describe("get_unit_questions", () => {
   it("devuelve las cuarenta preguntas de la unidad cs-7-2 de ciencias sociales", () => {
     expect(
       get_unit_questions("ciencias-sociales", "cs-7-2-perspectivas-politicas"),
+    ).toHaveLength(40);
+  });
+
+  it("devuelve las cuarenta preguntas de la unidad cs-7-3 de ciencias sociales", () => {
+    expect(
+      get_unit_questions("ciencias-sociales", "cs-7-3-problemas-sociologicos"),
     ).toHaveLength(40);
   });
 

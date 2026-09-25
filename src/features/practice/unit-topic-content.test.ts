@@ -304,6 +304,126 @@ describe("get_topic_content", () => {
     ]);
   });
 
+  it("resuelve un tema real de la unidad de ciencias naturales cn-5-2, con calor específico dependiente de cn-5-1", async () => {
+    const content = await get_topic_content(
+      "ciencias-naturales-experimentales-y-tecnologia",
+      "cn-5-2-conservacion-de-la-energia-y-sus-interacciones",
+      "cn-5-2-2-calor-especifico",
+    );
+
+    expect(content?.topic).toMatchObject({
+      id: "cn-5-2-2-calor-especifico",
+      title: "Calor específico",
+      code: "5.2.2",
+    });
+    expect(content?.lessons).toEqual([
+      { id: "cn-calor-especifico-01", title: "Calor específico" },
+    ]);
+    expect(content?.questions.map((item) => item.question.id)).toEqual([
+      "cn-ce-001",
+      "cn-ce-002",
+      "cn-ce-003",
+      "cn-ce-004",
+      "cn-ce-005",
+    ]);
+  });
+
+  it("resuelve un tema real de la unidad de ciencias naturales cn-5-3, con redes tróficas dependiente de fotosíntesis", async () => {
+    const content = await get_topic_content(
+      "ciencias-naturales-experimentales-y-tecnologia",
+      "cn-5-3-ecosistemas-interacciones-energia-y-dinamica",
+      "cn-5-3-3-niveles-de-las-redes-troficas",
+    );
+
+    expect(content?.topic).toMatchObject({
+      id: "cn-5-3-3-niveles-de-las-redes-troficas",
+      title: "Niveles de las redes tróficas",
+      code: "5.3.3",
+    });
+    expect(content?.lessons).toEqual([
+      { id: "cn-redes-troficas-01", title: "Redes tróficas" },
+    ]);
+    expect(content?.questions.map((item) => item.question.id)).toEqual([
+      "cn-rtr-001",
+      "cn-rtr-002",
+      "cn-rtr-003",
+      "cn-rtr-004",
+      "cn-rtr-005",
+    ]);
+  });
+
+  it("resuelve un tema real de la unidad de ciencias naturales cn-5-4, con reacciones químicas dependiente de cn-5-1", async () => {
+    const content = await get_topic_content(
+      "ciencias-naturales-experimentales-y-tecnologia",
+      "cn-5-4-reacciones-quimicas-y-conservacion-de-la-materia",
+      "cn-5-4-2-tipos-de-reacciones-quimicas",
+    );
+
+    expect(content?.topic).toMatchObject({
+      id: "cn-5-4-2-tipos-de-reacciones-quimicas",
+      title: "Tipos de reacciones químicas",
+      code: "5.4.2",
+    });
+    expect(content?.lessons).toEqual([
+      { id: "cn-reacciones-quimicas-01", title: "Reacciones químicas" },
+    ]);
+    expect(content?.questions.map((item) => item.question.id)).toEqual([
+      "cn-trq-001",
+      "cn-trq-002",
+      "cn-trq-003",
+      "cn-trq-004",
+      "cn-trq-005",
+    ]);
+  });
+
+  it("resuelve un tema real de la unidad de ciencias naturales cn-5-5, con ondas electromagnéticas dependiente de cn-5-2", async () => {
+    const content = await get_topic_content(
+      "ciencias-naturales-experimentales-y-tecnologia",
+      "cn-5-5-energia-en-los-procesos-de-la-vida-diaria",
+      "cn-5-5-3-ondas-electromagneticas-en-dispositivos-cotidianos",
+    );
+
+    expect(content?.topic).toMatchObject({
+      id: "cn-5-5-3-ondas-electromagneticas-en-dispositivos-cotidianos",
+      title: "Ondas electromagnéticas en dispositivos de uso cotidiano",
+      code: "5.5.3",
+    });
+    expect(content?.lessons).toEqual([
+      { id: "cn-ondas-electromagneticas-01", title: "Ondas electromagnéticas" },
+    ]);
+    expect(content?.questions.map((item) => item.question.id)).toEqual([
+      "cn-oem-001",
+      "cn-oem-002",
+      "cn-oem-003",
+      "cn-oem-004",
+      "cn-oem-005",
+    ]);
+  });
+
+  it("resuelve un tema real de la unidad de ciencias naturales cn-5-6, con respiración celular dependiente de organelos celulares", async () => {
+    const content = await get_topic_content(
+      "ciencias-naturales-experimentales-y-tecnologia",
+      "cn-5-6-organismos-estructura-y-procesos",
+      "cn-5-6-3-etapas-de-la-respiracion-celular",
+    );
+
+    expect(content?.topic).toMatchObject({
+      id: "cn-5-6-3-etapas-de-la-respiracion-celular",
+      title: "Etapas de la respiración celular",
+      code: "5.6.3",
+    });
+    expect(content?.lessons).toEqual([
+      { id: "cn-respiracion-celular-01", title: "Respiración celular" },
+    ]);
+    expect(content?.questions.map((item) => item.question.id)).toEqual([
+      "cn-rec-001",
+      "cn-rec-002",
+      "cn-rec-003",
+      "cn-rec-004",
+      "cn-rec-005",
+    ]);
+  });
+
   it("resuelve un tema real de la unidad de lengua y comunicación", async () => {
     const content = await get_topic_content(
       "lengua-y-comunicacion",
@@ -348,11 +468,141 @@ describe("get_topic_content", () => {
     ).resolves.toBeUndefined();
     await expect(
       get_topic_content(
-        "ciencias-sociales",
-        "cs-7-3-problemas-sociologicos",
-        "cs-7-3-1-tipos-de-organizacion-social",
+        "lengua-y-comunicacion",
+        "lc-6-6-unidad-inexistente",
+        "lc-6-6-1-tema-inexistente",
       ),
     ).resolves.toBeUndefined();
+  });
+
+  it("resuelve un tema real de la unidad lc-6-3 de lengua y comunicación, con las tres muestras oficiales calibradas", async () => {
+    const content = await get_topic_content(
+      "lengua-y-comunicacion",
+      "lc-6-3-procesos-de-composicion-de-textos",
+      "lc-6-3-4-reglas-de-puntuacion",
+    );
+
+    expect(content?.topic).toMatchObject({
+      id: "lc-6-3-4-reglas-de-puntuacion",
+      title: "Reglas de puntuación",
+      code: "6.3.4",
+    });
+    expect(content?.lessons).toEqual([
+      { id: "lc-reglas-de-puntuacion-01", title: "Reglas de puntuación" },
+    ]);
+    expect(content?.questions).toHaveLength(5);
+  });
+
+  it("resuelve un tema real de la unidad lc-6-4 de lengua y comunicación, sin muestras oficiales aplicables", async () => {
+    const content = await get_topic_content(
+      "lengua-y-comunicacion",
+      "lc-6-4-formas-orales-de-la-comunicacion",
+      "lc-6-4-3-elementos-del-debate",
+    );
+
+    expect(content?.topic).toMatchObject({
+      id: "lc-6-4-3-elementos-del-debate",
+      title: "Elementos del debate",
+      code: "6.4.3",
+    });
+    expect(content?.lessons).toEqual([
+      { id: "lc-elementos-del-debate-01", title: "Debate" },
+    ]);
+    expect(content?.questions).toHaveLength(5);
+  });
+
+  it("resuelve un tema real de la unidad lc-6-5 de lengua y comunicación, que completa el área", async () => {
+    const content = await get_topic_content(
+      "lengua-y-comunicacion",
+      "lc-6-5-estructura-gramatical-del-ingles",
+      "lc-6-5-8-verbos-modales",
+    );
+
+    expect(content?.topic).toMatchObject({
+      id: "lc-6-5-8-verbos-modales",
+      title: "Verbos modales",
+      code: "6.5.8",
+    });
+    expect(content?.lessons).toEqual([
+      { id: "lc-verbos-modales-en-ingles-01", title: "Verbos modales" },
+    ]);
+    expect(content?.questions).toHaveLength(5);
+  });
+
+  it("resuelve un tema real de la unidad lc-6-2 de lengua y comunicación, con la calibración editorial recién aplicada", async () => {
+    const content = await get_topic_content(
+      "lengua-y-comunicacion",
+      "lc-6-2-recursos-del-analisis-literario",
+      "lc-6-2-3-trama-del-texto-literario-narrativo",
+    );
+
+    expect(content?.topic).toMatchObject({
+      id: "lc-6-2-3-trama-del-texto-literario-narrativo",
+      title: "Trama del texto literario narrativo",
+      code: "6.2.3",
+    });
+    expect(content?.lessons).toEqual([
+      { id: "lc-trama-del-texto-narrativo-01", title: "Trama narrativa" },
+    ]);
+    expect(content?.questions).toHaveLength(5);
+  });
+
+  it("resuelve un tema real de la unidad cn-5-7 de ciencias naturales, que completa el área", async () => {
+    const content = await get_topic_content(
+      "ciencias-naturales-experimentales-y-tecnologia",
+      "cn-5-7-herencia-y-evolucion-biologica",
+      "cn-5-7-3-cuadros-de-punnett",
+    );
+
+    expect(content?.topic).toMatchObject({
+      id: "cn-5-7-3-cuadros-de-punnett",
+      title: "Cuadros de Punnett",
+      code: "5.7.3",
+    });
+    expect(content?.lessons).toEqual([
+      { id: "cn-cuadros-de-punnett-01", title: "Cuadros de Punnett" },
+    ]);
+    expect(content?.questions).toHaveLength(5);
+  });
+
+  it("resuelve un tema real de la unidad ch-3-3 de conciencia histórica, que completa el área", async () => {
+    const content = await get_topic_content(
+      "conciencia-historica",
+      "ch-3-3-realidad-actual-en-perspectiva-historica",
+      "ch-3-3-5-causas-de-la-alternancia-politica",
+    );
+
+    expect(content?.topic).toMatchObject({
+      id: "ch-3-3-5-causas-de-la-alternancia-politica",
+      title: "Causas de la alternancia política",
+      code: "3.3.5",
+    });
+    expect(content?.lessons).toEqual([
+      { id: "ch-causas-de-la-alternancia-politica-01", title: "Alternancia política" },
+    ]);
+    expect(content?.questions).toHaveLength(5);
+  });
+
+  it("resuelve un tema real de la unidad ch-3-2 de conciencia histórica, con su tema dividido en dos lecciones", async () => {
+    const content = await get_topic_content(
+      "conciencia-historica",
+      "ch-3-2-mexico-durante-el-expansionismo-capitalista",
+      "ch-3-2-3-caracteristicas-e-impacto-del-liberalismo-mexicano",
+    );
+
+    expect(content?.topic).toMatchObject({
+      id: "ch-3-2-3-caracteristicas-e-impacto-del-liberalismo-mexicano",
+      title: "Características e impacto del liberalismo mexicano",
+      code: "3.2.3",
+    });
+    expect(content?.lessons).toEqual([
+      { id: "ch-liberalismo-mexicano-01", title: "Liberalismo mexicano" },
+      {
+        id: "ch-instituciones-y-leyes-del-liberalismo-02",
+        title: "Instituciones del liberalismo",
+      },
+    ]);
+    expect(content?.questions).toHaveLength(10);
   });
 
   it("resuelve un tema real de la unidad cs-7-2 de ciencias sociales", async () => {
@@ -372,6 +622,24 @@ describe("get_topic_content", () => {
         id: "cs-instituciones-del-estado-mexicano-01",
         title: "Instituciones del estado mexicano",
       },
+    ]);
+    expect(content?.questions).toHaveLength(5);
+  });
+
+  it("resuelve un tema real de la unidad cs-7-3 de ciencias sociales, que completa el área", async () => {
+    const content = await get_topic_content(
+      "ciencias-sociales",
+      "cs-7-3-problemas-sociologicos",
+      "cs-7-3-1-tipos-de-organizacion-social",
+    );
+
+    expect(content?.topic).toMatchObject({
+      id: "cs-7-3-1-tipos-de-organizacion-social",
+      title: "Tipos de organización social",
+      code: "7.3.1",
+    });
+    expect(content?.lessons).toEqual([
+      { id: "cs-organizacion-social-01", title: "Organización social" },
     ]);
     expect(content?.questions).toHaveLength(5);
   });
@@ -564,21 +832,13 @@ describe("get_available_topic_content", () => {
       get_available_topic_content("tema-inexistente"),
     ).resolves.toBeUndefined();
     await expect(
-      get_available_topic_content("cn-5-2-1-caracteristicas-de-la-luz-visible"),
+      get_available_topic_content("lc-6-6-1-tema-inexistente"),
     ).resolves.toBeUndefined();
     await expect(
-      get_available_topic_content(
-        "ch-3-2-1-causas-internas-y-externas-de-la-independencia",
-      ),
-    ).resolves.toBeUndefined();
-    await expect(
-      get_available_topic_content("cs-7-3-1-tipos-de-organizacion-social"),
+      get_available_topic_content("cs-7-4-1-tema-inexistente"),
     ).resolves.toBeUndefined();
     await expect(
       get_available_topic_content("lc-6-2-1-figuras-retoricas"),
-    ).resolves.toBeUndefined();
-    await expect(
-      get_available_topic_content("cs-7-3-8-movimientos-sociales-antisistema"),
     ).resolves.toBeUndefined();
   });
 });

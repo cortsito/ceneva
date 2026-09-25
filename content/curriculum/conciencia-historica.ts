@@ -99,7 +99,7 @@ export const conciencia_historica: curriculum_area = {
     },
     {
       "id": "ch-3-2-mexico-durante-el-expansionismo-capitalista",
-      "title": "méxico durante el expansionismo capitalista",
+      "title": "México durante el expansionismo capitalista",
       "source": {
         "guide": "docs/guiaoficial.pdf",
         "pages": [
@@ -111,7 +111,7 @@ export const conciencia_historica: curriculum_area = {
       "topics": [
         {
           "id": "ch-3-2-1-causas-internas-y-externas-de-la-independencia",
-          "title": "causas internas y externas de la independencia",
+          "title": "Causas internas y externas de la independencia",
           "lesson_ids": [
             "ch-causas-de-la-independencia-01"
           ],
@@ -125,7 +125,7 @@ export const conciencia_historica: curriculum_area = {
         },
         {
           "id": "ch-3-2-2-proyectos-de-emancipacion-del-siglo-xix",
-          "title": "proyectos de emancipación del siglo xix",
+          "title": "Proyectos de emancipación del siglo XIX",
           "lesson_ids": [
             "ch-proyectos-de-emancipacion-01"
           ],
@@ -139,7 +139,7 @@ export const conciencia_historica: curriculum_area = {
         },
         {
           "id": "ch-3-2-3-caracteristicas-e-impacto-del-liberalismo-mexicano",
-          "title": "características e impacto del liberalismo mexicano",
+          "title": "Características e impacto del liberalismo mexicano",
           "lesson_ids": [
             "ch-liberalismo-mexicano-01",
             "ch-instituciones-y-leyes-del-liberalismo-02"
@@ -154,7 +154,7 @@ export const conciencia_historica: curriculum_area = {
         },
         {
           "id": "ch-3-2-4-intervenciones-de-francia-y-estados-unidos-en-mexico",
-          "title": "intervenciones de francia y estados unidos en méxico durante el siglo xix",
+          "title": "Intervenciones de Francia y Estados Unidos en México durante el siglo XIX",
           "lesson_ids": [
             "ch-intervenciones-extranjeras-del-siglo-xix-01"
           ],
@@ -168,7 +168,7 @@ export const conciencia_historica: curriculum_area = {
         },
         {
           "id": "ch-3-2-5-movimientos-sociales-del-siglo-xix",
-          "title": "movimientos sociales del siglo xix",
+          "title": "Movimientos sociales del siglo XIX",
           "lesson_ids": [
             "ch-movimientos-sociales-del-siglo-xix-01"
           ],
@@ -182,7 +182,7 @@ export const conciencia_historica: curriculum_area = {
         },
         {
           "id": "ch-3-2-6-consecuencias-de-la-enajenacion-de-bienes-comunales",
-          "title": "consecuencias de la enajenación de bienes comunales",
+          "title": "Consecuencias de la enajenación de bienes comunales",
           "lesson_ids": [
             "ch-enajenacion-de-bienes-comunales-01"
           ],
@@ -196,7 +196,7 @@ export const conciencia_historica: curriculum_area = {
         },
         {
           "id": "ch-3-2-7-caracteristicas-del-porfiriato",
-          "title": "características del porfiriato",
+          "title": "Características del porfiriato",
           "lesson_ids": [
             "ch-caracteristicas-del-porfiriato-01"
           ],
@@ -210,7 +210,7 @@ export const conciencia_historica: curriculum_area = {
         },
         {
           "id": "ch-3-2-8-movimientos-de-oposicion-al-porfiriato",
-          "title": "movimientos de oposición al porfiriato",
+          "title": "Movimientos de oposición al porfiriato",
           "lesson_ids": [
             "ch-oposicion-al-porfiriato-01"
           ],
@@ -224,7 +224,7 @@ export const conciencia_historica: curriculum_area = {
         },
         {
           "id": "ch-3-2-9-facciones-de-la-revolucion-mexicana",
-          "title": "facciones de la revolución mexicana",
+          "title": "Facciones de la revolución mexicana",
           "lesson_ids": [
             "ch-facciones-de-la-revolucion-mexicana-01"
           ],
@@ -238,7 +238,7 @@ export const conciencia_historica: curriculum_area = {
         },
         {
           "id": "ch-3-2-10-impacto-de-la-revolucion-mexicana",
-          "title": "impacto de la revolución mexicana",
+          "title": "Impacto de la revolución mexicana",
           "lesson_ids": [
             "ch-derechos-originados-en-la-revolucion-01"
           ],
@@ -254,7 +254,7 @@ export const conciencia_historica: curriculum_area = {
     },
     {
       "id": "ch-3-3-realidad-actual-en-perspectiva-historica",
-      "title": "la realidad actual en perspectiva histórica",
+      "title": "La realidad actual en perspectiva histórica",
       "source": {
         "guide": "docs/guiaoficial.pdf",
         "pages": [
@@ -265,7 +265,7 @@ export const conciencia_historica: curriculum_area = {
       "topics": [
         {
           "id": "ch-3-3-1-factores-de-consolidacion-del-presidencialismo",
-          "title": "factores de consolidación del presidencialismo",
+          "title": "Factores de consolidación del presidencialismo",
           "lesson_ids": [
             "ch-consolidacion-del-presidencialismo-01"
           ],
@@ -279,7 +279,7 @@ export const conciencia_historica: curriculum_area = {
         },
         {
           "id": "ch-3-3-2-participacion-de-mexico-en-eventos-internacionales-del-siglo-xx",
-          "title": "participación de méxico en eventos históricos internacionales del siglo xx",
+          "title": "Participación de México en eventos históricos internacionales del siglo XX",
           "lesson_ids": [
             "ch-mexico-en-eventos-internacionales-01"
           ],
@@ -293,7 +293,7 @@ export const conciencia_historica: curriculum_area = {
         },
         {
           "id": "ch-3-3-3-causas-del-neoliberalismo-en-mexico",
-          "title": "causas del neoliberalismo en méxico",
+          "title": "Causas del neoliberalismo en México",
           "lesson_ids": [
             "ch-causas-del-neoliberalismo-01"
           ],
@@ -307,7 +307,7 @@ export const conciencia_historica: curriculum_area = {
         },
         {
           "id": "ch-3-3-4-globalizacion-en-la-actualidad",
-          "title": "globalización en la actualidad",
+          "title": "Globalización en la actualidad",
           "lesson_ids": [
             "ch-globalizacion-en-la-vida-cotidiana-01"
           ],
@@ -321,7 +321,7 @@ export const conciencia_historica: curriculum_area = {
         },
         {
           "id": "ch-3-3-5-causas-de-la-alternancia-politica",
-          "title": "causas de la alternancia política",
+          "title": "Causas de la alternancia política",
           "lesson_ids": [
             "ch-causas-de-la-alternancia-politica-01"
           ],
@@ -335,7 +335,7 @@ export const conciencia_historica: curriculum_area = {
         },
         {
           "id": "ch-3-3-6-impacto-social-de-los-medios-de-comunicacion-en-la-historia",
-          "title": "impacto social de los medios de comunicación en la historia",
+          "title": "Impacto social de los medios de comunicación en la historia",
           "lesson_ids": [
             "ch-impacto-social-de-los-medios-01"
           ],

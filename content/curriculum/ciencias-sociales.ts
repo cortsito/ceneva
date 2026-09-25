@@ -279,7 +279,7 @@ export const ciencias_sociales: curriculum_area = {
     },
     {
       "id": "cs-7-3-problemas-sociologicos",
-      "title": "problemas sociológicos",
+      "title": "Problemas sociológicos",
       "source": {
         "guide": "docs/guiaoficial.pdf",
         "pages": [
@@ -290,7 +290,7 @@ export const ciencias_sociales: curriculum_area = {
       "topics": [
         {
           "id": "cs-7-3-1-tipos-de-organizacion-social",
-          "title": "tipos de organización social",
+          "title": "Tipos de organización social",
           "lesson_ids": [
             "cs-organizacion-social-01"
           ],
@@ -304,7 +304,7 @@ export const ciencias_sociales: curriculum_area = {
         },
         {
           "id": "cs-7-3-2-indicadores-de-desarrollo-comunitario",
-          "title": "indicadores de desarrollo comunitario",
+          "title": "Indicadores de desarrollo comunitario",
           "lesson_ids": [
             "cs-indicadores-de-desarrollo-comunitario-01"
           ],
@@ -318,7 +318,7 @@ export const ciencias_sociales: curriculum_area = {
         },
         {
           "id": "cs-7-3-3-indicadores-de-bienestar",
-          "title": "indicadores de bienestar",
+          "title": "Indicadores de bienestar",
           "lesson_ids": [
             "cs-indicadores-de-bienestar-01"
           ],
@@ -332,7 +332,7 @@ export const ciencias_sociales: curriculum_area = {
         },
         {
           "id": "cs-7-3-4-factores-que-propician-la-segregacion-social",
-          "title": "factores que propician la segregación social",
+          "title": "Factores que propician la segregación social",
           "lesson_ids": [
             "cs-segregacion-social-01"
           ],
@@ -346,7 +346,7 @@ export const ciencias_sociales: curriculum_area = {
         },
         {
           "id": "cs-7-3-5-derechos-de-ninas-ninos-y-adolescentes",
-          "title": "derechos de las niñas, niños y adolescentes",
+          "title": "Derechos de las niñas, niños y adolescentes",
           "lesson_ids": [
             "cs-derechos-de-ninas-ninos-y-adolescentes-01"
           ],
@@ -360,7 +360,7 @@ export const ciencias_sociales: curriculum_area = {
         },
         {
           "id": "cs-7-3-6-consecuencias-de-crisis-sociales-economicas-y-ambientales",
-          "title": "consecuencias de las crisis sociales, económicas y ambientales de los siglos xx y xxi en la sociedad mexicana",
+          "title": "Consecuencias de las crisis sociales, económicas y ambientales de los siglos XX y XXI en la sociedad mexicana",
           "lesson_ids": [
             "cs-crisis-sociales-economicas-y-ambientales-01"
           ],
@@ -374,7 +374,7 @@ export const ciencias_sociales: curriculum_area = {
         },
         {
           "id": "cs-7-3-7-tipos-de-migraciones",
-          "title": "tipos de migraciones",
+          "title": "Tipos de migraciones",
           "lesson_ids": [
             "cs-tipos-de-migraciones-01"
           ],
@@ -388,7 +388,7 @@ export const ciencias_sociales: curriculum_area = {
         },
         {
           "id": "cs-7-3-8-movimientos-sociales-antisistema",
-          "title": "movimientos sociales antisistema",
+          "title": "Movimientos sociales antisistema",
           "lesson_ids": [
             "cs-movimientos-sociales-antisistema-01"
           ],
