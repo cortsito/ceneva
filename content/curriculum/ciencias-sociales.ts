@@ -154,7 +154,7 @@ export const ciencias_sociales: curriculum_area = {
     },
     {
       "id": "cs-7-2-perspectivas-politicas",
-      "title": "perspectivas políticas",
+      "title": "Perspectivas políticas",
       "source": {
         "guide": "docs/guiaoficial.pdf",
         "pages": [
@@ -165,7 +165,7 @@ export const ciencias_sociales: curriculum_area = {
       "topics": [
         {
           "id": "cs-7-2-1-teorias-sobre-el-origen-del-estado",
-          "title": "teorías sobre el origen del estado y sus autores",
+          "title": "Teorías sobre el origen del estado y sus autores",
           "lesson_ids": [
             "cs-teorias-sobre-el-origen-del-estado-01"
           ],
@@ -179,7 +179,7 @@ export const ciencias_sociales: curriculum_area = {
         },
         {
           "id": "cs-7-2-2-caracteristicas-de-la-democracia-electoral",
-          "title": "características de la democracia electoral",
+          "title": "Características de la democracia electoral",
           "lesson_ids": [
             "cs-democracia-electoral-01"
           ],
@@ -193,7 +193,7 @@ export const ciencias_sociales: curriculum_area = {
         },
         {
           "id": "cs-7-2-3-requisitos-para-obtener-ciudadania-mexicana",
-          "title": "requisitos para obtener la ciudadanía mexicana",
+          "title": "Requisitos para obtener la ciudadanía mexicana",
           "lesson_ids": [
             "cs-ciudadania-mexicana-01"
           ],
@@ -207,7 +207,7 @@ export const ciencias_sociales: curriculum_area = {
         },
         {
           "id": "cs-7-2-4-funcion-de-instituciones-del-estado-mexicano",
-          "title": "función de las instituciones del estado mexicano",
+          "title": "Función de las instituciones del estado mexicano",
           "lesson_ids": [
             "cs-instituciones-del-estado-mexicano-01"
           ],
@@ -221,7 +221,7 @@ export const ciencias_sociales: curriculum_area = {
         },
         {
           "id": "cs-7-2-5-poderes-facticos",
-          "title": "poderes fácticos",
+          "title": "Poderes fácticos",
           "lesson_ids": [
             "cs-poderes-facticos-01"
           ],
@@ -235,7 +235,7 @@ export const ciencias_sociales: curriculum_area = {
         },
         {
           "id": "cs-7-2-6-principios-de-politica-exterior",
-          "title": "principios de política exterior del estado mexicano",
+          "title": "Principios de política exterior del estado mexicano",
           "lesson_ids": [
             "cs-principios-de-politica-exterior-01"
           ],
@@ -249,7 +249,7 @@ export const ciencias_sociales: curriculum_area = {
         },
         {
           "id": "cs-7-2-7-organismos-internacionales",
-          "title": "organismos internacionales",
+          "title": "Organismos internacionales",
           "lesson_ids": [
             "cs-organismos-internacionales-01"
           ],
@@ -263,7 +263,7 @@ export const ciencias_sociales: curriculum_area = {
         },
         {
           "id": "cs-7-2-8-areas-en-el-sistema-mundo",
-          "title": "áreas en el sistema mundo",
+          "title": "Áreas en el sistema mundo",
           "lesson_ids": [
             "cs-areas-en-el-sistema-mundo-01"
           ],

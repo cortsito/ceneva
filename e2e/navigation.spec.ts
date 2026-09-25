@@ -18,10 +18,29 @@ const base_routes = [
   "/ruta/cultura-digital/cd-2-3-creatividad-digital",
   "/leccion/cd-formulas-de-hoja-de-calculo-01",
   "/practica/cd-2-3-1-herramientas-de-hoja-de-calculo",
+  "/ruta/cultura-digital/cd-2-4-pensamiento-algoritmico",
+  "/leccion/cd-conceptos-del-lenguaje-algoritmico-01",
+  "/practica/cd-2-4-1-conceptos-del-lenguaje-algoritmico",
   "/ruta/conciencia-historica",
   "/ruta/conciencia-historica/ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales",
   "/ruta/humanidades",
   "/ruta/humanidades/hu-4-1-fundamentos-del-pensamiento-filosofico",
+  "/ruta/humanidades/hu-4-2-elementos-para-el-pensamiento-y-la-argumentacion",
+  "/leccion/hu-funciones-de-la-lengua-01",
+  "/practica/hu-4-2-1-funciones-de-la-lengua",
+  "/ruta/humanidades/hu-4-3-construccion-de-la-persona-para-la-convivencia",
+  "/leccion/hu-valores-para-la-convivencia-01",
+  "/practica/hu-4-3-2-valores-y-su-definicion",
+  "/ruta/humanidades/hu-4-4-reflexion-politica-y-participacion-ciudadana",
+  "/leccion/hu-autonomia-y-heteronomia-01",
+  "/leccion/hu-discurso-politico-01",
+  "/practica/hu-4-4-1-autonomia-y-heteronomia",
+  "/ruta/humanidades/hu-4-5-humanidad-ante-desafios-contemporaneos",
+  "/leccion/hu-principios-de-bioetica-01",
+  "/practica/hu-4-5-1-principios-de-bioetica",
+  "/ruta/humanidades/hu-4-6-reflexiones-sobre-el-arte-y-la-sensibilidad",
+  "/leccion/hu-categorias-esteticas-01",
+  "/practica/hu-4-6-1-categorias-esteticas",
   "/leccion/pm-tipos-de-variables-01",
   "/leccion/pm-limites-de-funciones-cuadraticas-01",
   "/leccion/cd-identidad-digital-01",
@@ -207,7 +226,7 @@ test("/ruta muestra el conteo de unidades listas de cada área", async ({ page }
     .getByRole("heading", { name: "cultura digital" })
     .locator("xpath=ancestor::article");
 
-  await expect(cd_area.getByText("3 unidades listas")).toBeVisible();
+  await expect(cd_area.getByText("4 unidades listas")).toBeVisible();
 });
 
 test("/ruta/pensamiento-matematico lista sus seis unidades listas en orden curricular", async ({
@@ -548,6 +567,8 @@ test("la práctica de cultura digital se puede responder en pantalla móvil", as
 });
 
 test("las rutas base se muestran sin error", async ({ page }) => {
+  test.setTimeout(60_000);
+
   for (const route of base_routes) {
     await page.goto(route);
     await expect(page.locator("main")).toBeVisible();
@@ -1086,7 +1107,7 @@ test("el progreso de un área no-pm se refleja en /progreso tras recargar", asyn
     .getByText("temas dominados", { exact: true })
     .locator("xpath=following-sibling::*[1]");
 
-  await expect(dominated_stat).toHaveText("1/14");
+  await expect(dominated_stat).toHaveText("1/18");
 
   const pm_area_block = page
     .getByRole("heading", { name: "pensamiento matemático" })
@@ -1100,7 +1121,7 @@ test("el progreso de un área no-pm se refleja en /progreso tras recargar", asyn
 
   await page.reload();
 
-  await expect(dominated_stat).toHaveText("1/14");
+  await expect(dominated_stat).toHaveText("1/18");
 });
 
 const diagnostic_correct_options = [
@@ -1189,21 +1210,21 @@ test("un diagnóstico de un área distinta a pensamiento matemático se resuelve
 }) => {
   await page.goto("/diagnostico/cultura-digital");
 
-  await expect(page.getByText("pregunta 1 de 14")).toBeVisible();
+  await expect(page.getByText("pregunta 1 de 18")).toBeVisible();
 
-  for (let index = 0; index < 14; index += 1) {
+  for (let index = 0; index < 18; index += 1) {
     const options = await page.getByRole("radio").all();
 
     await options[0].check();
     await page
       .getByRole("button", {
-        name: index === 13 ? "ver resultado" : "siguiente pregunta",
+        name: index === 17 ? "ver resultado" : "siguiente pregunta",
       })
       .click();
   }
 
   await expect(
-    page.getByRole("heading", { level: 2, name: "de 14 respuestas correctas" }),
+    page.getByRole("heading", { level: 2, name: "de 18 respuestas correctas" }),
   ).toBeVisible();
   await expect(
     page.getByText("Elementos de la identidad digital", { exact: true }),
@@ -1211,8 +1232,8 @@ test("un diagnóstico de un área distinta a pensamiento matemático se resuelve
   await expect(
     page.getByText("Medidas de seguridad digital", { exact: true }),
   ).toBeVisible();
-  await expect(page.locator(".result-card")).toHaveCount(14);
-  await expect(page.getByText("Por reforzar", { exact: true })).toHaveCount(14);
+  await expect(page.locator(".result-card")).toHaveCount(18);
+  await expect(page.getByText("Por reforzar", { exact: true })).toHaveCount(18);
   await expect(page.getByText("pensamiento matemático", { exact: false })).toHaveCount(
     0,
   );
@@ -1382,6 +1403,10 @@ const simulator_coverage_correct_options = [
   "insertar un gráfico",
   "analizar",
   "internet de las cosas",
+  "variable",
+  "leer la base y la altura",
+  "definido",
+  "óvalo",
   "a los purépechas",
   "a la Guerra de Castas",
   "a los criollos",
@@ -1391,6 +1416,22 @@ const simulator_coverage_correct_options = [
   "sí, porque evalúa la evidencia y la fuente antes de aceptar la afirmación",
   "sí, porque asume su libertad para decidir y su responsabilidad sobre el resultado",
   "a doxa, porque se sostiene por costumbre y no por un fundamento verificable",
+  "función instrumental, porque su forma es un imperativo que busca guiar la conducta del receptor",
+  '"dormir lo suficiente ayuda a reducir los errores laborales", porque es la afirmación que las otras dos sostienen, señalada por "por lo tanto"',
+  "deductivo, porque la conclusión se sigue con necesidad de las premisas si estas son verdaderas",
+  "deliberación, porque el grupo busca llegar a una decisión conjunta sopesando opciones, sin posturas fijas que defender",
+  "estoicismo",
+  "libertad",
+  "norma religiosa",
+  "autonomía, porque decide según su propio juicio, sin imposición externa",
+  "sí, porque trata un asunto de gobierno y busca persuadir a la ciudadanía hacia una acción colectiva",
+  "beneficencia, porque aporta activamente un beneficio a una población con una necesidad de salud",
+  "sí, porque antepone la disponibilidad futura del suelo al beneficio inmediato",
+  "micromachismo, porque es una conducta cotidiana y sutil que resta valor al logro de la diseñadora por su género",
+  "reconocimiento de la alteridad, porque adapta el horario para incluir su diferencia religiosa",
+  "postura humanista, porque justifica priorizar a los seres humanos apelando a una cualidad distintiva suya",
+  "lo trágico, porque presenta la pérdida irreversible de alguien valioso y provoca compasión",
+  "la hermenéutica, porque formula los principios generales que hacen posible interpretar correctamente un sentido",
   "iónico",
   "líquido",
   "sí, porque cada elemento tiene el mismo número de átomos en ambos lados: 1 calcio, 1 carbono y 3 oxígenos",
@@ -1409,6 +1450,14 @@ const simulator_coverage_correct_options = [
   "sí, porque es un sistema de seguridad social universal y sostenido con gasto público",
   "privatización",
   "la práctica es la remoción de suelo sin restauración posterior, y el impacto es la erosión y la sedimentación del río cercano",
+  "Hobbes, porque describe el estado de naturaleza como una guerra permanente que solo un poder absoluto puede resolver",
+  "no, porque falta la competencia real entre opciones y la posibilidad de alternancia según el resultado, aunque exista una votación periódica",
+  "no todavía, porque tiene la nacionalidad mexicana desde su nacimiento, pero le falta cumplir el requisito de edad para ser considerado ciudadano",
+  "la SEDATU, porque el ordenamiento territorial, la tenencia de la tierra y el desarrollo urbano son parte de su mandato específico",
+  "sí, porque influye en un asunto de interés público sin tener una autoridad reconocida formalmente por la constitución o la ley",
+  "la autodeterminación de los pueblos, porque el país A decide por sí mismo su propio sistema, sin que otro estado se lo imponga",
+  "la UNESCO, porque la preservación del patrimonio cultural es parte de su mandato en educación, ciencia y cultura",
+  "como área periférica, porque se especializa en la extracción de materia prima sin procesar y depende tecnológicamente de otras regiones",
 ];
 
 async function answer_simulator_question(
@@ -1463,7 +1512,7 @@ test("el simulacro identifica la cobertura mvp antes de iniciar y responde desde
   await expect(
     page.getByText("no es el examen oficial completo", { exact: false }),
   ).toBeVisible();
-  await expect(page.getByText("pregunta 1 de 71")).toBeVisible();
+  await expect(page.getByText("pregunta 1 de 99")).toBeVisible();
 
   const first_option = page.getByRole("radio", {
     name: "el peso de una mochila en kilogramos",
@@ -1481,7 +1530,7 @@ test("el simulacro identifica la cobertura mvp antes de iniciar y responde desde
 
   await page.getByRole("button", { name: "siguiente pregunta" }).click();
 
-  await expect(page.getByText("pregunta 2 de 71")).toBeVisible();
+  await expect(page.getByText("pregunta 2 de 99")).toBeVisible();
   await expect(page.getByText("correcto", { exact: false })).toHaveCount(0);
 });
 
@@ -1493,7 +1542,7 @@ test("completar el simulacro de cobertura con un error no-pm muestra el reporte 
   await complete_simulator_coverage(page, [servicios_digitales_index]);
 
   await expect(
-    page.getByRole("heading", { level: 2, name: "70 de 71 respuestas correctas" }),
+    page.getByRole("heading", { level: 2, name: "98 de 99 respuestas correctas" }),
   ).toBeVisible();
 
   const pm_area = page
@@ -1506,7 +1555,7 @@ test("completar el simulacro de cobertura con un error no-pm muestra el reporte 
     .getByText("Cultura digital", { exact: true })
     .locator("xpath=ancestor::article[1]");
 
-  await expect(cd_area.getByText("13 de 14 correctas", { exact: false })).toBeVisible();
+  await expect(cd_area.getByText("17 de 18 correctas", { exact: false })).toBeVisible();
 
   const mismatched_topic = cd_area
     .getByText("Tipos de servicios digitales", { exact: true })
@@ -1532,11 +1581,11 @@ test("completar el simulacro de cobertura con un error no-pm muestra el reporte 
 
   await page.goto("/simulacro");
 
-  await expect(page.getByText("pregunta 1 de 71")).toBeVisible();
+  await expect(page.getByText("pregunta 1 de 99")).toBeVisible();
 
   await page.reload();
 
-  await expect(page.getByText("pregunta 1 de 71")).toBeVisible();
+  await expect(page.getByText("pregunta 1 de 99")).toBeVisible();
 
   await page.goto("/ruta/cultura-digital/cd-2-1-ciudadania-digital");
 
@@ -1550,7 +1599,7 @@ test("el simulacro se puede responder en pantalla móvil", async ({ page }) => {
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
     "Valida tu preparación en las siete áreas",
   );
-  await expect(page.getByText("pregunta 1 de 71")).toBeVisible();
+  await expect(page.getByText("pregunta 1 de 99")).toBeVisible();
 
   await answer_simulator_question(
     page,
@@ -1558,7 +1607,7 @@ test("el simulacro se puede responder en pantalla móvil", async ({ page }) => {
     "siguiente pregunta",
   );
 
-  await expect(page.getByText("pregunta 2 de 71")).toBeVisible();
+  await expect(page.getByText("pregunta 2 de 99")).toBeVisible();
 });
 
 const ch_movimientos_correct_options = [
@@ -1838,7 +1887,7 @@ test("la práctica de un tema de una sola lección de conciencia histórica se p
   await expect(page.getByText("pregunta 2 de 5")).toBeVisible();
 });
 
-test("la ruta de cultura digital muestra sus tres unidades listas", async ({
+test("la ruta de cultura digital muestra sus cuatro unidades listas", async ({
   page,
 }) => {
   await page.goto("/ruta/cultura-digital");
@@ -1853,6 +1902,9 @@ test("la ruta de cultura digital muestra sus tres unidades listas", async ({
   ).toBeVisible();
   await expect(
     page.getByRole("link", { name: "explorar creatividad digital" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "explorar pensamiento algorítmico" }),
   ).toBeVisible();
 });
 
@@ -2886,4 +2938,177 @@ test("la práctica de un tema de ciencias sociales se puede responder en pantall
   );
 
   await expect(page.getByText("pregunta 2 de 5")).toBeVisible();
+});
+
+const cd_cla_correct_options = [
+  "variable",
+  "aritmético",
+  "operador relacional",
+  "estructura repetitiva",
+  "1b, 2c, 3a",
+];
+
+test("completar la lección de conceptos del lenguaje algorítmico desbloquea pasos de un algoritmo y características del pensamiento algorítmico, y la práctica del tema base persiste como dominado tras recargar sin afectar otras áreas", async ({
+  page,
+}) => {
+  await page.goto("/leccion/cd-conceptos-del-lenguaje-algoritmico-01");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Conceptos del lenguaje algorítmico",
+  );
+  await expect(page.getByText("antes de continuar")).toHaveCount(0);
+  await page.getByRole("button", { name: "marcar lección como completada" }).click();
+  await expect(page.getByRole("button", { name: "lección completada" })).toBeDisabled();
+
+  await page.goto("/leccion/cd-pasos-de-un-algoritmo-01");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Pasos de un algoritmo",
+  );
+  await expect(
+    page.getByRole("link", { name: "repasa cd-conceptos-del-lenguaje-algoritmico-01" }),
+  ).toBeVisible();
+
+  await page.goto("/ruta/cultura-digital/cd-2-4-pensamiento-algoritmico");
+
+  const pasos_topic = page
+    .getByRole("heading", { name: "Pasos de un algoritmo" })
+    .locator("xpath=ancestor::article");
+  const caracteristicas_topic = page
+    .getByRole("heading", { name: "Características del pensamiento algorítmico" })
+    .locator("xpath=ancestor::article");
+
+  await expect(pasos_topic.getByText("disponible", { exact: true })).toBeVisible();
+  await expect(
+    caracteristicas_topic.getByText("disponible", { exact: true }),
+  ).toBeVisible();
+
+  await page.goto("/practica/cd-2-4-1-conceptos-del-lenguaje-algoritmico");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Conceptos del lenguaje algorítmico",
+  );
+  await expect(page.getByText("pregunta 1 de 5")).toBeVisible();
+  await expect(page.getByText("correcto", { exact: false })).toHaveCount(0);
+
+  for (const [index, option_label] of cd_cla_correct_options.entries()) {
+    const is_last_question = index === cd_cla_correct_options.length - 1;
+
+    await answer_topic_question(
+      page,
+      option_label,
+      is_last_question ? "ver resultados" : "siguiente pregunta",
+    );
+  }
+
+  await expect(
+    page.getByRole("heading", { level: 2, name: "5 de 5 respuestas correctas" }),
+  ).toBeVisible();
+
+  await page
+    .getByRole("link", { name: "volver a conceptos del lenguaje algorítmico" })
+    .click();
+
+  await expect(page).toHaveURL("/leccion/cd-conceptos-del-lenguaje-algoritmico-01");
+
+  await page.goto("/ruta/cultura-digital/cd-2-4-pensamiento-algoritmico");
+
+  const dominated_topic = page
+    .getByRole("heading", { name: "Conceptos del lenguaje algorítmico" })
+    .locator("xpath=ancestor::article");
+
+  await expect(dominated_topic.getByText("dominado", { exact: true })).toBeVisible();
+
+  await page.reload();
+
+  await expect(dominated_topic.getByText("dominado", { exact: true })).toBeVisible();
+
+  await page.goto("/ruta/pensamiento-matematico/pm-1-1-pensamiento-estadistico");
+
+  const pilot_topic = page
+    .getByRole("heading", { name: "tipos de variables" })
+    .locator("xpath=ancestor::article");
+
+  await expect(pilot_topic.getByText("disponible", { exact: true })).toBeVisible();
+  await expect(pilot_topic.getByText("sin intentos", { exact: false })).toBeVisible();
+});
+
+const hu_ce_correct_options = [
+  "lo trágico, porque presenta la pérdida irreversible de alguien valioso y provoca compasión",
+  "grotesco",
+  "porque combina una deformidad exagerada y repulsiva con el efecto de risa, más allá de un simple contraste",
+  "lo sublime, porque la magnitud del paisaje supera su capacidad de comprensión y produce fascinación junto con pequeñez",
+  "1c, 2b, 3a",
+];
+
+test("completar la lección de categorías estéticas y practicar su tema lo lleva a dominado, con hermenéutica disponible desde el inicio y sin afectar otras áreas", async ({
+  page,
+}) => {
+  await page.goto("/leccion/hu-categorias-esteticas-01");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Categorías estéticas",
+  );
+  await expect(page.getByText("antes de continuar")).toHaveCount(0);
+  await page.getByRole("button", { name: "marcar lección como completada" }).click();
+  await expect(page.getByRole("button", { name: "lección completada" })).toBeDisabled();
+
+  await page.goto(
+    "/ruta/humanidades/hu-4-6-reflexiones-sobre-el-arte-y-la-sensibilidad",
+  );
+
+  const categorias_topic = page
+    .getByRole("heading", { name: "Categorías estéticas" })
+    .locator("xpath=ancestor::article");
+  const hermeneutica_topic = page
+    .getByRole("heading", { name: "Definición de hermenéutica" })
+    .locator("xpath=ancestor::article");
+
+  await expect(
+    hermeneutica_topic.getByText("disponible", { exact: true }),
+  ).toBeVisible();
+
+  await page.goto("/practica/hu-4-6-1-categorias-esteticas");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Categorías estéticas",
+  );
+  await expect(page.getByText("pregunta 1 de 5")).toBeVisible();
+  await expect(page.getByText("correcto", { exact: false })).toHaveCount(0);
+
+  for (const [index, option_label] of hu_ce_correct_options.entries()) {
+    const is_last_question = index === hu_ce_correct_options.length - 1;
+
+    await answer_topic_question(
+      page,
+      option_label,
+      is_last_question ? "ver resultados" : "siguiente pregunta",
+    );
+  }
+
+  await expect(
+    page.getByRole("heading", { level: 2, name: "5 de 5 respuestas correctas" }),
+  ).toBeVisible();
+
+  await page.getByRole("link", { name: "volver a categorías estéticas" }).click();
+
+  await expect(page).toHaveURL("/leccion/hu-categorias-esteticas-01");
+
+  await page.goto(
+    "/ruta/humanidades/hu-4-6-reflexiones-sobre-el-arte-y-la-sensibilidad",
+  );
+
+  await expect(categorias_topic.getByText("dominado", { exact: true })).toBeVisible();
+
+  await page.reload();
+
+  await expect(categorias_topic.getByText("dominado", { exact: true })).toBeVisible();
+
+  await page.goto("/ruta/pensamiento-matematico/pm-1-1-pensamiento-estadistico");
+
+  const pilot_topic_after_hu = page
+    .getByRole("heading", { name: "tipos de variables" })
+    .locator("xpath=ancestor::article");
+
+  await expect(
+    pilot_topic_after_hu.getByText("disponible", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    pilot_topic_after_hu.getByText("sin intentos", { exact: false }),
+  ).toBeVisible();
 });

@@ -512,18 +512,20 @@ async function read_hu_lesson_frontmatter(
 }
 
 describe("humanidades question bank — hu-4-1-fundamentos-del-pensamiento-filosofico", () => {
-  it("has exactly twenty records", () => {
-    expect(humanidades_questions).toHaveLength(20);
-  });
-
-  it("has exactly the reserved ids for each lesson, five per lesson, no extra records", async () => {
+  it("has exactly twenty records for its own four lessons", () => {
     const by_id = new Map(
       humanidades_questions.map((question) => [question.id, question]),
     );
     const all_expected_ids = Object.values(hu_4_1_reserved_ids).flat();
 
-    expect(new Set(humanidades_questions.map((question) => question.id))).toEqual(
-      new Set(all_expected_ids),
+    const resolved = all_expected_ids.map((id) => by_id.get(id));
+    expect(resolved.every((question) => question !== undefined)).toBe(true);
+    expect(all_expected_ids).toHaveLength(20);
+  });
+
+  it("has exactly the reserved ids for each lesson, five per lesson, no extra records", async () => {
+    const by_id = new Map(
+      humanidades_questions.map((question) => [question.id, question]),
     );
 
     for (const [lesson_id, expected_ids] of Object.entries(hu_4_1_reserved_ids)) {
@@ -557,7 +559,11 @@ describe("humanidades question bank — hu-4-1-fundamentos-del-pensamiento-filos
   });
 
   it("every question traces to its topic's guide code on page 14", () => {
-    for (const question of humanidades_questions) {
+    const hu_4_1_ids = new Set(Object.values(hu_4_1_reserved_ids).flat());
+
+    for (const question of humanidades_questions.filter((question) =>
+      hu_4_1_ids.has(question.id),
+    )) {
       const code = question.topic_id
         .match(/^hu-(\d-\d-\d)-/)?.[1]
         ?.replaceAll("-", ".");
@@ -577,6 +583,663 @@ describe("humanidades question bank — hu-4-1-fundamentos-del-pensamiento-filos
       );
       expect(has_relation).toBe(true);
     }
+  });
+});
+
+const hu_4_2_reserved_ids: Record<string, string[]> = {
+  "hu-funciones-de-la-lengua-01": [
+    "hu-fdl-001",
+    "hu-fdl-002",
+    "hu-fdl-003",
+    "hu-fdl-004",
+    "hu-fdl-005",
+  ],
+  "hu-premisas-y-conclusion-01": [
+    "hu-pyc-001",
+    "hu-pyc-002",
+    "hu-pyc-003",
+    "hu-pyc-004",
+    "hu-pyc-005",
+  ],
+  "hu-tipos-de-argumentos-01": [
+    "hu-tda-001",
+    "hu-tda-002",
+    "hu-tda-003",
+    "hu-tda-004",
+    "hu-tda-005",
+  ],
+  "hu-discursos-argumentativos-01": [
+    "hu-dar-001",
+    "hu-dar-002",
+    "hu-dar-003",
+    "hu-dar-004",
+    "hu-dar-005",
+  ],
+};
+
+const hu_4_2_lesson_directory = path.join(
+  process.cwd(),
+  "content",
+  "lessons",
+  "humanidades",
+  "hu-4-2-elementos-para-el-pensamiento-y-la-argumentacion",
+);
+
+async function read_hu_4_2_lesson_frontmatter(
+  lesson_id: string,
+): Promise<{ topic_id: string; question_ids: string[] }> {
+  const file_path = path.join(hu_4_2_lesson_directory, `${lesson_id}.md`);
+  const raw = await readFile(file_path, "utf-8");
+  const { data } = matter(raw);
+
+  return {
+    topic_id: data["topic-id"],
+    question_ids: data["question-ids"],
+  };
+}
+
+describe("humanidades question bank — hu-4-2-elementos-para-el-pensamiento-y-la-argumentacion", () => {
+  it("has exactly twenty records for its own four lessons", () => {
+    const by_id = new Map(
+      humanidades_questions.map((question) => [question.id, question]),
+    );
+    const all_expected_ids = Object.values(hu_4_2_reserved_ids).flat();
+
+    const resolved = all_expected_ids.map((id) => by_id.get(id));
+    expect(resolved.every((question) => question !== undefined)).toBe(true);
+    expect(all_expected_ids).toHaveLength(20);
+  });
+
+  it("has exactly the reserved ids for each lesson, five per lesson, matching lesson frontmatter", async () => {
+    const by_id = new Map(
+      humanidades_questions.map((question) => [question.id, question]),
+    );
+
+    for (const [lesson_id, expected_ids] of Object.entries(hu_4_2_reserved_ids)) {
+      const lesson = await read_hu_4_2_lesson_frontmatter(lesson_id);
+
+      expect(new Set(lesson.question_ids)).toEqual(new Set(expected_ids));
+
+      const lesson_questions = expected_ids.map((id) => by_id.get(id));
+      expect(lesson_questions.every((question) => question !== undefined)).toBe(true);
+
+      for (const question of lesson_questions) {
+        expect(question?.topic_id).toBe(lesson.topic_id);
+      }
+    }
+  });
+
+  it("has no structurally invalid question in the full humanidades bank", () => {
+    const errors = humanidades_questions.flatMap(find_invalid_options);
+    expect(errors).toEqual([]);
+  });
+
+  it("shares no id with the pensamiento matemático, cultura digital or conciencia histórica banks", () => {
+    expect(
+      find_duplicate_ids(
+        humanidades_questions,
+        conciencia_historica_questions,
+        cultura_digital_questions,
+        pensamiento_matematico_questions,
+      ),
+    ).toEqual([]);
+  });
+
+  it("every question traces to its topic's guide code on page 15", () => {
+    const hu_4_2_ids = new Set(Object.values(hu_4_2_reserved_ids).flat());
+
+    for (const question of humanidades_questions.filter((question) =>
+      hu_4_2_ids.has(question.id),
+    )) {
+      const code = question.topic_id
+        .match(/^hu-(\d-\d-\d)-/)?.[1]
+        ?.replaceAll("-", ".");
+      expect(question.source_reference).toContain("página 15");
+      expect(question.source_reference).toContain(`código ${code}`);
+    }
+  });
+
+  it("includes at least one relation question per lesson", () => {
+    const grouped = group_questions_by_topic(
+      humanidades_questions.filter((question) =>
+        Object.values(hu_4_2_reserved_ids).flat().includes(question.id),
+      ),
+    );
+
+    for (const [, questions] of grouped) {
+      const has_relation = questions.some(
+        (question) =>
+          question.options.every((option) => /^\d[a-z,\s\d]*$/.test(option)) &&
+          question.options.some((option) => /[a-z]/.test(option)),
+      );
+      expect(has_relation).toBe(true);
+    }
+  });
+});
+
+const hu_4_3_reserved_ids: Record<string, string[]> = {
+  "hu-teorias-eticas-01": [
+    "hu-pte-001",
+    "hu-pte-002",
+    "hu-pte-003",
+    "hu-pte-004",
+    "hu-pte-005",
+  ],
+  "hu-valores-para-la-convivencia-01": [
+    "hu-vpc-001",
+    "hu-vpc-002",
+    "hu-vpc-003",
+    "hu-vpc-004",
+    "hu-vpc-005",
+  ],
+  "hu-tipos-de-normas-01": [
+    "hu-tdn-001",
+    "hu-tdn-002",
+    "hu-tdn-003",
+    "hu-tdn-004",
+    "hu-tdn-005",
+  ],
+};
+
+const hu_4_3_lesson_directory = path.join(
+  process.cwd(),
+  "content",
+  "lessons",
+  "humanidades",
+  "hu-4-3-construccion-de-la-persona-para-la-convivencia",
+);
+
+async function read_hu_4_3_lesson_frontmatter(
+  lesson_id: string,
+): Promise<{ topic_id: string; question_ids: string[] }> {
+  const file_path = path.join(hu_4_3_lesson_directory, `${lesson_id}.md`);
+  const raw = await readFile(file_path, "utf-8");
+  const { data } = matter(raw);
+
+  return {
+    topic_id: data["topic-id"],
+    question_ids: data["question-ids"],
+  };
+}
+
+describe("humanidades question bank — hu-4-3-construccion-de-la-persona-para-la-convivencia", () => {
+  it("has exactly fifteen records for its own three lessons", () => {
+    const by_id = new Map(
+      humanidades_questions.map((question) => [question.id, question]),
+    );
+    const all_expected_ids = Object.values(hu_4_3_reserved_ids).flat();
+
+    const resolved = all_expected_ids.map((id) => by_id.get(id));
+    expect(resolved.every((question) => question !== undefined)).toBe(true);
+    expect(all_expected_ids).toHaveLength(15);
+  });
+
+  it("has exactly the reserved ids for each lesson, five per lesson, matching lesson frontmatter", async () => {
+    const by_id = new Map(
+      humanidades_questions.map((question) => [question.id, question]),
+    );
+
+    for (const [lesson_id, expected_ids] of Object.entries(hu_4_3_reserved_ids)) {
+      const lesson = await read_hu_4_3_lesson_frontmatter(lesson_id);
+
+      expect(new Set(lesson.question_ids)).toEqual(new Set(expected_ids));
+
+      const lesson_questions = expected_ids.map((id) => by_id.get(id));
+      expect(lesson_questions.every((question) => question !== undefined)).toBe(true);
+
+      for (const question of lesson_questions) {
+        expect(question?.topic_id).toBe(lesson.topic_id);
+      }
+    }
+  });
+
+  it("has no structurally invalid question in the full humanidades bank", () => {
+    const errors = humanidades_questions.flatMap(find_invalid_options);
+    expect(errors).toEqual([]);
+  });
+
+  it("shares no id with the pensamiento matemático, cultura digital or conciencia histórica banks", () => {
+    expect(
+      find_duplicate_ids(
+        humanidades_questions,
+        conciencia_historica_questions,
+        cultura_digital_questions,
+        pensamiento_matematico_questions,
+      ),
+    ).toEqual([]);
+  });
+
+  it("every question traces to its topic's guide code on page 15", () => {
+    const hu_4_3_ids = new Set(Object.values(hu_4_3_reserved_ids).flat());
+
+    for (const question of humanidades_questions.filter((question) =>
+      hu_4_3_ids.has(question.id),
+    )) {
+      const code = question.topic_id
+        .match(/^hu-(\d-\d-\d)-/)?.[1]
+        ?.replaceAll("-", ".");
+      expect(question.source_reference).toContain("página 15");
+      expect(question.source_reference).toContain(`código ${code}`);
+    }
+  });
+
+  it("includes at least one relation question per lesson", () => {
+    const grouped = group_questions_by_topic(
+      humanidades_questions.filter((question) =>
+        Object.values(hu_4_3_reserved_ids).flat().includes(question.id),
+      ),
+    );
+
+    for (const [, questions] of grouped) {
+      const has_relation = questions.some(
+        (question) =>
+          question.options.every((option) => /^\d[a-z,\s\d]*$/.test(option)) &&
+          question.options.some((option) => /[a-z]/.test(option)),
+      );
+      expect(has_relation).toBe(true);
+    }
+  });
+});
+
+const hu_4_4_reserved_ids: Record<string, string[]> = {
+  "hu-autonomia-y-heteronomia-01": [
+    "hu-ayh-001",
+    "hu-ayh-002",
+    "hu-ayh-003",
+    "hu-ayh-004",
+    "hu-ayh-005",
+  ],
+  "hu-discurso-politico-01": [
+    "hu-dp-001",
+    "hu-dp-002",
+    "hu-dp-003",
+    "hu-dp-004",
+    "hu-dp-005",
+  ],
+};
+
+const hu_4_4_lesson_directory = path.join(
+  process.cwd(),
+  "content",
+  "lessons",
+  "humanidades",
+  "hu-4-4-reflexion-politica-y-participacion-ciudadana",
+);
+
+async function read_hu_4_4_lesson_frontmatter(
+  lesson_id: string,
+): Promise<{ topic_id: string; question_ids: string[] }> {
+  const file_path = path.join(hu_4_4_lesson_directory, `${lesson_id}.md`);
+  const raw = await readFile(file_path, "utf-8");
+  const { data } = matter(raw);
+
+  return {
+    topic_id: data["topic-id"],
+    question_ids: data["question-ids"],
+  };
+}
+
+describe("humanidades question bank — hu-4-4-reflexion-politica-y-participacion-ciudadana", () => {
+  it("has exactly ten records for its own two lessons", () => {
+    const by_id = new Map(
+      humanidades_questions.map((question) => [question.id, question]),
+    );
+    const all_expected_ids = Object.values(hu_4_4_reserved_ids).flat();
+
+    const resolved = all_expected_ids.map((id) => by_id.get(id));
+    expect(resolved.every((question) => question !== undefined)).toBe(true);
+    expect(all_expected_ids).toHaveLength(10);
+  });
+
+  it("has exactly the reserved ids for each lesson, five per lesson, matching lesson frontmatter", async () => {
+    const by_id = new Map(
+      humanidades_questions.map((question) => [question.id, question]),
+    );
+
+    for (const [lesson_id, expected_ids] of Object.entries(hu_4_4_reserved_ids)) {
+      const lesson = await read_hu_4_4_lesson_frontmatter(lesson_id);
+
+      expect(new Set(lesson.question_ids)).toEqual(new Set(expected_ids));
+
+      const lesson_questions = expected_ids.map((id) => by_id.get(id));
+      expect(lesson_questions.every((question) => question !== undefined)).toBe(true);
+
+      for (const question of lesson_questions) {
+        expect(question?.topic_id).toBe(lesson.topic_id);
+      }
+    }
+  });
+
+  it("has no structurally invalid question in the full humanidades bank", () => {
+    const errors = humanidades_questions.flatMap(find_invalid_options);
+    expect(errors).toEqual([]);
+  });
+
+  it("shares no id with the pensamiento matemático, cultura digital or conciencia histórica banks", () => {
+    expect(
+      find_duplicate_ids(
+        humanidades_questions,
+        conciencia_historica_questions,
+        cultura_digital_questions,
+        pensamiento_matematico_questions,
+      ),
+    ).toEqual([]);
+  });
+
+  it("every question traces to its topic's guide code on page 15", () => {
+    const hu_4_4_ids = new Set(Object.values(hu_4_4_reserved_ids).flat());
+
+    for (const question of humanidades_questions.filter((question) =>
+      hu_4_4_ids.has(question.id),
+    )) {
+      const code = question.topic_id
+        .match(/^hu-(\d-\d-\d)-/)?.[1]
+        ?.replaceAll("-", ".");
+      expect(question.source_reference).toContain("página 15");
+      expect(question.source_reference).toContain(`código ${code}`);
+    }
+  });
+
+  it("includes at least one relation question per lesson", () => {
+    const grouped = group_questions_by_topic(
+      humanidades_questions.filter((question) =>
+        Object.values(hu_4_4_reserved_ids).flat().includes(question.id),
+      ),
+    );
+
+    for (const [, questions] of grouped) {
+      const has_relation = questions.some(
+        (question) =>
+          question.options.every((option) => /^\d[a-z,\s\d]*$/.test(option)) &&
+          question.options.some((option) => /[a-z]/.test(option)),
+      );
+      expect(has_relation).toBe(true);
+    }
+  });
+});
+
+const hu_4_5_reserved_ids: Record<string, string[]> = {
+  "hu-principios-de-bioetica-01": [
+    "hu-pb-001",
+    "hu-pb-002",
+    "hu-pb-003",
+    "hu-pb-004",
+    "hu-pb-005",
+  ],
+  "hu-etica-y-sustentabilidad-01": [
+    "hu-es-001",
+    "hu-es-002",
+    "hu-es-003",
+    "hu-es-004",
+    "hu-es-005",
+  ],
+  "hu-perspectiva-de-genero-01": [
+    "hu-pg-001",
+    "hu-pg-002",
+    "hu-pg-003",
+    "hu-pg-004",
+    "hu-pg-005",
+  ],
+  "hu-reconocimiento-de-la-alteridad-01": [
+    "hu-ra-001",
+    "hu-ra-002",
+    "hu-ra-003",
+    "hu-ra-004",
+    "hu-ra-005",
+  ],
+  "hu-humanos-y-otros-seres-vivos-01": [
+    "hu-hosv-001",
+    "hu-hosv-002",
+    "hu-hosv-003",
+    "hu-hosv-004",
+    "hu-hosv-005",
+  ],
+};
+
+const hu_4_5_lesson_directory = path.join(
+  process.cwd(),
+  "content",
+  "lessons",
+  "humanidades",
+  "hu-4-5-humanidad-ante-desafios-contemporaneos",
+);
+
+async function read_hu_4_5_lesson_frontmatter(
+  lesson_id: string,
+): Promise<{ topic_id: string; question_ids: string[] }> {
+  const file_path = path.join(hu_4_5_lesson_directory, `${lesson_id}.md`);
+  const raw = await readFile(file_path, "utf-8");
+  const { data } = matter(raw);
+
+  return {
+    topic_id: data["topic-id"],
+    question_ids: data["question-ids"],
+  };
+}
+
+describe("humanidades question bank — hu-4-5-humanidad-ante-desafios-contemporaneos", () => {
+  it("has exactly twenty-five records for its own five lessons", () => {
+    const by_id = new Map(
+      humanidades_questions.map((question) => [question.id, question]),
+    );
+    const all_expected_ids = Object.values(hu_4_5_reserved_ids).flat();
+
+    const resolved = all_expected_ids.map((id) => by_id.get(id));
+    expect(resolved.every((question) => question !== undefined)).toBe(true);
+    expect(all_expected_ids).toHaveLength(25);
+  });
+
+  it("has exactly the reserved ids for each lesson, five per lesson, matching lesson frontmatter", async () => {
+    const by_id = new Map(
+      humanidades_questions.map((question) => [question.id, question]),
+    );
+
+    for (const [lesson_id, expected_ids] of Object.entries(hu_4_5_reserved_ids)) {
+      const lesson = await read_hu_4_5_lesson_frontmatter(lesson_id);
+
+      expect(new Set(lesson.question_ids)).toEqual(new Set(expected_ids));
+
+      const lesson_questions = expected_ids.map((id) => by_id.get(id));
+      expect(lesson_questions.every((question) => question !== undefined)).toBe(true);
+
+      for (const question of lesson_questions) {
+        expect(question?.topic_id).toBe(lesson.topic_id);
+      }
+    }
+  });
+
+  it("has no structurally invalid question in the full humanidades bank", () => {
+    const errors = humanidades_questions.flatMap(find_invalid_options);
+    expect(errors).toEqual([]);
+  });
+
+  it("shares no id with the pensamiento matemático, cultura digital or conciencia histórica banks", () => {
+    expect(
+      find_duplicate_ids(
+        humanidades_questions,
+        conciencia_historica_questions,
+        cultura_digital_questions,
+        pensamiento_matematico_questions,
+      ),
+    ).toEqual([]);
+  });
+
+  it("every question traces to its topic's guide code on page 15", () => {
+    const hu_4_5_ids = new Set(Object.values(hu_4_5_reserved_ids).flat());
+
+    for (const question of humanidades_questions.filter((question) =>
+      hu_4_5_ids.has(question.id),
+    )) {
+      const code = question.topic_id
+        .match(/^hu-(\d-\d-\d)-/)?.[1]
+        ?.replaceAll("-", ".");
+      expect(question.source_reference).toContain("página 15");
+      expect(question.source_reference).toContain(`código ${code}`);
+    }
+  });
+
+  it("includes at least one relation question per lesson", () => {
+    const grouped = group_questions_by_topic(
+      humanidades_questions.filter((question) =>
+        Object.values(hu_4_5_reserved_ids).flat().includes(question.id),
+      ),
+    );
+
+    for (const [, questions] of grouped) {
+      const has_relation = questions.some(
+        (question) =>
+          question.options.every((option) => /^\d[a-z,\s\d]*$/.test(option)) &&
+          question.options.some((option) => /[a-z]/.test(option)),
+      );
+      expect(has_relation).toBe(true);
+    }
+  });
+
+  it("has its opening diagnostic and simulator question's correct answer away from index 0, varied across lessons", () => {
+    const opening_ids = [
+      "hu-pb-001",
+      "hu-es-001",
+      "hu-pg-001",
+      "hu-ra-001",
+      "hu-hosv-001",
+    ];
+    const by_id = new Map(
+      humanidades_questions.map((question) => [question.id, question]),
+    );
+
+    const indexes = opening_ids.map((id) => by_id.get(id)?.correct_option_index);
+
+    expect(indexes.every((index) => index !== 0)).toBe(true);
+    expect(new Set(indexes).size).toBeGreaterThan(1);
+  });
+});
+
+const hu_4_6_reserved_ids: Record<string, string[]> = {
+  "hu-categorias-esteticas-01": [
+    "hu-ce-001",
+    "hu-ce-002",
+    "hu-ce-003",
+    "hu-ce-004",
+    "hu-ce-005",
+  ],
+  "hu-hermeneutica-01": [
+    "hu-he-001",
+    "hu-he-002",
+    "hu-he-003",
+    "hu-he-004",
+    "hu-he-005",
+  ],
+};
+
+const hu_4_6_lesson_directory = path.join(
+  process.cwd(),
+  "content",
+  "lessons",
+  "humanidades",
+  "hu-4-6-reflexiones-sobre-el-arte-y-la-sensibilidad",
+);
+
+async function read_hu_4_6_lesson_frontmatter(
+  lesson_id: string,
+): Promise<{ topic_id: string; question_ids: string[] }> {
+  const file_path = path.join(hu_4_6_lesson_directory, `${lesson_id}.md`);
+  const raw = await readFile(file_path, "utf-8");
+  const { data } = matter(raw);
+
+  return {
+    topic_id: data["topic-id"],
+    question_ids: data["question-ids"],
+  };
+}
+
+describe("humanidades question bank — hu-4-6-reflexiones-sobre-el-arte-y-la-sensibilidad", () => {
+  it("has exactly ten records for its own two lessons", () => {
+    const by_id = new Map(
+      humanidades_questions.map((question) => [question.id, question]),
+    );
+    const all_expected_ids = Object.values(hu_4_6_reserved_ids).flat();
+
+    const resolved = all_expected_ids.map((id) => by_id.get(id));
+    expect(resolved.every((question) => question !== undefined)).toBe(true);
+    expect(all_expected_ids).toHaveLength(10);
+  });
+
+  it("has exactly the reserved ids for each lesson, five per lesson, matching lesson frontmatter", async () => {
+    const by_id = new Map(
+      humanidades_questions.map((question) => [question.id, question]),
+    );
+
+    for (const [lesson_id, expected_ids] of Object.entries(hu_4_6_reserved_ids)) {
+      const lesson = await read_hu_4_6_lesson_frontmatter(lesson_id);
+
+      expect(new Set(lesson.question_ids)).toEqual(new Set(expected_ids));
+
+      const lesson_questions = expected_ids.map((id) => by_id.get(id));
+      expect(lesson_questions.every((question) => question !== undefined)).toBe(true);
+
+      for (const question of lesson_questions) {
+        expect(question?.topic_id).toBe(lesson.topic_id);
+      }
+    }
+  });
+
+  it("has no structurally invalid question in the full humanidades bank", () => {
+    const errors = humanidades_questions.flatMap(find_invalid_options);
+    expect(errors).toEqual([]);
+  });
+
+  it("shares no id with the pensamiento matemático, cultura digital or conciencia histórica banks", () => {
+    expect(
+      find_duplicate_ids(
+        humanidades_questions,
+        conciencia_historica_questions,
+        cultura_digital_questions,
+        pensamiento_matematico_questions,
+      ),
+    ).toEqual([]);
+  });
+
+  it("every question traces to its topic's guide code on page 15", () => {
+    const hu_4_6_ids = new Set(Object.values(hu_4_6_reserved_ids).flat());
+
+    for (const question of humanidades_questions.filter((question) =>
+      hu_4_6_ids.has(question.id),
+    )) {
+      const code = question.topic_id
+        .match(/^hu-(\d-\d-\d)-/)?.[1]
+        ?.replaceAll("-", ".");
+      expect(question.source_reference).toContain("página 15");
+      expect(question.source_reference).toContain(`código ${code}`);
+    }
+  });
+
+  it("includes at least one relation question per lesson", () => {
+    const grouped = group_questions_by_topic(
+      humanidades_questions.filter((question) =>
+        Object.values(hu_4_6_reserved_ids).flat().includes(question.id),
+      ),
+    );
+
+    for (const [, questions] of grouped) {
+      const has_relation = questions.some(
+        (question) =>
+          question.options.every((option) => /^\d[a-z,\s\d]*$/.test(option)) &&
+          question.options.some((option) => /[a-z]/.test(option)),
+      );
+      expect(has_relation).toBe(true);
+    }
+  });
+
+  it("has its opening diagnostic and simulator question's correct answer away from index 0, varied across lessons", () => {
+    const opening_ids = ["hu-ce-001", "hu-he-001"];
+    const by_id = new Map(
+      humanidades_questions.map((question) => [question.id, question]),
+    );
+
+    const indexes = opening_ids.map((id) => by_id.get(id)?.correct_option_index);
+
+    expect(indexes.every((index) => index !== 0)).toBe(true);
+    expect(new Set(indexes).size).toBeGreaterThan(1);
   });
 });
 
@@ -965,18 +1628,20 @@ async function read_cs_lesson_frontmatter(
 }
 
 describe("ciencias sociales question bank — cs-7-1-organizacion-economica", () => {
-  it("has exactly forty-five records", () => {
-    expect(ciencias_sociales_questions).toHaveLength(45);
-  });
-
-  it("has exactly the reserved ids for each lesson, five per lesson, no extra records", async () => {
+  it("has exactly forty-five records for its own nine lessons", () => {
     const by_id = new Map(
       ciencias_sociales_questions.map((question) => [question.id, question]),
     );
     const all_expected_ids = Object.values(cs_7_1_reserved_ids).flat();
 
-    expect(new Set(ciencias_sociales_questions.map((question) => question.id))).toEqual(
-      new Set(all_expected_ids),
+    const resolved = all_expected_ids.map((id) => by_id.get(id));
+    expect(resolved.every((question) => question !== undefined)).toBe(true);
+    expect(all_expected_ids).toHaveLength(45);
+  });
+
+  it("has exactly the reserved ids for each lesson, five per lesson, matching lesson frontmatter", async () => {
+    const by_id = new Map(
+      ciencias_sociales_questions.map((question) => [question.id, question]),
     );
 
     for (const [lesson_id, expected_ids] of Object.entries(cs_7_1_reserved_ids)) {
@@ -993,7 +1658,7 @@ describe("ciencias sociales question bank — cs-7-1-organizacion-economica", ()
     }
   });
 
-  it("has no structurally invalid question — options, answer, explanation, common error, source", () => {
+  it("has no structurally invalid question in the full ciencias sociales bank", () => {
     const errors = ciencias_sociales_questions.flatMap(find_invalid_options);
     expect(errors).toEqual([]);
   });
@@ -1013,7 +1678,11 @@ describe("ciencias sociales question bank — cs-7-1-organizacion-economica", ()
   });
 
   it("every question traces to its topic's guide code on page 19", () => {
-    for (const question of ciencias_sociales_questions) {
+    const cs_7_1_ids = new Set(Object.values(cs_7_1_reserved_ids).flat());
+
+    for (const question of ciencias_sociales_questions.filter((question) =>
+      cs_7_1_ids.has(question.id),
+    )) {
       const code = question.topic_id
         .match(/^cs-(\d-\d-\d)-/)?.[1]
         ?.replaceAll("-", ".");
@@ -1037,7 +1706,11 @@ describe("ciencias sociales question bank — cs-7-1-organizacion-economica", ()
   });
 
   it("includes at least one relation question per lesson", () => {
-    const grouped = group_questions_by_topic(ciencias_sociales_questions);
+    const grouped = group_questions_by_topic(
+      ciencias_sociales_questions.filter((question) =>
+        Object.values(cs_7_1_reserved_ids).flat().includes(question.id),
+      ),
+    );
 
     for (const [, questions] of grouped) {
       const has_relation = questions.some(
@@ -1047,5 +1720,205 @@ describe("ciencias sociales question bank — cs-7-1-organizacion-economica", ()
       );
       expect(has_relation).toBe(true);
     }
+  });
+});
+
+const cs_7_2_reserved_ids: Record<string, string[]> = {
+  "cs-teorias-sobre-el-origen-del-estado-01": [
+    "cs-toe-001",
+    "cs-toe-002",
+    "cs-toe-003",
+    "cs-toe-004",
+    "cs-toe-005",
+  ],
+  "cs-democracia-electoral-01": [
+    "cs-dem-001",
+    "cs-dem-002",
+    "cs-dem-003",
+    "cs-dem-004",
+    "cs-dem-005",
+  ],
+  "cs-ciudadania-mexicana-01": [
+    "cs-ciu-001",
+    "cs-ciu-002",
+    "cs-ciu-003",
+    "cs-ciu-004",
+    "cs-ciu-005",
+  ],
+  "cs-instituciones-del-estado-mexicano-01": [
+    "cs-iem-001",
+    "cs-iem-002",
+    "cs-iem-003",
+    "cs-iem-004",
+    "cs-iem-005",
+  ],
+  "cs-poderes-facticos-01": [
+    "cs-pfa-001",
+    "cs-pfa-002",
+    "cs-pfa-003",
+    "cs-pfa-004",
+    "cs-pfa-005",
+  ],
+  "cs-principios-de-politica-exterior-01": [
+    "cs-ppe-001",
+    "cs-ppe-002",
+    "cs-ppe-003",
+    "cs-ppe-004",
+    "cs-ppe-005",
+  ],
+  "cs-organismos-internacionales-01": [
+    "cs-oin-001",
+    "cs-oin-002",
+    "cs-oin-003",
+    "cs-oin-004",
+    "cs-oin-005",
+  ],
+  "cs-areas-en-el-sistema-mundo-01": [
+    "cs-asm-001",
+    "cs-asm-002",
+    "cs-asm-003",
+    "cs-asm-004",
+    "cs-asm-005",
+  ],
+};
+
+const cs_7_2_lesson_directory = path.join(
+  process.cwd(),
+  "content",
+  "lessons",
+  "ciencias-sociales",
+  "cs-7-2-perspectivas-politicas",
+);
+
+async function read_cs_7_2_lesson_frontmatter(
+  lesson_id: string,
+): Promise<{ topic_id: string; question_ids: string[] }> {
+  const file_path = path.join(cs_7_2_lesson_directory, `${lesson_id}.md`);
+  const raw = await readFile(file_path, "utf-8");
+  const { data } = matter(raw);
+
+  return {
+    topic_id: data["topic-id"],
+    question_ids: data["question-ids"],
+  };
+}
+
+describe("ciencias sociales question bank — cs-7-2-perspectivas-politicas", () => {
+  it("has exactly forty records for its own eight lessons", () => {
+    const by_id = new Map(
+      ciencias_sociales_questions.map((question) => [question.id, question]),
+    );
+    const all_expected_ids = Object.values(cs_7_2_reserved_ids).flat();
+
+    const resolved = all_expected_ids.map((id) => by_id.get(id));
+    expect(resolved.every((question) => question !== undefined)).toBe(true);
+    expect(all_expected_ids).toHaveLength(40);
+  });
+
+  it("has exactly the reserved ids for each lesson, five per lesson, matching lesson frontmatter", async () => {
+    const by_id = new Map(
+      ciencias_sociales_questions.map((question) => [question.id, question]),
+    );
+
+    for (const [lesson_id, expected_ids] of Object.entries(cs_7_2_reserved_ids)) {
+      const lesson = await read_cs_7_2_lesson_frontmatter(lesson_id);
+
+      expect(new Set(lesson.question_ids)).toEqual(new Set(expected_ids));
+
+      const lesson_questions = expected_ids.map((id) => by_id.get(id));
+      expect(lesson_questions.every((question) => question !== undefined)).toBe(true);
+
+      for (const question of lesson_questions) {
+        expect(question?.topic_id).toBe(lesson.topic_id);
+      }
+    }
+  });
+
+  it("has no structurally invalid question in the full ciencias sociales bank", () => {
+    const errors = ciencias_sociales_questions.flatMap(find_invalid_options);
+    expect(errors).toEqual([]);
+  });
+
+  it("shares no id with the pensamiento matemático, cultura digital, conciencia histórica, humanidades, ciencias naturales or lengua y comunicación banks", () => {
+    expect(
+      find_duplicate_ids(
+        ciencias_sociales_questions,
+        lengua_y_comunicacion_questions,
+        ciencias_naturales_experimentales_y_tecnologia_questions,
+        humanidades_questions,
+        conciencia_historica_questions,
+        cultura_digital_questions,
+        pensamiento_matematico_questions,
+      ),
+    ).toEqual([]);
+  });
+
+  it("every question traces to its topic's guide code on page 19", () => {
+    const cs_7_2_ids = new Set(Object.values(cs_7_2_reserved_ids).flat());
+
+    for (const question of ciencias_sociales_questions.filter((question) =>
+      cs_7_2_ids.has(question.id),
+    )) {
+      const code = question.topic_id
+        .match(/^cs-(\d-\d-\d)-/)?.[1]
+        ?.replaceAll("-", ".");
+      expect(question.source_reference).toContain("página 19");
+      expect(question.source_reference).toContain(`código ${code}`);
+    }
+  });
+
+  it("includes a jerarquización question ordering the stages of an electoral process", () => {
+    const grouped = group_questions_by_topic(ciencias_sociales_questions);
+    const dem_questions =
+      grouped.get("cs-7-2-2-caracteristicas-de-la-democracia-electoral") ?? [];
+
+    const has_ordering = dem_questions.some((question) =>
+      question.options.every((option) => /^\d[\d,\s]*$/.test(option)),
+    );
+
+    expect(has_ordering).toBe(true);
+  });
+
+  it("includes at least one relation question in every cs-7-2 lesson except democracia electoral, which uses jerarquización instead", () => {
+    const grouped = group_questions_by_topic(
+      ciencias_sociales_questions.filter((question) =>
+        Object.values(cs_7_2_reserved_ids).flat().includes(question.id),
+      ),
+    );
+
+    for (const [topic_id, questions] of grouped) {
+      if (topic_id === "cs-7-2-2-caracteristicas-de-la-democracia-electoral") {
+        continue;
+      }
+
+      const has_relation = questions.some(
+        (question) =>
+          question.options.every((option) => /^\d[a-z,\s\d]*$/.test(option)) &&
+          question.options.some((option) => /[a-z]/.test(option)),
+      );
+      expect(has_relation).toBe(true);
+    }
+  });
+
+  it("calibrates the función de las instituciones del estado mexicano lesson against the guide's own página 43 sample, without copying its wording", () => {
+    const grouped = group_questions_by_topic(ciencias_sociales_questions);
+    const iem_questions =
+      grouped.get("cs-7-2-4-funcion-de-instituciones-del-estado-mexicano") ?? [];
+
+    expect(iem_questions).toHaveLength(5);
+    expect(
+      iem_questions.every((question) =>
+        ["SEP", "CONADIS", "SEDATU", "INAES"].some(
+          (institution) =>
+            question.prompt.includes(institution) ||
+            question.options.some((option) => option.includes(institution)),
+        ),
+      ),
+    ).toBe(true);
+    expect(
+      iem_questions.some((question) =>
+        question.prompt.toLowerCase().includes("cenapred"),
+      ),
+    ).toBe(false);
   });
 });

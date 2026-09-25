@@ -251,7 +251,7 @@ export const cultura_digital: curriculum_area = {
     },
     {
       "id": "cd-2-4-pensamiento-algoritmico",
-      "title": "pensamiento algorítmico",
+      "title": "Pensamiento algorítmico",
       "source": {
         "guide": "docs/guiaoficial.pdf",
         "pages": [
@@ -262,7 +262,7 @@ export const cultura_digital: curriculum_area = {
       "topics": [
         {
           "id": "cd-2-4-1-conceptos-del-lenguaje-algoritmico",
-          "title": "conceptos del lenguaje algorítmico",
+          "title": "Conceptos del lenguaje algorítmico",
           "lesson_ids": [
             "cd-conceptos-del-lenguaje-algoritmico-01"
           ],
@@ -276,7 +276,7 @@ export const cultura_digital: curriculum_area = {
         },
         {
           "id": "cd-2-4-2-pasos-de-un-algoritmo",
-          "title": "pasos de un algoritmo",
+          "title": "Pasos de un algoritmo",
           "lesson_ids": [
             "cd-pasos-de-un-algoritmo-01"
           ],
@@ -290,7 +290,7 @@ export const cultura_digital: curriculum_area = {
         },
         {
           "id": "cd-2-4-3-caracteristicas-del-pensamiento-algoritmico",
-          "title": "características del pensamiento algorítmico",
+          "title": "Características del pensamiento algorítmico",
           "lesson_ids": [
             "cd-caracteristicas-del-pensamiento-algoritmico-01"
           ],
@@ -304,7 +304,7 @@ export const cultura_digital: curriculum_area = {
         },
         {
           "id": "cd-2-4-4-simbolos-de-diagramas-de-flujo",
-          "title": "símbolos de los diagramas de flujo en algoritmos",
+          "title": "Símbolos de los diagramas de flujo en algoritmos",
           "lesson_ids": [
             "cd-simbolos-de-diagramas-de-flujo-01"
           ],

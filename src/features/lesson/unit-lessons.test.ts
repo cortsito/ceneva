@@ -170,6 +170,123 @@ describe("get_unit_lessons", () => {
     }
   });
 
+  it("carga las cuatro lecciones de humanidades hu-4-2, con su cadena de prerrequisitos lineal", async () => {
+    const lessons = await get_unit_lessons(
+      "humanidades",
+      "hu-4-2-elementos-para-el-pensamiento-y-la-argumentacion",
+    );
+
+    expect(lessons).toHaveLength(4);
+    expect(lessons.map((lesson) => lesson.id).sort()).toEqual(
+      [
+        "hu-funciones-de-la-lengua-01",
+        "hu-premisas-y-conclusion-01",
+        "hu-tipos-de-argumentos-01",
+        "hu-discursos-argumentativos-01",
+      ].sort(),
+    );
+
+    const by_id = new Map(lessons.map((lesson) => [lesson.id, lesson]));
+
+    expect(by_id.get("hu-funciones-de-la-lengua-01")?.prerequisites).toEqual([]);
+    expect(by_id.get("hu-premisas-y-conclusion-01")?.prerequisites).toEqual([
+      "hu-funciones-de-la-lengua-01",
+    ]);
+    expect(by_id.get("hu-tipos-de-argumentos-01")?.prerequisites).toEqual([
+      "hu-premisas-y-conclusion-01",
+    ]);
+    expect(by_id.get("hu-discursos-argumentativos-01")?.prerequisites).toEqual([
+      "hu-tipos-de-argumentos-01",
+    ]);
+  });
+
+  it("carga las tres lecciones de humanidades hu-4-3, ninguna con prerrequisito", async () => {
+    const lessons = await get_unit_lessons(
+      "humanidades",
+      "hu-4-3-construccion-de-la-persona-para-la-convivencia",
+    );
+
+    expect(lessons).toHaveLength(3);
+    expect(lessons.map((lesson) => lesson.id).sort()).toEqual(
+      [
+        "hu-teorias-eticas-01",
+        "hu-valores-para-la-convivencia-01",
+        "hu-tipos-de-normas-01",
+      ].sort(),
+    );
+    expect(lessons.every((lesson) => lesson.prerequisites.length === 0)).toBe(true);
+  });
+
+  it("carga las dos lecciones de humanidades hu-4-4, una sin prerrequisito y otra encadenada a hu-4-2", async () => {
+    const lessons = await get_unit_lessons(
+      "humanidades",
+      "hu-4-4-reflexion-politica-y-participacion-ciudadana",
+    );
+
+    expect(lessons).toHaveLength(2);
+    expect(lessons.map((lesson) => lesson.id).sort()).toEqual(
+      ["hu-autonomia-y-heteronomia-01", "hu-discurso-politico-01"].sort(),
+    );
+
+    const by_id = new Map(lessons.map((lesson) => [lesson.id, lesson]));
+
+    expect(by_id.get("hu-autonomia-y-heteronomia-01")?.prerequisites).toEqual([]);
+    expect(by_id.get("hu-discurso-politico-01")?.prerequisites).toEqual([
+      "hu-discursos-argumentativos-01",
+    ]);
+  });
+
+  it("carga las cinco lecciones de humanidades hu-4-5, con los dos prerrequisitos reales encadenados a bioética", async () => {
+    const lessons = await get_unit_lessons(
+      "humanidades",
+      "hu-4-5-humanidad-ante-desafios-contemporaneos",
+    );
+
+    expect(lessons).toHaveLength(5);
+    expect(lessons.map((lesson) => lesson.id).sort()).toEqual(
+      [
+        "hu-principios-de-bioetica-01",
+        "hu-etica-y-sustentabilidad-01",
+        "hu-perspectiva-de-genero-01",
+        "hu-reconocimiento-de-la-alteridad-01",
+        "hu-humanos-y-otros-seres-vivos-01",
+      ].sort(),
+    );
+
+    const by_id = new Map(lessons.map((lesson) => [lesson.id, lesson]));
+
+    expect(by_id.get("hu-principios-de-bioetica-01")?.prerequisites).toEqual([
+      "hu-teorias-eticas-01",
+    ]);
+    expect(by_id.get("hu-etica-y-sustentabilidad-01")?.prerequisites).toEqual([
+      "hu-principios-de-bioetica-01",
+    ]);
+    expect(by_id.get("hu-humanos-y-otros-seres-vivos-01")?.prerequisites).toEqual([
+      "hu-principios-de-bioetica-01",
+    ]);
+    expect(by_id.get("hu-perspectiva-de-genero-01")?.prerequisites).toEqual([]);
+    expect(by_id.get("hu-reconocimiento-de-la-alteridad-01")?.prerequisites).toEqual(
+      [],
+    );
+  });
+
+  it("carga las dos lecciones de humanidades hu-4-6, sin prerrequisitos entre sí", async () => {
+    const lessons = await get_unit_lessons(
+      "humanidades",
+      "hu-4-6-reflexiones-sobre-el-arte-y-la-sensibilidad",
+    );
+
+    expect(lessons).toHaveLength(2);
+    expect(lessons.map((lesson) => lesson.id).sort()).toEqual(
+      ["hu-categorias-esteticas-01", "hu-hermeneutica-01"].sort(),
+    );
+
+    const by_id = new Map(lessons.map((lesson) => [lesson.id, lesson]));
+
+    expect(by_id.get("hu-categorias-esteticas-01")?.prerequisites).toEqual([]);
+    expect(by_id.get("hu-hermeneutica-01")?.prerequisites).toEqual([]);
+  });
+
   it("carga las cinco lecciones de la unidad de ciencias naturales, con el prerrequisito real de conservación", async () => {
     const lessons = await get_unit_lessons(
       "ciencias-naturales-experimentales-y-tecnologia",
@@ -312,6 +429,59 @@ describe("get_unit_lessons", () => {
     ).toEqual(["cs-sectores-productivos-01"]);
   });
 
+  it("carga las ocho lecciones de la unidad cs-7-2 de ciencias sociales, con su grafo de prerrequisitos real", async () => {
+    const lessons = await get_unit_lessons(
+      "ciencias-sociales",
+      "cs-7-2-perspectivas-politicas",
+    );
+
+    expect(lessons).toHaveLength(8);
+    expect(lessons.map((lesson) => lesson.id).sort()).toEqual(
+      [
+        "cs-teorias-sobre-el-origen-del-estado-01",
+        "cs-democracia-electoral-01",
+        "cs-ciudadania-mexicana-01",
+        "cs-instituciones-del-estado-mexicano-01",
+        "cs-poderes-facticos-01",
+        "cs-principios-de-politica-exterior-01",
+        "cs-organismos-internacionales-01",
+        "cs-areas-en-el-sistema-mundo-01",
+      ].sort(),
+    );
+
+    const by_id = new Map(lessons.map((lesson) => [lesson.id, lesson]));
+
+    for (const no_prerequisite_id of [
+      "cs-teorias-sobre-el-origen-del-estado-01",
+      "cs-poderes-facticos-01",
+      "cs-principios-de-politica-exterior-01",
+      "cs-organismos-internacionales-01",
+      "cs-areas-en-el-sistema-mundo-01",
+    ]) {
+      expect(by_id.get(no_prerequisite_id)?.prerequisites).toEqual([]);
+    }
+
+    expect(by_id.get("cs-democracia-electoral-01")?.prerequisites).toEqual([
+      "cs-teorias-sobre-el-origen-del-estado-01",
+    ]);
+    expect(by_id.get("cs-ciudadania-mexicana-01")?.prerequisites).toEqual([
+      "cs-democracia-electoral-01",
+    ]);
+    expect(by_id.get("cs-instituciones-del-estado-mexicano-01")).toMatchObject({
+      area_id: "ciencias-sociales",
+      unit_id: "cs-7-2-perspectivas-politicas",
+      topic_id: "cs-7-2-4-funcion-de-instituciones-del-estado-mexicano",
+      prerequisites: ["cs-teorias-sobre-el-origen-del-estado-01"],
+      question_ids: [
+        "cs-iem-001",
+        "cs-iem-002",
+        "cs-iem-003",
+        "cs-iem-004",
+        "cs-iem-005",
+      ],
+    });
+  });
+
   it("no expone lecciones ajenas a una unidad registrada", async () => {
     await expect(
       get_unit_lesson(
@@ -331,10 +501,10 @@ describe("get_unit_lessons", () => {
 
   it("no resuelve lecciones de una unidad no registrada", async () => {
     expect(
-      get_unit_lesson_ids("cultura-digital", "cd-2-4-pensamiento-algoritmico"),
+      get_unit_lesson_ids("ciencias-sociales", "cs-7-3-problemas-sociologicos"),
     ).toEqual([]);
     await expect(
-      get_unit_lessons("cultura-digital", "cd-2-4-pensamiento-algoritmico"),
+      get_unit_lessons("ciencias-sociales", "cs-7-3-problemas-sociologicos"),
     ).resolves.toEqual([]);
   });
 });
@@ -378,6 +548,30 @@ describe("get_available_lesson", () => {
       prerequisites: ["hu-filosofia-mito-y-ciencia-01"],
     });
 
+    const humanidades_hu_4_3_lesson = await get_available_lesson(
+      "hu-tipos-de-normas-01",
+    );
+
+    expect(humanidades_hu_4_3_lesson).toMatchObject({
+      id: "hu-tipos-de-normas-01",
+      area_id: "humanidades",
+      unit_id: "hu-4-3-construccion-de-la-persona-para-la-convivencia",
+      topic_id: "hu-4-3-3-tipos-de-normas",
+      prerequisites: [],
+    });
+
+    const humanidades_hu_4_4_lesson = await get_available_lesson(
+      "hu-discurso-politico-01",
+    );
+
+    expect(humanidades_hu_4_4_lesson).toMatchObject({
+      id: "hu-discurso-politico-01",
+      area_id: "humanidades",
+      unit_id: "hu-4-4-reflexion-politica-y-participacion-ciudadana",
+      topic_id: "hu-4-4-2-discurso-politico",
+      prerequisites: ["hu-discursos-argumentativos-01"],
+    });
+
     const ciencias_naturales_lesson = await get_available_lesson(
       "cn-conservacion-de-la-materia-01",
     );
@@ -418,17 +612,17 @@ describe("get_available_lesson", () => {
   it("no resuelve una lección inexistente ni una de una unidad no registrada", async () => {
     await expect(get_available_lesson("leccion-inexistente")).resolves.toBeUndefined();
     await expect(
-      get_available_lesson("cd-conceptos-del-lenguaje-algoritmico-01"),
+      get_available_lesson("ch-causas-de-la-independencia-01"),
     ).resolves.toBeUndefined();
     await expect(
-      get_available_lesson("hu-funciones-de-la-lengua-01"),
+      get_available_lesson("cs-organizacion-social-01"),
     ).resolves.toBeUndefined();
     await expect(get_available_lesson("cn-luz-visible-01")).resolves.toBeUndefined();
     await expect(
       get_available_lesson("lc-fuentes-primarias-y-secundarias-01"),
     ).resolves.toBeUndefined();
     await expect(
-      get_available_lesson("cs-teorias-sobre-el-origen-del-estado-01"),
+      get_available_lesson("cs-tipos-de-migraciones-01"),
     ).resolves.toBeUndefined();
   });
 });

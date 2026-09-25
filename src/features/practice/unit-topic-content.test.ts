@@ -160,6 +160,126 @@ describe("get_topic_content", () => {
     ]);
   });
 
+  it("resuelve un tema real de humanidades hu-4-2", async () => {
+    const content = await get_topic_content(
+      "humanidades",
+      "hu-4-2-elementos-para-el-pensamiento-y-la-argumentacion",
+      "hu-4-2-3-argumentos-deductivos-inductivos-y-analogicos",
+    );
+
+    expect(content?.topic).toMatchObject({
+      id: "hu-4-2-3-argumentos-deductivos-inductivos-y-analogicos",
+      title: "Argumentos deductivos, inductivos y analógicos",
+      code: "4.2.3",
+    });
+    expect(content?.lessons).toEqual([
+      { id: "hu-tipos-de-argumentos-01", title: "Tipos de argumentos" },
+    ]);
+    expect(content?.questions.map((item) => item.question.id)).toEqual([
+      "hu-tda-001",
+      "hu-tda-002",
+      "hu-tda-003",
+      "hu-tda-004",
+      "hu-tda-005",
+    ]);
+  });
+
+  it("resuelve un tema real de humanidades hu-4-3", async () => {
+    const content = await get_topic_content(
+      "humanidades",
+      "hu-4-3-construccion-de-la-persona-para-la-convivencia",
+      "hu-4-3-2-valores-y-su-definicion",
+    );
+
+    expect(content?.topic).toMatchObject({
+      id: "hu-4-3-2-valores-y-su-definicion",
+      title: "Los valores y su definición",
+      code: "4.3.2",
+    });
+    expect(content?.lessons).toEqual([
+      { id: "hu-valores-para-la-convivencia-01", title: "Valores para la convivencia" },
+    ]);
+    expect(content?.questions.map((item) => item.question.id)).toEqual([
+      "hu-vpc-001",
+      "hu-vpc-002",
+      "hu-vpc-003",
+      "hu-vpc-004",
+      "hu-vpc-005",
+    ]);
+  });
+
+  it("resuelve un tema real de humanidades hu-4-4", async () => {
+    const content = await get_topic_content(
+      "humanidades",
+      "hu-4-4-reflexion-politica-y-participacion-ciudadana",
+      "hu-4-4-2-discurso-politico",
+    );
+
+    expect(content?.topic).toMatchObject({
+      id: "hu-4-4-2-discurso-politico",
+      title: "Discurso político",
+      code: "4.4.2",
+    });
+    expect(content?.lessons).toEqual([
+      { id: "hu-discurso-politico-01", title: "Discurso político" },
+    ]);
+    expect(content?.questions.map((item) => item.question.id)).toEqual([
+      "hu-dp-001",
+      "hu-dp-002",
+      "hu-dp-003",
+      "hu-dp-004",
+      "hu-dp-005",
+    ]);
+  });
+
+  it("resuelve un tema real de humanidades hu-4-5", async () => {
+    const content = await get_topic_content(
+      "humanidades",
+      "hu-4-5-humanidad-ante-desafios-contemporaneos",
+      "hu-4-5-1-principios-de-bioetica",
+    );
+
+    expect(content?.topic).toMatchObject({
+      id: "hu-4-5-1-principios-de-bioetica",
+      title: "Principios de bioética",
+      code: "4.5.1",
+    });
+    expect(content?.lessons).toEqual([
+      { id: "hu-principios-de-bioetica-01", title: "Principios de bioética" },
+    ]);
+    expect(content?.questions.map((item) => item.question.id)).toEqual([
+      "hu-pb-001",
+      "hu-pb-002",
+      "hu-pb-003",
+      "hu-pb-004",
+      "hu-pb-005",
+    ]);
+  });
+
+  it("resuelve un tema real de humanidades hu-4-6", async () => {
+    const content = await get_topic_content(
+      "humanidades",
+      "hu-4-6-reflexiones-sobre-el-arte-y-la-sensibilidad",
+      "hu-4-6-1-categorias-esteticas",
+    );
+
+    expect(content?.topic).toMatchObject({
+      id: "hu-4-6-1-categorias-esteticas",
+      title: "Categorías estéticas",
+      code: "4.6.1",
+    });
+    expect(content?.lessons).toEqual([
+      { id: "hu-categorias-esteticas-01", title: "Categorías estéticas" },
+    ]);
+    expect(content?.questions.map((item) => item.question.id)).toEqual([
+      "hu-ce-001",
+      "hu-ce-002",
+      "hu-ce-003",
+      "hu-ce-004",
+      "hu-ce-005",
+    ]);
+  });
+
   it("resuelve un tema real de la unidad de ciencias naturales", async () => {
     const content = await get_topic_content(
       "ciencias-naturales-experimentales-y-tecnologia",
@@ -228,18 +348,32 @@ describe("get_topic_content", () => {
     ).resolves.toBeUndefined();
     await expect(
       get_topic_content(
-        "cultura-digital",
-        "cd-2-4-pensamiento-algoritmico",
-        "cd-2-4-1-conceptos-del-lenguaje-algoritmico",
-      ),
-    ).resolves.toBeUndefined();
-    await expect(
-      get_topic_content(
         "ciencias-sociales",
-        "cs-7-2-perspectivas-politicas",
-        "cs-7-2-1-teorias-sobre-el-origen-del-estado",
+        "cs-7-3-problemas-sociologicos",
+        "cs-7-3-1-tipos-de-organizacion-social",
       ),
     ).resolves.toBeUndefined();
+  });
+
+  it("resuelve un tema real de la unidad cs-7-2 de ciencias sociales", async () => {
+    const content = await get_topic_content(
+      "ciencias-sociales",
+      "cs-7-2-perspectivas-politicas",
+      "cs-7-2-4-funcion-de-instituciones-del-estado-mexicano",
+    );
+
+    expect(content?.topic).toMatchObject({
+      id: "cs-7-2-4-funcion-de-instituciones-del-estado-mexicano",
+      title: "Función de las instituciones del estado mexicano",
+      code: "7.2.4",
+    });
+    expect(content?.lessons).toEqual([
+      {
+        id: "cs-instituciones-del-estado-mexicano-01",
+        title: "Instituciones del estado mexicano",
+      },
+    ]);
+    expect(content?.questions).toHaveLength(5);
   });
 
   it("resuelve un tema real de la unidad de ciencias sociales", async () => {
@@ -430,7 +564,7 @@ describe("get_available_topic_content", () => {
       get_available_topic_content("tema-inexistente"),
     ).resolves.toBeUndefined();
     await expect(
-      get_available_topic_content("cd-2-4-1-conceptos-del-lenguaje-algoritmico"),
+      get_available_topic_content("cn-5-2-1-caracteristicas-de-la-luz-visible"),
     ).resolves.toBeUndefined();
     await expect(
       get_available_topic_content(
@@ -438,13 +572,13 @@ describe("get_available_topic_content", () => {
       ),
     ).resolves.toBeUndefined();
     await expect(
-      get_available_topic_content("hu-4-2-1-funciones-de-la-lengua"),
+      get_available_topic_content("cs-7-3-1-tipos-de-organizacion-social"),
     ).resolves.toBeUndefined();
     await expect(
       get_available_topic_content("lc-6-2-1-figuras-retoricas"),
     ).resolves.toBeUndefined();
     await expect(
-      get_available_topic_content("cs-7-3-1-tipos-de-organizacion-social"),
+      get_available_topic_content("cs-7-3-8-movimientos-sociales-antisistema"),
     ).resolves.toBeUndefined();
   });
 });

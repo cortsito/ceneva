@@ -81,7 +81,7 @@ describe("get_global_topic_definitions", () => {
     const areas = await get_global_topic_definitions();
     const cd_area = areas.find((area) => area.area_id === "cultura-digital");
 
-    expect(cd_area?.topic_definitions).toHaveLength(14);
+    expect(cd_area?.topic_definitions).toHaveLength(18);
   });
 });
 

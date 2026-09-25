@@ -3,8 +3,8 @@ import { describe, expect, it } from "vitest";
 import { available_units } from "./available-units";
 
 describe("available_units", () => {
-  it("lista exactamente las catorce unidades de contenido listas, en orden estable", () => {
-    expect(available_units).toHaveLength(14);
+  it("lista exactamente las veintiuna unidades de contenido listas, en orden estable", () => {
+    expect(available_units).toHaveLength(21);
     expect(
       available_units.map((entry) => ({
         area_id: entry.area_id,
@@ -30,12 +30,36 @@ describe("available_units", () => {
         unit_id: "cd-2-3-creatividad-digital",
       },
       {
+        area_id: "cultura-digital",
+        unit_id: "cd-2-4-pensamiento-algoritmico",
+      },
+      {
         area_id: "conciencia-historica",
         unit_id: "ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales",
       },
       {
         area_id: "humanidades",
         unit_id: "hu-4-1-fundamentos-del-pensamiento-filosofico",
+      },
+      {
+        area_id: "humanidades",
+        unit_id: "hu-4-2-elementos-para-el-pensamiento-y-la-argumentacion",
+      },
+      {
+        area_id: "humanidades",
+        unit_id: "hu-4-3-construccion-de-la-persona-para-la-convivencia",
+      },
+      {
+        area_id: "humanidades",
+        unit_id: "hu-4-4-reflexion-politica-y-participacion-ciudadana",
+      },
+      {
+        area_id: "humanidades",
+        unit_id: "hu-4-5-humanidad-ante-desafios-contemporaneos",
+      },
+      {
+        area_id: "humanidades",
+        unit_id: "hu-4-6-reflexiones-sobre-el-arte-y-la-sensibilidad",
       },
       {
         area_id: "ciencias-naturales-experimentales-y-tecnologia",
@@ -48,6 +72,10 @@ describe("available_units", () => {
       {
         area_id: "ciencias-sociales",
         unit_id: "cs-7-1-organizacion-economica",
+      },
+      {
+        area_id: "ciencias-sociales",
+        unit_id: "cs-7-2-perspectivas-politicas",
       },
     ]);
   });
@@ -79,7 +107,7 @@ describe("available_units", () => {
 
     const cultura_digital = by_area.get("cultura-digital");
     expect(cultura_digital?.area.id).toBe("cultura-digital");
-    expect(cultura_digital?.questions).toHaveLength(75);
+    expect(cultura_digital?.questions).toHaveLength(95);
     expect(
       cultura_digital?.questions.every((question) => question.id.startsWith("cd-")),
     ).toBe(true);
@@ -95,7 +123,7 @@ describe("available_units", () => {
 
     const humanidades = by_area.get("humanidades");
     expect(humanidades?.area.id).toBe("humanidades");
-    expect(humanidades?.questions).toHaveLength(20);
+    expect(humanidades?.questions).toHaveLength(100);
     expect(
       humanidades?.questions.every((question) => question.id.startsWith("hu-")),
     ).toBe(true);
@@ -122,7 +150,7 @@ describe("available_units", () => {
 
     const ciencias_sociales = by_area.get("ciencias-sociales");
     expect(ciencias_sociales?.area.id).toBe("ciencias-sociales");
-    expect(ciencias_sociales?.questions).toHaveLength(45);
+    expect(ciencias_sociales?.questions).toHaveLength(85);
     expect(
       ciencias_sociales?.questions.every((question) => question.id.startsWith("cs-")),
     ).toBe(true);

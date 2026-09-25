@@ -767,5 +767,701 @@ export const ciencias_sociales_questions: question[] = [
     source_reference: 'Guía oficial, página 19, código 7.1.9.',
     difficulty: 'advanced',
     use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-toe-001',
+    topic_id: 'cs-7-2-1-teorias-sobre-el-origen-del-estado',
+    prompt:
+      "Un enunciado describe: 'antes de la existencia del estado, los seres humanos viven en un conflicto permanente motivado por su propio interés y el miedo a morir a manos de otro; solo un poder absoluto puede imponerles el orden.' ¿A qué autor corresponde esta descripción del estado de naturaleza?",
+    options: [
+      'Rousseau, porque también describe el origen del estado mediante un pacto social',
+      'Hobbes, porque describe el estado de naturaleza como una guerra permanente que solo un poder absoluto puede resolver',
+      'ninguno de los dos, porque ambos describen un estado de naturaleza originalmente pacífico'
+    ],
+    correct_option_index: 1,
+    explanation:
+      'Hobbes describe el estado de naturaleza como una guerra de todos contra todos motivada por el interés propio y el miedo a una muerte violenta, y concluye que solo un soberano absoluto puede garantizar la paz mediante la concentración del poder.',
+    common_error:
+      'Suponer que, como ambos autores proponen un pacto social, cualquier descripción del estado de naturaleza podría corresponder a cualquiera de los dos, sin distinguir que Hobbes describe una guerra permanente desde el inicio.',
+    source_reference: 'Guía oficial, página 19, código 7.2.1.',
+    difficulty: 'basic',
+    use_cases: ['diagnostic', 'practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-toe-002',
+    topic_id: 'cs-7-2-1-teorias-sobre-el-origen-del-estado',
+    prompt:
+      'Para Rousseau, el pacto social no entrega la soberanía a un gobernante absoluto; en cambio, cada persona somete su voluntad individual a la _______, de modo que la soberanía permanece en el conjunto del pueblo.',
+    options: ['voluntad general', 'voluntad del soberano', 'voluntad de la mayoría simple'],
+    correct_option_index: 0,
+    explanation:
+      'En la teoría de Rousseau, la voluntad general es aquello a lo que cada persona somete su voluntad individual mediante el pacto social, de modo que la soberanía queda en el conjunto del pueblo y no en un solo gobernante.',
+    common_error:
+      'Confundir la voluntad general con la voluntad de la mayoría simple, cuando la voluntad general representa el bien común del conjunto del pueblo, no solo el resultado de contar votos individuales.',
+    source_reference: 'Guía oficial, página 19, código 7.2.1.',
+    difficulty: 'basic',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-toe-003',
+    topic_id: 'cs-7-2-1-teorias-sobre-el-origen-del-estado',
+    prompt:
+      "Alguien afirma que 'como Hobbes y Rousseau proponen un pacto social para salir del estado de naturaleza, sus teorías son básicamente la misma idea con otro nombre.' ¿Por qué esta afirmación es incorrecta?",
+    options: [
+      'porque describen un estado de naturaleza distinto (guerra permanente frente a paz alterada por la desigualdad) y el pacto tiene un destino distinto para la soberanía (un soberano absoluto frente a la voluntad general del pueblo)',
+      'porque solo Rousseau propone realmente un pacto social; Hobbes propone la imposición directa de un gobernante sin ningún acuerdo previo',
+      'porque Hobbes y Rousseau escribieron en siglos distintos, así que sus teorías no pueden compararse'
+    ],
+    correct_option_index: 0,
+    explanation:
+      'La coincidencia en proponer un pacto social no vuelve idénticas a ambas teorías: Hobbes describe una guerra permanente desde el inicio y un soberano absoluto como resultado, mientras que Rousseau describe una paz alterada por la desigualdad y la voluntad general como resultado.',
+    common_error:
+      'Juzgar la similitud de dos teorías solo porque ambas mencionan un "pacto social", sin verificar si describen el mismo estado de naturaleza y el mismo destino para la soberanía.',
+    source_reference: 'Guía oficial, página 19, código 7.2.1.',
+    difficulty: 'intermediate',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-toe-004',
+    topic_id: 'cs-7-2-1-teorias-sobre-el-origen-del-estado',
+    prompt:
+      'Un enunciado describe que, antes de la existencia del estado, los seres humanos vivían de forma relativamente libre e igualitaria, y que la aparición de la propiedad privada generó las primeras desigualdades y conflictos entre ellos. ¿Por qué esta descripción corresponde a Rousseau y no a Hobbes?',
+    options: [
+      'porque atribuye el conflicto a la desigualdad surgida de la propiedad privada, y no a un estado de guerra permanente presente desde el inicio, como propone Hobbes',
+      'porque Hobbes nunca menciona la propiedad privada en ninguna parte de su teoría',
+      'porque Rousseau escribió después que Hobbes, así que su teoría siempre corrige a la anterior'
+    ],
+    correct_option_index: 0,
+    explanation:
+      'Lo que distingue a Rousseau es que el conflicto surge después, por la desigualdad que trae la propiedad privada, y no que exista antes de cualquier tipo de sociedad, como en la guerra permanente que describe Hobbes.',
+    common_error:
+      'Asumir que basta con mencionar un origen del conflicto para atribuir el enunciado a cualquiera de los dos autores, sin verificar si el conflicto se describe como permanente desde el inicio o como resultado posterior de la desigualdad.',
+    source_reference: 'Guía oficial, página 19, código 7.2.1.',
+    difficulty: 'intermediate',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-toe-005',
+    topic_id: 'cs-7-2-1-teorias-sobre-el-origen-del-estado',
+    prompt:
+      'Relaciona cada afirmación con el autor —Hobbes o Rousseau— cuya teoría representa.\n\n1. El estado de naturaleza es una guerra de todos contra todos motivada por el interés propio y el miedo\n2. La soberanía permanece en el conjunto del pueblo mediante la voluntad general\n3. El pacto social cede casi toda la libertad individual a un soberano absoluto para garantizar la paz\n4. La desigualdad surgida de la propiedad privada corrompe un estado de naturaleza originalmente pacífico\n\na. Hobbes\nb. Rousseau',
+    options: ['1a, 2b, 3a, 4b', '1b, 2a, 3b, 4a', '1a, 2a, 3b, 4b'],
+    correct_option_index: 0,
+    explanation:
+      'Hobbes describe la guerra permanente y el soberano absoluto (1a, 3a); Rousseau describe la voluntad general como destino de la soberanía y la desigualdad de la propiedad privada como origen del conflicto (2b, 4b).',
+    common_error:
+      'Invertir a los autores porque ambos "proponen un pacto", sin distinguir cuál asocia la soberanía a un solo gobernante y cuál la conserva en el pueblo mediante la voluntad general.',
+    source_reference: 'Guía oficial, página 19, código 7.2.1.',
+    difficulty: 'advanced',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-dem-001',
+    topic_id: 'cs-7-2-2-caracteristicas-de-la-democracia-electoral',
+    prompt:
+      "Un país celebra una votación cada seis años, en la que solo puede participar el partido en el poder, y quien resulta 'electo' es siempre la misma persona sin importar el resultado. ¿Este sistema es una democracia electoral?",
+    options: [
+      'sí, porque celebra una votación de forma periódica cada seis años',
+      'sí, porque toda la población puede participar en la votación sin restricción de edad',
+      'no, porque falta la competencia real entre opciones y la posibilidad de alternancia según el resultado, aunque exista una votación periódica'
+    ],
+    correct_option_index: 2,
+    explanation:
+      'La democracia electoral exige, además de elecciones periódicas, competencia real entre opciones y la posibilidad de que el poder cambie según el resultado; una votación sin otra candidatura posible y sin alternancia no cumple esas características, aunque se repita periódicamente.',
+    common_error:
+      'Concluir que un sistema es una democracia electoral solo porque celebra votaciones periódicas, sin verificar si existe competencia real y si el resultado puede cambiar el poder.',
+    source_reference: 'Guía oficial, página 19, código 7.2.2.',
+    difficulty: 'basic',
+    use_cases: ['diagnostic', 'practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-dem-002',
+    topic_id: 'cs-7-2-2-caracteristicas-de-la-democracia-electoral',
+    prompt:
+      'El elemento de la democracia electoral que garantiza que toda persona que cumple los requisitos legales puede votar, sin distinción arbitraria, se llama _______.',
+    options: ['sufragio universal', 'voto calificado', 'representación proporcional'],
+    correct_option_index: 0,
+    explanation:
+      'El sufragio universal es el elemento que garantiza que toda persona que cumple los requisitos legales generales puede votar, sin excluir arbitrariamente a un grupo de la población.',
+    common_error:
+      'Confundir el sufragio universal con la representación proporcional, dos conceptos distintos: uno se refiere a quién puede votar, el otro a cómo se traducen los votos en cargos.',
+    source_reference: 'Guía oficial, página 19, código 7.2.2.',
+    difficulty: 'basic',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-dem-003',
+    topic_id: 'cs-7-2-2-caracteristicas-de-la-democracia-electoral',
+    prompt:
+      'En un país, varios partidos compiten libremente y el voto es secreto, pero cuando el partido en el poder pierde la elección, se niega a entregar el gobierno y anula el resultado. ¿Por qué este sistema no es una democracia electoral, a pesar de la competencia real entre partidos?',
+    options: [
+      'porque falta la alternancia pacífica según el resultado; una elección competitiva cuyo resultado no se respeta no cumple todas las características necesarias',
+      'porque ningún sistema con más de dos partidos puede ser considerado una democracia electoral',
+      'porque el voto secreto por sí solo ya descalifica a un sistema como democracia electoral'
+    ],
+    correct_option_index: 0,
+    explanation:
+      'La democracia electoral exige que el poder se transfiera de forma pacífica conforme al resultado; una elección con competencia real y voto secreto, pero cuyo resultado no se respeta, no cumple esa característica.',
+    common_error:
+      'Evaluar la democracia electoral únicamente por la existencia de competencia y voto secreto, sin verificar si el resultado efectivamente se respeta y se traduce en alternancia cuando corresponde.',
+    source_reference: 'Guía oficial, página 19, código 7.2.2.',
+    difficulty: 'intermediate',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-dem-004',
+    topic_id: 'cs-7-2-2-caracteristicas-de-la-democracia-electoral',
+    prompt:
+      'En un país, solo las personas con cierto nivel de ingreso pueden votar, aunque varios partidos compitan libremente y el resultado se respete siempre. ¿Por qué este sistema no cumple las características de la democracia electoral?',
+    options: [
+      'porque falta el sufragio universal: restringir el voto según el ingreso excluye a personas que deberían poder votar según los requisitos legales generales',
+      'porque ningún sistema con restricciones de cualquier tipo puede considerarse una elección',
+      'porque la democracia electoral exige que gane siempre el mismo partido para garantizar estabilidad'
+    ],
+    correct_option_index: 0,
+    explanation:
+      'Restringir el voto a un grupo definido por su ingreso, en vez de a los requisitos legales generales de edad y ciudadanía, viola el sufragio universal, una de las características necesarias de la democracia electoral.',
+    common_error:
+      'Suponer que cualquier requisito legal para votar (como la edad) es igual a una restricción arbitraria como el ingreso, sin distinguir entre un requisito general aplicado a todos y una exclusión de un grupo específico.',
+    source_reference: 'Guía oficial, página 19, código 7.2.2.',
+    difficulty: 'intermediate',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-dem-005',
+    topic_id: 'cs-7-2-2-caracteristicas-de-la-democracia-electoral',
+    prompt:
+      'Ordena las etapas de un proceso electoral en el orden en que ocurren, de la primera a la última.\n\n1. Convocatoria y organización del proceso electoral\n2. Registro de candidaturas y campañas\n3. Jornada electoral (votación)\n4. Cómputo y calificación de resultados\n5. Toma de posesión de quien resultó electo',
+    options: ['1, 2, 3, 4, 5', '2, 1, 4, 3, 5', '1, 3, 2, 5, 4'],
+    correct_option_index: 0,
+    explanation:
+      'El proceso electoral inicia con la convocatoria y organización (1), sigue con el registro de candidaturas y las campañas (2), continúa con la jornada de votación (3), después el cómputo y calificación de resultados (4), y concluye con la toma de posesión de quien resultó electo (5).',
+    common_error:
+      'Colocar el registro de candidaturas antes de la convocatoria, o la toma de posesión antes del cómputo de resultados, sin seguir la secuencia real en que ocurre cada etapa.',
+    source_reference: 'Guía oficial, página 19, código 7.2.2.',
+    difficulty: 'advanced',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-ciu-001',
+    topic_id: 'cs-7-2-3-requisitos-para-obtener-ciudadania-mexicana',
+    prompt:
+      'Un adolescente de 15 años nació en territorio mexicano. ¿Es ciudadano mexicano según el artículo 34 constitucional?',
+    options: [
+      'sí, porque nació en México y por lo tanto tiene automáticamente la ciudadanía desde su nacimiento',
+      'no todavía, porque tiene la nacionalidad mexicana desde su nacimiento, pero le falta cumplir el requisito de edad para ser considerado ciudadano',
+      'no, porque solo las personas naturalizadas pueden llegar a ser ciudadanas mexicanas'
+    ],
+    correct_option_index: 1,
+    explanation:
+      'El artículo 34 exige, además de la calidad de mexicano, haber cumplido 18 años y tener un modo honesto de vivir; un adolescente de 15 años tiene la nacionalidad mexicana desde su nacimiento, pero no cumple el requisito de edad para ser ciudadano.',
+    common_error:
+      'Confundir la nacionalidad mexicana, que puede tenerse desde el nacimiento, con la ciudadanía, que además exige cumplir 18 años y tener un modo honesto de vivir.',
+    source_reference: 'Guía oficial, página 19, código 7.2.3.',
+    difficulty: 'basic',
+    use_cases: ['diagnostic', 'practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-ciu-002',
+    topic_id: 'cs-7-2-3-requisitos-para-obtener-ciudadania-mexicana',
+    prompt:
+      'Además de tener la calidad de mexicano, el artículo 34 constitucional exige haber cumplido 18 años y tener un _______ para ser considerado ciudadano de la República.',
+    options: ['modo honesto de vivir', 'empleo formal', 'domicilio fijo'],
+    correct_option_index: 0,
+    explanation:
+      'El artículo 34 constitucional exige, junto con la calidad de mexicano y haber cumplido 18 años, tener un modo honesto de vivir para ser considerado ciudadano de la República.',
+    common_error:
+      'Suponer que tener un empleo formal o un domicilio fijo son requisitos constitucionales de ciudadanía, cuando el requisito adicional que exige el artículo 34 es tener un modo honesto de vivir.',
+    source_reference: 'Guía oficial, página 19, código 7.2.3.',
+    difficulty: 'basic',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-ciu-003',
+    topic_id: 'cs-7-2-3-requisitos-para-obtener-ciudadania-mexicana',
+    prompt:
+      'Una persona se naturaliza mexicana a los 25 años y cumple con un modo honesto de vivir. ¿Es ciudadana mexicana?',
+    options: [
+      'sí, porque tiene la calidad de mexicana por naturalización y cumple los dos requisitos adicionales del artículo 34: haber cumplido 18 años y tener un modo honesto de vivir',
+      'no, porque solo quienes son mexicanos por nacimiento pueden ser ciudadanos, nunca quienes se naturalizan',
+      'no, porque la ciudadanía exige haber nacido y vivido siempre en territorio mexicano'
+    ],
+    correct_option_index: 0,
+    explanation:
+      'El artículo 34 no distingue entre mexicanos por nacimiento o por naturalización para efectos de ciudadanía: basta con tener la calidad de mexicano, por cualquiera de las dos vías, y cumplir los requisitos de edad y modo honesto de vivir.',
+    common_error:
+      'Suponer que la naturalización excluye a una persona de la ciudadanía, sin reconocer que el artículo 34 admite la calidad de mexicano tanto por nacimiento como por naturalización.',
+    source_reference: 'Guía oficial, página 19, código 7.2.3.',
+    difficulty: 'intermediate',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-ciu-004',
+    topic_id: 'cs-7-2-3-requisitos-para-obtener-ciudadania-mexicana',
+    prompt:
+      "Alguien afirma que 'toda persona mexicana, sin importar su edad, es automáticamente ciudadana mexicana desde su nacimiento.' ¿Por qué esta afirmación es incorrecta?",
+    options: [
+      'porque la ciudadanía exige, además de la calidad de mexicano, cumplir 18 años y tener un modo honesto de vivir; un menor de edad tiene nacionalidad, pero no ciudadanía',
+      'porque en realidad ningún mexicano por nacimiento puede llegar a ser ciudadano, solo quienes se naturalizan',
+      'porque la ciudadanía se pierde automáticamente al cumplir 18 años, en vez de obtenerse con ellos'
+    ],
+    correct_option_index: 0,
+    explanation:
+      'La nacionalidad mexicana puede tenerse desde el nacimiento, pero la ciudadanía es un estatus adicional que exige cumplir 18 años y tener un modo honesto de vivir; un menor de edad no cumple todavía ese requisito.',
+    common_error:
+      'Tratar "ser mexicano" y "ser ciudadano mexicano" como sinónimos exactos, sin distinguir que la ciudadanía exige requisitos adicionales de edad y conducta.',
+    source_reference: 'Guía oficial, página 19, código 7.2.3.',
+    difficulty: 'intermediate',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-ciu-005',
+    topic_id: 'cs-7-2-3-requisitos-para-obtener-ciudadania-mexicana',
+    prompt:
+      'Relaciona cada persona con si es o no ciudadana mexicana según el artículo 34 constitucional.\n\n1. Una persona de 20 años, nacida en México, con un modo honesto de vivir\n2. Un niño de 8 años, nacido en México\n3. Una persona de 30 años, naturalizada mexicana, con un modo honesto de vivir\n4. Una persona de 16 años, nacida en México\n\na. Sí es ciudadana mexicana\nb. No es ciudadana mexicana todavía',
+    options: ['1a, 2b, 3a, 4b', '1b, 2a, 3b, 4a', '1a, 2a, 3b, 4b'],
+    correct_option_index: 0,
+    explanation:
+      'Las personas de 20 y 30 años cumplen la calidad de mexicanas, la edad y, en este caso, el modo honesto de vivir, así que sí son ciudadanas (1a, 3a); el niño de 8 años y la persona de 16 años tienen nacionalidad mexicana, pero aún no cumplen el requisito de edad, así que todavía no son ciudadanos (2b, 4b).',
+    common_error:
+      'Clasificar como ciudadana a cualquier persona nacida en México sin verificar si ya cumplió 18 años, el requisito de edad que exige el artículo 34.',
+    source_reference: 'Guía oficial, página 19, código 7.2.3.',
+    difficulty: 'advanced',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-iem-001',
+    topic_id: 'cs-7-2-4-funcion-de-instituciones-del-estado-mexicano',
+    prompt:
+      'Una colonia de reciente crecimiento urbano tiene un conflicto por la tenencia irregular de los terrenos donde se han construido las viviendas, sin que exista una planeación clara del uso del suelo. ¿Qué institución del estado mexicano atiende esta problemática?',
+    options: [
+      'la SEP, porque cualquier problemática dentro de una comunidad se relaciona con la educación de sus habitantes',
+      'el CONADIS, porque cualquier problemática de vivienda afecta la inclusión de la población',
+      'la SEDATU, porque el ordenamiento territorial, la tenencia de la tierra y el desarrollo urbano son parte de su mandato específico'
+    ],
+    correct_option_index: 2,
+    explanation:
+      'La SEDATU (Secretaría de Desarrollo Agrario, Territorial y Urbano) atiende específicamente el ordenamiento territorial, el desarrollo urbano y la tenencia de la tierra, el ámbito exacto de esta problemática.',
+    common_error:
+      'Asignar la institución por una asociación superficial de palabras (por ejemplo, "es un problema de vivienda, así que debe ser el CONADIS") en vez de ubicar el ámbito exacto de la problemática.',
+    source_reference: 'Guía oficial, página 19, código 7.2.4.',
+    difficulty: 'basic',
+    use_cases: ['diagnostic', 'practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-iem-002',
+    topic_id: 'cs-7-2-4-funcion-de-instituciones-del-estado-mexicano',
+    prompt:
+      'La institución del estado mexicano encargada de atender problemáticas relacionadas con la inclusión y los derechos de las personas con discapacidad es el _______.',
+    options: ['CONADIS', 'INAES', 'SEDATU'],
+    correct_option_index: 0,
+    explanation:
+      'El CONADIS (Consejo Nacional para el Desarrollo y la Inclusión de las Personas con Discapacidad) es la institución encargada de atender la inclusión y los derechos de las personas con discapacidad.',
+    common_error:
+      'Confundir al CONADIS con el INAES, que atiende un ámbito distinto: el fomento de organizaciones de la economía social, no la inclusión de personas con discapacidad.',
+    source_reference: 'Guía oficial, página 19, código 7.2.4.',
+    difficulty: 'basic',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-iem-003',
+    topic_id: 'cs-7-2-4-funcion-de-instituciones-del-estado-mexicano',
+    prompt:
+      'Un grupo de artesanos decide organizarse en una cooperativa para producir y vender en conjunto, y busca apoyo institucional para formalizar esa organización. ¿Por qué esta problemática corresponde al INAES y no a la SEP?',
+    options: [
+      'porque se trata de fomentar una organización de la economía social, como una cooperativa, que es el ámbito específico del INAES, y no de un asunto educativo, ámbito de la SEP',
+      'porque cualquier grupo de personas que se organiza corresponde automáticamente a la SEP',
+      'porque el INAES y la SEP atienden exactamente el mismo ámbito, así que cualquiera de las dos sería correcta'
+    ],
+    correct_option_index: 0,
+    explanation:
+      'El INAES (Instituto Nacional de la Economía Social) atiende específicamente el fomento y desarrollo de organizaciones de la economía social, como las cooperativas, un ámbito distinto al educativo de la SEP.',
+    common_error:
+      'Asumir que cualquier grupo de personas organizándose corresponde a la SEP por tratarse de una "organización", sin identificar que el ámbito específico es la economía social.',
+    source_reference: 'Guía oficial, página 19, código 7.2.4.',
+    difficulty: 'intermediate',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-iem-004',
+    topic_id: 'cs-7-2-4-funcion-de-instituciones-del-estado-mexicano',
+    prompt:
+      "Una escuela pública reporta que sus planes de estudio no se han actualizado y solicita apoyo institucional para resolverlo. Alguien sugiere que debería atenderlo el INAES, 'porque cualquier institución educativa puede acudir a cualquier instancia del estado.' ¿Por qué esa sugerencia es incorrecta?",
+    options: [
+      'porque el ámbito de esta problemática es la educación pública, que corresponde específicamente a la SEP, y no al INAES, cuyo mandato es la economía social',
+      'porque las escuelas públicas no pueden solicitar apoyo a ninguna institución del estado',
+      'porque el INAES es la institución encargada de aprobar los planes de estudio en todo el país'
+    ],
+    correct_option_index: 0,
+    explanation:
+      'La actualización de planes de estudio de la educación pública corresponde al ámbito específico de la SEP, no al del INAES, cuyo mandato es el fomento de la economía social.',
+    common_error:
+      'Suponer que cualquier institución del estado puede atender cualquier problemática, sin verificar si el asunto corresponde al ámbito específico de su mandato.',
+    source_reference: 'Guía oficial, página 19, código 7.2.4.',
+    difficulty: 'intermediate',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-iem-005',
+    topic_id: 'cs-7-2-4-funcion-de-instituciones-del-estado-mexicano',
+    prompt:
+      'Relaciona cada problemática con la institución del estado mexicano que la atiende.\n\n1. Actualización de los planes de estudio de la educación pública\n2. Falta de accesibilidad en espacios públicos para personas con discapacidad\n3. Conflicto por la tenencia irregular de terrenos en una zona urbana\n4. Formalización de una cooperativa de producción\n\na. SEDATU\nb. SEP\nc. INAES\nd. CONADIS',
+    options: ['1b, 2d, 3a, 4c', '1d, 2b, 3c, 4a', '1a, 2c, 3d, 4b'],
+    correct_option_index: 0,
+    explanation:
+      'La actualización de planes de estudio corresponde a la SEP (b); la accesibilidad para personas con discapacidad, al CONADIS (d); la tenencia de la tierra en una zona urbana, a la SEDATU (a); y la formalización de una cooperativa, al INAES (c).',
+    common_error:
+      'Intercambiar el CONADIS y la SEDATU por su relación superficial con "problemas urbanos", sin distinguir que uno atiende la inclusión de personas con discapacidad y el otro el ordenamiento territorial.',
+    source_reference: 'Guía oficial, página 19, código 7.2.4.',
+    difficulty: 'advanced',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-pfa-001',
+    topic_id: 'cs-7-2-5-poderes-facticos',
+    prompt:
+      'Un consorcio de medios de comunicación, sin ocupar ningún cargo público, decide qué temas cubrir y cómo presentarlos, y con ello logra influir de forma notable en la opinión pública sobre un asunto en discusión. ¿Este consorcio ejerce un poder fáctico?',
+    options: [
+      'no, porque solo las instituciones públicas pueden ejercer algún tipo de poder sobre la opinión pública',
+      'sí, porque influye en un asunto de interés público sin tener una autoridad reconocida formalmente por la constitución o la ley',
+      'no, porque los medios de comunicación privados no tienen ningún tipo de influencia real sobre la sociedad'
+    ],
+    correct_option_index: 1,
+    explanation:
+      'Un consorcio de medios que influye en la opinión pública sin ocupar ningún cargo público ni tener una autoridad reconocida formalmente es un ejemplo de poder fáctico: su influencia proviene del control que ejerce sobre la información.',
+    common_error:
+      'Suponer que solo las instituciones públicas pueden ejercer poder, sin reconocer que un actor privado puede influir de forma real en decisiones o percepciones de interés público sin tener autoridad formal.',
+    source_reference: 'Guía oficial, página 19, código 7.2.5.',
+    difficulty: 'basic',
+    use_cases: ['diagnostic', 'practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-pfa-002',
+    topic_id: 'cs-7-2-5-poderes-facticos',
+    prompt:
+      'Un actor o grupo con capacidad real de influir en decisiones políticas o económicas, sin ocupar un cargo público ni contar con una autoridad reconocida formalmente por la constitución o la ley, se llama _______.',
+    options: ['poder fáctico', 'poder formal', 'poder constituyente'],
+    correct_option_index: 0,
+    explanation:
+      'El poder fáctico es precisamente el que ejerce un actor con capacidad real de influencia sin ocupar un cargo público ni tener una autoridad reconocida formalmente por la constitución o la ley.',
+    common_error:
+      'Confundir poder fáctico con poder formal, cuando el poder formal es exactamente el que sí proviene de un mandato reconocido por la constitución o la ley.',
+    source_reference: 'Guía oficial, página 19, código 7.2.5.',
+    difficulty: 'basic',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-pfa-003',
+    topic_id: 'cs-7-2-5-poderes-facticos',
+    prompt:
+      'Una persona que ocupa un cargo legislativo obtenido mediante elección tiene una influencia real sobre las decisiones del país. ¿Por qué esta persona no ejerce un poder fáctico, a pesar de su influencia?',
+    options: [
+      'porque su influencia proviene de un mandato formalmente reconocido por la constitución, y el poder fáctico se define precisamente por la ausencia de ese reconocimiento formal',
+      'porque los cargos legislativos nunca tienen ninguna influencia real sobre las decisiones del país',
+      'porque solo puede considerarse poder fáctico a quien ocupa un cargo público de forma temporal'
+    ],
+    correct_option_index: 0,
+    explanation:
+      'Lo que define al poder fáctico no es la magnitud de la influencia, sino que esa influencia se ejerza sin un mandato reconocido formalmente; un cargo obtenido por elección sí tiene ese reconocimiento formal.',
+    common_error:
+      'Confundir "tiene mucha influencia" con "es un poder fáctico", sin distinguir si esa influencia proviene o no de una autoridad formalmente reconocida.',
+    source_reference: 'Guía oficial, página 19, código 7.2.5.',
+    difficulty: 'intermediate',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-pfa-004',
+    topic_id: 'cs-7-2-5-poderes-facticos',
+    prompt:
+      "Una cámara empresarial, sin ocupar ningún cargo público, logra que se modifique una propuesta de ley mediante presión directa sobre quienes la discuten. Alguien afirma que esto no puede ser un poder fáctico 'porque los grupos empresariales no tienen ningún papel en la política.' ¿Por qué esa afirmación es incorrecta?",
+    options: [
+      'porque un actor puede influir en una decisión política sin ocupar un cargo público ni tener autoridad formal, que es exactamente la definición de poder fáctico, sin importar que se trate de un grupo empresarial',
+      'porque las cámaras empresariales en realidad sí ocupan cargos públicos de forma automática',
+      'porque ninguna presión externa puede modificar una propuesta de ley bajo ninguna circunstancia'
+    ],
+    correct_option_index: 0,
+    explanation:
+      'El origen del actor —empresarial, mediático, sindical o religioso— no determina si ejerce o no un poder fáctico; lo que lo determina es si influye en una decisión sin tener una autoridad formalmente reconocida.',
+    common_error:
+      'Suponer que un poder fáctico solo puede provenir de cierto tipo de actor, en vez de identificar el criterio real: influencia real sin autoridad formalmente reconocida.',
+    source_reference: 'Guía oficial, página 19, código 7.2.5.',
+    difficulty: 'intermediate',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-pfa-005',
+    topic_id: 'cs-7-2-5-poderes-facticos',
+    prompt:
+      'Relaciona cada actor con si ejerce o no un poder fáctico.\n\n1. Un sindicato que, sin cargo público, moviliza a un sector amplio de trabajadores para presionar una decisión económica\n2. Una secretaría de estado que, dentro de sus facultades legales, modifica una regulación mediante un decreto\n3. Una organización religiosa que, sin cargo público, influye ampliamente en la conducta de la población\n4. Una persona con un cargo de elección popular que aprueba una ley dentro de sus facultades constitucionales\n\na. Sí ejerce un poder fáctico\nb. No ejerce un poder fáctico',
+    options: ['1a, 2b, 3a, 4b', '1b, 2a, 3b, 4a', '1a, 2a, 3b, 4b'],
+    correct_option_index: 0,
+    explanation:
+      'El sindicato y la organización religiosa influyen sin tener una autoridad formalmente reconocida, así que ejercen poder fáctico (1a, 3a); la secretaría de estado y la persona con cargo de elección popular actúan dentro de facultades formalmente reconocidas, así que no ejercen poder fáctico (2b, 4b).',
+    common_error:
+      'Clasificar como poder fáctico a cualquier actor influyente, incluyendo instituciones y cargos con facultades formalmente reconocidas, sin verificar el origen de su autoridad.',
+    source_reference: 'Guía oficial, página 19, código 7.2.5.',
+    difficulty: 'advanced',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-ppe-001',
+    topic_id: 'cs-7-2-6-principios-de-politica-exterior',
+    prompt:
+      'El país A decide, por su propia decisión interna, adoptar un sistema económico distinto al que tenía antes, sin que ningún otro país participe en esa decisión. ¿Qué principio de política exterior ejemplifica esta situación?',
+    options: [
+      'la solución pacífica de controversias, porque cualquier cambio económico interno debe resolverse mediante negociación internacional',
+      'la no intervención, porque ningún otro país intenta impedir la decisión del país A',
+      'la autodeterminación de los pueblos, porque el país A decide por sí mismo su propio sistema, sin que otro estado se lo imponga'
+    ],
+    correct_option_index: 2,
+    explanation:
+      'La autodeterminación de los pueblos es el derecho de un pueblo a decidir por sí mismo su propio sistema político, económico y social, exactamente lo que describe la decisión interna del país A.',
+    common_error:
+      'Confundir la autodeterminación, que describe el derecho de quien decide, con la no intervención, que describe la obligación de los demás estados de no interferir en esa decisión.',
+    source_reference: 'Guía oficial, página 19, código 7.2.6.',
+    difficulty: 'basic',
+    use_cases: ['diagnostic', 'practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-ppe-002',
+    topic_id: 'cs-7-2-6-principios-de-politica-exterior',
+    prompt:
+      'El principio constitucional según el cual los conflictos entre estados deben resolverse mediante negociación, mediación o el derecho internacional, y no mediante el uso de la fuerza, se llama _______.',
+    options: ['solución pacífica de controversias', 'autodeterminación de los pueblos', 'no intervención'],
+    correct_option_index: 0,
+    explanation:
+      'La solución pacífica de controversias es el principio que exige resolver los conflictos entre estados mediante negociación, mediación o el derecho internacional, en vez de la fuerza.',
+    common_error:
+      'Confundir la solución pacífica de controversias con la no intervención, cuando la primera se refiere a cómo resolver un conflicto ya existente, y la segunda a no interferir en asuntos internos ajenos.',
+    source_reference: 'Guía oficial, página 19, código 7.2.6.',
+    difficulty: 'basic',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-ppe-003',
+    topic_id: 'cs-7-2-6-principios-de-politica-exterior',
+    prompt:
+      'El país B, en desacuerdo con una decisión interna del país C, se abstiene de interferir en sus asuntos internos y no intenta imponerle un cambio. ¿Por qué esta situación ejemplifica la no intervención y no la autodeterminación de los pueblos?',
+    options: [
+      'porque describe la conducta del país B, que se abstiene de interferir en asuntos ajenos, mientras que la autodeterminación describiría, desde la perspectiva del país C, su propio derecho a decidir su sistema',
+      'porque la no intervención y la autodeterminación de los pueblos significan exactamente lo mismo, así que cualquiera de las dos sería correcta',
+      'porque solo puede hablarse de no intervención cuando dos países tienen un conflicto militar activo'
+    ],
+    correct_option_index: 0,
+    explanation:
+      'La no intervención describe la conducta de quien se abstiene de interferir en asuntos ajenos (el país B), mientras que la autodeterminación describe el derecho de quien decide su propio sistema (el país C); ambos principios se relacionan, pero nombran lados distintos de la situación.',
+    common_error:
+      'Tratar la autodeterminación de los pueblos y la no intervención como sinónimos, sin distinguir que cada una describe la perspectiva de un actor distinto dentro de la misma situación.',
+    source_reference: 'Guía oficial, página 19, código 7.2.6.',
+    difficulty: 'intermediate',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-ppe-004',
+    topic_id: 'cs-7-2-6-principios-de-politica-exterior',
+    prompt:
+      'Dos países en desacuerdo sobre el trazo de una frontera aceptan resolver el conflicto mediante un tribunal internacional en vez de recurrir a la fuerza militar. ¿Por qué esta situación ejemplifica la solución pacífica de controversias y no la autodeterminación de los pueblos?',
+    options: [
+      'porque se trata de resolver un conflicto ya existente entre dos estados mediante una vía distinta a la fuerza, mientras que la autodeterminación se refiere al derecho de un pueblo a decidir su propio sistema, no a cómo resolver un conflicto entre estados',
+      'porque la autodeterminación de los pueblos solo aplica cuando participa un tribunal internacional',
+      'porque ambos principios describen exactamente la misma situación, sin ninguna diferencia real'
+    ],
+    correct_option_index: 0,
+    explanation:
+      'La solución pacífica de controversias se aplica específicamente a cómo resolver un conflicto ya existente entre estados, mientras que la autodeterminación se refiere al derecho de un pueblo a decidir su propio sistema, un asunto distinto.',
+    common_error:
+      'Aplicar el principio de autodeterminación a cualquier situación entre dos países, sin verificar si en realidad se trata de resolver un conflicto ya existente, que es el ámbito de la solución pacífica de controversias.',
+    source_reference: 'Guía oficial, página 19, código 7.2.6.',
+    difficulty: 'intermediate',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-ppe-005',
+    topic_id: 'cs-7-2-6-principios-de-politica-exterior',
+    prompt:
+      'Relaciona cada situación con el principio de política exterior que ejemplifica.\n\n1. Un país decide, sin presión externa, mantener su propio sistema político aunque otros países lo critiquen\n2. Un país se abstiene de interferir en una decisión interna de otro país, aunque esté en desacuerdo con ella\n3. Dos países en conflicto aceptan resolverlo mediante mediación internacional en vez de la fuerza\n\na. Autodeterminación de los pueblos\nb. No intervención\nc. Solución pacífica de controversias',
+    options: ['1a, 2b, 3c', '1b, 2c, 3a', '1c, 2a, 3b'],
+    correct_option_index: 0,
+    explanation:
+      'Decidir el propio sistema sin presión externa es autodeterminación (1a); abstenerse de interferir en asuntos ajenos es no intervención (2b); resolver un conflicto mediante mediación en vez de la fuerza es solución pacífica de controversias (3c).',
+    common_error:
+      'Confundir la autodeterminación con la no intervención por describir situaciones relacionadas, sin distinguir si el enunciado describe el derecho de quien decide o la conducta de quien se abstiene de interferir.',
+    source_reference: 'Guía oficial, página 19, código 7.2.6.',
+    difficulty: 'advanced',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-oin-001',
+    topic_id: 'cs-7-2-7-organismos-internacionales',
+    prompt:
+      'Un país solicita apoyo internacional para declarar y preservar un sitio arqueológico como parte del patrimonio cultural de la humanidad. ¿Qué organismo internacional atiende esta problemática?',
+    options: [
+      'la FAO, porque cualquier patrimonio de un país se relaciona con sus recursos naturales',
+      'la UNESCO, porque la preservación del patrimonio cultural es parte de su mandato en educación, ciencia y cultura',
+      'la OIT, porque preservar un sitio arqueológico requiere trabajadores calificados'
+    ],
+    correct_option_index: 1,
+    explanation:
+      'La UNESCO atiende específicamente la cooperación internacional en educación, ciencia y cultura, incluyendo la preservación del patrimonio cultural, el ámbito exacto de esta problemática.',
+    common_error:
+      'Asignar el organismo por una asociación superficial (por ejemplo, "un sitio arqueológico usa recursos naturales, así que es la FAO"), sin identificar el ámbito específico de patrimonio cultural.',
+    source_reference: 'Guía oficial, página 19, código 7.2.7.',
+    difficulty: 'basic',
+    use_cases: ['diagnostic', 'practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-oin-002',
+    topic_id: 'cs-7-2-7-organismos-internacionales',
+    prompt:
+      'El organismo internacional encargado de establecer normas laborales internacionales y promover el trabajo digno y los derechos laborales es la _______.',
+    options: ['OIT', 'FAO', 'UNESCO'],
+    correct_option_index: 0,
+    explanation:
+      'La OIT (Organización Internacional del Trabajo) es el organismo encargado de establecer normas laborales internacionales y promover el trabajo digno y los derechos laborales.',
+    common_error:
+      'Confundir la OIT con la FAO o la UNESCO, cuyos mandatos son la alimentación/agricultura y la educación/ciencia/cultura, respectivamente, no las condiciones laborales.',
+    source_reference: 'Guía oficial, página 19, código 7.2.7.',
+    difficulty: 'basic',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-oin-003',
+    topic_id: 'cs-7-2-7-organismos-internacionales',
+    prompt:
+      'Una región enfrenta una crisis de desnutrición infantil y busca cooperación internacional para mejorar la producción agrícola local y la seguridad alimentaria. ¿Por qué esta problemática corresponde a la FAO y no a la UNESCO?',
+    options: [
+      'porque se trata de un asunto de alimentación y agricultura, que es el ámbito específico de la FAO, y no de educación, ciencia o cultura, ámbito de la UNESCO',
+      'porque la UNESCO y la FAO atienden exactamente el mismo ámbito, así que cualquiera de las dos sería correcta',
+      'porque solo la UNESCO puede intervenir en asuntos relacionados con la infancia'
+    ],
+    correct_option_index: 0,
+    explanation:
+      'La FAO atiende específicamente la seguridad alimentaria y el desarrollo agrícola, el ámbito exacto de esta problemática, mientras que la UNESCO atiende educación, ciencia y cultura, un ámbito distinto.',
+    common_error:
+      'Asignar el organismo por la presencia de un grupo poblacional mencionado (como la infancia), en vez de identificar el ámbito real de la problemática: alimentación y agricultura.',
+    source_reference: 'Guía oficial, página 19, código 7.2.7.',
+    difficulty: 'intermediate',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-oin-004',
+    topic_id: 'cs-7-2-7-organismos-internacionales',
+    prompt:
+      "Trabajadores de un sector reportan jornadas excesivas sin condiciones mínimas de seguridad, y se solicita el establecimiento de normas internacionales para regularlas. Alguien sugiere que debería atenderlo la FAO, 'porque cualquier organismo internacional puede atender cualquier tema laboral.' ¿Por qué esa sugerencia es incorrecta?",
+    options: [
+      'porque el ámbito de esta problemática son las condiciones laborales, que corresponde específicamente a la OIT, y no a la FAO, cuyo mandato es la alimentación y la agricultura',
+      'porque ningún organismo internacional puede establecer normas laborales bajo ninguna circunstancia',
+      'porque la FAO es el organismo encargado de aprobar las leyes laborales de cada país'
+    ],
+    correct_option_index: 0,
+    explanation:
+      'Las condiciones laborales y las normas del trabajo corresponden específicamente al mandato de la OIT, no al de la FAO, que atiende alimentación y agricultura.',
+    common_error:
+      'Suponer que cualquier organismo internacional puede atender cualquier tema, sin verificar si el asunto corresponde al mandato específico de ese organismo.',
+    source_reference: 'Guía oficial, página 19, código 7.2.7.',
+    difficulty: 'intermediate',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-oin-005',
+    topic_id: 'cs-7-2-7-organismos-internacionales',
+    prompt:
+      'Relaciona cada problemática con el organismo internacional que la atiende.\n\n1. Preservación de un sitio arqueológico como patrimonio cultural\n2. Mejora de la seguridad alimentaria mediante desarrollo agrícola sostenible\n3. Establecimiento de normas internacionales sobre condiciones laborales\n\na. OIT\nb. UNESCO\nc. FAO',
+    options: ['1b, 2c, 3a', '1a, 2b, 3c', '1c, 2a, 3b'],
+    correct_option_index: 0,
+    explanation:
+      'La preservación del patrimonio cultural corresponde a la UNESCO (b); la seguridad alimentaria y el desarrollo agrícola, a la FAO (c); y las normas laborales internacionales, a la OIT (a).',
+    common_error:
+      'Intercambiar la UNESCO y la FAO por asociarlas ambas con "desarrollo", sin distinguir que una atiende cultura/educación y la otra alimentación/agricultura.',
+    source_reference: 'Guía oficial, página 19, código 7.2.7.',
+    difficulty: 'advanced',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-asm-001',
+    topic_id: 'cs-7-2-8-areas-en-el-sistema-mundo',
+    prompt:
+      'Una región se dedica principalmente a extraer un mineral sin procesarlo, depende de tecnología importada de otras regiones para hacerlo, y exporta ese mineral en bruto para que se transforme en otro lugar. ¿Cómo se clasifica esta región según la teoría del sistema-mundo?',
+    options: [
+      'como área central, porque exporta un recurso valioso a otras regiones',
+      'como arena exterior, porque no participa en ningún intercambio comercial con otras regiones',
+      'como área periférica, porque se especializa en la extracción de materia prima sin procesar y depende tecnológicamente de otras regiones'
+    ],
+    correct_option_index: 2,
+    explanation:
+      'El área periférica se especializa en la extracción de materias primas y actividades de bajo valor agregado, con dependencia tecnológica de las áreas centrales, exactamente lo que describe esta región.',
+    common_error:
+      'Clasificar como área central a cualquier región que exporta un recurso, sin verificar si lo hace sin procesarlo y con dependencia tecnológica, características del área periférica.',
+    source_reference: 'Guía oficial, página 19, código 7.2.8.',
+    difficulty: 'basic',
+    use_cases: ['diagnostic', 'practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-asm-002',
+    topic_id: 'cs-7-2-8-areas-en-el-sistema-mundo',
+    prompt:
+      'El área del sistema-mundo que concentra actividades económicas de alto valor agregado, tecnología avanzada y mayor poder económico y político dentro del sistema se llama área _______.',
+    options: ['central', 'periférica', 'exterior'],
+    correct_option_index: 0,
+    explanation:
+      'El área central es la que concentra actividades de alto valor agregado, tecnología avanzada y mayor poder económico y político dentro del sistema-mundo.',
+    common_error:
+      'Confundir el área central con el área periférica, cuando esta última se especializa en actividades de bajo valor agregado y depende tecnológicamente del área central.',
+    source_reference: 'Guía oficial, página 19, código 7.2.8.',
+    difficulty: 'basic',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-asm-003',
+    topic_id: 'cs-7-2-8-areas-en-el-sistema-mundo',
+    prompt:
+      'Una región realiza tanto manufactura compleja de algunos productos como extracción de materias primas para exportarlas sin procesar, y funciona como puente comercial entre otras dos regiones. ¿Por qué se clasifica como área semiperiférica y no como área central o periférica?',
+    options: [
+      'porque combina características de ambas —manufactura compleja del área central y extracción sin procesar del área periférica— y funciona como intermediaria entre ellas',
+      'porque cualquier región que exporte algún producto se clasifica automáticamente como área central',
+      'porque el área semiperiférica se define únicamente por su ubicación geográfica entre dos países'
+    ],
+    correct_option_index: 0,
+    explanation:
+      'El área semiperiférica combina rasgos del área central (manufactura compleja) y del área periférica (extracción sin procesar), y funciona como intermediaria entre ambas, sin encajar por completo en ninguna de las dos.',
+    common_error:
+      'Clasificar el área semiperiférica solo por su posición geográfica intermedia, sin verificar si en realidad combina actividades económicas propias de ambos tipos de área.',
+    source_reference: 'Guía oficial, página 19, código 7.2.8.',
+    difficulty: 'intermediate',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-asm-004',
+    topic_id: 'cs-7-2-8-areas-en-el-sistema-mundo',
+    prompt:
+      "Alguien afirma que 'una región se clasifica como área central o periférica según qué tan grande sea su territorio, no según sus actividades económicas.' ¿Por qué esta afirmación es incorrecta?",
+    options: [
+      'porque la clasificación depende de las características económicas de la región —el tipo de actividad que realiza y su grado de dependencia tecnológica—, no del tamaño de su territorio',
+      'porque en realidad todas las regiones con mayor territorio son siempre áreas centrales, sin excepción',
+      'porque el tamaño del territorio es el único criterio que usa la teoría del sistema-mundo'
+    ],
+    correct_option_index: 0,
+    explanation:
+      'La teoría del sistema-mundo clasifica a las regiones según sus características económicas —tipo de actividad, valor agregado y dependencia tecnológica—, no según el tamaño de su territorio.',
+    common_error:
+      'Sustituir el criterio económico real de la clasificación por un criterio no relacionado, como el tamaño del territorio, sin verificar qué actividad económica realiza la región.',
+    source_reference: 'Guía oficial, página 19, código 7.2.8.',
+    difficulty: 'intermediate',
+    use_cases: ['practice', 'review', 'simulator']
+  },
+  {
+    id: 'cs-asm-005',
+    topic_id: 'cs-7-2-8-areas-en-el-sistema-mundo',
+    prompt:
+      'Relaciona cada descripción con el área del sistema-mundo que representa.\n\n1. Concentra tecnología avanzada, actividades de alto valor agregado y mayor poder dentro del sistema\n2. Se especializa en extraer materia prima sin procesarla, con dependencia tecnológica de otras regiones\n3. Combina manufactura compleja y extracción de recursos, funcionando como intermediaria\n4. Permaneció, durante un periodo histórico, fuera de la red de intercambio del sistema-mundo\n\na. Área periférica\nb. Área central\nc. Arena exterior\nd. Área semiperiférica',
+    options: ['1b, 2a, 3d, 4c', '1a, 2b, 3c, 4d', '1c, 2d, 3a, 4b'],
+    correct_option_index: 0,
+    explanation:
+      'La concentración de tecnología avanzada y mayor poder corresponde al área central (b); la extracción de materia prima con dependencia tecnológica, al área periférica (a); combinar rasgos de ambas y funcionar como intermediaria, al área semiperiférica (d); y permanecer fuera de la red de intercambio, a la arena exterior (c).',
+    common_error:
+      'Confundir el área periférica con la arena exterior, sin distinguir que la primera sí participa en el sistema-mundo (extrayendo materia prima) mientras que la segunda permanece fuera de su red de intercambio.',
+    source_reference: 'Guía oficial, página 19, código 7.2.8.',
+    difficulty: 'advanced',
+    use_cases: ['practice', 'review', 'simulator']
   }
 ]

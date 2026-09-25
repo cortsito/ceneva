@@ -85,13 +85,88 @@ describe("get_available_unit", () => {
     ]);
   });
 
-  it("no resuelve una unidad de humanidades todavía sin contenido listo", () => {
-    expect(
-      get_available_unit(
-        "humanidades",
-        "hu-4-2-elementos-para-el-pensamiento-y-la-argumentacion",
-      ),
-    ).toBeUndefined();
+  it("resuelve la unidad de humanidades hu-4-2, con su cadena de prerrequisitos lineal", () => {
+    const resolved = get_available_unit(
+      "humanidades",
+      "hu-4-2-elementos-para-el-pensamiento-y-la-argumentacion",
+    );
+
+    expect(resolved?.area.id).toBe("humanidades");
+    expect(resolved?.unit.id).toBe(
+      "hu-4-2-elementos-para-el-pensamiento-y-la-argumentacion",
+    );
+    expect(resolved?.unit.topics.map((topic) => topic.id)).toEqual([
+      "hu-4-2-1-funciones-de-la-lengua",
+      "hu-4-2-2-premisas-y-conclusion-del-argumento",
+      "hu-4-2-3-argumentos-deductivos-inductivos-y-analogicos",
+      "hu-4-2-4-tipos-de-discurso-argumentativo",
+    ]);
+  });
+
+  it("resuelve la unidad de humanidades hu-4-3, con sus tres temas sin prerrequisitos", () => {
+    const resolved = get_available_unit(
+      "humanidades",
+      "hu-4-3-construccion-de-la-persona-para-la-convivencia",
+    );
+
+    expect(resolved?.area.id).toBe("humanidades");
+    expect(resolved?.unit.id).toBe(
+      "hu-4-3-construccion-de-la-persona-para-la-convivencia",
+    );
+    expect(resolved?.unit.topics.map((topic) => topic.id)).toEqual([
+      "hu-4-3-1-postulados-de-las-teorias-eticas",
+      "hu-4-3-2-valores-y-su-definicion",
+      "hu-4-3-3-tipos-de-normas",
+    ]);
+  });
+
+  it("resuelve la unidad de humanidades hu-4-4, con sus dos temas", () => {
+    const resolved = get_available_unit(
+      "humanidades",
+      "hu-4-4-reflexion-politica-y-participacion-ciudadana",
+    );
+
+    expect(resolved?.area.id).toBe("humanidades");
+    expect(resolved?.unit.id).toBe(
+      "hu-4-4-reflexion-politica-y-participacion-ciudadana",
+    );
+    expect(resolved?.unit.topics.map((topic) => topic.id)).toEqual([
+      "hu-4-4-1-autonomia-y-heteronomia",
+      "hu-4-4-2-discurso-politico",
+    ]);
+  });
+
+  it("resuelve la unidad de humanidades hu-4-5, con sus cinco temas", () => {
+    const resolved = get_available_unit(
+      "humanidades",
+      "hu-4-5-humanidad-ante-desafios-contemporaneos",
+    );
+
+    expect(resolved?.area.id).toBe("humanidades");
+    expect(resolved?.unit.id).toBe("hu-4-5-humanidad-ante-desafios-contemporaneos");
+    expect(resolved?.unit.topics.map((topic) => topic.id)).toEqual([
+      "hu-4-5-1-principios-de-bioetica",
+      "hu-4-5-2-principios-eticos-aplicados-a-la-sustentabilidad",
+      "hu-4-5-3-perspectiva-de-genero",
+      "hu-4-5-4-reconocimiento-de-la-alteridad",
+      "hu-4-5-5-relacion-entre-humanos-y-otros-seres-vivos",
+    ]);
+  });
+
+  it("resuelve la unidad de humanidades hu-4-6, con sus dos temas", () => {
+    const resolved = get_available_unit(
+      "humanidades",
+      "hu-4-6-reflexiones-sobre-el-arte-y-la-sensibilidad",
+    );
+
+    expect(resolved?.area.id).toBe("humanidades");
+    expect(resolved?.unit.id).toBe(
+      "hu-4-6-reflexiones-sobre-el-arte-y-la-sensibilidad",
+    );
+    expect(resolved?.unit.topics.map((topic) => topic.id)).toEqual([
+      "hu-4-6-1-categorias-esteticas",
+      "hu-4-6-2-definicion-de-hermeneutica",
+    ]);
   });
 
   it("resuelve la unidad de ciencias naturales, con el tema de conservación bloqueado por su prerrequisito", () => {
@@ -166,10 +241,28 @@ describe("get_available_unit", () => {
     ]);
   });
 
+  it("resuelve la unidad cs-7-2 de ciencias sociales, con la calibración editorial recién aplicada", () => {
+    const resolved = get_available_unit(
+      "ciencias-sociales",
+      "cs-7-2-perspectivas-politicas",
+    );
+
+    expect(resolved?.area.id).toBe("ciencias-sociales");
+    expect(resolved?.unit.id).toBe("cs-7-2-perspectivas-politicas");
+    expect(resolved?.unit.title).toBe("Perspectivas políticas");
+    expect(resolved?.unit.topics.map((topic) => topic.id)).toEqual([
+      "cs-7-2-1-teorias-sobre-el-origen-del-estado",
+      "cs-7-2-2-caracteristicas-de-la-democracia-electoral",
+      "cs-7-2-3-requisitos-para-obtener-ciudadania-mexicana",
+      "cs-7-2-4-funcion-de-instituciones-del-estado-mexicano",
+      "cs-7-2-5-poderes-facticos",
+      "cs-7-2-6-principios-de-politica-exterior",
+      "cs-7-2-7-organismos-internacionales",
+      "cs-7-2-8-areas-en-el-sistema-mundo",
+    ]);
+  });
+
   it("no resuelve una unidad de ciencias sociales todavía sin contenido listo", () => {
-    expect(
-      get_available_unit("ciencias-sociales", "cs-7-2-perspectivas-politicas"),
-    ).toBeUndefined();
     expect(
       get_available_unit("ciencias-sociales", "cs-7-3-problemas-sociologicos"),
     ).toBeUndefined();
@@ -183,7 +276,10 @@ describe("get_available_unit", () => {
 
   it("no resuelve una unidad no registrada aunque el área exista", () => {
     expect(
-      get_available_unit("cultura-digital", "cd-2-4-pensamiento-algoritmico"),
+      get_available_unit(
+        "conciencia-historica",
+        "ch-3-2-mexico-durante-el-expansionismo-capitalista",
+      ),
     ).toBeUndefined();
   });
 
@@ -213,7 +309,7 @@ describe("get_available_units_for_area", () => {
     ]);
   });
 
-  it("resuelve las tres unidades listas de cultura digital, en orden de registro", () => {
+  it("resuelve las cuatro unidades listas de cultura digital, en orden de registro", () => {
     expect(
       get_available_units_for_area("cultura-digital").map(
         (resolved) => resolved.unit.id,
@@ -222,6 +318,20 @@ describe("get_available_units_for_area", () => {
       "cd-2-1-ciudadania-digital",
       "cd-2-2-comunicacion-y-colaboracion-digital",
       "cd-2-3-creatividad-digital",
+      "cd-2-4-pensamiento-algoritmico",
+    ]);
+  });
+
+  it("resuelve las seis unidades listas de humanidades, en orden de registro", () => {
+    expect(
+      get_available_units_for_area("humanidades").map((resolved) => resolved.unit.id),
+    ).toEqual([
+      "hu-4-1-fundamentos-del-pensamiento-filosofico",
+      "hu-4-2-elementos-para-el-pensamiento-y-la-argumentacion",
+      "hu-4-3-construccion-de-la-persona-para-la-convivencia",
+      "hu-4-4-reflexion-politica-y-participacion-ciudadana",
+      "hu-4-5-humanidad-ante-desafios-contemporaneos",
+      "hu-4-6-reflexiones-sobre-el-arte-y-la-sensibilidad",
     ]);
   });
 
@@ -232,9 +342,6 @@ describe("get_available_units_for_area", () => {
       ),
     ).toEqual(["ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales"]);
     expect(
-      get_available_units_for_area("humanidades").map((resolved) => resolved.unit.id),
-    ).toEqual(["hu-4-1-fundamentos-del-pensamiento-filosofico"]);
-    expect(
       get_available_units_for_area(
         "ciencias-naturales-experimentales-y-tecnologia",
       ).map((resolved) => resolved.unit.id),
@@ -244,11 +351,14 @@ describe("get_available_units_for_area", () => {
         (resolved) => resolved.unit.id,
       ),
     ).toEqual(["lc-6-1-estrategias-de-comprension-lectora"]);
+  });
+
+  it("resuelve las dos unidades listas de ciencias sociales, en orden de registro", () => {
     expect(
       get_available_units_for_area("ciencias-sociales").map(
         (resolved) => resolved.unit.id,
       ),
-    ).toEqual(["cs-7-1-organizacion-economica"]);
+    ).toEqual(["cs-7-1-organizacion-economica", "cs-7-2-perspectivas-politicas"]);
   });
 
   it("no resuelve un área sin unidades de contenido listas", () => {
@@ -290,11 +400,20 @@ describe("get_unit_questions", () => {
     ).toHaveLength(30);
   });
 
-  it("devuelve las veinte preguntas de la unidad de humanidades", () => {
+  it("devuelve las veinte preguntas de la unidad de humanidades hu-4-1", () => {
     expect(
       get_unit_questions(
         "humanidades",
         "hu-4-1-fundamentos-del-pensamiento-filosofico",
+      ),
+    ).toHaveLength(20);
+  });
+
+  it("devuelve las veinte preguntas de la unidad de humanidades hu-4-2", () => {
+    expect(
+      get_unit_questions(
+        "humanidades",
+        "hu-4-2-elementos-para-el-pensamiento-y-la-argumentacion",
       ),
     ).toHaveLength(20);
   });
@@ -321,6 +440,12 @@ describe("get_unit_questions", () => {
     expect(
       get_unit_questions("ciencias-sociales", "cs-7-1-organizacion-economica"),
     ).toHaveLength(45);
+  });
+
+  it("devuelve las cuarenta preguntas de la unidad cs-7-2 de ciencias sociales", () => {
+    expect(
+      get_unit_questions("ciencias-sociales", "cs-7-2-perspectivas-politicas"),
+    ).toHaveLength(40);
   });
 
   it("devuelve undefined para una unidad no registrada", () => {

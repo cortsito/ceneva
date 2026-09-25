@@ -78,6 +78,12 @@ export const available_units: available_unit[] = [
     questions: cultura_digital_questions,
   },
   {
+    area_id: "cultura-digital",
+    unit_id: "cd-2-4-pensamiento-algoritmico",
+    area: cultura_digital,
+    questions: cultura_digital_questions,
+  },
+  {
     area_id: "conciencia-historica",
     unit_id: "ch-3-1-mexico-antiguo-y-virreinal-en-contextos-globales",
     area: conciencia_historica,
@@ -86,6 +92,36 @@ export const available_units: available_unit[] = [
   {
     area_id: "humanidades",
     unit_id: "hu-4-1-fundamentos-del-pensamiento-filosofico",
+    area: humanidades,
+    questions: humanidades_questions,
+  },
+  {
+    area_id: "humanidades",
+    unit_id: "hu-4-2-elementos-para-el-pensamiento-y-la-argumentacion",
+    area: humanidades,
+    questions: humanidades_questions,
+  },
+  {
+    area_id: "humanidades",
+    unit_id: "hu-4-3-construccion-de-la-persona-para-la-convivencia",
+    area: humanidades,
+    questions: humanidades_questions,
+  },
+  {
+    area_id: "humanidades",
+    unit_id: "hu-4-4-reflexion-politica-y-participacion-ciudadana",
+    area: humanidades,
+    questions: humanidades_questions,
+  },
+  {
+    area_id: "humanidades",
+    unit_id: "hu-4-5-humanidad-ante-desafios-contemporaneos",
+    area: humanidades,
+    questions: humanidades_questions,
+  },
+  {
+    area_id: "humanidades",
+    unit_id: "hu-4-6-reflexiones-sobre-el-arte-y-la-sensibilidad",
     area: humanidades,
     questions: humanidades_questions,
   },
@@ -104,6 +140,12 @@ export const available_units: available_unit[] = [
   {
     area_id: "ciencias-sociales",
     unit_id: "cs-7-1-organizacion-economica",
+    area: ciencias_sociales,
+    questions: ciencias_sociales_questions,
+  },
+  {
+    area_id: "ciencias-sociales",
+    unit_id: "cs-7-2-perspectivas-politicas",
     area: ciencias_sociales,
     questions: ciencias_sociales_questions,
   },
